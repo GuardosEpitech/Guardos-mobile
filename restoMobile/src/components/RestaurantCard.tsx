@@ -25,7 +25,7 @@ const RestaurantCard = ({ info, onDelete }) => {
           resizeMode="contain"
           source={
             info.pictures[0] === 'empty.jpg'
-              ? require('/Users/duboisrenan/Guardos-dev/packages/restoMobile/src/assets/logo.png')
+              ? require('../assets/logo.png')
               : { uri: info.pictures[0] }
           }
         />

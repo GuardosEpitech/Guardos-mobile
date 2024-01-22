@@ -4,10 +4,10 @@
     "slug": "Guardos",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo.png",
+    "icon": "./src/assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/foodbg.png",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -24,7 +24,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/logo.png"
+      "favicon": "./src/assets/logo.png"
     }
   }
 }

@@ -74,7 +74,15 @@ export default class EventEmitter<TEventToArgsMap: {...}>
     listener: (...args: $ElementType<TEventToArgsMap, TEvent>) => mixed,
     context: mixed,
   ): EventSubscription {
-    const registrations = allocate(this._registry, eventType);
+    if (typeof listener !== 'function') {
+      throw new TypeError(
+        'EventEmitter.addListener(...): 2nd argument must be a function.',
+      );
+    }
+    const registrations = allocate<_, _, TEventToArgsMap[TEvent]>(
+      this._registry,
+      eventType,
+    );
     const registration: Registration<$ElementType<TEventToArgsMap, TEvent>> = {
       context,
       listener,
@@ -101,7 +109,9 @@ export default class EventEmitter<TEventToArgsMap: {...}>
       Registration<$ElementType<TEventToArgsMap, TEvent>>,
     > = this._registry[eventType];
     if (registrations != null) {
-      for (const registration of [...registrations]) {
+      // Copy `registrations` to take a snapshot when we invoke `emit`, in case
+      // registrations are added or removed when listeners are invoked.
+      for (const registration of Array.from(registrations)) {
         registration.listener.apply(registration.context, args);
       }
     }

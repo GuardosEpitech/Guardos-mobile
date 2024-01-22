@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, StatusBar, ScrollView, Image } from 'react-native';
-import Header from 'src/components/Header';
+import Header from '../../components/Header';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import styles from './EditRestaurant.styles';
