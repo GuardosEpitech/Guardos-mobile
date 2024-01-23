@@ -1,0 +1,39 @@
+name: 'Commit message check for PRs'
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  check-commit-message:
+    name: Check Commit Message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Commit Type
+        uses: gsactions/commit-message-checker@v2
+        with:
+          pattern: '\[(SETUP|FE|BE|APP|DEVOPS)] \[(ADD|MODIFY|DELETE|REMOVE|FIX|DISABLE)] .*'
+          flags: 'gm'
+          error: 'Your commit title has to follow the format:
+          [platform] [verb] message'
+      - name: Check Line Length
+        uses: gsactions/commit-message-checker@v2
+        with:
+          pattern: '.{1,80}'
+          error: 'The maximum line length of 80 characters is exceeded.'
+          excludeDescription: 'true'
+          excludeTitle: 'false'
+          checkAllCommitMessages: 'false'

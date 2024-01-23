@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "typeRoots": ["@types", "./typings"],
     "jsx": "react-native",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,

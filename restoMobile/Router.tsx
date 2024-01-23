@@ -49,17 +49,17 @@ const MyTabs = () => {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        <Tab.Screen name="Scanning" component={MyQrStack} />
+        {/*<Tab.Screen name="Scanning" component={MyQrStack} />*/}
         <Tab.Screen name="My Restaurants" component={MyRestaurantsScreen} />
         <Tab.Screen name="My Dishes" component={MyDishesScreen} />
         <Tab.Screen name="My Products" component={MyProductStack} />
         <Tab.Screen name="Login" component={LoginScreen} />
-        <Tab.Screen name="Register" component={Register} />
       </Tab.Navigator>
     </NavigationContainer>
   );
 };
-const MyQrStack = () => {
+
+{/*const MyQrStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -74,7 +74,7 @@ const MyQrStack = () => {
       />
     </Stack.Navigator>
   )
-}
+}*/}
 
 const MyStack = () => {
   return (
@@ -84,18 +84,18 @@ const MyStack = () => {
         component={MyRestaurantsScreen}
         options={{ headerShown: false}}
       />
-      <Stack.Screen 
-        name="AddRestaurantScreen" 
+      <Stack.Screen
+        name="AddRestaurantScreen"
         component={AddRestaurantScreen}
         options={{ headerShown: false}}
       />
-      <Stack.Screen 
-        name="MenuPage" 
+      <Stack.Screen
+        name="MenuPage"
         component={MenuPage}
         options={{ headerShown: false}}
       />
-      <Stack.Screen 
-        name="EditRestaurant" 
+      <Stack.Screen
+        name="EditRestaurant"
         component={EditRestaurant}
         options={{ headerShown: false}}
       />
@@ -111,13 +111,13 @@ const MyProductStack = () => {
         component={MyProductsScreen}
         options={{ headerShown: false}}
       />
-      <Stack.Screen 
-        name="AddProductScreen" 
+      <Stack.Screen
+        name="AddProductScreen"
         component={AddProductScreen}
         options={{ headerShown: false}}
       />
-      <Stack.Screen 
-        name="EditProductPage" 
+      <Stack.Screen
+        name="EditProductPage"
         component={EditProductPage}
         options={{ headerShown: false}}
       />

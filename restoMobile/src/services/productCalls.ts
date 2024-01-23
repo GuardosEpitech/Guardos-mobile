@@ -1,14 +1,16 @@
 import axios from 'axios';
+// @ts-ignore
+import { API_URL } from '@env';
 import { IProduct } from '../../../shared/models/restaurantInterfaces';
 import { IProductFE } from '../../../shared/models/productInterfaces';
 
-const baseURL = "http://195.90.210.111:8081/";
+const baseURL = API_URL + "products/";
 
 export const getAllProducts = async () => {
     try {
       const response = await axios({
         method: "GET",
-        url: baseURL + "api/products/",
+        url: baseURL,
       });
       return response.data;
     } catch (error) {
@@ -24,7 +26,7 @@ export const addNewProduct = async (product: IProduct, restoName: string) => {
         throw new Error("Failed to add new product");
       }
       const response = await axios({
-        url: baseURL + "api/products/" + restoName,
+        url: baseURL + restoName,
         method: "POST",
         data: JSON.stringify({
           name: product.name,
@@ -46,7 +48,7 @@ export const addNewProduct = async (product: IProduct, restoName: string) => {
   export const deleteProduct = async (product: any) => {
     try {
       const response = await axios({
-        url: baseURL + "api/products/" + product.name,
+        url: baseURL + product.name,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +65,7 @@ export const addNewProduct = async (product: IProduct, restoName: string) => {
   export const editProduct = async (product: IProductFE, originalProductName: string) => {
     try {
       const response = await axios({
-        url: baseURL + "api/products/" + originalProductName,
+        url: baseURL + originalProductName,
         method: "PUT",
         data: JSON.stringify(product),
         headers: {

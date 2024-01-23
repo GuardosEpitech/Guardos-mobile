@@ -3,14 +3,16 @@ import { Text, View, ScrollView, ImageBackground, TouchableOpacity } from "react
 import styles from "./AddPage.styles";
 import Icon from "react-native-vector-icons/Entypo";
 import Trash from "react-native-vector-icons/FontAwesome";
+// @ts-ignore
+import { API_URL } from '@env';
 import * as SplashScreen from "expo-splash-screen";
 import axios from "axios";
-import { API_URL } from '@env';
 import IconBack from "react-native-vector-icons/AntDesign";
 import IconUser from "react-native-vector-icons/FontAwesome";
 import { IIngredients } from "src/models/ingedientsInterfaces";
 
-console.log(API_URL)
+
+const URL = API_URL + "/get";
 
 SplashScreen.preventAutoHideAsync(); // Keep the splash screen visible while we fetch resources
 
@@ -23,6 +25,7 @@ import {
   Montserrat_600SemiBold,
   Montserrat_700Bold,
 } from "@expo-google-fonts/montserrat";
+import * as process from "process";
 
 
 

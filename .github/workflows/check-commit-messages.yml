@@ -1,0 +1,23 @@
+name: 'Commit message check'
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  check-commit-message:
+    name: Check Commit Message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Commit Type
+        uses: gsactions/commit-message-checker@v2
+        with:
+          pattern: '\[(SETUP|FE|BE|APP|DEVOPS)] \[(ADD|MODIFY|DELETE|REMOVE|WIP|MERGE|TEST|FIX|DISABLE|CLEAN)] .*'
+          flags: 'gm'
+          error: 'Your commit title has to follow the format:
+          [platform] [verb] message ticket'
+      - name: Check Line Length
+        uses: gsactions/commit-message-checker@v2
+        with:
+          pattern: '.{1,80}'
+          error: 'The maximum line length of 80 characters is exceeded.'
