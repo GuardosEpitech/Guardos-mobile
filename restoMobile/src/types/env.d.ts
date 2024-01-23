@@ -1,5 +1,3 @@
-declare module '@env' {
-    export const API_URL: string;
-  
-    // other ones
-  }
+declare module 'react-native-dotenv' {
+  export const API_URL: string;
+}

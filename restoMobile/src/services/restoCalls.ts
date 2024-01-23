@@ -1,12 +1,14 @@
 import axios from 'axios';
+// @ts-ignore
+import { API_URL } from '@env';
 
-const baseURL = "http://195.90.210.111:8081/";
+const baseURL = API_URL + 'restaurants/';
 
 export const getAllResto = async () => {
     try {
       const response = await axios({
         method: 'GET',
-        url: baseURL + 'api/restaurants/',
+        url: baseURL,
       });
       return response.data;
     } catch (error) {
