@@ -42,7 +42,6 @@ const MyTabs = () => {
             } else if (route.name === 'Scanning') {
               iconName = focused ? 'scan' : 'scan-outline';
             }
-
             return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color} />;
           },
           tabBarActiveTintColor: '#6d071a',
