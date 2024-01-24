@@ -1,6 +1,8 @@
 import axios from "axios";
+// @ts-ignore
+import { API_URL } from '@env';
 
-const baseUrl = `${process.env.DB_HOST}${process.env.DB_HOST_PORT}/api/login/`;
+const baseUrl = `${API_URL}login/`;
 
 export const checkIfTokenIsValid = async (body: any) => {
   try {
@@ -18,3 +20,32 @@ export const checkIfTokenIsValid = async (body: any) => {
     throw new Error("Error fetching the Users");
   }
 };
+
+
+export const loginUser = async (userData: any) => {
+  try {
+    const response = await axios.post(baseUrl, userData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error logging in:", error);
+    throw new Error("Error logging in");
+  }
+};
+
+export const registerUser = async (userData: any) => {
+  try {
+    const response = await axios.post(API_URL + "register", userData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error registering user:", error);
+    throw new Error("Error registering user");
+  }
+}

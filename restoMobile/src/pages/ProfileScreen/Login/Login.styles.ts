@@ -45,6 +45,18 @@ const styles = StyleSheet.create({
     color: '#6d071a',
     textDecorationLine: 'underline',
   },
+  logoutButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  logoutButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

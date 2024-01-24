@@ -3,12 +3,14 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import styles from './Login.styles';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {loginUser} from "../../../services/userCalls";
 
 type LoginScreenProps = {
   navigation: NavigationProp<ParamListBase>;
 };
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boolean) => void }> = ({ navigation, setLoggedInStatus }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorForm, setErrorForm] = useState(false);
@@ -22,18 +24,16 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         password: password
       });
 
-      const response = await axios.post(baseUrl, dataStorage, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await loginUser(dataStorage);
 
       if (response.data === 'Invalid Access') {
         setErrorForm(true);
-        // Handle error accordingly for mobile (e.g., show error message)
+        AsyncStorage.removeItem('userToken');
       } else {
         setErrorForm(false);
-        // Navigate to the next screen upon successful login
+        AsyncStorage.setItem('userToken', response.data);
+        setLoggedInStatus(true);
+        navigation.navigate('Scanning');
       }
     } catch (error) {
       console.error(`Error in Post Route: ${error}`);
