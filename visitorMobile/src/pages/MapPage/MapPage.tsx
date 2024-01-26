@@ -24,7 +24,7 @@ import {
   getAllResto 
 } from '../../services/restoCalls';
 import styles from './MapPage.styles';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import placeholderImage from '../../../assets/logo.png';
 import { CheckBox, Slider } from 'react-native-elements';
