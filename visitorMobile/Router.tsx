@@ -7,6 +7,7 @@ import RestaurantScreen from './src/pages/RestaurantScreen/RestaurantScreen';
 import AboutUsScreen from './src/pages/AboutUs/AboutUs';
 import ContactUsScreen from './src/pages/ContactUs/ContactUs';
 import MyProfileScreen from './src/pages/Profile/MyProfile';
+import MapPage from './src/pages/MapPage/MapPage';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,6 +21,8 @@ const MyTabs = () => {
 
             if (route.name === 'RestaurantScreen') {
               iconName = focused ? 'restaurant' : 'restaurant-outline';
+            } else if (route.name === 'MapScreen') {
+              iconName = focused ? 'map' : 'map-outline';
             } else if (route.name === 'AboutUs') {
               iconName = focused ? 'information-circle' : 'information-circle-outline';
             } else if (route.name === 'ContactUs') {
@@ -35,6 +38,7 @@ const MyTabs = () => {
         })}
       >
         <Tab.Screen name="RestaurantScreen" component={RestaurantScreen} />
+        <Tab.Screen name="MapScreen" component={MapPage} />
         <Tab.Screen name="AboutUs" component={AboutUsScreen} />
         <Tab.Screen name="ContactUs" component={ContactUsScreen} />
         <Tab.Screen name="MyProfile" component={MyProfileScreen} />
