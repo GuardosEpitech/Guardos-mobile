@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import styles from './Login.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,8 +14,6 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
   const [password, setPassword] = useState('');
   const [errorForm, setErrorForm] = useState(false);
 
-  const baseUrl = `http://localhost:8081/api/login/`;
-
   const handleSubmit = async () => {
     try {
       const dataStorage = JSON.stringify({
@@ -26,12 +23,12 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
 
       const response = await loginUser(dataStorage);
 
-      if (response.data === 'Invalid Access') {
+      if (response === 'Invalid Access') {
         setErrorForm(true);
         AsyncStorage.removeItem('userToken');
       } else {
         setErrorForm(false);
-        AsyncStorage.setItem('userToken', response.data);
+        AsyncStorage.setItem('userToken', response);
         setLoggedInStatus(true);
         navigation.navigate('Scanning');
       }

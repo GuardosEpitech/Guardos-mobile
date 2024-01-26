@@ -24,7 +24,7 @@ export const checkIfTokenIsValid = async (body: any) => {
 
 export const loginUser = async (userData: any) => {
   try {
-    const response = await axios.post(baseUrl, userData, {
+    const response = await axios.post(baseUrl + 'restoWeb', userData, {
       headers: {
         'Content-Type': 'application/json',
       },

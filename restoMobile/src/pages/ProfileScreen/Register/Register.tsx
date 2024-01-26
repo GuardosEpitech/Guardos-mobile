@@ -48,7 +48,7 @@ const Register = ({ navigation }) => {
       setErrorUsername(response.data[1]);
 
       if (!response.data.includes(true)) {
-        navigation.navigate('Profile', {screen: 'Login'});
+        navigation.navigate('Login');
       }
       return response.data;
     } catch (error) {

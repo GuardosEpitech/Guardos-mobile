@@ -32,7 +32,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           onPress: () => {
             AsyncStorage.removeItem('userToken');
             setLoggedInStatus(false);
-            navigation.navigate('Profile', {screen: 'Login'});
+            navigation.navigate('Login');
           },
         },
       ],

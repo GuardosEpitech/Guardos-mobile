@@ -26,7 +26,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['Warning: ...']);
 
-const ProfileStack = () => {
+const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const setLoggedInStatus = (status) => {
@@ -55,25 +55,6 @@ const ProfileStack = () => {
   }, []);
 
   return (
-    <Stack.Navigator>
-      {loggedIn ? (
-        <Stack.Screen name="My Profile">
-          {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
-        </Stack.Screen>
-      ) : (
-        <>
-          <Stack.Screen name="Login">
-            {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
-          </Stack.Screen>
-          <Stack.Screen name="Register" component={Register} />
-        </>
-      )}
-    </Stack.Navigator>
-  );
-};
-
-const MyTabs = () => {
-  return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -97,11 +78,26 @@ const MyTabs = () => {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        <Tab.Screen name="Scanning" component={MyQrStack} />
-        <Tab.Screen name="My Restaurants" component={MyRestaurantsScreen} />
-        <Tab.Screen name="My Dishes" component={MyDishesScreen} />
-        <Tab.Screen name="My Products" component={MyProductStack} />
-        <Tab.Screen options={{headerShown: false}} name="Profile" component={ProfileStack} />
+        {loggedIn ? (
+          <>
+            <Tab.Screen name="Scanning" component={MyQrStack} />
+            <Tab.Screen name="My Restaurants" component={MyRestaurantsScreen} />
+            <Tab.Screen name="My Dishes" component={MyDishesScreen} />
+            <Tab.Screen name="My Products" component={MyProductStack} />
+            <Tab.Screen name="My Profile">
+              {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
+            </Tab.Screen>
+          </>
+        ) : (
+          <>
+            <Tab.Screen name="Login">
+              {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+            </Tab.Screen>
+            <Tab.Screen name="Register" component={Register} />
+          </>
+          )
+        }
+
       </Tab.Navigator>
     </NavigationContainer>
   );
