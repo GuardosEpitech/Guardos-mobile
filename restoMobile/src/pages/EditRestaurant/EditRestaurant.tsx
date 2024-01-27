@@ -6,8 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import styles from './EditRestaurant.styles';
 
 const EditRestaurant = ({ route }) => {
-  const { restaurantName } = route.params;
-  const url = `http://195.90.210.111:8081/api/restaurants/${restaurantName}`;
+  const { restaurantId } = route.params; 
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [website, setWebsite] = useState('');
@@ -23,8 +22,9 @@ const EditRestaurant = ({ route }) => {
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
-        const response = await fetch(url);
+        const response = await fetch(`http://195.90.210.111:8081/api/restaurants/${restaurantId}`);
         const data = await response.json();
+
         setName(data.name);
         setPhoneNumber(data.phoneNumber);
         setWebsite(data.website);
@@ -41,7 +41,7 @@ const EditRestaurant = ({ route }) => {
     };
 
     fetchRestaurantData();
-  }, [restaurantName]);
+  }, [restaurantId]);
 
   const handleSave = async () => {
     try {
@@ -59,7 +59,7 @@ const EditRestaurant = ({ route }) => {
         },
       };
 
-      const response = await fetch(`http://195.90.210.111:8081/api/restaurants/${restaurantName}`, {
+      const response = await fetch(`http://195.90.210.111:8081/api/restaurants/${restaurantId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
