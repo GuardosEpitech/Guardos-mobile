@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import styles from './Login.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,21 +16,23 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
 
   const handleSubmit = async () => {
     try {
+      const userName = username;
       const dataStorage = JSON.stringify({
         username: username,
         password: password
       });
-
+      await AsyncStorage.setItem('userName', userName);
       const response = await loginUser(dataStorage);
 
-      if (response.data === 'Invalid Access') {
+      if (response === 'Invalid Access') {
         setErrorForm(true);
         AsyncStorage.removeItem('userToken');
+        AsyncStorage.removeItem('userName');
       } else {
         setErrorForm(false);
-        AsyncStorage.setItem('userToken', response.data);
+        await AsyncStorage.setItem('userToken', response);
         setLoggedInStatus(true);
-        navigation.navigate('Scanning');
+        navigation.navigate('RestaurantScreen');
       }
     } catch (error) {
       console.error(`Error in Post Route: ${error}`);

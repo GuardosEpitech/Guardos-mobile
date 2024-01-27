@@ -11,8 +11,9 @@ type ProfileScreenProps = {
 };
 
 const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boolean) => void }> = ({ navigation, setLoggedInStatus }) => {
+  const userName = AsyncStorage.getItem('userName');
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [name, setName] = useState(userName ? userName : '');
   const [city, setCity] = useState('');
   // const [allergens, setAllergens] = useState([]);
   const [watchedRestaurants, setWatchedRestaurants] = useState([]);
@@ -31,8 +32,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           text: 'Logout',
           onPress: () => {
             AsyncStorage.removeItem('userToken');
+            AsyncStorage.removeItem('userName');
             setLoggedInStatus(false);
-            navigation.navigate('Profile', {screen: 'Login'});
+            navigation.navigate('Login');
           },
         },
       ],

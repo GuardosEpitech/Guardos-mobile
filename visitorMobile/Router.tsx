@@ -11,13 +11,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Register from "./src/pages/ProfileScreen/Register/Register";
 import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
-const ProfileStack = () => {
+const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const setLoggedInStatus = (status) => {
@@ -36,6 +34,7 @@ const ProfileStack = () => {
       } else {
         setLoggedIn(false);
         await AsyncStorage.removeItem('userToken');
+        await AsyncStorage.removeItem('userName');
       }
       setLoggedIn(false);
     }
@@ -45,25 +44,6 @@ const ProfileStack = () => {
     checkAuthentication();
   }, []);
 
-  return (
-    <Stack.Navigator>
-      {loggedIn ? (
-        <Stack.Screen name="My Profile">
-          {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
-        </Stack.Screen>
-      ) : (
-        <>
-          <Stack.Screen name="Login">
-            {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
-          </Stack.Screen>
-          <Stack.Screen name="Register" component={Register} />
-        </>
-      )}
-    </Stack.Navigator>
-  );
-};
-
-const MyTabs = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -79,8 +59,12 @@ const MyTabs = () => {
               iconName = focused ? 'information-circle' : 'information-circle-outline';
             } else if (route.name === 'ContactUs') {
               iconName = focused ? 'call' : 'call-outline';
-            } else if (route.name === 'Profile') {
+            } else if (route.name === 'My Profile') {
               iconName = focused ? 'person' : 'person-outline';
+            } else if (route.name === 'Login') {
+              iconName = focused ? 'log-in' : 'log-in-outline';
+            } else if (route.name === 'Register') {
+              iconName = focused ? 'person-add' : 'person-add-outline';
             }
 
             return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color} />;
@@ -89,11 +73,24 @@ const MyTabs = () => {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        <Tab.Screen name="RestaurantScreen" component={RestaurantScreen} />
-        <Tab.Screen name="MapScreen" component={MapPage} />
-        <Tab.Screen name="AboutUs" component={AboutUsScreen} />
-        <Tab.Screen name="ContactUs" component={ContactUsScreen} />
-        <Tab.Screen options={{headerShown: false}} name="Profile" component={ProfileStack} />
+        {loggedIn ? (
+          <>
+            <Tab.Screen name="RestaurantScreen" component={RestaurantScreen} />
+            <Tab.Screen name="MapScreen" component={MapPage} />
+            <Tab.Screen name="AboutUs" component={AboutUsScreen} />
+            <Tab.Screen name="ContactUs" component={ContactUsScreen} />
+            <Tab.Screen name="My Profile">
+              {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
+            </Tab.Screen>
+          </>
+        ) : (
+          <>
+            <Tab.Screen name="Login">
+              {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+            </Tab.Screen>
+            <Tab.Screen name="Register" component={Register} />
+          </>
+        )}
       </Tab.Navigator>
     </NavigationContainer>
   );
