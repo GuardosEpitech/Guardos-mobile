@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, Button, View, Text, TextInput, Image, ScrollView, TouchableOpacity} from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 // import SelectBox from 'react-native-multi-selectbox-typescript'
@@ -11,13 +11,27 @@ type ProfileScreenProps = {
 };
 
 const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boolean) => void }> = ({ navigation, setLoggedInStatus }) => {
-  const userName = AsyncStorage.getItem('userName');
   const [email, setEmail] = useState('');
-  const [name, setName] = useState(userName ? userName : '');
+  const [name, setName] = useState('');
   const [city, setCity] = useState('');
   // const [allergens, setAllergens] = useState([]);
   const [watchedRestaurants, setWatchedRestaurants] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const userName = await AsyncStorage.getItem('userName');
+        if (userName) {
+          setName(userName);
+        }
+      } catch (error) {
+        console.error('Error fetching user from AsyncStorage:', error);
+      }
+    };
+
+    fetchUserName();
+  }, []);
 
   const handleLogout = () => {
     Alert.alert(

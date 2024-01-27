@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,11 +7,11 @@ import RestaurantScreen from './src/pages/RestaurantScreen/RestaurantScreen';
 import AboutUsScreen from './src/pages/AboutUs/AboutUs';
 import ContactUsScreen from './src/pages/ContactUs/ContactUs';
 import MapPage from './src/pages/MapPage/MapPage';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 import Register from "./src/pages/ProfileScreen/Register/Register";
 import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
-import {checkIfTokenIsValid} from "./src/services/userCalls";
+// import {checkIfTokenIsValid} from "./src/services/userCalls";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,27 +22,27 @@ const MyTabs = () => {
     setLoggedIn(status);
   };
 
-  const checkAuthentication = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    if (userToken) {
-      setLoggedIn(true);
-    } else {
-      const isUserTokenValid = await checkIfTokenIsValid({key: userToken});
-
-      if (isUserTokenValid === 'OK') {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-        await AsyncStorage.removeItem('userToken');
-        await AsyncStorage.removeItem('userName');
-      }
-      setLoggedIn(false);
-    }
-  };
-
-  useEffect(() => {
-    checkAuthentication();
-  }, []);
+  // const checkAuthentication = async () => {
+  //   const userToken = await AsyncStorage.getItem('userToken');
+  //   if (userToken) {
+  //     setLoggedIn(true);
+  //   } else {
+  //     const isUserTokenValid = await checkIfTokenIsValid({key: userToken});
+  //
+  //     if (isUserTokenValid === 'OK') {
+  //       setLoggedIn(true);
+  //     } else {
+  //       setLoggedIn(false);
+  //       await AsyncStorage.removeItem('userToken');
+  //       await AsyncStorage.removeItem('userName');
+  //     }
+  //     setLoggedIn(false);
+  //   }
+  // };
+  //
+  // useEffect(() => {
+  //   checkAuthentication();
+  // }, []);
 
   return (
     <NavigationContainer>
