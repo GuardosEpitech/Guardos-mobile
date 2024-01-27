@@ -18,6 +18,7 @@ import AddPage from './src/pages/AddPage/AddPage';
 import QRCodeEngin from './src/pages/QRCodeEngin/QRCodeEngin';
 import AddProductScreen from './src/pages/AddProductScreen/AddProductScreen';
 import EditProductPage from './src/pages/EditProductPage/EditProductPage';
+import EditDish from "./src/pages/EditDishScreen/EditDish";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -49,8 +50,8 @@ const MyTabs = () => {
         })}
       >
         {/*<Tab.Screen name="Scanning" component={MyQrStack} />*/}
-        <Tab.Screen name="My Restaurants" component={MyRestaurantsScreen} />
-        <Tab.Screen name="My Dishes" component={MyDishesScreen} />
+        <Tab.Screen name="My Restaurants" component={MyStack} />
+        <Tab.Screen name="My Dishes" component={MyDishStack} />
         <Tab.Screen name="My Products" component={MyProductStack} />
         <Tab.Screen name="Login" component={LoginScreen} />
       </Tab.Navigator>
@@ -123,5 +124,22 @@ const MyProductStack = () => {
     </Stack.Navigator>
   );
 };
+
+const MyDishStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="MyDishesScreen"
+        component={MyDishesScreen}
+        options={{ headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditDish"
+        component={EditDish}
+        options={{ headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default MyTabs;

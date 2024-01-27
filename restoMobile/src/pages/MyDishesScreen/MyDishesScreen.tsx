@@ -4,6 +4,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import DishCard from '../../components/DishCard/DishCard';
 import { getAllDishes, deleteDishByName } from '../../services/dishCalls';
 import styles from '../MyDishesScreen/MyDishScreen.styles';
+import { IDishFE } from "../../../../shared/models/dishInterfaces";
 
 const MyDishesScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -44,12 +45,19 @@ const MyDishesScreen: React.FC = () => {
     //navigation.navigate('AddDishScreen');
   };
 
+  const navigateToChangeDish = ( restaurantName: string, dish: IDishFE) => {
+    console.log('clicked on dish:')
+    navigation.navigate('EditDish', { restaurantName, dish });
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
         data={dishList}
         renderItem={({ item, index }) => (
+          <TouchableOpacity onPress={() => navigateToChangeDish(item.resto, item)}>
           <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} />
+          </TouchableOpacity>
         )}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
