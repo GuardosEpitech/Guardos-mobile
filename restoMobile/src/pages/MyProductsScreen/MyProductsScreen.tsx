@@ -4,7 +4,8 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './MyProductsScreen.styles';
 import AddProductScreen from '../AddProductScreen/AddProductScreen';
 import { useIsFocused } from '@react-navigation/native';
-import { getAllProducts } from '../../services/productCalls';
+import { getProductsByUser } from '../../services/productCalls';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -16,7 +17,8 @@ const MyProductsScreen = ({ navigation }: { navigation: any }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const products = await getAllProducts();
+        const userToken = await AsyncStorage.getItem('userToken');
+        const products = await getProductsByUser(userToken);
         setProductList(products);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -27,7 +29,8 @@ const MyProductsScreen = ({ navigation }: { navigation: any }) => {
   }, [isFocused]);
 
   const updateProductList = async () => {
-    const updatedProductList = await getAllProducts();
+    const userToken = await AsyncStorage.getItem('userToken');
+    const updatedProductList = await getProductsByUser(userToken);
     setProductList(updatedProductList);
   };
 

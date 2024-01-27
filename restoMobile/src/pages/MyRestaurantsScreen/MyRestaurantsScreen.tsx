@@ -6,6 +6,8 @@ import axios from 'axios';
 import styles from '../MyRestaurantsScreen/MyRestaurantsScreen.styles';
 import MenuPage from '../MenuPage/MenuPage';
 import AddRestaurantScreen from '../AddRestaurantScreen/AddRestaurantScreen';
+import {getAllRestaurantsByUser} from "../../services/restoCalls";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface IRestaurantFrontEnd {
   name: string;
@@ -56,8 +58,9 @@ const MyRestaurantsScreen = () => {
     updateRestoData();
   }, []);
 
-  const updateRestoData = () => {
-    getAllResto()
+  const updateRestoData = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    getAllRestaurantsByUser({key: userToken})
       .then((res) => {
         setRestoData(res);
       })

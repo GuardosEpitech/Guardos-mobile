@@ -16,21 +16,23 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
 
   const handleSubmit = async () => {
     try {
+      const userName = username;
       const dataStorage = JSON.stringify({
         username: username,
         password: password
       });
-
+      await AsyncStorage.setItem('userName', userName);
       const response = await loginUser(dataStorage);
 
       if (response === 'Invalid Access') {
         setErrorForm(true);
         AsyncStorage.removeItem('userToken');
+        AsyncStorage.removeItem('userName');
       } else {
         setErrorForm(false);
-        AsyncStorage.setItem('userToken', response);
+        await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
         setLoggedInStatus(true);
-        navigation.navigate('Scanning');
+        navigation.navigate('RestaurantScreen');
       }
     } catch (error) {
       console.error(`Error in Post Route: ${error}`);
