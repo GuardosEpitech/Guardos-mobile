@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import styles from './Register.styles';
+import {registerUser} from "../../../services/userCalls";
 
 const Register = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -10,8 +10,6 @@ const Register = ({ navigation }) => {
   const [errorUsername, setErrorUsername] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
-
-  const baseUrl = `${process.env.DB_HOST}${process.env.DB_HOST_PORT}/api/register`;
 
   function isValidPassword(password) {
     const uppercaseRegex = /[A-Z]/;
@@ -44,17 +42,13 @@ const Register = ({ navigation }) => {
         return;
       }
 
-      const response = await axios.post(baseUrl, dataStorage, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await registerUser(dataStorage);
 
       setErrorEmail(response.data[0]);
       setErrorUsername(response.data[1]);
 
       if (!response.data.includes(true)) {
-        navigation.navigate('Login'); // Adjust this navigation method based on your routing setup in React Native
+        navigation.navigate('Login');
       }
       return response.data;
     } catch (error) {
