@@ -4,8 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import axios from 'axios';
 import styles from '../MyRestaurantsScreen/MyRestaurantsScreen.styles';
-import MenuPage from '../MenuPage/MenuPage';
-import AddRestaurantScreen from '../AddRestaurantScreen/AddRestaurantScreen';
+import { deleteRestaurantByName, getAllResto } from "../../services/restoCalls";
 
 export interface IRestaurantFrontEnd {
   name: string;
@@ -19,33 +18,6 @@ export interface IRestaurantFrontEnd {
   rating: number;
   ratingCount?: number;
 }
-
-const baseUrl = `http://195.90.210.111:8081/api/restaurants/`;
-
-export const getAllResto = async () => {
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: baseUrl,
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching all restaurants:', error);
-    throw new Error('Failed to fetch all restaurants');
-  }
-};
-
-const deleteRestaurantByName = async (restaurantName: string) => {
-  try {
-    await axios({
-      method: 'DELETE',
-      url: `${baseUrl}${restaurantName}`,
-    });
-  } catch (error) {
-    console.error('Error deleting restaurant:', error);
-    throw new Error('Failed to delete restaurant');
-  }
-};
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -87,7 +59,8 @@ const MyRestaurantsScreen = () => {
   };
 
   const navigateToMenu = (restaurantId: number, restaurantName: string) => {
-    navigation.navigate('MenuPage', { restaurantId, restaurantName });
+    //navigation.navigate('MenuPage', { restaurantId, restaurantName });
+    navigation.navigate('EditRestaurant', { restaurantName });
   };
 
   return (
