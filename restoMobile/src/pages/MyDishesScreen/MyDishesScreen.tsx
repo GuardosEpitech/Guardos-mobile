@@ -2,9 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import DishCard from '../../components/DishCard/DishCard';
-import { getAllDishes, deleteDishByName } from '../../services/dishCalls';
+import { deleteDishByName, getDishesByUser } from "../../services/dishCalls";
 import styles from '../MyDishesScreen/MyDishScreen.styles';
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MyDishesScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -14,7 +15,8 @@ const MyDishesScreen: React.FC = () => {
 
   const fetchDishes = async () => {
     try {
-      const dishes = await getAllDishes();
+      const userToken = await AsyncStorage.getItem('userToken');
+      const dishes = await getDishesByUser(userToken);
       setDishList(dishes);
     } catch (error) {
       console.error('Error fetching dishes:', error);
