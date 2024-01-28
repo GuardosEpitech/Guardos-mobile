@@ -21,6 +21,7 @@ import QRCodeEngin from './src/pages/QRCodeEngin/QRCodeEngin';
 import AddProductScreen from './src/pages/AddProductScreen/AddProductScreen';
 import EditProductPage from './src/pages/EditProductPage/EditProductPage';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
+import EditDish from "./src/pages/EditDishScreen/EditDish";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -85,8 +86,8 @@ const MyTabs = () => {
         {loggedIn ? (
           <>
             <Tab.Screen name="Scanning" component={MyQrStack} />
-            <Tab.Screen name="My Restaurants" component={MyRestaurantsScreen} />
-            <Tab.Screen name="My Dishes" component={MyDishesScreen} />
+            <Tab.Screen name="My Restaurants" component={MyStack} />
+            <Tab.Screen name="My Dishes" component={MyDishStack} />
             <Tab.Screen name="My Products" component={MyProductStack} />
             <Tab.Screen name="My Profile">
               {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
@@ -172,5 +173,22 @@ const MyProductStack = () => {
     </Stack.Navigator>
   );
 };
+
+const MyDishStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="MyDishesScreen"
+        component={MyDishesScreen}
+        options={{ headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditDish"
+        component={EditDish}
+        options={{ headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default MyTabs;

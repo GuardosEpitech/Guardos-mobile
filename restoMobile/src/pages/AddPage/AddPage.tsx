@@ -25,8 +25,6 @@ import {
   Montserrat_600SemiBold,
   Montserrat_700Bold,
 } from "@expo-google-fonts/montserrat";
-import * as process from "process";
-
 
 
 const AddPage = ({ navigation }: { navigation: any }) => {
