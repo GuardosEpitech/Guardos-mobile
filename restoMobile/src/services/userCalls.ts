@@ -38,7 +38,7 @@ export const loginUser = async (userData: any) => {
 
 export const registerUser = async (userData: any) => {
   try {
-    const response = await axios.post(API_URL + "register", userData, {
+    const response = await axios.post(API_URL + "register/restoWeb", userData, {
       headers: {
         'Content-Type': 'application/json',
       },
