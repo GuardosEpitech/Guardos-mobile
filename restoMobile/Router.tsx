@@ -68,8 +68,12 @@ const MyTabs = () => {
               iconName = focused ? 'pizza' : 'pizza-outline';
             } else if (route.name === 'My Products') {
               iconName = focused ? 'basket' : 'basket-outline';
-            } else if (route.name === 'Login' || route.name === 'Profile') {
+            } else if (route.name === 'My Profile') {
               iconName = focused ? 'person' : 'person-outline';
+            } else if (route.name === 'Login') {
+              iconName = focused ? 'log-in' : 'log-in-outline';
+            } else if (route.name === 'Register') {
+              iconName = focused ? 'person-add' : 'person-add-outline';
             } else if (route.name === 'Scanning') {
               iconName = focused ? 'scan' : 'scan-outline';
             }
