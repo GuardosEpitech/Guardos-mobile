@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import * as Font from 'expo-font';
 import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,21 +9,52 @@ import MyDishesScreen from './src/pages/MyDishesScreen/MyDishesScreen';
 import MyProductsScreen from './src/pages/MyProductsScreen/MyProductsScreen';
 import EditRestaurant from "./src/pages/EditRestaurant/EditRestaurant";
 import { LogBox } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddRestaurant from "src/pages/AddRestaurantScreen/AddRestaurantScreen";
 import MenuPage from './src/pages/MenuPage/MenuPage';
 import AddRestaurantScreen from './src/pages/AddRestaurantScreen/AddRestaurantScreen';
 import LoginScreen from './src/pages/ProfileScreen/Login/Login';
+import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import Register from "./src/pages/ProfileScreen/Register/Register";
 import AddPage from './src/pages/AddPage/AddPage';
 import QRCodeEngin from './src/pages/QRCodeEngin/QRCodeEngin';
 import AddProductScreen from './src/pages/AddProductScreen/AddProductScreen';
 import EditProductPage from './src/pages/EditProductPage/EditProductPage';
+import {checkIfTokenIsValid} from "./src/services/userCalls";
+import EditDish from "./src/pages/EditDishScreen/EditDish";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['Warning: ...']);
 
 const MyTabs = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const setLoggedInStatus = (status) => {
+    setLoggedIn(status);
+  };
+
+  const checkAuthentication = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken) {
+      setLoggedIn(true);
+    } else {
+      const isUserTokenValid = await checkIfTokenIsValid({key: userToken});
+
+      if (isUserTokenValid === 'OK') {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+        await AsyncStorage.removeItem('userToken');
+      }
+      setLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -37,8 +68,12 @@ const MyTabs = () => {
               iconName = focused ? 'pizza' : 'pizza-outline';
             } else if (route.name === 'My Products') {
               iconName = focused ? 'basket' : 'basket-outline';
-            } else if (route.name === 'Login') {
+            } else if (route.name === 'My Profile') {
               iconName = focused ? 'person' : 'person-outline';
+            } else if (route.name === 'Login') {
+              iconName = focused ? 'log-in' : 'log-in-outline';
+            } else if (route.name === 'Register') {
+              iconName = focused ? 'person-add' : 'person-add-outline';
             } else if (route.name === 'Scanning') {
               iconName = focused ? 'scan' : 'scan-outline';
             }
@@ -48,17 +83,32 @@ const MyTabs = () => {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        {/*<Tab.Screen name="Scanning" component={MyQrStack} />*/}
-        <Tab.Screen name="My Restaurants" component={MyRestaurantsScreen} />
-        <Tab.Screen name="My Dishes" component={MyDishesScreen} />
-        <Tab.Screen name="My Products" component={MyProductStack} />
-        <Tab.Screen name="Login" component={LoginScreen} />
+        {loggedIn ? (
+          <>
+            <Tab.Screen name="Scanning" component={MyQrStack} />
+            <Tab.Screen name="My Restaurants" component={MyStack} />
+            <Tab.Screen name="My Dishes" component={MyDishStack} />
+            <Tab.Screen name="My Products" component={MyProductStack} />
+            <Tab.Screen name="My Profile">
+              {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
+            </Tab.Screen>
+          </>
+        ) : (
+          <>
+            <Tab.Screen name="Login">
+              {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+            </Tab.Screen>
+            <Tab.Screen name="Register" component={Register} />
+          </>
+          )
+        }
+
       </Tab.Navigator>
     </NavigationContainer>
   );
 };
 
-{/*const MyQrStack = () => {
+const MyQrStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -66,14 +116,14 @@ const MyTabs = () => {
         component={QRCodeEngin}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="AddPage"
-        component={AddPage}
-        options={{ headerShown: false }}
-      />
+      {/*<Stack.Screen*/}
+      {/*  name="AddPage"*/}
+      {/*  component={AddPage}*/}
+      {/*  options={{ headerShown: false }}*/}
+      {/*/>*/}
     </Stack.Navigator>
   )
-}*/}
+}
 
 const MyStack = () => {
   return (
@@ -123,5 +173,22 @@ const MyProductStack = () => {
     </Stack.Navigator>
   );
 };
+
+const MyDishStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="MyDishesScreen"
+        component={MyDishesScreen}
+        options={{ headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditDish"
+        component={EditDish}
+        options={{ headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default MyTabs;

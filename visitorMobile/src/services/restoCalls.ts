@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { IRestaurantFrontEnd } from '../../../shared/models/restaurantInterfaces';
+// @ts-ignore
+import { API_URL } from '@env';
 
-const baseUrl = "http://195.90.210.111:8081/api/filter";
-const baseUrlResto = "http://195.90.210.111:8081/api/restaurants";
+const baseUrl = `${API_URL}filter/`;
+const baseUrlResto = `${API_URL}restaurants/`;
 
-const selectedURL = "http://195.90.210.111:8081/api/filter/filteredlist";
+const selectedURL = `${baseUrl}filteredlist`;
 
 export const getFilteredRestos = async (body: any) => {
     try {

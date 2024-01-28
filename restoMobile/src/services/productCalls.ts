@@ -19,6 +19,23 @@ export const getAllProducts = async () => {
     }
   };
 
+export const getProductsByUser = async (userToken: string) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: baseURL + "/user/product",
+      params: {key: userToken},
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching all products from user:", error);
+    throw new Error("Failed to fetch all products from user");
+  }
+};
+
 export const addNewProduct = async (product: IProduct, restoName: string) => {
     try {
       if (!product.name) {

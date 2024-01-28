@@ -26,36 +26,22 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: 10,
   },
-  loginButton: {
+  registerButton: {
     backgroundColor: 'blue',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
   },
-  loginText: {
+  registerText: {
     color: 'white',
     fontSize: 16,
   },
-  registerInfo: {
+  registerLink: {
     marginTop: 20,
     fontSize: 16,
     textAlign: 'center',
-  },
-  registerLink: {
     color: '#6d071a',
     textDecorationLine: 'underline',
-  },
-  logoutButton: {
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  logoutButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
 
