@@ -16,10 +16,11 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { getAllProducts } from "../../services/productCalls";
-import { getAllResto, getRestaurantByName } from "../../services/restoCalls";
+import { getAllRestaurantsByUser, getAllResto, getRestaurantByName } from "../../services/restoCalls";
 import * as ImagePicker from 'expo-image-picker';
 import { addDish, changeDishByName } from "../../services/dishCalls";
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const EditDish = ({ route }) => {
@@ -108,7 +109,8 @@ const EditDish = ({ route }) => {
   };
 
   const onAddRestaurant = async () => {
-    const allRestaurants = await getAllResto();
+    const userToken = await AsyncStorage.getItem('userToken');
+    const allRestaurants = await getAllRestaurantsByUser({key: userToken});
     //@ts-ignore
     const newRestaurants = allRestaurants.filter(resto => !restaurants.includes(resto.name)).map(resto => resto.name);
     setRestaurants([...restaurants, ...newRestaurants]);
