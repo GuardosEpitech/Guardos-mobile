@@ -129,6 +129,20 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'column',
   },
+  placeholderContainer: {
+    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  placeholderText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#007BFF',
+  },
 });
 
 export default styles;

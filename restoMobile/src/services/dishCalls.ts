@@ -1,6 +1,7 @@
 import axios from 'axios';
 // @ts-ignore
 import { API_URL } from '@env';
+import { IDishFE } from "../../../shared/models/dishInterfaces";
 const baseURL = API_URL + "dishes/";
 
 
@@ -29,5 +30,38 @@ export const deleteDishByName = async (restaurant: string, name: string) => {
     } catch (error) {
         console.error("Error deleting dish:", error);
         throw new Error("Failed to delete dish");
+    }
+}
+
+export const changeDishByName = async (dish: IDishFE, restaurant: string) => {
+    try {
+        const response = await axios({
+            method: "PUT",
+            url: baseURL + restaurant,
+            data: dish,
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            console.error("Error 404: Not Found");
+            return null;
+        } else {
+            console.error("Error changing dish:", error);
+            return "ERROR";
+        }
+    }
+}
+
+export const addDish = async (dish: IDishFE, restaurant: string) => {
+    try {
+        const response = await axios({
+            method: "POST",
+            url: baseURL + restaurant,
+            data: dish,
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error adding dish:", error);
+        return "ERROR";
     }
 }

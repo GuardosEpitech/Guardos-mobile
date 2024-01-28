@@ -42,7 +42,7 @@ const MyDishesScreen: React.FC = () => {
   }, []);
 
   const navigateToAddDish = () => {
-    //navigation.navigate('AddDishScreen');
+    navigation.navigate('EditDish', { restaurantName: '', dish: null });
   };
 
   const navigateToChangeDish = ( restaurantName: string, dish: IDishFE) => {

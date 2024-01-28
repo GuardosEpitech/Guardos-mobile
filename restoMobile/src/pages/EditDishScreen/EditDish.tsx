@@ -18,6 +18,8 @@ import { useNavigation } from "@react-navigation/native";
 import { getAllProducts } from "../../services/productCalls";
 import { getAllResto, getRestaurantByName } from "../../services/restoCalls";
 import * as ImagePicker from 'expo-image-picker';
+import { addDish, changeDishByName } from "../../services/dishCalls";
+import { IDishFE } from "../../../../shared/models/dishInterfaces";
 
 
 const EditDish = ({ route }) => {
@@ -28,6 +30,7 @@ const EditDish = ({ route }) => {
   const [pictures, setPictures] = useState([]);
   const [allergens, setAllergens] = useState([]);
   const [products, setProducts] = useState([]);
+  const [pictureId, setPictureId] = useState([]);
   const [category, setCategory] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const navigation = useNavigation();
@@ -37,6 +40,7 @@ const EditDish = ({ route }) => {
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
+  const [checkName, setCheckName] = useState(false);
 
 
 
@@ -71,6 +75,12 @@ const EditDish = ({ route }) => {
   };
 
   const onAddAllergen = () => {
+    let allergens;
+    if (restaurantName.length === 0) {
+      allergens = ["No Allergens", "Celery", "Gluten",
+        "Crustaceans", "Eggs", "Fish", "Lupin", "Milk", "Molluscs", "Mustard",
+        "Nuts", "Peanuts", "Sesame seeds", "Soya", "Sulphur dioxide", "Lactose"];
+    }
     const newAllergens = allergens.filter(allergen => !selectedAllergens.includes(allergen));
     setAllergens([...selectedAllergens, ...newAllergens]);
 
@@ -80,8 +90,14 @@ const EditDish = ({ route }) => {
 
 
   const onAddCategory = async () => {
-    const restaurant = await getRestaurantByName(restaurantName);
-    const categories = restaurant.categories;
+    let categories;
+
+    if (restaurantName.length === 0) {
+      categories = [{name: 'Appetizers'}, {name: 'Main Dishes'}, {name: 'Desserts'}, {name: 'Drinks'}];
+    } else {
+      const restaurant = await getRestaurantByName(restaurantName);
+      categories = restaurant.categories;
+    }
 
     //@ts-ignore
     const newCategories = categories.filter(cat => !category.includes(cat.name)).map(cat => cat.name);
@@ -166,17 +182,21 @@ const EditDish = ({ route }) => {
         "Crustaceans", "Eggs", "Fish", "Lupin", "Milk", "Molluscs", "Mustard",
         "Nuts", "Peanuts", "Sesame seeds", "Soya", "Sulphur dioxide", "Lactose"];
 
-      const category = [route.params.dish.category.foodGroup];
+      const category = [route.params.dish.category.menuGroup];
       setName(route.params.dish.name);
       setPrice(route.params.dish.price.toString());
       setDescription(route.params.dish.description);
       setPictures(route.params.dish.pictures);
+      setPictureId(route.params.dish.picturesId);
       setAllergens(allergens);
       setSelectedCategories(category);
       setProducts(route.params.dish.products);
       setSelectedProducts(route.params.dish.products);
       setSelectedAllergens(route.params.dish.allergens);
       setSelectedRestaurants([restaurantName]);
+      if (route.params.dish.name) {
+        setCheckName(true);
+      }
     } catch (error) {
       console.error('Error fetching dish data:', error);
     }
@@ -184,7 +204,45 @@ const EditDish = ({ route }) => {
 
   const handleSave = async () => {
     console.log('clicked on save');
-    console.log(category);
+
+    // check if valid
+    if (!name || !price || !description || !pictures || !selectedAllergens || !selectedProducts || !selectedCategories || !selectedRestaurants) {
+      Alert.alert('Error', 'All fields are mandatory.');
+      return;
+    }
+    for (let i = 0; i < selectedRestaurants.length; i++) {
+      console.log(selectedRestaurants[i]);
+      const dishCategory = route.params.dish && route.params.dish.category ? route.params.dish.category : { menuGroup: '', foodGroup: '', extraGroup: [] };
+      const dishToSave: IDishFE = {
+        name: name,
+        price: Number(price),
+        description: description,
+        pictures: pictures,
+        picturesId: pictureId,
+        allergens: selectedAllergens,
+        products: selectedProducts,
+        category: {
+          menuGroup: selectedCategories.toString(),
+          foodGroup: dishCategory.foodGroup,
+          extraGroup: dishCategory.extraGroup,
+        },
+        resto: selectedRestaurants[i]
+      }
+      console.log(selectedRestaurants[i]);
+      console.log(category);
+      const dish = await changeDishByName(dishToSave, selectedRestaurants[i]);
+      if (dish && dish.name) {
+        console.log('Dish saved');
+      }
+      if (dish == null) {
+        const newAddDish = await addDish(dishToSave, selectedRestaurants[i]);
+        if (newAddDish && newAddDish.name) {
+          console.log('Dish saved');
+        }
+      }
+    }
+    navigation.navigate('MyDishesScreen');
+    return;
   };
 
   return (
@@ -193,32 +251,52 @@ const EditDish = ({ route }) => {
               leftIcon={<Ionicons name="arrow-back" size={24} color="black" onPress={() => navigation.goBack()} />} />
       <StatusBar barStyle="dark-content" />
 
-      {pictures.length > 0 && (
-        <View style={styles.container}>
-          <Image source={{ uri: pictures[0] }} style={styles.image} />
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={() => removePicture(pictures[0])} style={styles.deleteButton}>
-              <Text>Delete</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={changePicture} style={styles.changeButton}>
-              <Text>Change</Text>
+      {
+        pictures.length > 0 ? (
+          <View style={styles.container}>
+            <Image source={{ uri: pictures[0] }} style={styles.image} />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={() => removePicture(pictures[0])} style={styles.deleteButton}>
+                <Text>Delete</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={changePicture} style={styles.changeButton}>
+                <Text>Change</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <View style={styles.centeredView}>
+            <TouchableOpacity style={styles.imageContainer} onPress={changePicture}>
+          <View style={styles.placeholderContainer}>
+            <Text style={styles.placeholderText}>Tap to Add Picture</Text>
+          </View>
             </TouchableOpacity>
           </View>
-        </View>
-      )}
+        )
+      }
+
 
 
 
       <View style={styles.contentContainer}>
         <View style={styles.column}>
           <View style={styles.inputPair}>
+
             <Text style={styles.label}>Dish name</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Dish name"
-              value={name}
-              onChangeText={(text) => setName(text)}
-            />
+            {
+              checkName ? (
+              <Text style={styles.input}>
+                {name}
+              </Text>
+              ) : (
+                <TextInput
+                  style={styles.input}
+                  placeholder="Dish name"
+                  value={name}
+                  onChangeText={(text) => setName(text)}
+                />
+              )
+            }
             <Text style={styles.label}>Price</Text>
             <TextInput
               style={styles.input}
