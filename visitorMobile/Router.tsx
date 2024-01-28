@@ -78,7 +78,6 @@ const MyTabs = () => {
           <>
             <Tab.Screen name="RestaurantScreen" component={RestaurantScreen} />
             <Tab.Screen name="MapScreen" component={MapPage} />
-            <Tab.Screen name="MapScreen" component={MapPage} />
         <Tab.Screen name="AboutUs" component={AboutUsScreen} />
             <Tab.Screen name="ContactUs" component={ContactUsScreen} />
             <Tab.Screen name="My Profile">
