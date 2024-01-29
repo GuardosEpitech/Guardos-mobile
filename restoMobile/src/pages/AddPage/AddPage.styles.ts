@@ -21,14 +21,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   TitleIngr: {
-    fontFamily: "Montserrat_700Bold",
+    // fontFamily: "Montserrat_700Bold",
     fontSize: 32,
     lineHeight: 39,
     textAlign: "center",
     color: "#56885E",
   },
   TitleIngrList: {
-    fontFamily: "Montserrat_700Bold",
+    // fontFamily: "Montserrat_700Bold",
     fontSize: 24,
     color: "#646464",
     marginLeft: 10,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   TitleAddIngr: {
     color: "white",
-    fontFamily: "Montserrat_700Bold",
+    // fontFamily: "Montserrat_700Bold",
     fontSize: 23,
   },
   IconUser: {
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   CategorieTitle: {
     color: "#4D4D4D",
-    fontFamily: "Montserrat_700Bold",
+    // fontFamily: "Montserrat_700Bold",
     fontSize: 23,
     marginHorizontal: gap / 2,
   },

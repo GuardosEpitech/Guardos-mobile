@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     height: 320,
     width: 290,
     justifyContent: "center",
-    alignItem: "center",
+    alignItems: "center",
   },
   DivTop: {
     flexDirection: "row",
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   TitleIngr: {
     marginTop: 20,
     marginBottom: 20,
-    fontFamily: "Montserrat_700Bold",
+    // fontFamily: "Montserrat_700Bold",
     fontSize: 32,
     lineHeight: 39,
     textAlign: "center",
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   CategorieTitle: {
     color: "#4D4D4D",
-    fontFamily: "Montserrat_700Bold",
+    // fontFamily: "Montserrat_700Bold",
     fontSize: 23,
     marginHorizontal: gap / 2,
   },
