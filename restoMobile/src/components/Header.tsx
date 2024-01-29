@@ -1,25 +1,25 @@
 import { View, StyleSheet, Text, Dimensions } from 'react-native';
 
-import {
-    useFonts,
-    Montserrat_100Thin,
-    Montserrat_300Light,
-    Montserrat_400Regular,
-    Montserrat_500Medium,
-    Montserrat_600SemiBold,
-    Montserrat_700Bold,
-  } from "@expo-google-fonts/montserrat";
+// import {
+//     useFonts,
+//     Montserrat_100Thin,
+//     Montserrat_300Light,
+//     Montserrat_400Regular,
+//     Montserrat_500Medium,
+//     Montserrat_600SemiBold,
+//     Montserrat_700Bold,
+//   } from "@expo-google-fonts/montserrat";
 
 const Header = ({ label }) => {
-    let [fontsLoaded] = useFonts({
-        Montserrat_100Thin,
-        Montserrat_300Light,
-        Montserrat_400Regular,
-        Montserrat_500Medium,
-        Montserrat_600SemiBold,
-        Montserrat_700Bold,
-    
-      });
+    // let [fontsLoaded] = useFonts({
+    //     Montserrat_100Thin,
+    //     Montserrat_300Light,
+    //     Montserrat_400Regular,
+    //     Montserrat_500Medium,
+    //     Montserrat_600SemiBold,
+    //     Montserrat_700Bold,
+    //
+    //   });
 
   return (
     <View style={styles.container}>

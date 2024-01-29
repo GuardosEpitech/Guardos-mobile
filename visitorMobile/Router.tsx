@@ -24,20 +24,24 @@ const MyTabs = () => {
   };
 
   // const checkAuthentication = async () => {
-  //   const userToken = await AsyncStorage.getItem('userToken');
-  //   if (userToken) {
-  //     setLoggedIn(true);
-  //   } else {
-  //     const isUserTokenValid = await checkIfTokenIsValid({key: userToken});
+  //   try {
+  //     const userToken = await AsyncStorage.getItem('userToken');
+  //
+  //     if (userToken === null) {
+  //       setLoggedIn(false);
+  //       return;
+  //     }
+  //
+  //     const isUserTokenValid = await checkIfTokenIsValid({ key: userToken });
   //
   //     if (isUserTokenValid === 'OK') {
   //       setLoggedIn(true);
   //     } else {
   //       setLoggedIn(false);
   //       await AsyncStorage.removeItem('userToken');
-  //       await AsyncStorage.removeItem('userName');
   //     }
-  //     setLoggedIn(false);
+  //   } catch (error) {
+  //     console.error('Error fetching login data:', error);
   //   }
   // };
   //

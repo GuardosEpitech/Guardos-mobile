@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import * as Font from 'expo-font';
-import { NavigationContainer} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faUtensils, faPizzaSlice, faShoppingBasket, faUser, faSignInAlt, faUserPlus, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import MyRestaurantsScreen from './src/pages/MyRestaurantsScreen/MyRestaurantsScreen';
 import MyDishesScreen from './src/pages/MyDishesScreen/MyDishesScreen';
 import MyProductsScreen from './src/pages/MyProductsScreen/MyProductsScreen';
@@ -35,11 +35,15 @@ const MyTabs = () => {
   };
 
   const checkAuthentication = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    if (userToken) {
-      setLoggedIn(true);
-    } else {
-      const isUserTokenValid = await checkIfTokenIsValid({key: userToken});
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+
+      if (userToken === null) {
+        setLoggedIn(false);
+        return;
+      }
+
+      const isUserTokenValid = await checkIfTokenIsValid({ key: userToken });
 
       if (isUserTokenValid === 'OK') {
         setLoggedIn(true);
@@ -47,7 +51,8 @@ const MyTabs = () => {
         setLoggedIn(false);
         await AsyncStorage.removeItem('userToken');
       }
-      setLoggedIn(false);
+    } catch (error) {
+      console.error('Error fetching login data:', error);
     }
   };
 
@@ -60,24 +65,25 @@ const MyTabs = () => {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+            let icon;
 
             if (route.name === 'My Restaurants') {
-              iconName = focused ? 'restaurant' : 'restaurant-outline';
+              icon = focused ? faUtensils : faUtensils;
             } else if (route.name === 'My Dishes') {
-              iconName = focused ? 'pizza' : 'pizza-outline';
+              icon = focused ? faPizzaSlice : faPizzaSlice;
             } else if (route.name === 'My Products') {
-              iconName = focused ? 'basket' : 'basket-outline';
+              icon = focused ? faShoppingBasket : faShoppingBasket;
             } else if (route.name === 'My Profile') {
-              iconName = focused ? 'person' : 'person-outline';
+              icon = focused ? faUser : faUser;
             } else if (route.name === 'Login') {
-              iconName = focused ? 'log-in' : 'log-in-outline';
+              icon = focused ? faSignInAlt : faSignInAlt;
             } else if (route.name === 'Register') {
-              iconName = focused ? 'person-add' : 'person-add-outline';
+              icon = focused ? faUserPlus : faUserPlus;
             } else if (route.name === 'Scanning') {
-              iconName = focused ? 'scan' : 'scan-outline';
+              icon = focused ? faQrcode : faQrcode;
             }
-            return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color} />;
+
+            return <FontAwesomeIcon icon={icon} size={size} style={{ color: focused ? '#6d071a' : color }} />;
           },
           tabBarActiveTintColor: '#6d071a',
           tabBarInactiveTintColor: 'gray',

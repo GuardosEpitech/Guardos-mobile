@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button, Pressable, ImageBackground } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import IconBack from "react-native-vector-icons/AntDesign";
-import IconUser from "react-native-vector-icons/FontAwesome";
+// import IconBack from "react-native-vector-icons/AntDesign";
+// import IconUser from "react-native-vector-icons/FontAwesome";
 import styles from "./QRCodeEngin.styles";
 import axios from "axios";
 import { API_URL } from '@env';
@@ -57,20 +57,20 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
     <ImageBackground source={require('../../assets/background.png')} resizeMode="cover" style={styles.image}>
     <View style={{marginTop: 50, alignItems: "center"}}>
     <View style={styles.DivTop2}>
-        <IconBack
-          style={styles.IconBack}
-          name="left"
-          size={40}
-          color="#4D4D4D"
-          onPress={GoToAddPage}
-          />
+        {/*<IconBack*/}
+        {/*  style={styles.IconBack}*/}
+        {/*  name="left"*/}
+        {/*  size={40}*/}
+        {/*  color="#4D4D4D"*/}
+        {/*  onPress={GoToAddPage}*/}
+        {/*  />*/}
         <Text style={styles.CategorieTitle}>Add Ingredients</Text>
-        <IconUser
-          style={styles.IconUser}
-          name="user"
-          size={40}
-          color="#4D4D4D"
-          />
+        {/*<IconUser*/}
+        {/*  style={styles.IconUser}*/}
+        {/*  name="user"*/}
+        {/*  size={40}*/}
+        {/*  color="#4D4D4D"*/}
+        {/*  />*/}
       </View>
       <View style={styles.DivTop}>
         <Text style={styles.TitleIngr}>Scan Ingredient</Text>
