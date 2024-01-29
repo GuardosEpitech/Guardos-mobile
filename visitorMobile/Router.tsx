@@ -12,6 +12,7 @@ import Register from "./src/pages/ProfileScreen/Register/Register";
 import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
 // import {checkIfTokenIsValid} from "./src/services/userCalls";
+import MyProfileScreen from './src/pages/Profile/MyProfile';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,20 +24,24 @@ const MyTabs = () => {
   };
 
   // const checkAuthentication = async () => {
-  //   const userToken = await AsyncStorage.getItem('userToken');
-  //   if (userToken) {
-  //     setLoggedIn(true);
-  //   } else {
-  //     const isUserTokenValid = await checkIfTokenIsValid({key: userToken});
+  //   try {
+  //     const userToken = await AsyncStorage.getItem('userToken');
+  //
+  //     if (userToken === null) {
+  //       setLoggedIn(false);
+  //       return;
+  //     }
+  //
+  //     const isUserTokenValid = await checkIfTokenIsValid({ key: userToken });
   //
   //     if (isUserTokenValid === 'OK') {
   //       setLoggedIn(true);
   //     } else {
   //       setLoggedIn(false);
   //       await AsyncStorage.removeItem('userToken');
-  //       await AsyncStorage.removeItem('userName');
   //     }
-  //     setLoggedIn(false);
+  //   } catch (error) {
+  //     console.error('Error fetching login data:', error);
   //   }
   // };
   //
@@ -77,7 +82,7 @@ const MyTabs = () => {
           <>
             <Tab.Screen name="RestaurantScreen" component={RestaurantScreen} />
             <Tab.Screen name="MapScreen" component={MapPage} />
-            <Tab.Screen name="AboutUs" component={AboutUsScreen} />
+        <Tab.Screen name="AboutUs" component={AboutUsScreen} />
             <Tab.Screen name="ContactUs" component={ContactUsScreen} />
             <Tab.Screen name="My Profile">
               {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}

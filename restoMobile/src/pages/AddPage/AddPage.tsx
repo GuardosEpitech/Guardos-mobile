@@ -16,29 +16,27 @@ const URL = API_URL + "/get";
 
 SplashScreen.preventAutoHideAsync(); // Keep the splash screen visible while we fetch resources
 
-import {
-  useFonts,
-  Montserrat_100Thin,
-  Montserrat_300Light,
-  Montserrat_400Regular,
-  Montserrat_500Medium,
-  Montserrat_600SemiBold,
-  Montserrat_700Bold,
-} from "@expo-google-fonts/montserrat";
-import * as process from "process";
-
+// import {
+//   useFonts,
+//   Montserrat_100Thin,
+//   Montserrat_300Light,
+//   Montserrat_400Regular,
+//   Montserrat_500Medium,
+//   Montserrat_600SemiBold,
+//   Montserrat_700Bold,
+// } from "@expo-google-fonts/montserrat";
 
 
 const AddPage = ({ navigation }: { navigation: any }) => {
-  let [fontsLoaded] = useFonts({
-    Montserrat_100Thin,
-    Montserrat_300Light,
-    Montserrat_400Regular,
-    Montserrat_500Medium,
-    Montserrat_600SemiBold,
-    Montserrat_700Bold,
-
-  });
+  // let [fontsLoaded] = useFonts({
+  //   Montserrat_100Thin,
+  //   Montserrat_300Light,
+  //   Montserrat_400Regular,
+  //   Montserrat_500Medium,
+  //   Montserrat_600SemiBold,
+  //   Montserrat_700Bold,
+  //
+  // });
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
