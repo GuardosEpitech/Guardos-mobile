@@ -67,6 +67,9 @@ const Register = ({ navigation }) => {
           value={username}
           onChangeText={(text) => setUsername(text)}
         />
+        {errorUsername && (
+          <Text style={styles.errorText}>The desired Username exists already or is invalid</Text>
+        )}
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -74,6 +77,9 @@ const Register = ({ navigation }) => {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
+        {errorEmail && (
+          <Text style={styles.errorText}>An account already exists for the specified email or is invalid</Text>
+        )}
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -81,12 +87,6 @@ const Register = ({ navigation }) => {
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
-        {errorUsername && (
-          <Text style={styles.errorText}>The desired Username exists already or is invalid</Text>
-        )}
-        {errorEmail && (
-          <Text style={styles.errorText}>An account already exists for the specified email or is invalid</Text>
-        )}
         {errorPassword && (
           <Text style={styles.errorText}>
             Your Password should contain minimum: 1x Uppercase and Lowercase Letter, 1x Number and minimum 7 Characters
