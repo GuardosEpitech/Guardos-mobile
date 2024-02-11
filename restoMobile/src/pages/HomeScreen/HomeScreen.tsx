@@ -5,6 +5,8 @@ import Header from '../../components/Header';
 import Card from '../../components/RestaurantCard';
 import axios from 'axios';
 import styles from './HomeScreen.styles';
+import { API_URL } from '@env';
+import { getAllResto } from 'src/services/restoCalls';
 import MenuPage from '../MenuPage/MenuPage';
 
 export interface IRestaurantFrontEnd {
@@ -20,20 +22,7 @@ export interface IRestaurantFrontEnd {
   ratingCount?: number;
 }
 
-const baseUrl = `http://195.90.210.111:8081/api/restaurants/`;
-
-export const getAllResto = async () => {
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: baseUrl,
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching all restaurants:', error);
-    throw new Error('Failed to fetch all restaurants');
-  }
-};
+const baseUrl = API_URL + 'restaurants/';
 
 const deleteRestaurantByName = async (restaurantName: string) => {
   try {

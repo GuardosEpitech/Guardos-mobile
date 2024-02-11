@@ -25,6 +25,7 @@ import {checkIfTokenIsValid} from "./src/services/userCalls";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs()
 
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
