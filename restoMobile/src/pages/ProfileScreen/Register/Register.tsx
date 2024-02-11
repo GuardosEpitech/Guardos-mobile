@@ -44,13 +44,13 @@ const Register = ({ navigation }) => {
 
       const response = await registerUser(dataStorage);
 
-      setErrorEmail(response.data[0]);
-      setErrorUsername(response.data[1]);
+      setErrorEmail(response[0]);
+      setErrorUsername(response[1]);
 
-      if (!response.data.includes(true)) {
+      if (!response.includes(true)) {
         navigation.navigate('Login');
       }
-      return response.data;
+      return response;
     } catch (error) {
       console.error(`Error in post Route: ${error}`);
       throw error;
