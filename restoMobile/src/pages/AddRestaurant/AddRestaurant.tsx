@@ -6,6 +6,7 @@ import axios from 'axios';
 import styles from './AddRestaurant.styles';
 import HomeScreen from "src/pages/HomeScreen/HomeScreen";
 import Header from '../../components/Header';
+import { addRestaurant } from 'src/services/restoCalls';
 
 const AddRestaurantScreen = () => {
   const navigation = useNavigation();
@@ -41,7 +42,7 @@ const AddRestaurantScreen = () => {
     };
 
     try {
-      const response = await axios.post('http://195.90.210.111:8081/api/restaurants/', restaurantData);
+      const response = addRestaurant(restaurantData);
       console.log('Response from the server:', response.data);
       setRestaurantName('');
       setPhoneNumber('');

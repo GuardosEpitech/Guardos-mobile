@@ -82,3 +82,7 @@ export const getDishesByUser = async (userToken: string) => {
         throw new Error("Failed to fetch all dishes from user");
     }
 };
+
+export const getDishesByResto = async (restaurantName: string) => {
+    return(await fetch(`${baseURL}${restaurantName}`));
+};

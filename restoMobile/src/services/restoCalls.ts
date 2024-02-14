@@ -49,3 +49,7 @@ export const getRestaurantByName = async(name: string) => {
     throw new Error('Failed to fetch restaurant');
   }
 }
+
+export const addRestaurant = async(restaurantData: any) => {
+  return (await axios.post('${API_URL}restaurants/', restaurantData));
+}

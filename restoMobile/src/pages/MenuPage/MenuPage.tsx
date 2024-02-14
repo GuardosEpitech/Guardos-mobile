@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView} from 'react-native';
 import styles from './MenuPage.styles';
+import { getDishesByResto } from '../..//services/dishCalls';
 
 interface Dish {
   category: {
@@ -31,7 +32,7 @@ const MenuPage: React.FC = ({ route }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://195.90.210.111:8081/api/dishes/${restaurantName}`);
+        const response = await getDishesByResto(restaurantName)        
         const data: DishData[] = await response.json();
         setDishesData(data);
         setLoading(false);
@@ -42,12 +43,10 @@ const MenuPage: React.FC = ({ route }) => {
     };
 
     fetchData();
-  }, []); // Empty dependency array to run the effect only once on mount
+  }, []);
 
-  // Define the custom order of menuGroup
   const menuGroupOrder = ['Appetizer', 'Maindish', 'Dessert'];
 
-  // Sort dishes based on the custom order, placing items without menuGroup at the end
   const sortedDishes = dishesData[0]?.dishes.sort((a, b) => {
     const orderA = a.category.menuGroup ? menuGroupOrder.indexOf(a.category.menuGroup) : menuGroupOrder.length;
     const orderB = b.category.menuGroup ? menuGroupOrder.indexOf(b.category.menuGroup) : menuGroupOrder.length;
