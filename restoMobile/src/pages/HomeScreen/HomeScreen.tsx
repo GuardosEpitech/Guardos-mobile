@@ -5,43 +5,16 @@ import Header from '../../components/Header';
 import Card from '../../components/RestaurantCard';
 import axios from 'axios';
 import styles from './HomeScreen.styles';
-import { API_URL } from '@env';
-import { getAllResto } from 'src/services/restoCalls';
+import { getAllResto, deleteRestaurantByName } from 'src/services/restoCalls';
 import MenuPage from '../MenuPage/MenuPage';
-
-export interface IRestaurantFrontEnd {
-  name: string;
-  id: number;
-  phoneNumber: string;
-  website: string;
-  description: string;
-  pictures: string[];
-  hitRate?: number;
-  range: number;
-  rating: number;
-  ratingCount?: number;
-}
-
-const baseUrl = API_URL + 'restaurants/';
-
-const deleteRestaurantByName = async (restaurantName: string) => {
-  try {
-    await axios({
-      method: 'DELETE',
-      url: `${baseUrl}${restaurantName}`,
-    });
-  } catch (error) {
-    console.error('Error deleting restaurant:', error);
-    throw new Error('Failed to delete restaurant');
-  }
-};
+import {IRestaurantFrontEnd} from 'src/models/restaurantsInterfaces'
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [restoData, setRestoData] = useState<IRestaurantFrontEnd[]>([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);  
 
-  useEffect(() => {
+  useEffect(() => {    
     updateRestoData();
   }, []);
 

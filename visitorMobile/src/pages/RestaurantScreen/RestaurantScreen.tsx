@@ -6,20 +6,8 @@ import styles from './RestaurantScreen.styles'
 import axios from 'axios';
 import { getAllResto } from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-export interface IRestaurantFrontEnd {
-  name: string;
-  id: number;
-  phoneNumber: string;
-  website: string;
-  description: string;
-  pictures: string[];
-  hitRate?: number;
-  range: number;
-  rating: number;
-  ratingCount?: number;
-}
-
+import MenuPage from '../MenuPage/MenuPager';
+import {IRestaurantFrontEnd} from '../../models/restaurantsInterfaces'
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();

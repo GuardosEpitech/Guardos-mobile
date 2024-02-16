@@ -6,48 +6,9 @@ import axios from 'axios';
 import styles from '../MyRestaurantsScreen/MyRestaurantsScreen.styles';
 import MenuPage from '../MenuPage/MenuPage';
 import AddRestaurantScreen from '../AddRestaurantScreen/AddRestaurantScreen';
-import {getAllRestaurantsByUser} from "../../services/restoCalls";
+import {getAllRestaurantsByUser, deleteRestaurantByName} from "../../services/restoCalls";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-export interface IRestaurantFrontEnd {
-  name: string;
-  id: number;
-  phoneNumber: string;
-  website: string;
-  description: string;
-  pictures: string[];
-  hitRate?: number;
-  range: number;
-  rating: number;
-  ratingCount?: number;
-}
-
-const baseUrl = `http://195.90.210.111:8081/api/restaurants/`;
-
-export const getAllResto = async () => {
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: baseUrl,
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching all restaurants:', error);
-    throw new Error('Failed to fetch all restaurants');
-  }
-};
-
-const deleteRestaurantByName = async (restaurantName: string) => {
-  try {
-    await axios({
-      method: 'DELETE',
-      url: `${baseUrl}${restaurantName}`,
-    });
-  } catch (error) {
-    console.error('Error deleting restaurant:', error);
-    throw new Error('Failed to delete restaurant');
-  }
-};
+import { IRestaurantFrontEnd } from 'src/models/restaurantsInterfaces';
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();

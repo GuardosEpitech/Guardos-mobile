@@ -2,23 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView} from 'react-native';
 import styles from './MenuPage.styles';
 import { getDishesByResto } from '../..//services/dishCalls';
+import {Dish} from 'src/models/dishesInterfaces'
 
-interface Dish {
-  category: {
-    menuGroup: string;
-    foodGroup: string;
-    extraGroup: string[];
-  };
-  picturesId: string[];
-  name: string;
-  description: string;
-  products: string[];
-  pictures: string[];
-  price: number;
-  allergens: string[];
-}
-
-interface DishData {
+export  interface DishData {
   _id: number;
   dishes: Dish[];
 }
@@ -27,7 +13,6 @@ const MenuPage: React.FC = ({ route }) => {
   const [dishesData, setDishesData] = useState<DishData[]>([]);
   const [loading, setLoading] = useState(true);
   const {restaurantId, restaurantName } = route.params;
-  console.log(restaurantName);
 
   useEffect(() => {
     const fetchData = async () => {

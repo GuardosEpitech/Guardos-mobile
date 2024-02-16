@@ -22,7 +22,7 @@ const AddRestaurantScreen = () => {
   const [imageURL, setImageURL] = useState('');
 
   const handleAddRestaurant = async () => {
-    if (!restaurantName || !phoneNumber || !streetName || !streetNumber || !postalCode || !city || !country || !description || !website) {
+    if (!restaurantName || phoneNumber || !streetName || !streetNumber || !postalCode || !city || !country || description || website) {
       Alert.alert('Error', 'All fields are mandatory.');
       return;
     }

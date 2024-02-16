@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { LogBox } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import RestaurantScreen from './src/pages/RestaurantScreen/RestaurantScreen';
@@ -13,8 +15,12 @@ import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
 // import {checkIfTokenIsValid} from "./src/services/userCalls";
 import MyProfileScreen from './src/pages/Profile/MyProfile';
+import MenuPage from './src/pages/MenuPage/MenuPage';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs()
 
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -80,7 +86,7 @@ const MyTabs = () => {
       >
         {loggedIn ? (
           <>
-            <Tab.Screen name="RestaurantScreen" component={RestaurantScreen} />
+            <Tab.Screen name="RestaurantScreen" component={restauStack} />
             <Tab.Screen name="MapScreen" component={MapPage} />
         <Tab.Screen name="AboutUs" component={AboutUsScreen} />
             <Tab.Screen name="ContactUs" component={ContactUsScreen} />
@@ -98,6 +104,23 @@ const MyTabs = () => {
         )}
       </Tab.Navigator>
     </NavigationContainer>
+  );
+};
+
+const restauStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="RestaurantScreen"
+        component={RestaurantScreen}
+        options={{ headerShown: false}}
+      />
+      <Stack.Screen
+        name="MenuPage"
+        component={MenuPage}
+        options={{ headerShown: false}}
+      />
+    </Stack.Navigator>
   );
 };
 

@@ -53,3 +53,15 @@ export const getRestaurantByName = async(name: string) => {
 export const addRestaurant = async(restaurantData: any) => {
   return (await axios.post('${API_URL}restaurants/', restaurantData));
 }
+
+export const deleteRestaurantByName = async (restaurantName: string) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: baseURL +'restaurants/' + restaurantName,
+    });
+  } catch (error) {
+    console.error('Error deleting restaurant:', error);
+    throw new Error('Failed to delete restaurant');
+  }
+};
