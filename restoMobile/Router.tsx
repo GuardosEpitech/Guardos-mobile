@@ -23,6 +23,8 @@ import EditProductPage from './src/pages/EditProductPage/EditProductPage';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 import EditDish from "./src/pages/EditDishScreen/EditDish";
 
+import ProfilePage from './src/pages/ProfileScreen/Profile/NewProfile';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['Warning: ...']);
@@ -30,7 +32,7 @@ LogBox.ignoreLogs(['Warning: ...']);
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const setLoggedInStatus = (status) => {
+  const setLoggedInStatus = (status: any) => {
     setLoggedIn(status);
   };
 
@@ -96,7 +98,7 @@ const MyTabs = () => {
             <Tab.Screen name="My Dishes" component={MyDishStack} />
             <Tab.Screen name="My Products" component={MyProductStack} />
             <Tab.Screen name="My Profile">
-              {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
+              {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
           </>
         ) : (
