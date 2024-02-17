@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions, Platform } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const offset = 40;
@@ -6,21 +6,15 @@ const radius = 20;
 const iconSize = 20;
 
 const styles = StyleSheet.create({
-  
   container: {
     width: deviceWidth - 20,
     alignItems: 'center',
     marginTop: 25,
-    marginBottom: 25,
   },
-  scrollView: {
-    alignItems: 'center',
-  },
-  card: {
+  cardContainer: {
     width: deviceWidth - offset,
     backgroundColor: '#FFFFFF',
     height: 230,
-    margin: 20,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
@@ -31,9 +25,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 9,
     position: 'relative',
-    overflow: 'hidden',
   },
-  cardImage: {
+  imageStyle: {
     height: 130,
     width: deviceWidth - offset,
     borderTopLeftRadius: radius,
@@ -42,22 +35,34 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignSelf: 'center',
   },
-  cardContent: {
-    padding: 10,
+  titleStyle: {
+    fontSize: 20,
+    fontWeight: '800',
   },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  categoryStyle: {
+    fontWeight: '200',
+    maxHeight: 40,
+    overflow: 'hidden',
+  },
+  infoStyle: {
+    marginHorizontal: 10,
+    marginVertical: 10,
+    position: 'relative',
   },
   iconContainer: {
+    position: 'absolute',
+    bottom: 5,
+    right: 5,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 10,
   },
-  groupTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 10,
+  iconButton: {
+    marginHorizontal: 5,
+    padding: 5,
+  },
+  icon: {
+    width: iconSize,
+    height: iconSize,
+    resizeMode: 'contain',
   },
 });
 

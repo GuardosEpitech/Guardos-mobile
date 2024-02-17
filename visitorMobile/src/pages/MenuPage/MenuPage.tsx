@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView} from 'react-native';
 import styles from './MenuPage.styles';
-import { getDishesByResto } from '../..//services/dishCalls';
-import {Dish} from 'src/models/dishesInterfaces'
+import { getDishesByResto } from '../../services/dishCalls';
+import {Dish} from '../../models/dishesInterfaces'
 
 export  interface DishData {
   _id: number;

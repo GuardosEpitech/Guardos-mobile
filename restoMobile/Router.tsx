@@ -26,6 +26,7 @@ import EditDish from "./src/pages/EditDishScreen/EditDish";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs()
 
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
