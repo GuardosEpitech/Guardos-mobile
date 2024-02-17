@@ -22,7 +22,7 @@ const AddRestaurantScreen = () => {
   const [imageURL, setImageURL] = useState('');
 
   const handleAddRestaurant = async () => {
-    if (!restaurantName || phoneNumber || !streetName || !streetNumber || !postalCode || !city || !country || description || website) {
+    if (!restaurantName || !streetName || !streetNumber || !postalCode || !city || !country) {
       Alert.alert('Error', 'All fields are mandatory.');
       return;
     }
@@ -98,7 +98,7 @@ const AddRestaurantScreen = () => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Phone Number *"
+            placeholder="Phone Number"
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -144,7 +144,7 @@ const AddRestaurantScreen = () => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Description *"
+            placeholder="Description"
             value={description}
             onChangeText={setDescription}
             multiline
@@ -153,7 +153,7 @@ const AddRestaurantScreen = () => {
 
         <TextInput
           style={styles.input}
-          placeholder="Website *"
+          placeholder="Website"
           value={website}
           onChangeText={setWebsite}
         />
