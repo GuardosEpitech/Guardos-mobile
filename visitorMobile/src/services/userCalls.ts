@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from '@env';
 
 const baseUrl = `${API_URL}login/`;
+const baseUrl1 = `${API_URL}user/`;
 
 export const checkIfTokenIsValid = async (body: any) => {
   try {
@@ -49,3 +50,20 @@ export const registerUser = async (userData: any) => {
     throw new Error("Error registering user");
   }
 }
+
+export const checkIfVisitorUserExist = async (body: any) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: baseUrl1 + 'userVisitorExist',
+      data: body,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error while checking visitor user:", error);
+    throw new Error("Error checking visitor user");
+  }
+};

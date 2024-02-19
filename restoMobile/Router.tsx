@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faUtensils, faPizzaSlice, faShoppingBasket, faUser, faSignInAlt, faUserPlus, faQrcode } from '@fortawesome/free-solid-svg-icons';
+import { faUtensils, faPizzaSlice, faShoppingBasket, faUser, faSignInAlt, faUserPlus, faQrcode, faUnlockKeyhole } from '@fortawesome/free-solid-svg-icons';
 import MyRestaurantsScreen from './src/pages/MyRestaurantsScreen/MyRestaurantsScreen';
 import MyDishesScreen from './src/pages/MyDishesScreen/MyDishesScreen';
 import MyProductsScreen from './src/pages/MyProductsScreen/MyProductsScreen';
@@ -22,6 +22,7 @@ import AddProductScreen from './src/pages/AddProductScreen/AddProductScreen';
 import EditProductPage from './src/pages/EditProductPage/EditProductPage';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 import EditDish from "./src/pages/EditDishScreen/EditDish";
+import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -31,7 +32,7 @@ LogBox.ignoreAllLogs()
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const setLoggedInStatus = (status) => {
+  const setLoggedInStatus = (status: boolean) => {
     setLoggedIn(status);
   };
 
@@ -82,6 +83,8 @@ const MyTabs = () => {
               icon = focused ? faUserPlus : faUserPlus;
             } else if (route.name === 'Scanning') {
               icon = focused ? faQrcode : faQrcode;
+            } else if (route.name === 'Account Recovery') {
+              icon = focused ? faUnlockKeyhole : faUnlockKeyhole;
             }
 
             return <FontAwesomeIcon icon={icon} size={size} style={{ color: focused ? '#6d071a' : color }} />;
@@ -106,6 +109,7 @@ const MyTabs = () => {
               {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
             <Tab.Screen name="Register" component={Register} />
+            <Tab.Screen name="Account Recovery" component={ResetPassword} />
           </>
           )
         }

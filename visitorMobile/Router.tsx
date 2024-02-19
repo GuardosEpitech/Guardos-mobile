@@ -14,8 +14,9 @@ import Register from "./src/pages/ProfileScreen/Register/Register";
 import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
 // import {checkIfTokenIsValid} from "./src/services/userCalls";
-import MyProfileScreen from './src/pages/Profile/MyProfile';
+// import MyProfileScreen from './src/pages/Profile/MyProfile';
 import MenuPage from './src/pages/MenuPage/MenuPage';
+import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -76,6 +77,8 @@ const MyTabs = () => {
               iconName = focused ? 'log-in' : 'log-in-outline';
             } else if (route.name === 'Register') {
               iconName = focused ? 'person-add' : 'person-add-outline';
+            } else if (route.name === 'Account Recovery') {
+              iconName = focused ? 'settings' : 'settings-outline';
             }
 
             return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color} />;
@@ -100,6 +103,7 @@ const MyTabs = () => {
               {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
             <Tab.Screen name="Register" component={Register} />
+            <Tab.Screen name="Account Recovery" component={ResetPassword} />
           </>
         )}
       </Tab.Navigator>
