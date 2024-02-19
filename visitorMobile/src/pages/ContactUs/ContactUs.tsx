@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import styles from './ContactUs.styles';
 import axios from 'axios';
+import { Ionicons } from '@expo/vector-icons';
 // @ts-ignore
 import { API_URL } from '@env';
 
@@ -68,14 +69,27 @@ const ContactUs: React.FC = () => {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
         {/* Display contact information */}
-        <ScrollView contentContainerStyle={styles.contactInfo}>
-          <Text>Address: Your Address</Text>
-          <Text>Telephone: Your Telephone Number</Text>
-          <Text>Email: Your Email Address</Text>
-        </ScrollView>
+        <Text style={styles.heading}>Get in touch</Text>
+        <View style={styles.contactInfo}>
+          <View style={styles.contactDetail}>
+            <Ionicons name="md-call" size={24} color="black" />
+            <Text style={styles.contactText}>030 1234567</Text>
+          </View>
+
+          <View style={styles.contactDetail}>
+            <Ionicons name="md-mail" size={24} color="black" />
+            <Text style={styles.contactText}>guardos-help@outlook.com</Text>
+          </View>
+
+          <View style={styles.contactDetail}>
+            <Ionicons name="md-pin" size={24} color="black" />
+            <Text style={styles.contactText}>Fasanenstraße 86, 10623 Berlin, Germany</Text>
+          </View>
+        </View>
 
         {/* Display contact form */}
         <View style={styles.contactForm}>
+          <Text style={styles.heading}>Contact Form</Text>
           <TextInput
             value={formData.name}
             onChangeText={(text) => handleChange('name', text)}

@@ -36,6 +36,20 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 10,
       },
+      heading: {
+        fontWeight: 'bold',
+        fontSize: 24,
+        marginBottom: 20,
+        alignSelf: 'center',
+      },
+      contactDetail: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+      },
+      contactText: {
+        marginLeft: 10,
+      },
 });
 
 export default styles;
