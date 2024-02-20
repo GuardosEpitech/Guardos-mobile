@@ -127,6 +127,10 @@ const ProfilePage: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: b
     }
   };
 
+  const handleNavigateToChangePassword = () => {
+    navigation.navigate('Change Password');
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -154,7 +158,7 @@ const ProfilePage: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: b
           keyboardType="email-address"
         />
         <View style={styles.changePasswordButton}>
-            <Button title="Change Password" onPress={() => {/* Implement password change */}} />
+            <Button title="Change Password" onPress={handleNavigateToChangePassword} />
         </View>
         <TextInput
           style={styles.input}
