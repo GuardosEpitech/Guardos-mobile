@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { 
+    View, 
+    Text, 
+    TextInput, 
+    Button, 
+    TouchableWithoutFeedback, 
+    Keyboard 
+} from 'react-native';
 import styles from './ChangePasswordScreen.styles';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
@@ -8,7 +15,8 @@ type ChangePasswordScreenProps = {
     navigation: NavigationProp<ParamListBase>;
   };
 
-const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({navigation}) => {
+const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = 
+({navigation}) => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

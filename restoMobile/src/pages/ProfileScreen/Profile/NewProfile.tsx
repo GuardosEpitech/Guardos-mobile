@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, View, Text, TextInput, Button, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { 
+  Alert, 
+  View, 
+  Text, 
+  TextInput, 
+  Button, 
+  Image, 
+  TouchableOpacity, 
+  TouchableWithoutFeedback, 
+  Keyboard 
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { Picker } from '@react-native-picker/picker';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './NewProfile.styles';
@@ -15,7 +24,9 @@ type ProfileScreenProps = {
     navigation: NavigationProp<ParamListBase>;
   };
 
-const ProfilePage: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boolean) => void }> = ({ navigation, setLoggedInStatus }) => {
+const ProfilePage: React.FC<ProfileScreenProps & 
+{ setLoggedInStatus: (status: boolean) => void }> = 
+({ navigation, setLoggedInStatus }) => {
   const [image, setImage] = useState<string | null>(null);
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -54,7 +65,8 @@ const ProfilePage: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: b
     }
   };
     const selectImage = async () => {
-        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const permissionResult = await ImagePicker
+        .requestMediaLibraryPermissionsAsync();
         if (permissionResult.granted === false) {
           alert('Permission to access camera roll is required!');
           return;
@@ -70,7 +82,8 @@ const ProfilePage: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: b
         if (!result.canceled) {
           let uri: string = '';
     
-          if (result.assets && result.assets.length > 0 && 'uri' in result.assets[0]) {
+          if (result.assets && result.assets.length > 0 && 
+            'uri' in result.assets[0]) {
             uri = result.assets[0].uri as string;
           }
     
@@ -135,7 +148,10 @@ const ProfilePage: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: b
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Text style={styles.heading}>My Profile</Text>
-        <TouchableOpacity onPress={selectImage} style={styles.profilePictureContainer}>
+        <TouchableOpacity 
+          onPress={selectImage} 
+          style={styles.profilePictureContainer}
+        >
           {image ? (
             <Image source={{ uri: image }} style={styles.profilePicture} />
           ) : (
@@ -158,7 +174,10 @@ const ProfilePage: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: b
           keyboardType="email-address"
         />
         <View style={styles.changePasswordButton}>
-            <Button title="Change Password" onPress={handleNavigateToChangePassword} />
+            <Button 
+              title="Change Password" 
+              onPress={handleNavigateToChangePassword} 
+            />
         </View>
         <TextInput
           style={styles.input}
@@ -174,7 +193,10 @@ const ProfilePage: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: b
             setValue={setLanguage}
         />
        <View style={styles.buttonContainer}>
-          <Button title="Apply Changes" onPress={handleApplyChanges} color="green" />
+          <Button 
+            title="Apply Changes" 
+            onPress={handleApplyChanges} color="green" 
+          />
         </View>
         <View style={styles.logoutButtonContainer}>
           <Button title="Logout" onPress={handleLogout} color="red" />

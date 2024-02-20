@@ -45,25 +45,25 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 5,
-        marginBottom: 20, // Adjusted spacing for consistency
+        marginBottom: 20,
         paddingHorizontal: 10,
         backgroundColor: 'white',
       },
       languagePicker: {
         width: '100%',
-        marginBottom: 10, // Adjusted spacing for consistency
+        marginBottom: 10,
       },
       buttonContainer: {
         width: '100%',
-        marginTop: 20, // Increased spacing between buttons
-        paddingHorizontal: 20, // Added padding to center the button
+        marginTop: 20,
+        paddingHorizontal: 20,
       },
       logoutButtonContainer: {
         position: 'absolute',
         bottom: 40,
       },
       changePasswordButton: {
-        marginBottom: 20, // Adjusted marginBottom to match spacing
+        marginBottom: 20,
       },
       changeLanguageDrop: {
         backgroundColor: 'white',
