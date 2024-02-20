@@ -6,6 +6,12 @@ import axios from 'axios';
 import styles from './AddRestaurantScreen.styles';
 import MyRestaurantsScreen from "src/pages/MyRestaurantsScreen/MyRestaurantsScreen";
 import Header from '../../components/Header';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// @ts-ignore
+import { API_URL } from '@env';
+
+const baseUrl = `${API_URL}restaurants/`;
 
 const AddRestaurantScreen = () => {
   const navigation = useNavigation();
@@ -25,6 +31,7 @@ const AddRestaurantScreen = () => {
       Alert.alert('Error', 'All fields are mandatory.');
       return;
     }
+    const token = await AsyncStorage.getItem('userToken');
     const restaurantData = {
       name: restaurantName,
       phonenumber: phoneNumber,
@@ -36,12 +43,24 @@ const AddRestaurantScreen = () => {
         postalCode: postalCode,
         city: city,
         country: country,
+        latitude: "0",
+        longitude: "0",
       },
       description: description,
     };
-
+    const data  = {
+      userToken: token,
+      resto: restaurantData,
+    };
     try {
-      const response = await axios.post('http://195.90.210.111:8081/api/restaurants/', restaurantData);
+      const response = await axios({
+        url: baseUrl,
+        method: "POST",
+        data: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       console.log('Response from the server:', response.data);
       setRestaurantName('');
       setPhoneNumber('');
