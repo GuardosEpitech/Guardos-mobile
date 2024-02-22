@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import styles from './ChangePasswordScreen.styles';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {changePassword} from "../../../services/profileCalls";
 
 
 type ChangePasswordScreenProps = {
@@ -21,12 +23,35 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSave = () => {
-    // Handle save logic here
-    console.log('Old Password:', oldPassword);
-    console.log('New Password:', newPassword);
-    console.log('Confirm Password:', confirmPassword);
-    navigation.navigate('Profile');
+  function isValidPassword(password: string): boolean {
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const numberRegex = /[0-9]/;
+
+    return (
+      password.length >= 7 &&
+      uppercaseRegex.test(password) &&
+      lowercaseRegex.test(password) &&
+      numberRegex.test(password)
+    );
+  }
+
+  const handleSave = async () => {
+    if (!isValidPassword(newPassword)) {
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      return;
+    }
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      return;
+    }
+    const res = await changePassword(userToken, oldPassword, newPassword);
+    if (res) {
+      await AsyncStorage.setItem('user', res);
+      navigation.navigate('Profile');
+    }
   };
 
   return (

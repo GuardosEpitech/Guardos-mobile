@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
       },
       dropDownPicker: {
         backgroundColor: '#fafafa',
+        marginBottom: 20
       },
       container: {
         flex: 1,
