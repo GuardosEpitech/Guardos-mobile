@@ -8,7 +8,8 @@ import {
   Image,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  ScrollView
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
@@ -67,6 +68,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
         console.error('Error fetching user data:', error);
       }
     };
+
     const selectImage = async () => {
       const permissionResult = await ImagePicker
         .requestMediaLibraryPermissionsAsync();
@@ -146,6 +148,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView>
         <View style={styles.container}>
           <Text style={styles.heading}>My Profile</Text>
           <TouchableOpacity
@@ -186,6 +189,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
             items={menuDesignOptions}
             setOpen={setMenuDesignOpen}
             setValue={setMenuDesign}
+            style={styles.dropDown}
           />
           <DropDownPicker
             dropDownDirection={'TOP'}
@@ -202,9 +206,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
             />
           </View>
           <View style={styles.logoutButtonContainer}>
-            <Button title="Logout" onPress={handleLogout} color="red"/>
+            <Button title="Logout" onPress={handleLogout} color="#6d071a"/>
           </View>
         </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
     );
   };

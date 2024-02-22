@@ -60,8 +60,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
       },
       logoutButtonContainer: {
-        position: 'absolute',
-        bottom: 40,
+        marginTop: 20,
       },
       changePasswordButton: {
         marginBottom: 20,
@@ -69,6 +68,9 @@ const styles = StyleSheet.create({
       changeLanguageDrop: {
         backgroundColor: 'white',
       },
+      dropDown: {
+        marginBottom: 20,
+      }
 });
 
 export default styles;

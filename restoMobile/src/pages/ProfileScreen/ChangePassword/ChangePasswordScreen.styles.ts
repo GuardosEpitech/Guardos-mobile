@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
       paddingHorizontal: 10,
       marginBottom: 15,
     },
+    errorText: {
+      color: 'red',
+      marginBottom: 10,
+    },
   });
   
   export default styles;
