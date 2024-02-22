@@ -70,6 +70,11 @@ const styles = StyleSheet.create({
       },
       dropDown: {
         marginBottom: 20,
+      },
+      passwordSuccess: {
+        marginTop: 50,
+        fontSize: 25,
+        color: 'green',
       }
 });
 

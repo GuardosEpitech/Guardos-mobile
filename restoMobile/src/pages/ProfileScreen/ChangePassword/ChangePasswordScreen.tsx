@@ -56,14 +56,14 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
     }
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
-      console.log('Huh?');
       return;
     }
-    const res = await changePassword(userToken, oldPassword, newPassword);
-    if (res) {
-      await AsyncStorage.setItem('user', res);
-      navigation.navigate('Profile');
-    }
+    navigation.navigate('Profile', { passwordChanged: true });
+    // const res = await changePassword(userToken, oldPassword, newPassword);
+    // if (res) {
+    //   await AsyncStorage.setItem('user', res);
+    //   navigation.navigate('Profile', { passwordChanged: true });
+    // }
   };
 
   return (

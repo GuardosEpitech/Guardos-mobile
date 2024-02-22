@@ -22,11 +22,12 @@ import {editProfileDetails, getProfileDetails} from "../../../services/profileCa
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
+  route: { params: { passwordChanged: boolean } };
 };
 
 const ProfilePage: React.FC<ProfileScreenProps &
   { setLoggedInStatus: (status: boolean) => void }> =
-  ({navigation, setLoggedInStatus}) => {
+  ({navigation, route, setLoggedInStatus}) => {
     const [image, setImage] = useState<string | null>(null);
     const [pictureId, setPictureId] = useState<number>(null);
     const [username, setUsername] = useState<string>('');
@@ -35,6 +36,8 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [languageOpen, setLanguageOpen] = useState(false);
     const [menuDesignOpen, setMenuDesignOpen] = useState(false);
     const [language, setLanguage] = useState<string>('english');
+    const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
+
     const languageOptions = [
       {label: 'English', value: 'english'},
       {label: 'German', value: 'german'},
@@ -146,6 +149,15 @@ const ProfilePage: React.FC<ProfileScreenProps &
       navigation.navigate('Change Password');
     };
 
+    useEffect(() => {
+      if (route.params?.passwordChanged) {
+        setShowPasswordChangedMessage(true);
+        setTimeout(() => {
+          setShowPasswordChangedMessage(false);
+        }, 5000);
+      }
+    }, [route.params]);
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
@@ -208,6 +220,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
           <View style={styles.logoutButtonContainer}>
             <Button title="Logout" onPress={handleLogout} color="#6d071a"/>
           </View>
+          {showPasswordChangedMessage && 
+          <Text style={styles.passwordSuccess}>
+            Password Changed
+          </Text>}
         </View>
         </ScrollView>
       </TouchableWithoutFeedback>
