@@ -1,0 +1,3 @@
+export const empowerment = `Empower individuals to make informed and inclusive dining choices that cater to their unique dietary preferences and restrictions.`;
+export const transparency = `Provide transparent and trustworthy information about restaurant menus, ingredients, and preparation methods to ensure users can make confident dining decisions.`;
+export const improvement = `Commit to ongoing improvement, incorporating user feedback, technological advancements, and industry best practices to deliver a continually valuable service.`;

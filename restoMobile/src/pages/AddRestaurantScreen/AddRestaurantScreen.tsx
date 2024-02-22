@@ -4,8 +4,9 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import styles from './AddRestaurantScreen.styles';
-import MyRestaurantsScreen from "src/pages/MyRestaurantsScreen/MyRestaurantsScreen";
+import HomeScreen from "src/pages/HomeScreen/HomeScreen";
 import Header from '../../components/Header';
+import { addRestaurant } from '../../services/restoCalls';
 
 const AddRestaurantScreen = () => {
   const navigation = useNavigation();
@@ -21,7 +22,7 @@ const AddRestaurantScreen = () => {
   const [imageURL, setImageURL] = useState('');
 
   const handleAddRestaurant = async () => {
-    if (!restaurantName || !phoneNumber || !streetName || !streetNumber || !postalCode || !city || !country || !description || !website) {
+    if (!restaurantName || !streetName || !streetNumber || !postalCode || !city || !country) {
       Alert.alert('Error', 'All fields are mandatory.');
       return;
     }
@@ -41,7 +42,7 @@ const AddRestaurantScreen = () => {
     };
 
     try {
-      const response = await axios.post('http://195.90.210.111:8081/api/restaurants/', restaurantData);
+      const response = addRestaurant(restaurantData);
       console.log('Response from the server:', response.data);
       setRestaurantName('');
       setPhoneNumber('');
@@ -53,7 +54,7 @@ const AddRestaurantScreen = () => {
       setDescription('');
       setWebsite('');
       setImageURL('');
-      navigation.navigate('MyRestaurantsScreen');
+      navigation.navigate('HomeScreen');
     } catch (error) {
       console.error('Error adding restaurant:', error);
       Alert.alert('Error', 'Failed to add restaurant. Please try again.');
@@ -75,6 +76,7 @@ const AddRestaurantScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
         {imageURL ? (
           <Image source={{ uri: imageURL }} style={styles.image} resizeMode="cover" />
@@ -94,7 +96,7 @@ const AddRestaurantScreen = () => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Phone Number *"
+            placeholder="Phone Number"
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -140,7 +142,7 @@ const AddRestaurantScreen = () => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Description *"
+            placeholder="Description"
             value={description}
             onChangeText={setDescription}
             multiline
@@ -149,7 +151,7 @@ const AddRestaurantScreen = () => {
 
         <TextInput
           style={styles.input}
-          placeholder="Website *"
+          placeholder="Website"
           value={website}
           onChangeText={setWebsite}
         />
