@@ -54,7 +54,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
       setErrorPassword(true);
       return;
     }
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       console.log('Huh?');
       return;
