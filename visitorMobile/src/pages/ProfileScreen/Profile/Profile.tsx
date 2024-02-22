@@ -65,7 +65,6 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         console.error('Error fetching user data:', error);
       }
     };
-
     fetchUserData();
   }, []);
 
@@ -112,6 +111,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           onPress: () => {
             AsyncStorage.removeItem('userToken');
             AsyncStorage.removeItem('userName');
+            AsyncStorage.removeItem('user');
             setLoggedInStatus(false);
             navigation.navigate('Login');
           },
@@ -169,9 +169,14 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
 
     if (isError) {
       setDataChangeStatus("failed");
+      setTimeout(() => {
+        setDataChangeStatus(null);
+      }, 5000);
     } else {
       setDataChangeStatus("success");
-
+      setTimeout(() => {
+        setDataChangeStatus(null);
+      }, 5000);
     }
   };
 
@@ -184,10 +189,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       <View style={styles.profileSection}>
         <Text style={styles.heading}>Account Page</Text>
         {dataChangeStatus !== null && (
-          <Text
-            className={`${
-              dataChangeStatus === 'success' ? styles.success : styles.error
-            }`}
+          <Text 
+            style={dataChangeStatus === 'success' ? 
+            styles.success : styles.error}
           >
             {dataChangeStatus === 'success'
               ? 'Profile details changed successfully!'
@@ -251,6 +255,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           items={allergensOptions}
           setOpen={setAllergensOpen}
           setValue={setAllergens}
+          style={styles.dropDown}
         />
         <DropDownPicker
           dropDownDirection={'TOP'}
@@ -259,6 +264,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           items={languageOptions}
           setOpen={setLanguageOpen}
           setValue={setLanguage}
+          style={styles.dropDown}
         />
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>Apply Change</Text>

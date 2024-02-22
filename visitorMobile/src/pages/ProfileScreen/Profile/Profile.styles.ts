@@ -72,15 +72,22 @@ const styles = StyleSheet.create({
   success: {
     color: '#4caf50',
     backgroundColor: '#e8f5e9',
+    alignSelf: 'center',
+    fontSize: 18,
+    marginBottom: 10,
   },
   error: {
     color: '#d32f2f',
     backgroundColor: '#ffcdd2',
+    alignSelf: 'center',
+    fontSize: 18,
+    marginBottom: 10,
   },
   changePasswordButton: {
     marginBottom: 20,
   },
   profilePictureContainer: {
+    alignItems: 'center',
     marginBottom: 20,
   },
   defaultProfilePicture: {
@@ -94,6 +101,9 @@ const styles = StyleSheet.create({
   defaultProfilePictureText: {
     fontSize: 16,
     color: 'gray',
+  },
+  dropDown: {
+    marginBottom: 20,
   },
 });
 

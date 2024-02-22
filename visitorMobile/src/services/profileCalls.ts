@@ -7,9 +7,10 @@ const baseUrl =
 
 export const getVisitorProfileDetails = async (token: string) => {
   try {
+    const url = baseUrl;
     const response = await axios({
       method: "GET",
-      url: baseUrl,
+      url: url,
       params: {key: token},
       headers: {
         "content-type": "application/json",

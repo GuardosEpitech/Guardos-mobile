@@ -31,6 +31,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
       } else {
         setErrorForm(false);
         await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
+        await AsyncStorage.setItem('user', response);
         setLoggedInStatus(true);
         navigation.navigate('RestaurantScreen');
       }
