@@ -69,7 +69,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         {
           text: 'Delete',
           onPress: async () => {
-            const userToken = await AsyncStorage.getItem('user');
+            const userToken = await AsyncStorage.getItem('userToken');
             if (userToken === null) {
               Alert.alert('Error', 'Failed to delete account. Please log in again.');
             }
