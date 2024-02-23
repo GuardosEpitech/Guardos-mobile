@@ -49,8 +49,7 @@ const AddRestaurantScreen = () => {
       resto: restaurantData,
     };
     try {
-      const response = addRestaurant(restaurantData);
-      console.log('Response from the server:', response.data);
+      const response = addRestaurant(data);
       setRestaurantName('');
       setPhoneNumber('');
       setStreetName('');
@@ -61,7 +60,7 @@ const AddRestaurantScreen = () => {
       setDescription('');
       setWebsite('');
       setImageURL('');
-      navigation.navigate('HomeScreen');
+      navigation.navigate('MyRestaurantsScreen');
     } catch (error) {
       console.error('Error adding restaurant:', error);
       Alert.alert('Error', 'Failed to add restaurant. Please try again.');
