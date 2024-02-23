@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, ParamListBase } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -24,7 +24,7 @@ import {checkIfTokenIsValid} from "./src/services/userCalls";
 import EditDish from "./src/pages/EditDishScreen/EditDish";
 import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
 import ChangePasswordScreen from './src/pages/ProfileScreen/ChangePassword/ChangePasswordScreen';
-
+import { RouteProp } from '@react-navigation/native';
 import ProfilePage from './src/pages/ProfileScreen/Profile/NewProfile';
 
 const Tab = createBottomTabNavigator();
@@ -35,7 +35,7 @@ LogBox.ignoreAllLogs()
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const setLoggedInStatus = (status: boolean) => {
+  const setLoggedInStatus = (status: any) => {
     setLoggedIn(status);
   };
 
@@ -86,9 +86,10 @@ const MyTabs = () => {
               icon = focused ? faUserPlus : faUserPlus;
             } else if (route.name === 'Scanning') {
               icon = focused ? faQrcode : faQrcode;
-            } else if (route.name === 'Account Recovery') {
-              icon = focused ? faUnlockKeyhole : faUnlockKeyhole;
             }
+            // } else if (route.name === 'Account Recovery') {
+            //   icon = focused ? faUnlockKeyhole : faUnlockKeyhole;
+            // }
 
             return <FontAwesomeIcon icon={icon} size={size} style={{ color: focused ? '#6d071a' : color }} />;
           },
@@ -111,11 +112,13 @@ const MyTabs = () => {
           </>
         ) : (
           <>
-            <Tab.Screen name="Login">
-              {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+            <Tab.Screen
+              name="Login"
+              options={{ headerShown: false }}
+            >
+              {() => <LoginStackScreen setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
             <Tab.Screen name="Register" component={Register} />
-            <Tab.Screen name="Account Recovery" component={ResetPassword} />
           </>
           )
         }
@@ -209,7 +212,8 @@ const MyDishStack = () => {
 }
 
 interface ProfileStackProps {
-  setLoggedInStatus: (status: boolean) => void;
+  setLoggedInStatus: (status: any) => void;
+  route?: RouteProp<ParamListBase, 'Profile'> & { params: { passwordChanged: boolean } };
 }
 
 const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) => (
@@ -220,6 +224,20 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
       {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}
     </Stack.Screen>
     <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
+  </Stack.Navigator>
+);
+
+interface LoginStackProps {
+  setLoggedInStatus: (status: boolean) => void;
+}
+
+const LoginStackScreen: React.FC<LoginStackProps> = ({ setLoggedInStatus }) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Login">
+      {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+    </Stack.Screen>
+    <Stack.Screen name="Account Recovery" component={ResetPassword} />
   </Stack.Navigator>
 );
 

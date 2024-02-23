@@ -99,11 +99,13 @@ const MyTabs = () => {
           </>
         ) : (
           <>
-            <Tab.Screen name="Login">
-              {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+            <Tab.Screen
+              name="Login"
+              options={{ headerShown: false }}
+            >
+              {() => <LoginStackScreen setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
             <Tab.Screen name="Register" component={Register} />
-            <Tab.Screen name="Account Recovery" component={ResetPassword} />
           </>
         )}
       </Tab.Navigator>
@@ -127,5 +129,20 @@ const restauStack = () => {
     </Stack.Navigator>
   );
 };
+
+interface LoginStackProps {
+  setLoggedInStatus: (status: boolean) => void;
+}
+
+const LoginStackScreen: React.FC<LoginStackProps> = ({ setLoggedInStatus }) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Login">
+      {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+    </Stack.Screen>
+    <Stack.Screen name="Account Recovery" component={ResetPassword} />
+  </Stack.Navigator>
+);
+
 
 export default MyTabs;
