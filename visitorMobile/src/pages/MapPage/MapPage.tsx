@@ -286,6 +286,13 @@ const MapPage = () => {
           message: 'Filter deleted successfully!',
         });
         console.log('Deleted filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
       } else {
         setSaveFilterStatus({
           success: false,
@@ -525,19 +532,23 @@ const MapPage = () => {
           <ScrollView>
             {savedFilters.map((filter, index) => (
               <View key={index} style={styles.savedFilterItem}>
-                <Text>{filter.filterName}</Text>
-                <TouchableOpacity
-                  onPress={() => handleLoadFilter(filter.filterName)}
-                  style={styles.loadFilterButton}
-                >
-                  <Text style={styles.buttonTextPopup}>Load</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleDeleteFilter(filter.filterName)}
-                  style={styles.deleteFilterButton}
-                >
-                  <Text style={styles.buttonTextPopup}>Delete</Text>
-                </TouchableOpacity>
+                <View style={styles.filterNameContainer}>
+                  <Text>{filter.filterName}</Text>
+                </View>
+                <View style={styles.saveButtonsContainer}>
+                  <TouchableOpacity
+                    onPress={() => handleLoadFilter(filter.filterName)}
+                    style={styles.loadFilterButton}
+                  >
+                    <Text style={styles.buttonTextPopup}>Load</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => handleDeleteFilter(filter.filterName)}
+                    style={styles.deleteFilterButton}
+                  >
+                    <Text style={styles.buttonTextPopup}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             ))}
           </ScrollView>

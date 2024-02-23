@@ -191,18 +191,22 @@ const styles = StyleSheet.create({
   savedFilterItem: {
     flexDirection: 'row',
     backgroundColor: '#f2f2f2',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
   },
-
+  filterNameContainer: {
+    flex: 1,
+  },
+  saveButtonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   loadFilterButton: {
     backgroundColor: 'green',
     padding: 5,
     borderRadius: 5,
     marginLeft: 10,
   },
-
   deleteFilterButton: {
     backgroundColor: '#6d071a',
     padding: 5,
@@ -231,7 +235,12 @@ const styles = StyleSheet.create({
     borderWidth: 1, 
     color: 'black',
     marginBottom: 10,
-  }
+  },
+  savedFilterName: { 
+    flexDirection: 'row', 
+    justifyContent: 'flex-start', 
+    alignItems: 'center' 
+}
 });
 
 export default styles;
