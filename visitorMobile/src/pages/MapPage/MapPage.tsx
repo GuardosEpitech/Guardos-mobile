@@ -220,6 +220,13 @@ const MapPage = () => {
           message: 'Filter saved successfully!',
         });
         console.log('Saved filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
       } else {
         setSaveFilterStatus({
           success: false,
@@ -227,6 +234,13 @@ const MapPage = () => {
           message: 'Error saving filter. Please try again.',
         });
         console.error('Error saving filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
       }
     }).catch((error) => {
       setSaveFilterStatus({
@@ -481,8 +495,9 @@ const MapPage = () => {
           <View>
             <Text style={styles.categoryText}>Save Filter:</Text>
             <TextInput
-              style={styles.input}
+              style={styles.saveInput}
               placeholder="Enter filter name"
+              placeholderTextColor="gray"
               value={filterName}
               onChangeText={(text) => setFilterName(text)}
             />

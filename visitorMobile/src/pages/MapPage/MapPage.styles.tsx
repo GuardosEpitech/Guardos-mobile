@@ -12,25 +12,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     padding: 10,
-    backgroundColor: '#f2f2f2', // Light background color
-    borderRadius: 10, // Rounded corners
+    backgroundColor: '#f2f2f2',
+    borderRadius: 10,
   },
   input: {
     flex: 1,
     height: 40,
     marginHorizontal: 5,
     paddingHorizontal: 10,
-    backgroundColor: '#fff', // White background color
-    borderRadius: 10, // Rounded corners
+    backgroundColor: '#fff',
+    borderRadius: 10, 
   },
   button: {
-    backgroundColor: '#6d071a', // Red background color
-    borderRadius: 10, // Rounded corners
+    backgroundColor: '#6d071a', 
+    borderRadius: 10, 
     paddingVertical: 10,
     paddingHorizontal: 15,
   },
   buttonText: {
-    color: '#fff', // White text color
+    color: '#fff', 
     fontSize: 16,
   },
   modalContent: {
@@ -139,11 +139,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
   },
-  filterPopupButton: { // Rename filterButton to filterPopupButton
+  filterPopupButton: {
     backgroundColor: '#6d071a',
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+    alignItems: 'center',
   },
   buttonTextPopup: {
     color: 'white',
@@ -167,10 +168,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   thumb: {
-    width: 15, // Adjust the width of the thumb (circle)
-    height: 15, // Adjust the height of the thumb (circle)
-    borderRadius: 15 / 2, // Make it a circle
-    backgroundColor: '#6d071a', // Thumb color
+    width: 15, 
+    height: 15, 
+    borderRadius: 15 / 2, 
+    backgroundColor: '#6d071a', 
   },
   threeDotMenuButton: {
     position: 'absolute',
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#6d071a',
     borderRadius: 50,
-    zIndex: 1, // Ensure the button is above other components
+    zIndex: 1, 
   },
 
   // Add these styles for the filter options modal container
@@ -212,12 +213,25 @@ const styles = StyleSheet.create({
     color: 'green',
     textAlign: 'center',
     marginTop: 10,
+    marginBottom: 10,
   },
   errorMessage: {
     color: 'red',
     textAlign: 'center',
     marginTop: 10,
+    marginBottom: 10,
   },
+  saveInput: {
+    flex: 1,
+    height: 40,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderColor: '#ccc',
+    borderWidth: 1, 
+    color: 'black',
+    marginBottom: 10,
+  }
 });
 
 export default styles;
