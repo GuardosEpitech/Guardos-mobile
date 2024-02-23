@@ -198,6 +198,13 @@ const MapPage = () => {
         error: true,
         message: 'Error saving filter. Please try again.',
       });
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
       return;
     }
     const filter : ISearchCommunication = {
@@ -249,6 +256,13 @@ const MapPage = () => {
         message: 'Error saving filter. Please try again.',
       });
       console.error('Error saving filter:', error);
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
     });
     setFilterName('');
   };
@@ -273,6 +287,13 @@ const MapPage = () => {
         error: true,
         message: 'Error deleting filter. Please log in again.',
       });
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
       return;
     }
 
@@ -300,6 +321,13 @@ const MapPage = () => {
           message: 'Error deleting filter. Please try again.',
         });
         console.error('Error deleting filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
       }
     })
   };
