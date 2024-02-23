@@ -7,11 +7,6 @@ import styles from './AddRestaurantScreen.styles';
 import HomeScreen from "src/pages/HomeScreen/HomeScreen";
 import Header from '../../components/Header';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// @ts-ignore
-import { API_URL } from '@env';
-
-const baseUrl = `${API_URL}restaurants/`;
 import { addRestaurant } from '../../services/restoCalls';
 
 const AddRestaurantScreen = () => {
