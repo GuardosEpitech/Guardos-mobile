@@ -3,10 +3,11 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView,
   Modal, FlatList, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { IIngredient, IRestaurantFrontEnd, IProduct } from '../../../../shared/models/restaurantInterfaces';
 import { IProductFE } from '../../../../shared/models/productInterfaces';
-import { getAllResto } from "../../services/restoCalls";
+import { getAllRestaurantsByUser } from "../../services/restoCalls";
 import { addNewProduct, editProduct } from '../../services/productCalls';
 import styles from './ProductForm.styles';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IDishFormProps {
   productName?: string;
@@ -44,7 +45,8 @@ const ProductForm: React.FC<IDishFormProps> = ({
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const allRestaurants = await getAllResto();
+        const userToken = await AsyncStorage.getItem('userToken');
+        const allRestaurants = await getAllRestaurantsByUser({key: userToken});
         setRestaurants(allRestaurants);
       } catch (error) {
         console.error('Error fetching restaurants:', error);
