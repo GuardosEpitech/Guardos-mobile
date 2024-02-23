@@ -68,7 +68,11 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 20,
     borderRadius: 4,
-  }
+  },
+  deleteAccountSection: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
 });
 
 export default styles;

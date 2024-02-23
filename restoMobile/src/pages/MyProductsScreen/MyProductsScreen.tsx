@@ -10,7 +10,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const MyProductsScreen = ({ navigation }: { navigation: any }) => {
-  console.log('Help');
   const isFocused = useIsFocused();
   const [productList, setProductList] = useState([]);
 
