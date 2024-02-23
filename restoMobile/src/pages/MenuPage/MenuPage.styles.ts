@@ -6,7 +6,6 @@ const radius = 20;
 const iconSize = 20;
 
 const styles = StyleSheet.create({
-  
   container: {
     width: deviceWidth - 20,
     alignItems: 'center',
@@ -17,10 +16,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    width: deviceWidth - offset,
     backgroundColor: '#FFFFFF',
-    height: 230,
-    margin: 20,
+    marginHorizontal: 20,
+    marginBottom: 20,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
@@ -30,7 +28,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.75,
     shadowRadius: 4,
     elevation: 9,
-    position: 'relative',
     overflow: 'hidden',
   },
   cardImage: {
@@ -58,6 +55,29 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 10,
+  },
+  deleteButton: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: 'transparent',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
   },
 });
 

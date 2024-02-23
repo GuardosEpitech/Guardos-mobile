@@ -5,6 +5,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import styles from './Profile.styles';
 import logoImage from '../../../../assets/logo.png';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {deleteAccount} from "../../../services/userCalls";
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -50,6 +51,40 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             setLoggedInStatus(false);
             navigation.navigate('Login');
           },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to delete your account? This action is irreversible.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: async () => {
+            const userToken = await AsyncStorage.getItem('userToken');
+            if (userToken === null) {
+              Alert.alert('Error', 'Failed to delete account. Please log in again.');
+            }
+            deleteAccount(userToken).then(res => {
+              if (res !== null) {
+                AsyncStorage.removeItem('userToken');
+                AsyncStorage.removeItem('userName');
+                setLoggedInStatus(false);
+                navigation.navigate('Login');
+              } else {
+                Alert.alert('Error', 'Failed to delete account. Please try again.');
+              }
+            });
+          },
+          style: 'destructive',
         },
       ],
       { cancelable: false }
@@ -151,6 +186,13 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       </View>
       <View style={styles.logoutSection}>
         <Button style={styles.logoutButton} title="Logout" onPress={handleLogout} color="#6d071a" />
+      </View>
+      <View style={styles.deleteAccountSection}>
+        <Button
+          title="Delete Account"
+          onPress={handleDeleteAccount}
+          color="#6d071a"
+        />
       </View>
     </ScrollView>
   );
