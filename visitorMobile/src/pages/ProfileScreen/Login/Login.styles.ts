@@ -57,6 +57,40 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  containerFlex: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 25,
+    justifyContent: 'space-around'
+  },
+  flexItem: {
+    width: 60,
+    height: 60
+  },
+  dividerLogos: {
+    width: 1,
+    height: 65,
+    backgroundColor: '#000000',
+    opacity: 0.1
+  },
+  containerDivider: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  divider: {
+    height: 1,
+    width: 100,
+    backgroundColor: '#000',
+    marginVertical: 20,
+    opacity: 0.1,
+  },
+  flexItemGoogle: {
+    width: 60,
+    height: 62
+  }
 });
 
 export default styles;

@@ -105,6 +105,10 @@ const styles = StyleSheet.create({
   dropDown: {
     marginBottom: 20,
   },
+  deleteAccountSection: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
 });
 
 export default styles;
