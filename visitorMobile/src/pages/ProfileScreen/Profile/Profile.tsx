@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Button, View, Text, TextInput, Image, ScrollView, TouchableOpacity} from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
-// import SelectBox from 'react-native-multi-selectbox-typescript'
+import * as ImagePicker from 'expo-image-picker';
 import styles from './Profile.styles';
 import logoImage from '../../../../assets/logo.png';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DropDownPicker from 'react-native-dropdown-picker';
+import {editVisitorProfileDetails, getVisitorProfileDetails} from "../../../services/profileCalls";
 import {deleteAccount} from "../../../services/userCalls";
 
 type ProfileScreenProps = {
@@ -12,27 +14,90 @@ type ProfileScreenProps = {
 };
 
 const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boolean) => void }> = ({ navigation, setLoggedInStatus }) => {
+  const [image, setImage] = useState<string | null>(null);
+  const [pictureId, setPictureId] = useState<number>(null);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
-  // const [allergens, setAllergens] = useState([]);
+  const [allergens, setAllergens] = useState([]);
   const [watchedRestaurants, setWatchedRestaurants] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const [allergensOpen, setAllergensOpen] = useState(false);
+  const [language, setLanguage] = useState<string>('english');
+  const languageOptions = [
+    {label: 'English', value: 'english'},
+    {label: 'German', value: 'german'},
+    {label: 'French', value: 'french'},
+  ];
+  const allergensOptions = [
+    { label: "celery", value: "celery"},
+    { label: "gluten", value: "gluten"},
+    { label: "crustaceans", value: "crustaceans"},
+    { label: "eggs", value: "eggs"},
+    { label: "fish", value: "fish"},
+    { label: "lupin", value: "lupin"},
+    { label: "milk", value: "milk"},
+    { label: "molluscs", value: "molluscs"},
+    { label: "mustard", value: "mustard"},
+    { label: "peanuts", value: "peanuts"},
+    { label: "sesame", value: "sesame"},
+    { label: "soybeans", value: "soybeans"},
+    { label: "sulphides", value: "sulphides"},
+    { label: "tree nuts", value: "tree nuts"}
+  ];
+  const [dataChangeStatus, setDataChangeStatus] = useState(null);
 
   useEffect(() => {
-    const fetchUserName = async () => {
+    const fetchUserData = async () => {
       try {
-        const userName = await AsyncStorage.getItem('userName');
-        if (userName) {
-          setName(userName);
+        const userToken = await AsyncStorage.getItem('user');
+        if (userToken === null) {
+          return;
         }
+        getVisitorProfileDetails(userToken)
+          .then((res) => {
+            setEmail(res.email);
+            setName(res.username);
+            setCity(res.city);
+            setAllergens(res.allergens);
+            setPictureId(res.profilePicId);
+            setLanguage(res.preferredLanguage);
+          });
       } catch (error) {
-        console.error('Error fetching user from AsyncStorage:', error);
+        console.error('Error fetching user data:', error);
       }
     };
-
-    fetchUserName();
+    fetchUserData();
   }, []);
+
+  const selectImage = async () => {
+    const permissionResult = await ImagePicker
+      .requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert('Permission to access camera roll is required!');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      let uri: string = '';
+
+      if (result.assets && result.assets.length > 0 &&
+        'uri' in result.assets[0]) {
+        uri = result.assets[0].uri as string;
+      }
+
+      if (uri) {
+        setImage(uri);
+      }
+    }
+  };
 
   const handleLogout = () => {
     Alert.alert(
@@ -48,6 +113,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           onPress: () => {
             AsyncStorage.removeItem('userToken');
             AsyncStorage.removeItem('userName');
+            AsyncStorage.removeItem('user');
             setLoggedInStatus(false);
             navigation.navigate('Login');
           },
@@ -103,10 +169,6 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     setCity(text);
   };
 
-  const handleSelectChange = (value) => {
-    setSelectedOptions(value);
-  };
-
   const handleAddRestaurant = () => {
     // Add the watched restaurant to the list
     const newRestaurant = {
@@ -117,13 +179,82 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     setWatchedRestaurants((prevRestaurants) => [newRestaurant, ...prevRestaurants]);
   };
 
+  const handleSave = async () => {
+    setDataChangeStatus(null);
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      setDataChangeStatus("failed");
+      return;
+    }
+    const res = await editVisitorProfileDetails(userToken, {
+      username: name,
+      email: email,
+      city: city,
+      allergens: allergens,
+      preferredLanguage: language
+    });
+
+    let isError = false;
+    if (!res) {
+      isError = true;
+    } else {
+      await AsyncStorage.setItem('user', res);
+    }
+
+    // TODO: add image mngt
+
+    if (isError) {
+      setDataChangeStatus("failed");
+      setTimeout(() => {
+        setDataChangeStatus(null);
+      }, 5000);
+    } else {
+      setDataChangeStatus("success");
+      setTimeout(() => {
+        setDataChangeStatus(null);
+      }, 5000);
+    }
+  };
+
+  const handleNavigateToChangePassword = () => {
+    navigation.navigate('Change Password');
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileSection}>
         <Text style={styles.heading}>Account Page</Text>
-        <View style={styles.profilePicture}>
-          <Text>Profile Picture:</Text>
-          <Image source={logoImage} style={styles.profileImage} />
+        {dataChangeStatus !== null && (
+          <Text
+            style={dataChangeStatus === 'success' ?
+            styles.success : styles.error}
+          >
+            {dataChangeStatus === 'success'
+              ? 'Profile details changed successfully!'
+              : 'Failed to change profile details.'}
+          </Text>
+        )}
+        <TouchableOpacity
+          onPress={selectImage}
+          style={styles.profilePictureContainer}
+        >
+          {image ? (
+            <Image source={{uri: image}} style={styles.profilePicture}/>
+          ) : (
+            <View style={styles.defaultProfilePicture}>
+              <Text style={styles.defaultProfilePictureText}>Add Picture</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+        <View>
+          <Text>Name:</Text>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={handleNameChange}
+            placeholder="Enter your name"
+            required
+          />
         </View>
         <View>
           <Text>Email:</Text>
@@ -139,16 +270,6 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           />
         </View>
         <View>
-          <Text>Name:</Text>
-          <TextInput
-            style={styles.input}
-            value={name}
-            onChangeText={handleNameChange}
-            placeholder="Enter your name"
-            required
-          />
-        </View>
-        <View>
           <Text>City:</Text>
           <TextInput
             style={styles.input}
@@ -157,20 +278,31 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             placeholder="Enter your city"
           />
         </View>
-        {/*<View>*/}
-        {/*  <Text>Allergens:</Text>*/}
-        {/*  <SelectBox*/}
-        {/*    label="Pick allergens"*/}
-        {/*    options={[*/}
-        {/*      { item: 'Peanut', id: 'peanut' },*/}
-        {/*      { item: 'Gluten', id: 'gluten' },*/}
-        {/*      { item: 'Dairy', id: 'dairy' },*/}
-        {/*    ]}*/}
-        {/*    value={selectedOptions[0]}*/}
-        {/*    onChange={handleSelectChange}*/}
-        {/*  />*/}
-        {/*</View>*/}
-        <TouchableOpacity style={styles.button} onPress={handleAddRestaurant}>
+        <View style={styles.changePasswordButton}>
+          <Button
+            title="Change Password"
+            onPress={handleNavigateToChangePassword}
+          />
+        </View>
+        <DropDownPicker
+          dropDownDirection={'TOP'}
+          open={allergensOpen}
+          value={allergens}
+          items={allergensOptions}
+          setOpen={setAllergensOpen}
+          setValue={setAllergens}
+          style={styles.dropDown}
+        />
+        <DropDownPicker
+          dropDownDirection={'TOP'}
+          open={languageOpen}
+          value={language}
+          items={languageOptions}
+          setOpen={setLanguageOpen}
+          setValue={setLanguage}
+          style={styles.dropDown}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>Apply Change</Text>
         </TouchableOpacity>
       </View>
