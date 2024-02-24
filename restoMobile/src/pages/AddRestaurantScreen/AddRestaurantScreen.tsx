@@ -6,6 +6,7 @@ import axios from 'axios';
 import styles from './AddRestaurantScreen.styles';
 import HomeScreen from "src/pages/HomeScreen/HomeScreen";
 import Header from '../../components/Header';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addRestaurant } from '../../services/restoCalls';
 
 const AddRestaurantScreen = () => {
@@ -26,6 +27,7 @@ const AddRestaurantScreen = () => {
       Alert.alert('Error', 'All fields are mandatory.');
       return;
     }
+    const token = await AsyncStorage.getItem('userToken');
     const restaurantData = {
       name: restaurantName,
       phonenumber: phoneNumber,
@@ -37,13 +39,17 @@ const AddRestaurantScreen = () => {
         postalCode: postalCode,
         city: city,
         country: country,
+        latitude: "0",
+        longitude: "0",
       },
       description: description,
     };
-
+    const data  = {
+      userToken: token,
+      resto: restaurantData,
+    };
     try {
-      const response = addRestaurant(restaurantData);
-      console.log('Response from the server:', response.data);
+      const response = addRestaurant(data);
       setRestaurantName('');
       setPhoneNumber('');
       setStreetName('');
@@ -54,7 +60,7 @@ const AddRestaurantScreen = () => {
       setDescription('');
       setWebsite('');
       setImageURL('');
-      navigation.navigate('HomeScreen');
+      navigation.navigate('MyRestaurantsScreen');
     } catch (error) {
       console.error('Error adding restaurant:', error);
       Alert.alert('Error', 'Failed to add restaurant. Please try again.');
