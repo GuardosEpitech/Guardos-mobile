@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import styles from './ContactUs.styles';
-import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
-// @ts-ignore
-import { API_URL } from '@env';
-
-interface IContactForm {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
-const baseUrl = `${API_URL}sendEmail/`;
+import { IContactForm } from '../../models/emailInterfaces';
+import { sendEmail } from '../../services/emailCalls';
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState<IContactForm>({
@@ -31,10 +22,9 @@ const ContactUs: React.FC = () => {
     const { name, email, subject, message } = formData;
     if (name && email && subject && message && isValidEmail(email)) {
       try {
-        const response = await axios.post(baseUrl, formData);
+        const response = await sendEmail(formData);
 
-        if (response.status >= 200 && response.status < 300) {
-          console.log('Backend response:', response.data);
+        if (response) {
           Keyboard.dismiss();
           setShowConfirmation(true);
           setFormData({
@@ -48,7 +38,7 @@ const ContactUs: React.FC = () => {
             setShowConfirmation(false);
           }, 3000);
         } else {
-          console.error('Backend responded with an error:', response.data);
+          console.error('Backend responded with an error:', response);
         }
       } catch (error) {
         console.error('Error sending data to the backend:', error);
