@@ -86,13 +86,14 @@ const MyTabs = () => {
       >
         {loggedIn ? (
           <>
-            <Tab.Screen name="RestaurantScreen" component={restauStack} />
+            <Tab.Screen name="RestaurantScreen" component={RestaurantScreen} />
             <Tab.Screen name="MapScreen" component={MapPage} />
         <Tab.Screen name="AboutUs" component={AboutUsScreen} />
             <Tab.Screen name="ContactUs" component={ContactUsScreen} />
             <Tab.Screen name="My Profile">
               {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
+            <Stack.Screen name="MenuPage" component={MenuPage} options={{ headerShown: false}}/>
           </>
         ) : (
           <>
@@ -104,23 +105,6 @@ const MyTabs = () => {
         )}
       </Tab.Navigator>
     </NavigationContainer>
-  );
-};
-
-const restauStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="RestaurantScreen"
-        component={RestaurantScreen}
-        options={{ headerShown: false}}
-      />
-      <Stack.Screen
-        name="MenuPage"
-        component={MenuPage}
-        options={{ headerShown: false}}
-      />
-    </Stack.Navigator>
   );
 };
 

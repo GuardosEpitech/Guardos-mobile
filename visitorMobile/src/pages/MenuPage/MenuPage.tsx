@@ -9,7 +9,7 @@ export  interface DishData {
   dishes: Dish[];
 }
 
-const MenuPage: React.FC = ({ route }) => {
+const MenuPage: React.FC = ({ route, navigation }) => {
   const [dishesData, setDishesData] = useState<DishData[]>([]);
   const [loading, setLoading] = useState(true);
   const {restaurantId, restaurantName } = route.params;
@@ -17,7 +17,8 @@ const MenuPage: React.FC = ({ route }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getDishesByResto(restaurantName)        
+        setLoading(true);
+        const response = await getDishesByResto(restaurantName);
         const data: DishData[] = await response.json();
         setDishesData(data);
         setLoading(false);
@@ -28,7 +29,11 @@ const MenuPage: React.FC = ({ route }) => {
     };
 
     fetchData();
-  }, []);
+
+    const unsubscribe = navigation.addListener('focus', fetchData);
+
+    return unsubscribe;
+  }, [restaurantName, navigation]);
 
   const menuGroupOrder = ['Appetizer', 'Maindish', 'Dessert'];
 

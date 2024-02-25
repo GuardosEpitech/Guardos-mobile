@@ -11,6 +11,7 @@ import {
   Keyboard, 
   TouchableWithoutFeedback 
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 import Modal from 'react-native-modal';
 import { 
@@ -24,6 +25,7 @@ import {
   getAllResto 
 } from '../../services/restoCalls';
 import styles from './MapPage.styles';
+import MenuPage from '../MenuPage/MenuPage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import placeholderImage from '../../../assets/logo.png';
@@ -69,6 +71,7 @@ const MapPage = () => {
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [range, setRange] = useState(100);
+  const navigation = useNavigation();
 
 
   useEffect(() => {
@@ -128,7 +131,17 @@ const MapPage = () => {
     }
   };
 
-  const handleMenu = () => {
+  const handleMenu = () => {  
+    try {
+      if (selectedMarker != null) {
+        const restaurantId = selectedMarker.id;
+        const restaurantName = selectedMarker.name;
+        toggleModal();
+        navigation.navigate('MenuPage', { restaurantId, restaurantName });
+      }
+    } catch (error) {
+      console.error('Error navigating to MenuPage:', error);
+    }
   };
 
   const handleSearch = () => {
@@ -280,7 +293,10 @@ const MapPage = () => {
             </TouchableOpacity>
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={handleMenu} style={styles.menuButton}>
+              <TouchableOpacity 
+                onPress={handleMenu} 
+                style={styles.menuButton}
+              >
                 <Text style={styles.buttonText}>Menu</Text>
               </TouchableOpacity>
 
