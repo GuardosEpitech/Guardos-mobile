@@ -4,7 +4,7 @@ export interface Dish {
       foodGroup: string;
       extraGroup: string[];
     };
-    picturesId: string[];
+    picturesId: number[];
     name: string;
     description: string;
     products: string[];

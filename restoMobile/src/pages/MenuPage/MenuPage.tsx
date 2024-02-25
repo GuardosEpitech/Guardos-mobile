@@ -5,6 +5,9 @@ import { getDishesByResto, deleteDishByName } from '../../services/dishCalls';
 import { Dish } from 'src/models/dishesInterfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { getImages } from "../../services/imagesCalls";
+import { defaultDishImage } from "../../assets/placeholderImagesBase64";
+import { IimageInterface } from "../../models/imageInterface";
 
 export interface DishData {
   _id: number;
@@ -17,19 +20,42 @@ const MenuPage: React.FC = ({ route }) => {
   const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const { restaurantId, restaurantName } = route.params;
+  const [pictures, setPictures] = useState<IimageInterface[]>([]);
+  const [picturesId, setPicturesId] = useState<number[]>([]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await getDishesByResto(restaurantName);
       const data: DishData[] = await response.json();
-      setDishesData(data);
-      setLoading(false);
+
+      const picturesId = data[0].dishes.reduce((acc, dish) => acc.concat(dish.picturesId), []);
+      if (picturesId.length > 0) {
+        const imagesResponse = await getImages(picturesId);
+        const imagesData: IimageInterface[] = [];
+        for (const image of imagesResponse) {
+          imagesData.push(await image);
+        }
+
+        const imagesMap = imagesData.reduce((acc, image) => {
+          // @ts-ignore
+          acc[image._id] = image;
+          return acc;
+        }, {});
+
+        // @ts-ignore
+        setPictures(imagesMap);
+        setDishesData(data);
+      } else {
+        setDishesData(data);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
+    } finally {
       setLoading(false);
     }
   };
@@ -55,6 +81,7 @@ const MenuPage: React.FC = ({ route }) => {
     }
   };
 
+  // @ts-ignore
   return (
     <View style={styles.container}>
       {loading ? (
@@ -63,12 +90,15 @@ const MenuPage: React.FC = ({ route }) => {
         <>
           <ScrollView contentContainerStyle={styles.scrollView} horizontal={false} scrollEnabled={true}>
             {sortedDishes.map((dish, index) => (
-              <React.Fragment key={dish.name}>
+              <React.Fragment key={dish.name+index}>
                 {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (
                   <Text style={styles.groupTitle}>{dish.category.menuGroup}</Text>
                 )}
                 <View style={styles.card}>
-                  <Image source={{ uri: dish.pictures[0] }} style={styles.cardImage} />
+                  <Image
+                    source={{ uri: pictures[dish.picturesId[0]]?.base64 || defaultDishImage }}
+                    style={styles.cardImage}
+                  />
                   <View style={styles.cardContent}>
                     <Text style={styles.cardTitle}>{dish.name}</Text>
                     <Text>{dish.description}</Text>

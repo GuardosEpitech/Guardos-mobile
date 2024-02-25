@@ -83,15 +83,6 @@ const AddRestaurantScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
-        {imageURL ? (
-          <Image source={{ uri: imageURL }} style={styles.image} resizeMode="cover" />
-        ) : (
-          <View style={styles.placeholderContainer}>
-            <Text style={styles.placeholderText}>Tap to Add Picture</Text>
-          </View>
-        )}
-      </TouchableOpacity>
       <View style={styles.inputContainer}>
         <View style={styles.inputPair}>
           <TextInput
