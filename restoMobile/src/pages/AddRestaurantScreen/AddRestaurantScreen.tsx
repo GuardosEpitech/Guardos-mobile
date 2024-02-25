@@ -4,8 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import styles from './AddRestaurantScreen.styles';
-import MyRestaurantsScreen from "src/pages/MyRestaurantsScreen/MyRestaurantsScreen";
+import HomeScreen from "src/pages/HomeScreen/HomeScreen";
 import Header from '../../components/Header';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { addRestaurant } from '../../services/restoCalls';
 
 const AddRestaurantScreen = () => {
   const navigation = useNavigation();
@@ -21,10 +23,11 @@ const AddRestaurantScreen = () => {
   const [imageURL, setImageURL] = useState('');
 
   const handleAddRestaurant = async () => {
-    if (!restaurantName || !phoneNumber || !streetName || !streetNumber || !postalCode || !city || !country || !description || !website) {
+    if (!restaurantName || !streetName || !streetNumber || !postalCode || !city || !country) {
       Alert.alert('Error', 'All fields are mandatory.');
       return;
     }
+    const token = await AsyncStorage.getItem('userToken');
     const restaurantData = {
       name: restaurantName,
       phonenumber: phoneNumber,
@@ -36,13 +39,17 @@ const AddRestaurantScreen = () => {
         postalCode: postalCode,
         city: city,
         country: country,
+        latitude: "0",
+        longitude: "0",
       },
       description: description,
     };
-
+    const data  = {
+      userToken: token,
+      resto: restaurantData,
+    };
     try {
-      const response = await axios.post('http://195.90.210.111:8081/api/restaurants/', restaurantData);
-      console.log('Response from the server:', response.data);
+      const response = addRestaurant(data);
       setRestaurantName('');
       setPhoneNumber('');
       setStreetName('');
@@ -75,6 +82,7 @@ const AddRestaurantScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
         {imageURL ? (
           <Image source={{ uri: imageURL }} style={styles.image} resizeMode="cover" />
@@ -94,7 +102,7 @@ const AddRestaurantScreen = () => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Phone Number *"
+            placeholder="Phone Number"
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -140,7 +148,7 @@ const AddRestaurantScreen = () => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Description *"
+            placeholder="Description"
             value={description}
             onChangeText={setDescription}
             multiline
@@ -149,7 +157,7 @@ const AddRestaurantScreen = () => {
 
         <TextInput
           style={styles.input}
-          placeholder="Website *"
+          placeholder="Website"
           value={website}
           onChangeText={setWebsite}
         />

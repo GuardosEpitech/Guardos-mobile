@@ -49,3 +49,32 @@ export const getRestaurantByName = async(name: string) => {
     throw new Error('Failed to fetch restaurant');
   }
 }
+
+export const addRestaurant = async(restaurantData: any) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: baseURL + 'restaurants/',
+      data: restaurantData,
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding restaurant:', error);
+    throw new Error('Failed to add restaurant');
+  }
+}
+
+export const deleteRestaurantByName = async (restaurantName: string) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: baseURL +'restaurants/' + restaurantName,
+    });
+  } catch (error) {
+    console.error('Error deleting restaurant:', error);
+    throw new Error('Failed to delete restaurant');
+  }
+};

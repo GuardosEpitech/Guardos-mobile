@@ -28,6 +28,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import placeholderImage from '../../../assets/logo.png';
 import { CheckBox, Slider } from 'react-native-elements';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {addSavedFilter, deleteSavedFilter, getSavedFilters} from "../../services/profileCalls";
 
 function findMinMax(arr: any) {
   if (!arr || arr.length === 0) {
@@ -63,16 +65,23 @@ const MapPage = () => {
   const [locationFilter, setLocationFilter] = useState('');
   const [filteredMarkers, setFilteredMarkers] = 
     useState<IRestaurantFrontEnd[]>([]);
+  const [filterName, setFilterName] = useState('');
+  const [savedFilters, setSavedFilters] = useState([]);
 
   const [showFilterPopup, setShowFilterPopup] = useState(false);
   const [selectedRating, setSelectedRating] = useState([]);
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [range, setRange] = useState(100);
-
+  const [saveFilterStatus, setSaveFilterStatus] = useState({
+    success: false,
+    error: false,
+    message: '',
+  });
 
   useEffect(() => {
     updateRestoData();
+    loadSavedFilters();
   }, []);
 
   const updateRestoData = () => {
@@ -88,6 +97,17 @@ const MapPage = () => {
         console.error('Error updating restaurant data:', error);
       });
   };
+
+  const loadSavedFilters = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      return;
+    }
+
+    getSavedFilters(userToken).then((res) => {
+      setSavedFilters(res);
+    })
+  }
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -162,11 +182,154 @@ const MapPage = () => {
     setShowFilterPopup(false);
   };
 
-  const clearFilters = () => {
+  const clearFilters = async () => {
     setSelectedRating([]);
     setSelectedAllergens([]);
     setSelectedCategories([]);
     setRange(100);
+    await AsyncStorage.removeItem('filter');
+  };
+
+  const handleSaveFilter = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      setSaveFilterStatus({
+        success: false,
+        error: true,
+        message: 'Error saving filter. Please try again.',
+      });
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
+      return;
+    }
+    const filter : ISearchCommunication = {
+      filterName: filterName,
+      range: range,
+      rating: findMinMax(selectedRating),
+      name: nameFilter,
+      location: locationFilter,
+      categories: selectedCategories,
+      allergenList: selectedAllergens
+    }
+    addSavedFilter(userToken, filter).then((res) => {
+      if (res !== null) {
+        const savedFiltersCopy = savedFilters;
+        savedFiltersCopy.push(filter);
+        setSavedFilters(savedFiltersCopy);
+        setSaveFilterStatus({
+          success: true,
+          error: false,
+          message: 'Filter saved successfully!',
+        });
+        console.log('Saved filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
+      } else {
+        setSaveFilterStatus({
+          success: false,
+          error: true,
+          message: 'Error saving filter. Please try again.',
+        });
+        console.error('Error saving filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
+      }
+    }).catch((error) => {
+      setSaveFilterStatus({
+        success: false,
+        error: true,
+        message: 'Error saving filter. Please try again.',
+      });
+      console.error('Error saving filter:', error);
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
+    });
+    setFilterName('');
+  };
+
+  const handleLoadFilter = async (loadFilterName: string) => {
+    const newFilter : ISearchCommunication = savedFilters
+      .find((filter) => filter.filterName === loadFilterName);
+
+    await AsyncStorage.setItem('filter', JSON.stringify(newFilter));
+
+    setSelectedCategories(newFilter.categories);
+    setSelectedAllergens(newFilter.allergenList);
+    setSelectedRating(newFilter.rating);
+    setRange(newFilter.range);
+  };
+
+  const handleDeleteFilter = async (filterName: string) => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      setSaveFilterStatus({
+        success: false,
+        error: true,
+        message: 'Error deleting filter. Please log in again.',
+      });
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
+      return;
+    }
+
+    deleteSavedFilter(userToken, filterName).then((res) => {
+      if (res !== null) {
+        const remainingFilters = savedFilters.filter((filter) => filter.filterName !== filterName);
+        setSavedFilters(remainingFilters);
+        setSaveFilterStatus({
+          success: true,
+          error: false,
+          message: 'Filter deleted successfully!',
+        });
+        console.log('Deleted filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
+      } else {
+        setSaveFilterStatus({
+          success: false,
+          error: true,
+          message: 'Error deleting filter. Please try again.',
+        });
+        console.error('Error deleting filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
+      }
+    })
   };
 
   return (
@@ -305,7 +468,7 @@ const MapPage = () => {
       <ScrollView style={styles.filterPopup}>
         <View style={styles.filterPopup}>
           <Text style={styles.popupHeading}>Filter Options</Text>
-          
+
           <Text style={styles.categoryText}>Rating:</Text>
           {[0, 1, 2, 3, 4, 5].map((rating) => (
             <CheckBox
@@ -324,7 +487,7 @@ const MapPage = () => {
           <Text style={styles.categoryText}>Range:</Text>
               <Slider
                 thumbStyle={styles.thumb}
-                value={100}
+                value={range}
                 onValueChange={(value) => setRange(value)}
                 minimumValue={0}
                 maximumValue={500}
@@ -363,6 +526,61 @@ const MapPage = () => {
               }}
             />
           ))}
+
+          <View>
+            <Text style={styles.categoryText}>Save Filter:</Text>
+            <TextInput
+              style={styles.saveInput}
+              placeholder="Enter filter name"
+              placeholderTextColor="gray"
+              value={filterName}
+              onChangeText={(text) => setFilterName(text)}
+            />
+            {/* Save Filter Status Messages */}
+            {saveFilterStatus.success && (
+              <Text style={styles.successMessage}>
+                {saveFilterStatus.message}
+              </Text>
+            )}
+            {saveFilterStatus.error && (
+              <Text style={styles.errorMessage}>
+                {saveFilterStatus.message}
+              </Text>
+            )}
+            <TouchableOpacity
+              style={styles.filterPopupButton}
+              onPress={handleSaveFilter}
+            >
+              <Text style={styles.buttonTextPopup}>Save</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Saved Filters Section */}
+          <Text style={styles.categoryText}>Saved Filters:</Text>
+          <ScrollView>
+            {savedFilters.map((filter, index) => (
+              <View key={index} style={styles.savedFilterItem}>
+                <View style={styles.filterNameContainer}>
+                  <Text>{filter.filterName}</Text>
+                </View>
+                <View style={styles.saveButtonsContainer}>
+                  <TouchableOpacity
+                    onPress={() => handleLoadFilter(filter.filterName)}
+                    style={styles.loadFilterButton}
+                  >
+                    <Text style={styles.buttonTextPopup}>Load</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => handleDeleteFilter(filter.filterName)}
+                    style={styles.deleteFilterButton}
+                  >
+                    <Text style={styles.buttonTextPopup}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+
 
           <View style={styles.buttonContainerPopup}>
             <TouchableOpacity

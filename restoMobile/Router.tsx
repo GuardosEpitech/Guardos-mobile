@@ -22,15 +22,19 @@ import AddProductScreen from './src/pages/AddProductScreen/AddProductScreen';
 import EditProductPage from './src/pages/EditProductPage/EditProductPage';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 import EditDish from "./src/pages/EditDishScreen/EditDish";
+import ChangePasswordScreen from './src/pages/ProfileScreen/ChangePassword/ChangePasswordScreen';
+
+import ProfilePage from './src/pages/ProfileScreen/Profile/NewProfile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs()
 
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const setLoggedInStatus = (status) => {
+  const setLoggedInStatus = (status: any) => {
     setLoggedIn(status);
   };
 
@@ -95,8 +99,11 @@ const MyTabs = () => {
             <Tab.Screen name="My Restaurants" component={MyStack} />
             <Tab.Screen name="My Dishes" component={MyDishStack} />
             <Tab.Screen name="My Products" component={MyProductStack} />
-            <Tab.Screen name="My Profile">
-              {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
+            <Tab.Screen
+              name="My Profile"
+              options={{ headerShown: false }}
+            >
+              {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
           </>
         ) : (
@@ -196,5 +203,20 @@ const MyDishStack = () => {
     </Stack.Navigator>
   );
 }
+
+interface ProfileStackProps {
+  setLoggedInStatus: (status: boolean) => void;
+}
+
+const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Profile"
+    >
+      {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}
+    </Stack.Screen>
+    <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
+  </Stack.Navigator>
+);
 
 export default MyTabs;
