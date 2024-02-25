@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LogBox } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {LogBox} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import RestaurantScreen from './src/pages/RestaurantScreen/RestaurantScreen';
 import AboutUsScreen from './src/pages/AboutUs/AboutUs';
 import ContactUsScreen from './src/pages/ContactUs/ContactUs';
 import MapPage from './src/pages/MapPage/MapPage';
-// import AsyncStorage from "@react-native-async-storage/async-storage";
 import Register from "./src/pages/ProfileScreen/Register/Register";
-import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
 // import {checkIfTokenIsValid} from "./src/services/userCalls";
 // import MyProfileScreen from './src/pages/Profile/MyProfile';
 import MenuPage from './src/pages/MenuPage/MenuPage';
 import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
+import ChangePasswordScreen from "./src/pages/ProfileScreen/ChangePassword/ChangePassword";
+import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -59,8 +59,8 @@ const MyTabs = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
             let iconName;
 
             if (route.name === 'RestaurantScreen') {
@@ -81,7 +81,7 @@ const MyTabs = () => {
               iconName = focused ? 'settings' : 'settings-outline';
             }
 
-            return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color} />;
+            return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color}/>;
           },
           tabBarActiveTintColor: '#6d071a',
           tabBarInactiveTintColor: 'gray',
@@ -89,12 +89,15 @@ const MyTabs = () => {
       >
         {loggedIn ? (
           <>
-            <Tab.Screen name="RestaurantScreen" component={restauStack} />
-            <Tab.Screen name="MapScreen" component={MapPage} />
-        <Tab.Screen name="AboutUs" component={AboutUsScreen} />
-            <Tab.Screen name="ContactUs" component={ContactUsScreen} />
-            <Tab.Screen name="My Profile">
-              {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
+            <Tab.Screen name="RestaurantScreen" component={RestauStack}/>
+            <Tab.Screen name="MapScreen" component={MapPage}/>
+            <Tab.Screen name="AboutUs" component={AboutUsScreen}/>
+            <Tab.Screen name="ContactUs" component={ContactUsScreen}/>
+            <Tab.Screen
+              name="My Profile"
+              options={{headerShown: false}}
+            >
+              {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus}/>}
             </Tab.Screen>
           </>
         ) : (
@@ -105,7 +108,7 @@ const MyTabs = () => {
             >
               {() => <LoginStackScreen setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
-            <Tab.Screen name="Register" component={Register} />
+            <Tab.Screen name="Register" component={Register}/>
           </>
         )}
       </Tab.Navigator>
@@ -113,18 +116,33 @@ const MyTabs = () => {
   );
 };
 
-const restauStack = () => {
+interface ProfileStackProps {
+  setLoggedInStatus: (status: boolean) => void;
+}
+
+const ProfileStackScreen: React.FC<ProfileStackProps> = ({setLoggedInStatus}) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Profile"
+    >
+      {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus}/>}
+    </Stack.Screen>
+    <Stack.Screen name="Change Password" component={ChangePasswordScreen}/>
+  </Stack.Navigator>
+);
+
+const RestauStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="RestaurantScreen"
         component={RestaurantScreen}
-        options={{ headerShown: false}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="MenuPage"
         component={MenuPage}
-        options={{ headerShown: false}}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
