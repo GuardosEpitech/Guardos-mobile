@@ -30,6 +30,8 @@ import placeholderImage from '../../../assets/logo.png';
 import { CheckBox, Slider } from 'react-native-elements';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {addSavedFilter, deleteSavedFilter, getSavedFilters} from "../../services/profileCalls";
+import { defaultRestoImage } from "../../../assets/placeholderImagesBase64";
+import { getImages } from "../../services/imageCalls";
 
 function findMinMax(arr: any) {
   if (!arr || arr.length === 0) {
@@ -117,7 +119,17 @@ const MapPage = () => {
     setImageError(false);
   }, [isModalVisible]);
 
-  const handleMarkerPress = (marker) => {
+  const handleMarkerPress = async (marker) => {
+    if (marker.picturesId.length > 0) {
+      try {
+        const res = await getImages(marker.picturesId);
+        marker.pictures = res[0].base64;
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    } else {
+      marker.pictures = defaultRestoImage;
+    }
     setSelectedMarker(marker);
     toggleModal();
   };
@@ -381,8 +393,8 @@ const MapPage = () => {
               selectedMarker &&
               selectedMarker.pictures &&
               selectedMarker.pictures.length > 0
-                ? { uri: selectedMarker.pictures[0] }
-                : placeholderImage
+                ? { uri: selectedMarker.pictures }
+                : { uri: defaultRestoImage }
             }
             style={styles.modalImage}
             onError={() => {
