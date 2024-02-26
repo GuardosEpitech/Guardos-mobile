@@ -11,7 +11,10 @@ import ContactUsScreen from './src/pages/ContactUs/ContactUs';
 import MapPage from './src/pages/MapPage/MapPage';
 import Register from "./src/pages/ProfileScreen/Register/Register";
 import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
+// import {checkIfTokenIsValid} from "./src/services/userCalls";
+// import MyProfileScreen from './src/pages/Profile/MyProfile';
 import MenuPage from './src/pages/MenuPage/MenuPage';
+import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
 import ChangePasswordScreen from "./src/pages/ProfileScreen/ChangePassword/ChangePassword";
 import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 
@@ -74,6 +77,8 @@ const MyTabs = () => {
               iconName = focused ? 'log-in' : 'log-in-outline';
             } else if (route.name === 'Register') {
               iconName = focused ? 'person-add' : 'person-add-outline';
+            } else if (route.name === 'Account Recovery') {
+              iconName = focused ? 'settings' : 'settings-outline';
             }
 
             return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color}/>;
@@ -97,8 +102,11 @@ const MyTabs = () => {
           </>
         ) : (
           <>
-            <Tab.Screen name="Login">
-              {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus}/>}
+            <Tab.Screen
+              name="Login"
+              options={{ headerShown: false }}
+            >
+              {() => <LoginStackScreen setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
             <Tab.Screen name="Register" component={Register}/>
           </>
@@ -139,5 +147,20 @@ const RestauStack = () => {
     </Stack.Navigator>
   );
 };
+
+interface LoginStackProps {
+  setLoggedInStatus: (status: boolean) => void;
+}
+
+const LoginStackScreen: React.FC<LoginStackProps> = ({ setLoggedInStatus }) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Login">
+      {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+    </Stack.Screen>
+    <Stack.Screen name="Account Recovery" component={ResetPassword} />
+  </Stack.Navigator>
+);
+
 
 export default MyTabs;
