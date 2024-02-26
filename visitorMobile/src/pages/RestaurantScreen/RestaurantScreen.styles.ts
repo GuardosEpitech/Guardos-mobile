@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   ratingContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginTop: 10,
     marginBottom: 10,
   },
   slider: {
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 0,
   },
   categoryBox: {
     width: '48%',
@@ -90,17 +91,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 0,
-    marginBottom: 0,
+    marginBottom: 20,
   },
   resetButton: {
     backgroundColor: '#e2b0b3',
     width: 100,
     padding: 5,
-    borderRadius: 10,
+    borderRadius: 15,
     alignItems: 'center',
     margin: 10,
   },
   closeButton: {
+    bottom: 725,
     left: 290 
   }
 });

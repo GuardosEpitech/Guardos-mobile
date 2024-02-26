@@ -4,10 +4,8 @@ import { Slider } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import styles from './RestaurantScreen.styles'
-import axios from 'axios';
 import { getAllResto , getFilteredRestos} from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MenuPage from '../MenuPage/MenuPager';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IRestaurantFrontEnd, ICommunication } from '../../models/restaurantsInterfaces';
 
@@ -40,7 +38,6 @@ const MyRestaurantsScreen = () => {
     { name: 'soybeans', selected: false },
     { name: 'sulphides', selected: false },
     { name: 'tree nuts', selected: false },
-
   ]);
   const [filterSelections, setFilterSelections] = useState<ICommunication>({
     rating: [0],
@@ -91,7 +88,6 @@ const MyRestaurantsScreen = () => {
   };
 
   const handleDistanceChange = (value: number) => {
-    console.log(value);
     setDistance(value);
     updateFilterSelections();
   };
@@ -116,8 +112,8 @@ const MyRestaurantsScreen = () => {
     const updatedFilterSelections: ICommunication = {
       rating: rating > 0 ? [1, 2, 3, 4, 5].slice(0, rating) : [],
       range: distance,
-      categories: selectedCategories.length > 0 ? selectedCategories : [],
-      allergens: selectedAllergens.length > 0 ? selectedAllergens : [],
+      categories: selectedCategories,
+      allergens: selectedAllergens,
     };
     
     setFilterSelections(updatedFilterSelections);
@@ -166,7 +162,7 @@ const MyRestaurantsScreen = () => {
                   <TouchableOpacity
                     key={index}
                     onPress={() => handleRatingChange(index)} >
-                    <Ionicons name={index <= rating ? 'md-star' : 'md-star-outline'} size={30} color="gold" />
+                    <Ionicons name={index <= rating ? 'md-star' : 'md-star-outline'} size={30} color="#6d071a" />
                   </TouchableOpacity>
                 ))}
               </View>
@@ -189,7 +185,7 @@ const MyRestaurantsScreen = () => {
                 {categories.map((category, index) => (
                   <TouchableOpacity
                     key={index}
-                    style={[styles.categoryBox, { backgroundColor: category.selected ? 'yellow' : 'white' }]}
+                    style={[styles.categoryBox, { backgroundColor: category.selected ? '#e2b0b3' : 'white' }]}
                     onPress={() => handleCategoryToggle(index)}
                   >
                     <Text>{category.name}</Text>
@@ -201,13 +197,16 @@ const MyRestaurantsScreen = () => {
                 {allergens.map((allergen, index) => (
                   <TouchableOpacity
                     key={index}
-                    style={[styles.categoryBox, { backgroundColor: allergen.selected ? 'yellow' : 'white' }]}
+                    style={[styles.categoryBox, { backgroundColor: allergen.selected ? '#e2b0b3' : 'white' }]}
                     onPress={() => handleAllergenToggle(index)}
                   >
                     <Text>{allergen.name}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
+              <TouchableOpacity style={styles.closeButton} onPress={() => setIsTabVisible(!isTabVisible)}>
+                <Ionicons name="close" size={30} color="black" />
+              </TouchableOpacity>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.resetButton} onPress={resetFilters}>
                   <Text>Reset Filters</Text>
