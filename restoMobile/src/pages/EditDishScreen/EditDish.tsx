@@ -21,6 +21,14 @@ import * as ImagePicker from 'expo-image-picker';
 import { addDish, changeDishByName } from "../../services/dishCalls";
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  addImageDish,
+  addImageResto,
+  deleteImageDish,
+  deleteImageRestaurant,
+  getImages
+} from "../../services/imagesCalls";
+import {  defaultDishImage } from "../../assets/placeholderImagesBase64";
 
 
 const EditDish = ({ route }) => {
@@ -152,12 +160,61 @@ const EditDish = ({ route }) => {
     }
   }
 
+  useEffect(() => {
+    const loadImages = async () => {
+      if (pictureId.length > 0) {
+        try {
+          const answer = await getImages(pictureId);
+          // @ts-ignore
+          setPictures(answer.map((img) => ({
+            base64: img.base64,
+            contentType: img.contentType,
+            filename: img.filename,
+            size: img.size,
+            uploadDate: img.uploadDate,
+            id: img.id,
+          })));
+        } catch (error) {
+          console.error("Failed to load images", error);
+          setPictures([{
+            base64: defaultDishImage,
+            contentType: "image/png",
+            filename: "placeholder.png",
+            size: 0,
+            uploadDate: "",
+            id: 0,
+          }]);
+        }
+      } else {
+        setPictures([{
+          base64: defaultDishImage,
+          contentType: "image/png",
+          filename: "placeholder.png",
+          size: 0,
+          uploadDate: "",
+          id: 0,
+        }]);
+      }
+    };
+
+    loadImages();
+  }, [pictureId]);
+
   const removePicture = (pictureUrl: string) => {
-    setPictures(pictures.filter(p => p !== pictureUrl));
+    if (pictureId.length > 0) {
+      deleteImageDish(pictureId[0],restaurantName ,name);
+      setPictures([{
+        base64: defaultDishImage,
+        contentType: "png",
+        filename: "placeholderResto.png",
+        size: 0,
+        uploadDate: "0",
+        id: 0,
+      }]);
+    }
   };
 
   const changePicture = async () => {
-    // Berechtigungen anfordern
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       alert('Sorry, we need camera roll permissions to make this work!');
@@ -170,10 +227,20 @@ const EditDish = ({ route }) => {
       aspect: [4, 3],
       quality: 1,
     });
-
     if (!result.canceled) {
       if (result.assets && result.assets.length > 0) {
-        setPictures([result.assets[0].uri, ...pictures]);
+        await addImageDish(restaurantName, name, 'DishImage', "image/png", result.assets.length, result.assets[0].uri).then(
+          r => {
+            setPictures([{ base64: result.assets[0].uri, contentType: "image/png",
+              filename: 'DishImage', size: result.assets.length, uploadDate: "0", id: r }]);
+            if (pictureId.length > 0) {
+              deleteImageDish(pictureId[0],restaurantName ,name);
+              pictureId.shift();
+            }
+            pictureId.push(r);
+          }
+
+        )
       }
     }
   };
@@ -256,7 +323,7 @@ const EditDish = ({ route }) => {
       {
         pictures.length > 0 ? (
           <View style={styles.container}>
-            <Image source={{ uri: pictures[0] }} style={styles.image} />
+            <Image source={{ uri: pictures[0].base64}} style={styles.image} />
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={() => removePicture(pictures[0])} style={styles.deleteButton}>
                 <Text>Delete</Text>
