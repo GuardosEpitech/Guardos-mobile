@@ -8,7 +8,7 @@ const iconSize = 20;
 const styles = StyleSheet.create({
   
   container: {
-    width: deviceWidth - 20,
+    width: deviceWidth,
     alignItems: 'center',
     marginTop: 25,
     marginBottom: 25,

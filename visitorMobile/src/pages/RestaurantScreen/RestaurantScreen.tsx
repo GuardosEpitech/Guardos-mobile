@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, FlatList, TouchableOpacity, Text, RefreshControl} from 'react-native';
+import { View, FlatList, TouchableOpacity, Text, RefreshControl, ScrollView} from 'react-native';
 import { Slider } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
@@ -9,7 +9,7 @@ import { getAllResto , getFilteredRestos} from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MenuPage from '../MenuPage/MenuPager';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {IRestaurantFrontEnd, ICommunication} from '../../models/restaurantsInterfaces'
+import { IRestaurantFrontEnd, ICommunication } from '../../models/restaurantsInterfaces';
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -25,10 +25,28 @@ const MyRestaurantsScreen = () => {
     { name: 'Salad', selected: false },
     { name: 'Pasta', selected: false },
   ]);
+  const [allergens, setAllergens] = useState([
+    { name: 'gluten', selected: false },
+    { name: 'celery', selected: false },
+    { name: 'crustaceans', selected: false },
+    { name: 'eggs', selected: false },
+    { name: 'fish', selected: false },
+    { name: 'lupin', selected: false },
+    { name: 'milk', selected: false },
+    { name: 'molluscs', selected: false },
+    { name: 'mustard', selected: false },
+    { name: 'peanuts', selected: false },
+    { name: 'sesame', selected: false },
+    { name: 'soybeans', selected: false },
+    { name: 'sulphides', selected: false },
+    { name: 'tree nuts', selected: false },
+
+  ]);
   const [filterSelections, setFilterSelections] = useState<ICommunication>({
     rating: [0],
     range: 0,
     categories: [],
+    allergens: [],
   });
 
   useEffect(() => {
@@ -85,16 +103,25 @@ const MyRestaurantsScreen = () => {
     updateFilterSelections();
   };
 
+  const handleAllergenToggle = (index: number) => {
+    const updatedAllergens = [...allergens];
+    updatedAllergens[index].selected = !updatedAllergens[index].selected;
+    setAllergens(updatedAllergens);
+    updateFilterSelections();
+  };
+
   const updateFilterSelections = () => {
     const selectedCategories = categories.filter(category => category.selected).map(category => category.name);
+    const selectedAllergens = allergens.filter(allergen => allergen.selected).map(allergen => allergen.name);
     const updatedFilterSelections: ICommunication = {
       rating: rating > 0 ? [1, 2, 3, 4, 5].slice(0, rating) : [],
       range: distance,
       categories: selectedCategories.length > 0 ? selectedCategories : [],
+      allergens: selectedAllergens.length > 0 ? selectedAllergens : [],
     };
     
     setFilterSelections(updatedFilterSelections);
-    if (rating === 0 && distance === 0 && categories.filter(category => category.selected).length === 0) {
+    if (rating === 0 && distance === 0 && categories.filter(category => category.selected).length === 0 && allergens.filter(allergen => allergen.selected).length === 0) {
       updateRestoData()
     } else {   
       updateRestoByFilterData(updatedFilterSelections)
@@ -105,6 +132,7 @@ const MyRestaurantsScreen = () => {
     setRating(0);
     setDistance(0);
     setCategories(categories.map(category => ({ ...category, selected: false })));
+    setAllergens(allergens.map(allergen => ({ ...allergen, selected: false })));
     updateFilterSelections(); 
   };
 
@@ -117,7 +145,7 @@ const MyRestaurantsScreen = () => {
           data={restoData}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => navigateToMenu(item.id, item.name)}>
-              <Card info={item}/>
+              <Card info={item} />
             </TouchableOpacity>
           )}
           keyExtractor={(restaurant) => restaurant.id.toString()}
@@ -130,47 +158,66 @@ const MyRestaurantsScreen = () => {
           <Ionicons name="md-filter" size={30} color="white" />
         </TouchableOpacity>
         {isTabVisible && (
-          <View style={styles.tabContainer}>
-            <Text>Rating</Text>
-            <View style={styles.ratingContainer}>
-              {[1, 2, 3, 4, 5].map((index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => handleRatingChange(index)} >
-                  <Ionicons name={index <= rating ? 'md-star' : 'md-star-outline'} size={30} color="gold" />
+          <ScrollView style={styles.scrollView}>
+            <View style={styles.tabContainer}>
+              <Text>Rating</Text>
+              <View style={styles.ratingContainer}>
+                {[1, 2, 3, 4, 5].map((index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleRatingChange(index)} >
+                    <Ionicons name={index <= rating ? 'md-star' : 'md-star-outline'} size={30} color="gold" />
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <Text>Distance</Text>
+              <Slider
+                style={styles.slider}
+                minimumValue={0}
+                maximumValue={100}
+                step={1}
+                value={distance}
+                minimumTrackTintColor="#6d071a"
+                maximumTrackTintColor="#e2b0b3"
+                thumbTintColor="#6d071a"
+                thumbStyle={styles.thumbStyle}
+                onValueChange={(value) => handleDistanceChange(value)}
+              />
+              <Text>Distance: {distance} km</Text>
+              <Text>Categories</Text>
+              <View style={styles.categoriesContainer}>
+                {categories.map((category, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[styles.categoryBox, { backgroundColor: category.selected ? 'yellow' : 'white' }]}
+                    onPress={() => handleCategoryToggle(index)}
+                  >
+                    <Text>{category.name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <Text>Allergens</Text>
+              <View style={styles.categoriesContainer}>
+                {allergens.map((allergen, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[styles.categoryBox, { backgroundColor: allergen.selected ? 'yellow' : 'white' }]}
+                    onPress={() => handleAllergenToggle(index)}
+                  >
+                    <Text>{allergen.name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.resetButton} onPress={resetFilters}>
+                  <Text>Reset Filters</Text>
                 </TouchableOpacity>
-              ))}
-            </View>
-            <Text>Distance</Text>
-            <Slider
-              style={styles.slider}
-              minimumValue={0}
-              maximumValue={100}
-              step={1}
-              value={distance}
-              minimumTrackTintColor="#6d071a"
-              maximumTrackTintColor="#e2b0b3"
-              thumbTintColor="#6d071a"
-              thumbStyle={styles.thumbStyle}
-              onValueChange={(value) => handleDistanceChange(value)}
-            />
-            <Text>Distance: {distance} km</Text>
-            <Text>Categories</Text>
-            <View style={styles.categoriesContainer}>
-              {categories.map((category, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[styles.categoryBox, { backgroundColor: category.selected ? 'yellow' : 'white' }]}
-                  onPress={() => handleCategoryToggle(index)}
-                >
-                  <Text>{category.name}</Text>
+                <TouchableOpacity style={styles.resetButton} onPress={() => setIsTabVisible(!isTabVisible)}>
+                  <Text>Apply</Text>
                 </TouchableOpacity>
-              ))}
+              </View>
             </View>
-            <TouchableOpacity onPress={resetFilters}>
-              <Text>Reset Filters</Text>
-            </TouchableOpacity>
-          </View>
+          </ScrollView>
         )}
       </View>
     </View>

@@ -48,7 +48,7 @@ const MenuPage: React.FC = ({ route, navigation }) => {
       {loading ? (
         <Text>Loading...</Text>
       ) : (
-        <ScrollView contentContainerStyle={styles.scrollView} horizontal={false}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
           {sortedDishes.map((dish, index) => (
             <React.Fragment key={dish.name}>
               {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (

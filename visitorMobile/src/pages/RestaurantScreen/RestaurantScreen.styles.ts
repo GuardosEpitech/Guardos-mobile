@@ -33,12 +33,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
-  tabContainer: {
+  scrollView: {
     position: 'absolute',
     bottom: windowHeight * 0.11,
     right: windowWidth * 0.02,
     width: windowWidth * 0.9,
-    height: windowHeight * 0.65,
+    maxHeight: windowHeight * 0.65,
     backgroundColor: 'white',
     borderRadius: 10,
     elevation: 5,
@@ -46,9 +46,12 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8, 
+    shadowOpacity: 0.8,
     shadowRadius: 4,
     padding: 10,
+  },
+  tabContainer: {
+    flex: 1,
   },
   ratingContainer: {
     flexDirection: 'row',
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
   slider: {
     width: '100%',
     height: 40,
-    marginBottom: 0,
+    marginBottom: 10,
   },
   thumbStyle: {
     width: 20,
@@ -69,17 +72,38 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    marginTop: 10,
+    marginBottom: 20,
   },
   categoryBox: {
-    width: '48%', // Adjust according to your preference
+    width: '48%',
     height: 40,
     borderWidth: 1,
+    borderRadius: 10,
     borderColor: 'black',
     marginTop: 6,
     marginBottom: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 0,
+    marginBottom: 0,
+  },
+  resetButton: {
+    backgroundColor: '#e2b0b3',
+    width: 100,
+    padding: 5,
+    borderRadius: 10,
+    alignItems: 'center',
+    margin: 10,
+  },
+  closeButton: {
+    left: 290 
+  }
 });
+
 
 export default styles;

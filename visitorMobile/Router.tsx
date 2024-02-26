@@ -76,6 +76,8 @@ const MyTabs = () => {
               iconName = focused ? 'log-in' : 'log-in-outline';
             } else if (route.name === 'Register') {
               iconName = focused ? 'person-add' : 'person-add-outline';
+            } else if (route.name === 'MenuPage') {
+              return null;
             }
 
             return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color} />;
@@ -88,12 +90,12 @@ const MyTabs = () => {
           <>
             <Tab.Screen name="RestaurantScreen" component={RestaurantScreen} />
             <Tab.Screen name="MapScreen" component={MapPage} />
-        <Tab.Screen name="AboutUs" component={AboutUsScreen} />
+            <Tab.Screen name="AboutUs" component={AboutUsScreen} />
             <Tab.Screen name="ContactUs" component={ContactUsScreen} />
             <Tab.Screen name="My Profile">
               {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
-            <Stack.Screen name="MenuPage" component={MenuPage} options={{ headerShown: false}}/>
+            <Tab.Screen name="MenuPage" component={MenuPage} options={{ tabBarButton: () => null }} />
           </>
         ) : (
           <>
