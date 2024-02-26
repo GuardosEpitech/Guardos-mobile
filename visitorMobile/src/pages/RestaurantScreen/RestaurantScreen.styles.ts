@@ -102,9 +102,10 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   closeButton: {
-    bottom: 725,
-    left: 290 
-  }
+    position: 'absolute',
+    top: -5,
+    right: -5,
+}
 });
 
 
