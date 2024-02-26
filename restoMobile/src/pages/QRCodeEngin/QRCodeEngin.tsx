@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button, Pressable, ImageBackground } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-// import IconBack from "react-native-vector-icons/AntDesign";
-// import IconUser from "react-native-vector-icons/FontAwesome";
+import IconBack from "react-native-vector-icons/AntDesign";
+import IconUser from "react-native-vector-icons/FontAwesome";
 import styles from "./QRCodeEngin.styles";
 import axios from "axios";
 import { API_URL } from '@env';
+import { Dropdown } from 'react-native-element-dropdown';
+import { Restaurant } from "src/models/ingedientsInterfaces";
 
 const QRCodeEngin = ({ navigation }: { navigation: any }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [data, setData] = useState("");
+  const [value, setValue] = useState(null);
+  const [productName, setProductName] = useState("");
+  const [RestoValue, setRestoValue] = useState<{ label: string; value: string }[]>([]);
+
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
     })();
+    getResto();
   }, []);
-  const handleBarCodeScanned = ({
+  const handleBarCodeScanned = async ({
     type,
     data,
   }: {
@@ -25,8 +32,15 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
     data: string;
   }) => {
     setScanned(true);
-    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    setData(data);
+
+    try {
+      const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${data}.json`);
+      const productData = response.data.product;
+      setProductName(productData.product_name || "Unknown Product");
+    } catch (error) {
+      console.error("Error fetching product information:", error);
+      alert(`Error fetching product information for barcode ${data}`);
+    }
   };
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
@@ -38,14 +52,39 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
   function GoToAddPage() {
     navigation.navigate("AddPage");
   }
-  async function LogInRoute(body: string) {
+
+  async function getResto() {
     try {
       const response = await axios({
-        method: "post",
-        url: API_URL + "/post",
-        data: { name: body },
+        method: "get",
+        url: API_URL + "restaurants",
       });
-      console.log(response.status)
+  
+      // Assuming response.data is an array of objects with a 'name' property
+      const newData = response.data.map((item: Restaurant) => ({
+        label: item.name,
+        value: item.id, // Replace 'id' with the actual property name for the value
+      }));
+  
+      setRestoValue(newData);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function AddProduct() {
+    try {
+      const response = await axios({
+        url: `http://195.90.210.111:8081/api/products/${value}`,
+        method: "POST",
+        data: JSON.stringify({
+          name: productName,
+          resto: value,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (response.status == 200) GoToAddPage();
     } catch (err) {
       console.log(err);
@@ -54,27 +93,31 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
 
   return (
     <View style={{flex:1}}>
-    <ImageBackground source={require('../../assets/background.png')} resizeMode="cover" style={styles.image}>
-    <View style={{marginTop: 50, alignItems: "center"}}>
-    <View style={styles.DivTop2}>
-        {/*<IconBack*/}
-        {/*  style={styles.IconBack}*/}
-        {/*  name="left"*/}
-        {/*  size={40}*/}
-        {/*  color="#4D4D4D"*/}
-        {/*  onPress={GoToAddPage}*/}
-        {/*  />*/}
-        <Text style={styles.CategorieTitle}>Add Ingredients</Text>
-        {/*<IconUser*/}
-        {/*  style={styles.IconUser}*/}
-        {/*  name="user"*/}
-        {/*  size={40}*/}
-        {/*  color="#4D4D4D"*/}
-        {/*  />*/}
-      </View>
+    <View style={{marginTop: 5, alignItems: "center"}}>
       <View style={styles.DivTop}>
         <Text style={styles.TitleIngr}>Scan Ingredient</Text>
         <Text>Please scan the barcode of the product you wan’t to add</Text>
+        <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={RestoValue}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder="Select a restaurant"
+            searchPlaceholder="Search..."
+            value={value}
+            onChange={(item) => {
+              setValue(item.label);
+            }}
+          />
+          <View style={styles.DivTitleIngr}>
+            <Text style={styles.TitleIngr}>{value}</Text>
+          </View>
         <View style={styles.container}>
           <BarCodeScanner
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
@@ -85,10 +128,9 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
           <View>
             <Button title={"Scan Again"} onPress={() => setScanned(false)} />
             <View style={styles.DivButton}>
-              <Text style={styles.TitleScan}>
-                You just scan {data} do you want to add it to your list of
-                ingredients ?
-              </Text>
+            <Text style={styles.TitleScan}>
+                  You just scanned {data} (Product Name: {productName}). Do you want to add it to your list of ingredients?
+                </Text>
               <View style={styles.DivTop}>
                 <Pressable
                   style={styles.ButtonNo}
@@ -102,7 +144,7 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
                   style={styles.ButtonYes}
                   onPress={() => {
                     console.log("ONpressYES");
-                    LogInRoute(data);
+                    AddProduct();
                   }}
                 >
                   <Text style={{ color: "white" }}>YES</Text>
@@ -113,7 +155,6 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
         )}
       </View>
     </View>
-    </ImageBackground>
     </View>
 
   );

@@ -4,11 +4,11 @@ const gap = Platform.OS === 'ios' ? 70 : 55;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 100,
+    marginTop: 30,
     height: 320,
     width: 290,
     justifyContent: "center",
-    alignItems: "center",
+    alignItem: "center",
   },
   DivTop: {
     flexDirection: "row",
@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
   TitleIngr: {
     marginTop: 20,
     marginBottom: 20,
-    // fontFamily: "Montserrat_700Bold",
+    fontFamily: "Montserrat_700Bold",
     fontSize: 32,
     lineHeight: 39,
     textAlign: "center",
-    color: "#56885E",
+    color: "#6d071a",
   },
   ButtonNo: {
     alignItems: "center",
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "white",
     marginRight: 50,
-    borderColor: "#56885E",
+    borderColor: "#6d071a",
     borderWidth: 1,
   },
   ButtonYes: {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: "#56885E",
+    backgroundColor: "#6d071a",
   },
   DivButton: {
     backgroundColor: "#FFFFFF",
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   CategorieTitle: {
     color: "#4D4D4D",
-    // fontFamily: "Montserrat_700Bold",
+    fontFamily: "Montserrat_700Bold",
     fontSize: 23,
     marginHorizontal: gap / 2,
   },
@@ -85,6 +85,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingRight: 10,
     paddingHorizontal: (gap / -2),
+  },
+  dropdown: {
+    margin: 16,
+    height: 50,
+    width: 300,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  DivTitleIngr: {
+    margin: 0,
+    padding: 0,
   },
 });
 
