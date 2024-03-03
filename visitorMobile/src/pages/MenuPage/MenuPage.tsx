@@ -12,16 +12,32 @@ export  interface DishData {
   dishes: Dish[];
 }
 
-const MenuPage: React.FC = ({ route }) => {
+const MenuPage: React.FC = ({ route, navigation }) => {
   const [dishesData, setDishesData] = useState<DishData[]>([]);
   const [loading, setLoading] = useState(true);
   const {restaurantId, restaurantName } = route.params;
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await getDishesByResto(restaurantName);
+        const data: DishData[] = await response.json();
+        setDishesData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      }
+    };
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+
+    const unsubscribe = navigation.addListener('focus', fetchData);
+
+    return unsubscribe;
+  }, [restaurantName, navigation]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -68,7 +84,7 @@ const MenuPage: React.FC = ({ route }) => {
       {loading ? (
         <Text>Loading...</Text>
       ) : (
-        <ScrollView contentContainerStyle={styles.scrollView} horizontal={false}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
           {sortedDishes.map((dish, index) => (
             <React.Fragment key={dish.name+index}>
               {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (

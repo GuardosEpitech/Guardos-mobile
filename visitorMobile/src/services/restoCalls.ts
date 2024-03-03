@@ -17,7 +17,7 @@ export const getFilteredRestos = async (body: any) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-        });
+        });        
         return response.data;
     } catch (error) {
         console.error(`Error in getFilteredRestos: ${error}`);

@@ -77,6 +77,8 @@ const MyTabs = () => {
               iconName = focused ? 'log-in' : 'log-in-outline';
             } else if (route.name === 'Register') {
               iconName = focused ? 'person-add' : 'person-add-outline';
+            } else if (route.name === 'MenuPage') {
+              return null;
             } else if (route.name === 'Account Recovery') {
               iconName = focused ? 'settings' : 'settings-outline';
             }
@@ -99,6 +101,7 @@ const MyTabs = () => {
             >
               {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus}/>}
             </Tab.Screen>
+            <Tab.Screen name="MenuPage" component={MenuPage} options={{ tabBarButton: () => null }} />
           </>
         ) : (
           <>
@@ -161,6 +164,5 @@ const LoginStackScreen: React.FC<LoginStackProps> = ({ setLoggedInStatus }) => (
     <Stack.Screen name="Account Recovery" component={ResetPassword} />
   </Stack.Navigator>
 );
-
-
+  
 export default MyTabs;
