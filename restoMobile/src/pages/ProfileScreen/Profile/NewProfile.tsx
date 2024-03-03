@@ -19,6 +19,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 // @ts-ignore
 import {API_URL} from '@env';
 import {editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
+import {deleteRestoAccount} from "../../../services/userCalls";
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -158,6 +159,40 @@ const ProfilePage: React.FC<ProfileScreenProps &
       }
     }, [route.params]);
 
+    const handleDeleteAccount = () => {
+      Alert.alert(
+        'Delete Account',
+        'Are you sure you want to delete your account? This action is irreversible.',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Delete',
+            onPress: async () => {
+              const userToken = await AsyncStorage.getItem('userToken');
+              if (userToken === null) {
+                Alert.alert('Error', 'Failed to delete account. Please log in again.');
+              }
+              deleteRestoAccount(userToken).then(res => {
+                if (res !== null) {
+                  AsyncStorage.removeItem('userToken');
+                  AsyncStorage.removeItem('userName');
+                  setLoggedInStatus(false);
+                  navigation.navigate('Login');
+                } else {
+                  Alert.alert('Error', 'Failed to delete account. Please try again.');
+                }
+              });
+            },
+            style: 'destructive',
+          },
+        ],
+        { cancelable: false }
+      );
+    };
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
@@ -225,6 +260,13 @@ const ProfilePage: React.FC<ProfileScreenProps &
             Password Changed
           </Text>}
         </View>
+          <View style={styles.deleteAccountSection}>
+            <Button
+              title="Delete Account"
+              onPress={handleDeleteAccount}
+              color="#6d071a"
+            />
+          </View>
         </ScrollView>
       </TouchableWithoutFeedback>
     );

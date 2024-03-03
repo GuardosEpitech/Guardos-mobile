@@ -286,6 +286,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         </View>
         <DropDownPicker
           dropDownDirection={'TOP'}
+          multiple
           open={allergensOpen}
           value={allergens}
           items={allergensOptions}
