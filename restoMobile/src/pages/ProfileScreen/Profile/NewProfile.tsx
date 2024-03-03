@@ -22,7 +22,7 @@ import {editProfileDetails, getProfileDetails} from "../../../services/profileCa
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
-  route: { params: { passwordChanged: boolean } };
+  route: { params?: { passwordChanged?: boolean } };
 };
 
 const ProfilePage: React.FC<ProfileScreenProps &

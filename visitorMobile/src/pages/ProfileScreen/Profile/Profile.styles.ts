@@ -69,6 +69,42 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 4,
   },
+  success: {
+    color: '#4caf50',
+    backgroundColor: '#e8f5e9',
+    alignSelf: 'center',
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  error: {
+    color: '#d32f2f',
+    backgroundColor: '#ffcdd2',
+    alignSelf: 'center',
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  changePasswordButton: {
+    marginBottom: 20,
+  },
+  profilePictureContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  defaultProfilePicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'lightgray',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  defaultProfilePictureText: {
+    fontSize: 16,
+    color: 'gray',
+  },
+  dropDown: {
+    marginBottom: 20,
+  },
   deleteAccountSection: {
     marginTop: 20,
     alignItems: 'center',

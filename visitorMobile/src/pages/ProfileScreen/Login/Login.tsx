@@ -31,6 +31,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
       } else {
         setErrorForm(false);
         await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
+        await AsyncStorage.setItem('user', response);
         setLoggedInStatus(true);
         navigation.navigate('RestaurantScreen');
       }
@@ -60,6 +61,11 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
+        <Text style={styles.registerInfo}>
+          <Text style={styles.registerLink} onPress={() => navigation.navigate('Account Recovery')}>
+          Trouble logging in?
+          </Text>
+        </Text>
         <Text style={styles.registerInfo}>
           Don't you have an account yet? Register yourself{' '}
           <Text style={styles.registerLink} onPress={() => navigation.navigate('Register')}>

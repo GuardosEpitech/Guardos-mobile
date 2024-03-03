@@ -51,7 +51,20 @@ export const getRestaurantByName = async(name: string) => {
 }
 
 export const addRestaurant = async(restaurantData: any) => {
-  return (await axios.post('${API_URL}restaurants/', restaurantData));
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: baseURL + 'restaurants/',
+      data: restaurantData,
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding restaurant:', error);
+    throw new Error('Failed to add restaurant');
+  }
 }
 
 export const deleteRestaurantByName = async (restaurantName: string) => {
