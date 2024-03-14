@@ -37,6 +37,44 @@ export const loginUser = async (userData: any) => {
   }
 };
 
+export const sendRecoveryLinkForRestoUser = async (body: any) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: baseUrl + 'sendEmail/userResto/sendPasswordRecovery',
+      data: body,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error while checking visitor user:", error);
+    throw new Error("Error checking visitor user");
+  }
+}
+
+export const updateRestoPassword = async (token: string, 
+  newPassword: string) => {
+  try {
+    const response = await axios({
+      method: "PUT",
+      url: baseUrl + 'profile/resto/updateRecoveryPassword',
+      params: {key: token},
+      data: {
+        newPassword: newPassword
+      },
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error while checking visitor user:", error);
+    throw new Error("Error checking visitor user");
+  }
+}
+
 export const registerUser = async (userData: any) => {
   try {
     const response = await axios.post(API_URL + "register/restoWeb", userData, {
