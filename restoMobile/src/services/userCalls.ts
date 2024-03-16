@@ -4,6 +4,7 @@ import { API_URL } from '@env';
 
 const baseUrl = `${API_URL}login/`;
 const baseUrl1 = `${API_URL}user/`;
+const baseUrlEmail = `${API_URL}sendEmail/`;
 
 export const checkIfTokenIsValid = async (body: any) => {
   try {
@@ -41,29 +42,8 @@ export const sendRecoveryLinkForRestoUser = async (body: any) => {
   try {
     const response = await axios({
       method: "POST",
-      url: baseUrl + 'sendEmail/userResto/sendPasswordRecovery',
+      url: baseUrlEmail + 'userResto/sendPasswordRecovery',
       data: body,
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error while checking visitor user:", error);
-    throw new Error("Error checking visitor user");
-  }
-}
-
-export const updateRestoPassword = async (token: string, 
-  newPassword: string) => {
-  try {
-    const response = await axios({
-      method: "PUT",
-      url: baseUrl + 'profile/resto/updateRecoveryPassword',
-      params: {key: token},
-      data: {
-        newPassword: newPassword
-      },
       headers: {
         "content-type": "application/json",
       },
