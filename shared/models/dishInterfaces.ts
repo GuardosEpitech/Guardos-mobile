@@ -2,7 +2,7 @@ import { ICategoryBE, ICategoryFE } from './categoryInterfaces';
 
 export interface IDishBE {
   name: string;
-  id: number;
+  uid: number;
   description: string;
   price: number;
   allergens: string[];
@@ -14,6 +14,7 @@ export interface IDishBE {
 
 export interface IDishFE {
   name: string;
+  uid: number;
   description: string;
   price: number;
   allergens: string[];

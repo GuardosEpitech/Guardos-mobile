@@ -34,7 +34,7 @@ export interface IOpeningHours {
 
 export interface IRestaurantFrontEnd {
   name: string;
-  id: number;
+  uid: number;
   phoneNumber: string;
   website: string;
   description: string;
@@ -52,7 +52,7 @@ export interface IRestaurantFrontEnd {
 }
 
 export interface IRestaurantBackEnd {
-  id: number;
+  uid: number;
   name: string;
   phoneNumber: string;
   website: string;

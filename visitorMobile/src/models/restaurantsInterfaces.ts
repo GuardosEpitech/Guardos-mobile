@@ -9,7 +9,7 @@ export interface ICommunication {
 
 export interface IRestaurantFrontEnd {
     name: string;
-    id: number;
+    uid: number;
     phoneNumber: string;
     website: string;
     description: string;
@@ -19,4 +19,3 @@ export interface IRestaurantFrontEnd {
     rating: number;
     ratingCount?: number;
   }
-  

@@ -3,11 +3,13 @@ import {Alert, Button, View, Text, TextInput, Image, ScrollView, TouchableOpacit
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './Profile.styles';
-import logoImage from '../../../../assets/logo.png';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownPicker from 'react-native-dropdown-picker';
 import {editVisitorProfileDetails, getVisitorProfileDetails} from "../../../services/profileCalls";
 import {deleteAccount} from "../../../services/userCalls";
+import RestaurantCard from "../../../components/RestaurantCard/RestaurantCard";
+import DishCard from "../../../components/DishCard/DishCard";
+import {getDishFavourites, getRestoFavourites} from "../../../services/favourites";
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -46,6 +48,12 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     { label: "tree nuts", value: "tree nuts"}
   ];
   const [dataChangeStatus, setDataChangeStatus] = useState(null);
+  const [favoriteRestaurants, setFavoriteRestaurants] = useState([]);
+  const [favoriteDishes, setFavoriteDishes] = useState([]);
+  const [activeTab, setActiveTab] = useState("restaurants");
+  const [restoPage, setRestoPage] = useState(1);
+  const [dishPage, setDishPage] = useState(1);
+  const pageSize = 3; // Number of items per page
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -63,12 +71,52 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             setPictureId(res.profilePicId);
             setLanguage(res.preferredLanguage);
           });
+        await fetchFavoriteRestaurants();
+        await fetchFavoriteDishes();
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
-    fetchUserData();
+    fetchUserData().then(r => console.log("Loaded user data successfully"));
   }, []);
+
+  const fetchFavoriteRestaurants = async () => {
+    const userToken = await AsyncStorage.getItem("user");
+    if (userToken === null) {
+      return;
+    }
+    const favorites = await getRestoFavourites(userToken);
+    setFavoriteRestaurants(favorites);
+  };
+
+  const fetchFavoriteDishes = async () => {
+    const userToken = await AsyncStorage.getItem("user");
+    if (userToken === null) {
+      return;
+    }
+    const favorites = await getDishFavourites(userToken);
+    setFavoriteDishes(favorites);
+  };
+
+  const handleTabChange = (tab: any) => {
+    setActiveTab(tab);
+  };
+
+  const handleNextPage = () => {
+    if (activeTab === 'restaurants') {
+      setRestoPage(prevPage => prevPage + 1);
+    } else {
+      setDishPage(prevPage => prevPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (activeTab === 'restaurants') {
+      setRestoPage(prevPage => prevPage - 1);
+    } else {
+      setDishPage(prevPage => prevPage - 1);
+    }
+  };
 
   const selectImage = async () => {
     const permissionResult = await ImagePicker
@@ -308,14 +356,73 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         </TouchableOpacity>
       </View>
       <View style={styles.restaurantSection}>
-        <Text style={styles.heading}>Last Watched Restaurants</Text>
-        {watchedRestaurants.map((restaurant, index) => (
-          <View key={index} style={styles.restaurantItem}>
-            <Text>
-              <Text style={styles.boldText}>{restaurant.name}</Text> - {restaurant.date}
-            </Text>
+        <View style={styles.tabs}>
+          <TouchableOpacity
+            style={[styles.tabButton, activeTab === 'restaurants' && styles.activeTab]}
+            onPress={() => handleTabChange('restaurants')}
+          >
+            <Text style={styles.tabButtonText}>Favorite Restaurants</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tabButton, activeTab === 'dishes' && styles.activeTab]}
+            onPress={() => handleTabChange('dishes')}
+          >
+            <Text style={styles.tabButtonText}>Favorite Dishes</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Display Favorite Restaurants or Dishes based on the active tab */}
+        <ScrollView contentContainerStyle={styles.favoriteListContainer}>
+          {activeTab === 'restaurants' && (
+            <View>
+              {favoriteRestaurants.slice((restoPage - 1) * pageSize, restoPage * pageSize).map((restaurant) => (
+                <RestaurantCard
+                  key={restaurant.id}
+                  info={restaurant}
+                  isFavourite={true}
+                  isSmallerCard={true}
+                  dataIndex={0}
+                />
+              ))}
+            </View>
+          )}
+
+          {activeTab === 'dishes' && (
+            <View>
+              {favoriteDishes.slice((dishPage - 1) * pageSize, dishPage * pageSize).map((dish, index) => {
+                return (<DishCard
+                  key={dish.dish.uid + index}
+                  dish={dish.dish}
+                  pictures={[]}
+                  isSmallerCard={true}
+                  isFavourite={true}
+                />)
+              }
+
+              )}
+            </View>
+          )}
+          {/* Pagination controls */}
+          <View style={styles.paginationContainer}>
+            <TouchableOpacity
+              style={[styles.paginationButton, { marginRight: 10 }]}
+              onPress={handlePrevPage}
+              disabled={activeTab === 'restaurants' ? restoPage === 1 : dishPage === 1}
+            >
+              <Text style={styles.paginationButtonText}>Previous</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.paginationButton}
+              onPress={handleNextPage}
+              disabled={activeTab === 'restaurants' ?
+                (restoPage * pageSize >= favoriteRestaurants.length) :
+                (dishPage * pageSize >= favoriteDishes.length)
+              }
+            >
+              <Text style={styles.paginationButtonText}>Next</Text>
+            </TouchableOpacity>
           </View>
-        ))}
+        </ScrollView>
       </View>
       <View style={styles.logoutSection}>
         <Button style={styles.logoutButton} title="Logout" onPress={handleLogout} color="#6d071a" />
