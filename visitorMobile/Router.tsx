@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, createContext } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -17,14 +17,18 @@ import MenuPage from './src/pages/MenuPage/MenuPage';
 import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
 import ChangePasswordScreen from "./src/pages/ProfileScreen/ChangePassword/ChangePassword";
 import Profile from "./src/pages/ProfileScreen/Profile/Profile";
+import { ISearchCommunication } from '../shared/models/communicationInterfaces';
+import { FilterContext } from './src/models/filterContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs()
 
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [filter, setFilter] = useState<ISearchCommunication>({});
 
   const setLoggedInStatus = (status) => {
     setLoggedIn(status);
@@ -57,6 +61,7 @@ const MyTabs = () => {
   // }, []);
 
   return (
+    <FilterContext.Provider value={{ filter, setFilter }}>
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({route}) => ({
@@ -116,6 +121,7 @@ const MyTabs = () => {
         )}
       </Tab.Navigator>
     </NavigationContainer>
+    </FilterContext.Provider>
   );
 };
 

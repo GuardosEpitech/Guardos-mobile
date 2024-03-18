@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { 
   View, 
   Text, 
@@ -20,20 +20,25 @@ import {
 import { 
   ISearchCommunication 
 } from '../../../../shared/models/communicationInterfaces';
-import { 
-  getSelectedFilteredRestos, 
-  getAllResto 
+import {  
+  getAllResto,
+  getFilteredRestosNew
 } from '../../services/restoCalls';
 import styles from './MapPage.styles';
 import MenuPage from '../MenuPage/MenuPage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import placeholderImage from '../../../assets/logo.png';
-import { CheckBox, Slider } from 'react-native-elements';
+import { Slider } from 'react-native-elements';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {addSavedFilter, deleteSavedFilter, getSavedFilters} from "../../services/profileCalls";
+import {
+  addSavedFilter, 
+  deleteSavedFilter, 
+  getSavedFilters
+} from "../../services/profileCalls";
 import { defaultRestoImage } from "../../../assets/placeholderImagesBase64";
 import { getImages } from "../../services/imageCalls";
+import { FilterContext } from '../../models/filterContext'; 
 
 function findMinMax(arr: any) {
   if (!arr || arr.length === 0) {
@@ -60,7 +65,7 @@ const Epitech = [13.328820, 52.508540];// long,lat
 
 const MapPage = () => {
   const [markers, setMarkers] = useState<IRestaurantFrontEnd[]>([]);
-
+  const { filter, setFilter } = useContext(FilterContext);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [restoData, setRestoData] = useState<IRestaurantFrontEnd[]>([]);
@@ -71,24 +76,88 @@ const MapPage = () => {
     useState<IRestaurantFrontEnd[]>([]);
   const [filterName, setFilterName] = useState('');
   const [savedFilters, setSavedFilters] = useState([]);
-
+  const [rating, setRating] = useState(0);
   const [showFilterPopup, setShowFilterPopup] = useState(false);
   const [selectedRating, setSelectedRating] = useState([]);
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [range, setRange] = useState(100);
+  const [range, setRange] = useState(0);
   const navigation = useNavigation();
   const [saveFilterStatus, setSaveFilterStatus] = useState({
     success: false,
     error: false,
     message: '',
   });
-
+  const [categories, setCategories] = useState([
+    { name: 'Burger', selected: false },
+    { name: 'Sushi', selected: false },
+    { name: 'Pizza', selected: false },
+    { name: 'Salad', selected: false },
+    { name: 'Pasta', selected: false },
+  ]);
+  const [allergens, setAllergens] = useState([
+    { name: 'gluten', selected: false },
+    { name: 'celery', selected: false },
+    { name: 'crustaceans', selected: false },
+    { name: 'eggs', selected: false },
+    { name: 'fish', selected: false },
+    { name: 'lupin', selected: false },
+    { name: 'milk', selected: false },
+    { name: 'molluscs', selected: false },
+    { name: 'mustard', selected: false },
+    { name: 'peanuts', selected: false },
+    { name: 'sesame', selected: false },
+    { name: 'soybeans', selected: false },
+    { name: 'sulphides', selected: false },
+    { name: 'tree nuts', selected: false },
+  ]);
 
   useEffect(() => {
-    updateRestoData();
     loadSavedFilters();
   }, []);
+
+  useEffect(() => {
+    if (filter) {
+      setNameFilter(filter.name || '');
+      setLocationFilter(filter.location || '');
+      setRange(filter.range || 0);
+      setRating(filter.rating ? 
+        Math.round((filter.rating[0] + filter.rating[1]) / 2) : 0);
+      setSelectedRating(filter.rating);
+      setCategories(categories.map(category => ({
+        ...category,
+        selected: filter.categories ? 
+          filter.categories.includes(category.name) : false,
+      })));
+      setAllergens(allergens.map(allergen => ({
+        ...allergen,
+        selected: filter.allergenList ? 
+          filter.allergenList.includes(allergen.name) : false,
+      })));
+      getFilteredRestosNew(filter)
+      .then((res) => {
+        const validMarkers = res
+          .filter(marker => marker.location.latitude && 
+            marker.location.longitude);
+        setFilteredMarkers(validMarkers);
+    })
+    .catch((error) => {
+      console.error('Error updating restaurant data:', error);
+    });
+      getAllResto()
+      .then((res) => {
+        const validMarkers = res
+        .filter(marker => marker.location.latitude && 
+          marker.location.longitude);
+      setMarkers(validMarkers);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
+      });
+    } else {
+      updateRestoData();
+    }
+  }, [filter]);
 
   const updateRestoData = () => {
     getAllResto()
@@ -122,7 +191,7 @@ const MapPage = () => {
   useEffect(() => {
     setImageError(false);
   }, [isModalVisible]);
-
+ 
   const handleMarkerPress = async (marker) => {
     if (marker.picturesId.length > 0) {
       try {
@@ -177,17 +246,27 @@ const MapPage = () => {
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (nameFilter || locationFilter) {
-      const filtered = markers.filter((marker) => {
-        const nameMatch = !nameFilter || 
-        marker.name.toLowerCase().includes(nameFilter.toLowerCase());
-        const locationMatch = !locationFilter || 
-        marker.location.city.toLowerCase()
-          .includes(locationFilter.toLowerCase());
-        return nameMatch && locationMatch;
+      const inter: ISearchCommunication = {
+        range: range,
+        rating: findMinMax(selectedRating),
+        name: nameFilter,
+        location: locationFilter,
+        categories: selectedCategories,
+        allergenList: selectedAllergens
+      }
+      await getFilteredRestosNew(inter)
+        .then((res) => {
+          const validMarkers = res
+            .filter(marker => marker.location.latitude && 
+              marker.location.longitude);
+          setFilteredMarkers(validMarkers);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
       });
-      setFilteredMarkers(filtered);
+      setFilter(inter);
     } else {
       setFilteredMarkers(markers);
     }
@@ -203,16 +282,53 @@ const MapPage = () => {
       categories: selectedCategories,
       allergenList: selectedAllergens
     }
-    setFilteredMarkers(await getSelectedFilteredRestos(inter));
-
+    await getFilteredRestosNew(inter)
+      .then((res) => {
+        const validMarkers = res
+          .filter(marker => marker.location.latitude && 
+            marker.location.longitude);
+        setFilteredMarkers(validMarkers);
+    })
+    .catch((error) => {
+      console.error('Error updating restaurant data:', error);
+    });
+    setFilter(inter);
     setShowFilterPopup(false);
   };
 
+  const handleRatingChange = (index: number) => {
+    setRating(index);
+    setSelectedRating(rating > 0 ? [1, 2, 3, 4, 5].slice(0, rating) : []);
+  };
+
+  const handleCategoryToggle = (index: number) => {
+    const updatedCategories = [...categories];
+    updatedCategories[index].selected = !updatedCategories[index].selected;
+    setCategories(updatedCategories);
+    setSelectedCategories(categories
+      .filter(category => category.selected).map(category => category.name));
+  };
+
+  const handleAllergenToggle = (index: number) => {
+    const updatedAllergens = [...allergens];
+    updatedAllergens[index].selected = !updatedAllergens[index].selected;
+    setAllergens(updatedAllergens);
+    setSelectedAllergens(allergens
+      .filter(allergen => allergen.selected).map(allergen => allergen.name));
+  };
+
   const clearFilters = async () => {
+    setNameFilter('');
+    setLocationFilter('');
     setSelectedRating([]);
     setSelectedAllergens([]);
     setSelectedCategories([]);
-    setRange(100);
+    setRange(0);
+    setRating(0);
+    setCategories(categories.map(category => 
+      ({ ...category, selected: false })));
+    setAllergens(allergens.map(allergen => 
+      ({ ...allergen, selected: false })));
     await AsyncStorage.removeItem('filter');
   };
 
@@ -303,6 +419,16 @@ const MapPage = () => {
     setSelectedAllergens(newFilter.allergenList);
     setSelectedRating(newFilter.rating);
     setRange(newFilter.range);
+    const updatedCategories = categories.map(category => ({
+      ...category,
+      selected: newFilter.categories.includes(category.name),
+    }));
+    setCategories(updatedCategories);
+    const updatedAllergens = allergens.map(allergen => ({
+      ...allergen,
+      selected: newFilter.allergenList.includes(allergen.name),
+    }));
+    setAllergens(updatedAllergens);
   };
 
   const handleDeleteFilter = async (filterName: string) => {
@@ -325,7 +451,8 @@ const MapPage = () => {
 
     deleteSavedFilter(userToken, filterName).then((res) => {
       if (res !== null) {
-        const remainingFilters = savedFilters.filter((filter) => filter.filterName !== filterName);
+        const remainingFilters = savedFilters.filter((filter) => 
+          filter.filterName !== filterName);
         setSavedFilters(remainingFilters);
         setSaveFilterStatus({
           success: true,
@@ -496,22 +623,23 @@ const MapPage = () => {
       <Modal isVisible={showFilterPopup} style={{ marginTop: 50 }}>
       <ScrollView style={styles.filterPopup}>
         <View style={styles.filterPopup}>
-          <Text style={styles.popupHeading}>Filter Options</Text>
+          <Text style={styles.popupHeading}>Filter</Text>
 
           <Text style={styles.categoryText}>Rating:</Text>
-          {[0, 1, 2, 3, 4, 5].map((rating) => (
-            <CheckBox
-              key={rating}
-              title={`${rating} Stars`}
-              checked={selectedRating.includes(rating)}
-              onPress={() => {
-                setSelectedRating((prev) =>
-                  prev.includes(rating) ? prev.filter((item) => 
-                    item !== rating) : [...prev, rating]
-                );
-              }}
-            />
-          ))}
+          <View style={styles.ratingContainer}>
+            {[1, 2, 3, 4, 5].map((index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleRatingChange(index)} 
+              >
+                <Ionicons 
+                  name={index <= rating ? 'md-star' : 'md-star-outline'} 
+                  size={30} 
+                  color="#6d071a" 
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
 
           <Text style={styles.categoryText}>Range:</Text>
               <Slider
@@ -519,42 +647,42 @@ const MapPage = () => {
                 value={range}
                 onValueChange={(value) => setRange(value)}
                 minimumValue={0}
-                maximumValue={500}
-                step={10}
-                thumbTintColor="red" 
+                maximumValue={100}
+                step={1}
+                minimumTrackTintColor="#6d071a"
+                maximumTrackTintColor="#e2b0b3"
+                thumbTintColor="#6d071a" 
               />
-              <Text style={{ marginBottom: 10 }}>Selected Range: {range}</Text>
+              <Text style={styles.distanceText}>Distance: {range} km</Text>
 
           <Text style={styles.categoryText}>Categories:</Text>
 
-          {['Burger', 'Sushi', 'Pizza', 'Salad', 'Pasta'].map((category) => (
-            <CheckBox
-              key={category}
-              title={category}
-              checked={selectedCategories.includes(category)}
-              onPress={() => {
-                setSelectedCategories((prev) =>
-                  prev.includes(category) ? prev.filter((item) => 
-                    item !== category) : [...prev, category]
-                );
-              }}
-            />
-          ))}
+          <View style={styles.categoriesContainer}>
+            {categories.map((category, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[styles.categoryBox, 
+                  { backgroundColor: category.selected ? '#e2b0b3' : 'white' }]}
+                onPress={() => handleCategoryToggle(index)}
+              >
+                <Text>{category.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
 
           <Text style={styles.categoryText}>Allergens:</Text>
-          {['Milk', 'Peanut', 'Shellfish', 'Eggs'].map((allergen) => (
-            <CheckBox
-              key={allergen}
-              title={allergen}
-              checked={selectedAllergens.includes(allergen)}
-              onPress={() => {
-                setSelectedAllergens((prev) =>
-                  prev.includes(allergen) ? prev.filter((item) => 
-                    item !== allergen) : [...prev, allergen]
-                );
-              }}
-            />
-          ))}
+          <View style={styles.categoriesContainer}>
+            {allergens.map((allergen, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[styles.categoryBox, 
+                  { backgroundColor: allergen.selected ? '#e2b0b3' : 'white' }]}
+                onPress={() => handleAllergenToggle(index)}
+              >
+                <Text>{allergen.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
 
           <View>
             <Text style={styles.categoryText}>Save Filter:</Text>
@@ -623,7 +751,7 @@ const MapPage = () => {
               style={styles.filterPopupButton}
               onPress={handleFilter}
             >
-              <Text style={styles.buttonTextPopup}>Filter</Text>
+              <Text style={styles.buttonTextPopup}>Apply</Text>
             </TouchableOpacity>
           </View>
         </View>

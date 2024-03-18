@@ -6,29 +6,36 @@ import {Dish} from '../../models/dishesInterfaces'
 import { defaultDishImage } from "../../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
 import { getImages } from "../../services/imageCalls";
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
 export  interface DishData {
   _id: number;
   dishes: Dish[];
 }
 
-const MenuPage: React.FC = ({ route, navigation }) => {
+type MenuProps = {
+  route: any;
+  navigation: NavigationProp<ParamListBase>;
+}
+
+const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   const [dishesData, setDishesData] = useState<DishData[]>([]);
   const [loading, setLoading] = useState(true);
   const {restaurantId, restaurantName } = route.params;
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await getDishesByResto(restaurantName);
-        const data: DishData[] = await response.json();
-        setDishesData(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      }
-    };
+  
+  // useEffect(() => {
+  //   const fetchData1 = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await getDishesByResto(restaurantName);
+  //       const data: DishData[] = await response.json();
+  //       setDishesData(data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //       setLoading(false);
+  //     }
+  //   };
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
 
   useEffect(() => {
