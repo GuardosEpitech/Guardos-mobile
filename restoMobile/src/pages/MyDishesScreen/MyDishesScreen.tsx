@@ -54,6 +54,9 @@ const MyDishesScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      {dishList.length === 0 ? (
+        <Text style={styles.ErrorMsg}>No dishes available. Please add your dish. But be sure to add a restaurant first.</Text>
+      ) : (
       <FlatList
         data={dishList}
         renderItem={({ item, index }) => (
@@ -67,6 +70,7 @@ const MyDishesScreen: React.FC = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      )}
       <TouchableOpacity style={styles.roundButton} onPress={navigateToAddDish}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>

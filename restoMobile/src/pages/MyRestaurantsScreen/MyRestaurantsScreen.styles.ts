@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
   },
+  ErrorMsg: {
+    fontSize: 28,
+    textAlign: "center",
+  }
 });
   
 export default styles;

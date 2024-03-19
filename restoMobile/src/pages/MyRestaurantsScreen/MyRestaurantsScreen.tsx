@@ -56,6 +56,9 @@ const MyRestaurantsScreen = () => {
 
   return (
     <View style={styles.container}>
+      {restoData.length === 0 ? (
+        <Text style={styles.ErrorMsg}>No restaurant available. Please add your restaurant</Text>
+      ) : (
       <FlatList
         data={restoData}
         renderItem={({ item }) => (
@@ -69,6 +72,7 @@ const MyRestaurantsScreen = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      )}
       <TouchableOpacity
         style={styles.roundButton}
         onPress={navigateToAddRestaurant}

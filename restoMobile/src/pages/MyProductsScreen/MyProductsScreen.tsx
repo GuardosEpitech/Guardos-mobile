@@ -39,9 +39,15 @@ const MyProductsScreen = ({ navigation }: { navigation: any }) => {
 
   return (
     <View style={styles.container}>
-      {productList.map((product) => (
-        <ProductCard key={product._id} product={product} onDelete={updateProductList}/>
-      ))}
+      {productList.length === 0 ? (
+        <View style={styles.centered}>
+        <Text style={styles.ErrorMsg}>No products available. Please add your product. But be sure to add a restaurant first.</Text> 
+        </View>
+      ) : (
+        productList.map((product) => (
+          <ProductCard key={product._id} product={product} onDelete={updateProductList}/>
+        ))
+      )}
       <TouchableOpacity style={styles.addButton} onPress={navigateToAddProduct}>
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>

@@ -20,6 +20,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
   },
+  ErrorMsg: {
+    fontSize: 28,
+    textAlign: "center",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default styles;
