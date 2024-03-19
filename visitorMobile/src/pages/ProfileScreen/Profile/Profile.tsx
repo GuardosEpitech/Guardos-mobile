@@ -3,7 +3,6 @@ import {Alert, Button, View, Text, TextInput, Image, ScrollView, TouchableOpacit
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './Profile.styles';
-import logoImage from '../../../../assets/logo.png';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownPicker from 'react-native-dropdown-picker';
 import {editVisitorProfileDetails, getVisitorProfileDetails} from "../../../services/profileCalls";
@@ -135,7 +134,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         {
           text: 'Delete',
           onPress: async () => {
-            const userToken = await AsyncStorage.getItem('userToken');
+            const userToken = await AsyncStorage.getItem('user');
             if (userToken === null) {
               Alert.alert('Error', 'Failed to delete account. Please log in again.');
             }
