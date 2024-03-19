@@ -36,7 +36,7 @@ const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
   }, [picturesId]);
 
   const handleFavoriteClick = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
+    const userToken = await AsyncStorage.getItem('user');
     if (userToken === null) {
       return;
     }

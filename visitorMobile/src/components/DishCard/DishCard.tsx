@@ -19,7 +19,7 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
   const [isDishFavorite, setIsDishFavorite] = useState(isFavourite);
 
   const handleFavoriteClick = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
+    const userToken = await AsyncStorage.getItem('user');
     if (userToken === null) {
       return;
     }

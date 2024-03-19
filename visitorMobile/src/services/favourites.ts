@@ -6,7 +6,8 @@ export const addRestoAsFavourite = async (userToken: string, restoID: number) =>
   try {
     const response = await axios({
       method: 'POST',
-      url: `${baseUrl}resto?key=${userToken}`,
+      url: `${baseUrl}resto`,
+      params: {key: userToken},
       data: JSON.stringify({ restoID: restoID }),
       headers: {
         'Content-Type': 'application/json',
@@ -23,7 +24,8 @@ export const addDishAsFavourite = async (userToken: string, restoID: number, dis
   try {
     const response = await axios({
       method: 'POST',
-      url: `${baseUrl}dish?key=${userToken}`,
+      url: `${baseUrl}dish`,
+      params: {key: userToken},
       data: JSON.stringify({
         restoID: restoID,
         dishID: dishID
@@ -43,8 +45,9 @@ export const deleteRestoFromFavourites = async (userToken: string, restoID: numb
   try {
     const response = await axios({
       method: 'DELETE',
-      url: `${baseUrl}resto?key=${userToken}`,
+      url: `${baseUrl}resto`,
       data: JSON.stringify({ restoID: restoID }),
+      params: {key: userToken},
       headers: {
         'Content-Type': 'application/json',
       },
@@ -60,7 +63,8 @@ export const deleteDishFromFavourites = async (userToken: string, restoID: numbe
   try {
     const response = await axios({
       method: 'DELETE',
-      url: `${baseUrl}dish?key=${userToken}`,
+      url: `${baseUrl}dish`,
+      params: {key: userToken},
       data: JSON.stringify({
         restoID: restoID,
         dishID: dishID
@@ -80,7 +84,8 @@ export const getRestoFavourites = async (userToken: string) => {
   try {
     const response = await axios({
       method: 'GET',
-      url: `${baseUrl}resto?key=${userToken}`,
+      url: `${baseUrl}resto`,
+      params: {key: userToken},
       headers: {
         'Content-Type': 'application/json',
       },
@@ -96,7 +101,8 @@ export const getDishFavourites = async (userToken: string) => {
   try {
     const response = await axios({
       method: 'GET',
-      url: `${baseUrl}dish?key=${userToken}`,
+      url: `${baseUrl}dish`,
+      params: {key: userToken},
       headers: {
         'Content-Type': 'application/json',
       },

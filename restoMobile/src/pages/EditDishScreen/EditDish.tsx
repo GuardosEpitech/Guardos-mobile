@@ -284,7 +284,7 @@ const EditDish = ({ route }) => {
       const dishCategory = route.params.dish && route.params.dish.category ? route.params.dish.category : { menuGroup: '', foodGroup: '', extraGroup: [] };
       const dishToSave: IDishFE = {
         name: name,
-        uid: route.params.dish.uid ? route.params.dish.uid : -1,
+        uid: route.params.dish ? route.params.dish.uid : -1,
         price: Number(price),
         description: description,
         pictures: pictures,
