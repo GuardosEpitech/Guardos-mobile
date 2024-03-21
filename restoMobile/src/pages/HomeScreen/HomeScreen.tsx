@@ -3,7 +3,6 @@ import {View, StatusBar, FlatList, TouchableOpacity, Text , RefreshControl} from
 import { useNavigation } from '@react-navigation/native';
 import Header from '../../components/Header';
 import Card from '../../components/RestaurantCard';
-import axios from 'axios';
 import styles from './HomeScreen.styles';
 import { getAllResto, deleteRestaurantByName } from 'src/services/restoCalls';
 import MenuPage from '../MenuPage/MenuPage';
@@ -61,11 +60,11 @@ const HomeScreen = () => {
       <FlatList
         data={restoData}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigateToMenu(item.id, item.name)}>
+          <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
             <Card info={item} onDelete={onDelete} />
           </TouchableOpacity>
         )}
-        keyExtractor={(restaurant) => restaurant.id.toString()}
+        keyExtractor={(restaurant) => restaurant.uid.toString()}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
