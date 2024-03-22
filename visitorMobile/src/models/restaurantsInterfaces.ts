@@ -18,4 +18,5 @@ export interface IRestaurantFrontEnd {
     range: number;
     rating: number;
     ratingCount?: number;
+    isFavouriteResto?: boolean;
   }

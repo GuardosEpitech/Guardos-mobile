@@ -377,9 +377,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             <View>
               {favoriteRestaurants.slice((restoPage - 1) * pageSize, restoPage * pageSize).map((restaurant) => (
                 <RestaurantCard
-                  key={restaurant.id}
+                  key={restaurant.uid}
                   info={restaurant}
-                  isFavourite={true}
+                  isFavouriteResto={true}
                   isSmallerCard={true}
                   dataIndex={0}
                 />

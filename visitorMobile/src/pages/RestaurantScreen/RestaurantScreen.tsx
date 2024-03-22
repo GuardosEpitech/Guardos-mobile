@@ -50,14 +50,16 @@ const MyRestaurantsScreen = () => {
 
   useEffect(() => {
     fetchFavourites().then(r => console.log("Loaded favourite resto list"));
-    updateRestoData();
   }, []);
 
   const updateRestoData = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
     getAllResto()
       .then((res) => {
-        setRestoData(res);
+        const updatedRestoData = res.map(resto => ({
+          ...resto,
+          isFavouriteResto: isFavouriteRestos.includes(resto.uid)
+        }));
+        setRestoData(updatedRestoData);
       })
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
@@ -72,16 +74,21 @@ const MyRestaurantsScreen = () => {
       const favourites = await getRestoFavourites(userToken);
       const favouriteRestoIds = favourites.map((fav: any) => fav.uid);
       setIsFavouriteRestos(favouriteRestoIds);
+
+      updateRestoData().then(r => console.log("Loaded resto data"));
     } catch (error) {
       console.error("Error fetching user favourites:", error);
     }
   };
 
   const updateRestoByFilterData = async (filterSelections: any) => {
-    const userToken = await AsyncStorage.getItem('userToken');    
     getFilteredRestos(filterSelections)
       .then((res) => {
-        setRestoData(res);
+        const updatedRestoData = res.map(resto => ({
+          ...resto,
+          isFavouriteResto: isFavouriteRestos.includes(resto.uid)
+        }));
+        setRestoData(updatedRestoData);
       })
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
@@ -157,10 +164,10 @@ const MyRestaurantsScreen = () => {
           data={restoData}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
-              <Card info={item} isFavouriteResto={isFavouriteRestos.includes(item.uid)} />
+              <Card info={item} isFavouriteResto={item.isFavouriteResto} />
             </TouchableOpacity>
           )}
-          keyExtractor={(restaurant) => restaurant.id.toString()}
+          keyExtractor={(restaurant) => restaurant.uid.toString()}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

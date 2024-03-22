@@ -1,6 +1,8 @@
 import axios from 'axios';
+// @ts-ignore
+import { API_URL } from '@env';
 
-const baseUrl = `${process.env.DB_HOST}${process.env.DB_HOST_PORT}/api/favourites/`;
+const baseUrl = API_URL + "favourites/";
 
 export const addRestoAsFavourite = async (userToken: string, restoID: number) => {
   try {
