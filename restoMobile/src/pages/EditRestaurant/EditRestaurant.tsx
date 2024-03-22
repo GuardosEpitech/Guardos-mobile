@@ -136,16 +136,19 @@ const EditRestaurant = ({ route }) => {
   const handleSave = async () => {
     try {
       const updatedData = {
-        name,
-        phoneNumber,
-        website,
-        pictures,
+        name: name,
+        phoneNumber: phoneNumber,
+        description: description,
+        website: website,
+        openingHours: [],
         location: {
-          streetName,
-          streetNumber,
-          postalCode,
-          city,
-          country,
+          streetName: streetName,
+          streetNumber: streetNumber,
+          postalCode: postalCode,
+          city: city,
+          country: country,
+          latitude: "0",
+          longitude: "0"
         },
       };
 
