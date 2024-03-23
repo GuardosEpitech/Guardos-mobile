@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, StatusBar, ScrollView, Image } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import Header from '../../components/Header';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +8,8 @@ import styles from './EditRestaurant.styles';
 import * as ImagePicker from "expo-image-picker";
 import { defaultRestoImage } from "../../assets/placeholderImagesBase64";
 import { addImageResto, deleteImageRestaurant, getImages } from "../../services/imagesCalls";
+import { editResto, getAllMenuDesigns, getRestoByName } from '../../services/restoCalls';
+import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 
 const EditRestaurant = ({ route }) => {
   const { restaurantId } = route.params; 
@@ -21,13 +24,16 @@ const EditRestaurant = ({ route }) => {
   const [country, setCountry] = useState('');
   const [picturesId, setPicturesId] = useState([]);
   const [pictures, setPictures] = useState([]);
+  const [menuDesigns, setMenuDesigns] = useState<IMenuDesigns[]>([]);
+  const [selectedMenuDesign, setSelectedMenuDesign] = useState('');
+  const [selectedMenuDesignID, setSelectedMenuDesignID] = useState(0);
+  const [menuDesignOpen, setMenuDesignOpen] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
-        const response = await fetch(`http://195.90.210.111:8081/api/restaurants/${restaurantId}`);
-        const data = await response.json();
+        const data = await getRestoByName(restaurantId);
 
         setName(data.name);
         setPhoneNumber(data.phoneNumber);
@@ -40,12 +46,22 @@ const EditRestaurant = ({ route }) => {
         setCountry(data.location.country);
         setPicturesId(data.picturesId);
         setPictures(data.pictures);
+        setSelectedMenuDesignID(data.menuDesignID);
+        setSelectedMenuDesign(data.menuDesignID);
       } catch (error) {
         console.error('Error fetching restaurant data:', error);
       }
     };
 
     fetchRestaurantData();
+
+    getAllMenuDesigns()
+      .then((res) => {
+        setMenuDesigns(res);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
+      });
   }, [restaurantId]);
 
   useEffect(() => {
@@ -136,28 +152,25 @@ const EditRestaurant = ({ route }) => {
   const handleSave = async () => {
     try {
       const updatedData = {
-        name,
-        phoneNumber,
-        website,
-        pictures,
+        name: name,
+        phonenumber: phoneNumber,
+        website: website,
         location: {
-          streetName,
-          streetNumber,
-          postalCode,
-          city,
-          country,
+          streetName: streetName,
+          streetNumber: streetNumber,
+          postalCode: postalCode,
+          city: city,
+          country: country,
+          latitude: "0",
+          longitude: "0",
         },
+        description: description,
+        menuDesignID: selectedMenuDesignID,
       };
 
-      const response = await fetch(`http://195.90.210.111:8081/api/restaurants/${restaurantId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedData),
-      });
+      const response = await editResto(name, updatedData);
 
-      if (response.ok) {
+      if (response) {
         Alert.alert('Success', 'Restaurant data updated successfully', [
           {
             text: 'OK',
@@ -279,6 +292,23 @@ const EditRestaurant = ({ route }) => {
             />
           </View>
         </View>
+      </View>
+      <View style={styles.containerPicker}>
+        <DropDownPicker
+          open={menuDesignOpen}
+          items={menuDesigns.map((menuDesign) => ({ label: menuDesign.name, value: menuDesign._id }))}
+          value={selectedMenuDesign}
+          dropDownDirection={'TOP'}
+          setOpen={setMenuDesignOpen}
+          onChangeValue={(item:any) => {
+            if (item === null || item === undefined || item === '' || typeof item === "undefined") {
+              return;
+            }
+            setSelectedMenuDesign(item);
+            setSelectedMenuDesignID(item);
+          }}
+          setValue={setSelectedMenuDesign}
+        />
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.buttonText}>Save</Text>

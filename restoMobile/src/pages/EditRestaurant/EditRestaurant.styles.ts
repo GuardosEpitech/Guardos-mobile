@@ -82,6 +82,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22
+  },
+  containerPicker: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width:'100%',
+    padding: 20,
+    paddingTop: 0,
+  },
+  pickerStyles:{
+    width:'100%',
+    backgroundColor:'lightgrey',
+    color:'lightgrey'
   }
   });
   

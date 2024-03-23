@@ -58,6 +58,17 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: 'bold',
     },
+    containerPicker: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    pickerStyles:{
+      width:'100%',
+      backgroundColor:'gray',
+      color:'white'
+    }
   });
 
 export default styles;
