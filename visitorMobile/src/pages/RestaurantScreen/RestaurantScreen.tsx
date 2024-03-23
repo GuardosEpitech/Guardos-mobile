@@ -131,8 +131,6 @@ const MyRestaurantsScreen = () => {
     setAllergens(allergens.map(allergen => ({ ...allergen, selected: false })));
     updateFilterSelections(); 
   };
-
-
   return (
     <View style={styles.container}>
       {isTabVisible && <View style={styles.overlay} />}
@@ -144,7 +142,7 @@ const MyRestaurantsScreen = () => {
               <Card info={item} />
             </TouchableOpacity>
           )}
-          keyExtractor={(restaurant) => restaurant.id.toString()}
+          keyExtractor={(restaurant, index) => restaurant.id ? restaurant.id.toString() : index.toString()}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

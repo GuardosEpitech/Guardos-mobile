@@ -220,6 +220,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('Change Password');
   };
 
+  const handleFeatureRequest = () => {
+    navigation.navigate('FeatureRequest', {});
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileSection}>
@@ -318,7 +322,16 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         ))}
       </View>
       <View style={styles.logoutSection}>
-        <Button style={styles.logoutButton} title="Logout" onPress={handleLogout} color="#6d071a" />
+        <Button 
+          title="Feature request" 
+          onPress={handleFeatureRequest} 
+          color="#6d071a" />
+      </View>
+      <View style={styles.logoutSection}>
+        <Button  
+          title="Logout" 
+          onPress={handleLogout} 
+          color="#6d071a" />
       </View>
       <View style={styles.deleteAccountSection}>
         <Button
