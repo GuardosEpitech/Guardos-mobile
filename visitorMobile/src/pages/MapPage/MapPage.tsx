@@ -11,7 +11,7 @@ import {
   Keyboard, 
   TouchableWithoutFeedback 
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 import Modal from 'react-native-modal';
 import { 
@@ -40,27 +40,6 @@ import { defaultRestoImage } from "../../../assets/placeholderImagesBase64";
 import { getImages } from "../../services/imageCalls";
 import { FilterContext } from '../../models/filterContext'; 
 
-function findMinMax(arr: any) {
-  if (!arr || arr.length === 0) {
-    return [0, 5];
-  }
-
-  let minVal = arr[0];
-  let maxVal = arr[0];
-
-  for (let i = 1; i < arr.length; i++) {
-    const num = arr[i];
-    if (num < minVal) {
-      minVal = num;
-    } else if (num > maxVal) {
-      maxVal = num;
-    }
-  }
-
-  return [minVal, maxVal];
-}
-
-
 const Epitech = [13.328820, 52.508540];// long,lat
 
 const MapPage = () => {
@@ -78,7 +57,6 @@ const MapPage = () => {
   const [savedFilters, setSavedFilters] = useState([]);
   const [rating, setRating] = useState(0);
   const [showFilterPopup, setShowFilterPopup] = useState(false);
-  const [selectedRating, setSelectedRating] = useState([]);
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [range, setRange] = useState(0);
@@ -111,19 +89,20 @@ const MapPage = () => {
     { name: 'sulphides', selected: false },
     { name: 'tree nuts', selected: false },
   ]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    loadSavedFilters();
-  }, []);
+    if (isFocused) {
+      loadSavedFilters(); // Trigger loadSavedFilters when the screen is focused
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     if (filter) {
       setNameFilter(filter.name || '');
       setLocationFilter(filter.location || '');
       setRange(filter.range || 0);
-      setRating(filter.rating ? 
-        Math.round((filter.rating[0] + filter.rating[1]) / 2) : 0);
-      setSelectedRating(filter.rating);
+      setRating(filter.rating ? filter.rating[0] : 0);
       setCategories(categories.map(category => ({
         ...category,
         selected: filter.categories ? 
@@ -248,9 +227,17 @@ const MapPage = () => {
 
   const handleSearch = async () => {
     if (nameFilter || locationFilter) {
+      let selectedRating = [];
+      if (rating < 5 && rating !== 0) {
+        selectedRating = [rating, rating + 1]
+      } else if (rating === 0) {
+        selectedRating = [];
+      } else if (rating === 5) {
+        selectedRating = [rating, rating];
+      }
       const inter: ISearchCommunication = {
         range: range,
-        rating: findMinMax(selectedRating),
+        rating: selectedRating,
         name: nameFilter,
         location: locationFilter,
         categories: selectedCategories,
@@ -274,9 +261,17 @@ const MapPage = () => {
   };
 
   const handleFilter = async () => {
+    let selectedRating = [];
+      if (rating < 5 && rating !== 0) {
+        selectedRating = [rating, rating + 1]
+      } else if (rating === 0) {
+        selectedRating = [];
+      } else if (rating === 5) {
+        selectedRating = [rating, rating];
+      }
     const inter: ISearchCommunication = {
       range: range,
-      rating: findMinMax(selectedRating),
+      rating: selectedRating,
       name: nameFilter,
       location: locationFilter,
       categories: selectedCategories,
@@ -298,7 +293,6 @@ const MapPage = () => {
 
   const handleRatingChange = (index: number) => {
     setRating(index);
-    setSelectedRating(rating > 0 ? [1, 2, 3, 4, 5].slice(0, rating) : []);
   };
 
   const handleCategoryToggle = (index: number) => {
@@ -320,7 +314,6 @@ const MapPage = () => {
   const clearFilters = async () => {
     setNameFilter('');
     setLocationFilter('');
-    setSelectedRating([]);
     setSelectedAllergens([]);
     setSelectedCategories([]);
     setRange(0);
@@ -349,10 +342,18 @@ const MapPage = () => {
       }, 5000);
       return;
     }
+    let selectedRating = [];
+      if (rating < 5 && rating !== 0) {
+        selectedRating = [rating, rating + 1]
+      } else if (rating === 0) {
+        selectedRating = [];
+      } else if (rating === 5) {
+        selectedRating = [rating, rating];
+      }
     const filter : ISearchCommunication = {
       filterName: filterName,
       range: range,
-      rating: findMinMax(selectedRating),
+      rating: selectedRating,
       name: nameFilter,
       location: locationFilter,
       categories: selectedCategories,
@@ -417,7 +418,7 @@ const MapPage = () => {
 
     setSelectedCategories(newFilter.categories);
     setSelectedAllergens(newFilter.allergenList);
-    setSelectedRating(newFilter.rating);
+    setRating(newFilter.rating[0]);
     setRange(newFilter.range);
     const updatedCategories = categories.map(category => ({
       ...category,

@@ -10,7 +10,7 @@ import {
   ScrollView
 } from 'react-native';
 import { Slider } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import styles from './RestaurantScreen.styles'
 import { getAllResto , getFilteredRestosNew} from '../../services/restoCalls';
@@ -71,16 +71,19 @@ const MyRestaurantsScreen = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const { filter, setFilter } = useContext(FilterContext);
+  const isFocused = useIsFocused();
   
   useEffect(() => {
-    loadSavedFilters();
-  }, []);
+    if (isFocused) {
+      loadSavedFilters();
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     if (filter) {
       setNameFilter(filter.name);
       setLocationFilter(filter.location);
-      setRating(filter.rating ? filter.rating[1] : 0);
+      setRating(filter.rating ? filter.rating[0] : 0);
       setDistance(filter.range || 0);
       setSelectedCategories(filter.categories || []);
       setSelectedAllergens(filter.allergenList || []);
@@ -131,9 +134,17 @@ const MyRestaurantsScreen = () => {
 
   const handleSearch = async () => {
     if (nameFilter || locationFilter) {
+      let selectedRating = [];
+      if (rating < 5 && rating !== 0) {
+        selectedRating = [rating, rating + 1]
+      } else if (rating === 0) {
+        selectedRating = [];
+      } else if (rating === 5) {
+        selectedRating = [rating, rating];
+      }
       const inter: ISearchCommunication = {
         range: distance,
-        rating: rating > 0 ? [1, 2, 3, 4, 5].slice(0, rating) : [],
+        rating: selectedRating,
         name: nameFilter,
         location: locationFilter,
         categories: selectedCategories,
@@ -158,9 +169,17 @@ const MyRestaurantsScreen = () => {
   };
 
   const handleFilter = async () => {
+    let selectedRating = [];
+    if (rating < 5 && rating !== 0) {
+      selectedRating = [rating, rating + 1]
+    } else if (rating === 0) {
+      selectedRating = [];
+    } else if (rating === 5) {
+      selectedRating = [rating, rating];
+    }
     const inter: ISearchCommunication = {
       range: distance,
-      rating: rating > 0 ? [1, 2, 3, 4, 5].slice(0, rating) : [],
+      rating: selectedRating,
       name: nameFilter,
       location: locationFilter,
       categories: selectedCategories,
@@ -225,10 +244,18 @@ const MyRestaurantsScreen = () => {
       }, 5000);
       return;
     }
+    let selectedRating = [];
+      if (rating < 5 && rating !== 0) {
+        selectedRating = [rating, rating + 1]
+      } else if (rating === 0) {
+        selectedRating = [];
+      } else if (rating === 5) {
+        selectedRating = [rating, rating];
+      }
     const filter : ISearchCommunication = {
       filterName: filterName,
       range: distance,
-      rating: rating > 0 ? [1, 2, 3, 4, 5].slice(0, rating) : [],
+      rating: selectedRating,
       name: '',
       location: '',
       categories: selectedCategories,
@@ -291,7 +318,7 @@ const MyRestaurantsScreen = () => {
 
     await AsyncStorage.setItem('filter', JSON.stringify(newFilter));
     
-    setRating(newFilter.rating[1]);
+    setRating(newFilter.rating[0]);
     setDistance(newFilter.range);
     const updatedCategories = categories.map(category => ({
       ...category,
@@ -384,12 +411,12 @@ const MyRestaurantsScreen = () => {
           data={selectedRestoData}
           renderItem={({ item }) => (
             <TouchableOpacity 
-              onPress={() => navigateToMenu(item.id, item.name)}
+              onPress={() => navigateToMenu(item.uid, item.name)}
             >
               <Card info={item} />
             </TouchableOpacity>
           )}
-          keyExtractor={(restaurant) => restaurant.id.toString()}
+          keyExtractor={(restaurant) => restaurant.uid.toString()}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
