@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import styles from './DishCard.styles';
 import { defaultDishImage } from "../../../assets/placeholderImagesBase64";
@@ -17,6 +17,10 @@ interface DishCardProps {
 
 const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, pictures, isSmallerCard }) => {
   const [isDishFavorite, setIsDishFavorite] = useState(isFavourite);
+
+  useEffect(() => {
+    setIsDishFavorite(isFavourite);
+  }, [isFavourite]);
 
   const handleFavoriteClick = async () => {
     const userToken = await AsyncStorage.getItem('user');

@@ -52,12 +52,12 @@ const MyRestaurantsScreen = () => {
     fetchFavourites().then(r => console.log("Loaded favourite resto list"));
   }, []);
 
-  const updateRestoData = async () => {
+  const updateRestoData = async (favRestoIds) => {
     getAllResto()
       .then((res) => {
         const updatedRestoData = res.map(resto => ({
           ...resto,
-          isFavouriteResto: isFavouriteRestos.includes(resto.uid)
+          isFavouriteResto: favRestoIds?.includes(resto.uid)
         }));
         setRestoData(updatedRestoData);
       })
@@ -75,7 +75,7 @@ const MyRestaurantsScreen = () => {
       const favouriteRestoIds = favourites.map((fav: any) => fav.uid);
       setIsFavouriteRestos(favouriteRestoIds);
 
-      updateRestoData().then(r => console.log("Loaded resto data"));
+      updateRestoData(favouriteRestoIds).then(r => console.log("Loaded resto data"));
     } catch (error) {
       console.error("Error fetching user favourites:", error);
     }

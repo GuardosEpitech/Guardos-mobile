@@ -33,7 +33,7 @@ const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
     }
 
     fetchImages();
-  }, [picturesId]);
+  }, [picturesId, isFavouriteResto]);
 
   const handleFavoriteClick = async () => {
     const userToken = await AsyncStorage.getItem('user');

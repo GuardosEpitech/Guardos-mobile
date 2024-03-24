@@ -98,8 +98,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     setFavoriteDishes(favorites);
   };
 
-  const handleTabChange = (tab: any) => {
+  const handleTabChange = async (tab: any) => {
     setActiveTab(tab);
+    await fetchFavoriteRestaurants();
+    await fetchFavoriteDishes();
   };
 
   const handleNextPage = () => {
@@ -393,6 +395,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
                 return (<DishCard
                   key={dish.dish.uid + index}
                   dish={dish.dish}
+                  restoID={dish.restoID}
                   pictures={[]}
                   isSmallerCard={true}
                   isFavourite={true}
