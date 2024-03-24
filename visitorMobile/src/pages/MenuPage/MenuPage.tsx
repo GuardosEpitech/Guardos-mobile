@@ -8,6 +8,7 @@ import { getImages } from "../../services/imageCalls";
 import DishCard from "../../components/DishCard/DishCard";
 import {getDishFavourites} from "../../services/favourites";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useFocusEffect} from "@react-navigation/native";
 
 export interface DishData {
   _id: number;
@@ -29,6 +30,17 @@ const MenuPage: React.FC = ({ route, navigation }) => {
 
     return unsubscribe;
   }, [restaurantName, navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFavourites().then(r => console.log("Loaded favourite dish list"));
+      fetchData();
+
+      const unsubscribe = navigation.addListener('focus', fetchData);
+
+      return unsubscribe;
+    }, [])
+  );
 
   const fetchData = async () => {
     setLoading(true);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { View, FlatList, TouchableOpacity, Text, RefreshControl, ScrollView} from 'react-native';
 import { Slider } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Card from '../../components/RestaurantCard/RestaurantCard';
 import styles from './RestaurantScreen.styles'
 import { getAllResto , getFilteredRestos} from '../../services/restoCalls';
@@ -51,6 +51,12 @@ const MyRestaurantsScreen = () => {
   useEffect(() => {
     fetchFavourites().then(r => console.log("Loaded favourite resto list"));
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
+    }, [])
+  );
 
   const updateRestoData = async (favRestoIds) => {
     getAllResto()
