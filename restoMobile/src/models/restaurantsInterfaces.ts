@@ -10,4 +10,5 @@ export interface IRestaurantFrontEnd {
     range: number;
     rating: number;
     ratingCount?: number;
+    menuDesignID?: number;
   }
