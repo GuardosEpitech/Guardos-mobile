@@ -4,6 +4,7 @@ const deviceWidth = Math.round(Dimensions.get('window').width);
 const offset = 40;
 const radius = 20;
 const iconSize = 20;
+const decreaseSizeOffset = 50;
 
 const styles = StyleSheet.create({
   container: {
@@ -11,8 +12,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 25,
   },
+  containerSmall: {
+    width: deviceWidth - 20 - decreaseSizeOffset,
+    alignItems: 'center',
+    marginTop: 25,
+  },
   cardContainer: {
     width: deviceWidth - offset,
+    backgroundColor: '#FFFFFF',
+    height: 230,
+    borderRadius: radius,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 4,
+    elevation: 9,
+    position: 'relative',
+  },
+  cardContainerSmall: {
+    width: deviceWidth - offset - decreaseSizeOffset,
     backgroundColor: '#FFFFFF',
     height: 230,
     borderRadius: radius,
@@ -35,9 +56,23 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignSelf: 'center',
   },
+  imageStyleSmall: {
+    height: 130,
+    width: deviceWidth - offset - decreaseSizeOffset,
+    borderTopLeftRadius: radius,
+    borderTopRightRadius: radius,
+    opacity: 0.9,
+    alignContent: 'center',
+    alignSelf: 'center',
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   titleStyle: {
     fontSize: 20,
     fontWeight: '800',
+    paddingRight: 6,
   },
   categoryStyle: {
     fontWeight: '200',
@@ -64,6 +99,10 @@ const styles = StyleSheet.create({
     height: iconSize,
     resizeMode: 'contain',
   },
+  FavoriteIcon: {
+    marginLeft: "auto",
+    padding: 8,
+  }
 });
 
 export default styles;

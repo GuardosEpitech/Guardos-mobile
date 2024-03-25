@@ -16,7 +16,6 @@ export interface ICommunication {
   export interface IRestaurantFrontEnd {
     name: string;
     uid: number;
-    userID: number;
     phoneNumber: string;
     website: string;
     description: string;
@@ -31,4 +30,5 @@ export interface ICommunication {
     ratingCount?: number;
     products: IProduct[];
     dishes: IDishFE[];
+    isFavouriteResto?: boolean;
   }

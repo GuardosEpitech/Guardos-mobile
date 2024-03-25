@@ -1,7 +1,7 @@
 import axios from 'axios';
 // @ts-ignore
 import { API_URL } from '@env';
-import { IDishFE } from "../../../shared/models/dishInterfaces";
+import {IAddDish, IDishFE} from "../../../shared/models/dishInterfaces";
 const baseURL = API_URL + "dishes/";
 
 
@@ -43,7 +43,7 @@ export const changeDishByName = async (dish: IDishFE, restaurant: string) => {
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            console.error("Error 404: Not Found");
+            console.log("Error 404: Not Found");
             return null;
         } else {
             console.error("Error changing dish:", error);
@@ -52,7 +52,7 @@ export const changeDishByName = async (dish: IDishFE, restaurant: string) => {
     }
 }
 
-export const addDish = async (dish: IDishFE, restaurant: string) => {
+export const addDish = async (dish: IAddDish, restaurant: string) => {
     try {
         const response = await axios({
             method: "POST",

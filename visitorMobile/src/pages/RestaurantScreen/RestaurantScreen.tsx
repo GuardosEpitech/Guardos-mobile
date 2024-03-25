@@ -10,8 +10,8 @@ import {
   ScrollView
 } from 'react-native';
 import { Slider } from 'react-native-elements';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
-import Card from '../../components/RestaurantCard';
+import {useFocusEffect, useNavigation, useIsFocused} from '@react-navigation/native';
+import Card from '../../components/RestaurantCard/RestaurantCard';
 import styles from './RestaurantScreen.styles'
 import { getAllResto , getFilteredRestosNew} from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -26,6 +26,7 @@ import {
   ISearchCommunication 
 } from '../../../../shared/models/communicationInterfaces';
 import { FilterContext } from '../../models/filterContext';
+import {getRestoFavourites} from "../../services/favourites";
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -72,7 +73,8 @@ const MyRestaurantsScreen = () => {
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const { filter, setFilter } = useContext(FilterContext);
   const isFocused = useIsFocused();
-  
+  const [isFavouriteRestos, setIsFavouriteRestos] = React.useState<Array<number>>([]);
+
   useEffect(() => {
     if (isFocused) {
       loadSavedFilters();
@@ -106,19 +108,50 @@ const MyRestaurantsScreen = () => {
         });
 
     } else {
-      updateRestoData();
+      getAllResto().then((res) => {
+        setRestoData(res);
+        setSelectedRestoData(res);
+      }).catch((error) => {
+        console.error('Error updating restaurant data:', error);
+      });
+      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
     }
   }, [filter]);
 
-  const updateRestoData = async () => {
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
+    }, [])
+  );
+
+  const updateRestoData = async (favRestoIds) => {
     getAllResto()
       .then((res) => {
-        setRestoData(res);
+        const updatedRestoData = res.map(resto => ({
+          ...resto,
+          isFavouriteResto: favRestoIds?.includes(resto.uid)
+        }));
+        setRestoData(updatedRestoData);
         setSelectedRestoData(res);
       })
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
       });
+  };
+
+  const fetchFavourites = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) { return; }
+
+    try {
+      const favourites = await getRestoFavourites(userToken);
+      const favouriteRestoIds = favourites.map((fav: any) => fav.uid);
+      setIsFavouriteRestos(favouriteRestoIds);
+
+      updateRestoData(favouriteRestoIds).then(r => console.log("Loaded resto data"));
+    } catch (error) {
+      console.error("Error fetching user favourites:", error);
+    }
   };
 
   const loadSavedFilters = async () => {
@@ -158,9 +191,29 @@ const MyRestaurantsScreen = () => {
     Keyboard.dismiss();
   };
 
+  const updateRestoByFilterData = async (filterSelections: any) => {
+    getFilteredRestosNew(filterSelections)
+      .then((res) => {
+        const updatedRestoData = res.map(resto => ({
+          ...resto,
+          isFavouriteResto: isFavouriteRestos.includes(resto.uid)
+        }));
+        setRestoData(updatedRestoData);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
+      });
+  };
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    updateRestoData();
+    getAllResto().then((res) => {
+      setRestoData(res);
+      setSelectedRestoData(res);
+    }).catch((error) => {
+      console.error('Error updating restaurant data:', error);
+    });
+    resetFilters();
     setRefreshing(false);
   }, []);
 
@@ -410,10 +463,8 @@ const MyRestaurantsScreen = () => {
         <FlatList
           data={selectedRestoData}
           renderItem={({ item }) => (
-            <TouchableOpacity 
-              onPress={() => navigateToMenu(item.uid, item.name)}
-            >
-              <Card info={item} />
+            <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
+              <Card info={item} isFavouriteResto={item.isFavouriteResto} />
             </TouchableOpacity>
           )}
           keyExtractor={(restaurant) => restaurant.uid.toString()}
