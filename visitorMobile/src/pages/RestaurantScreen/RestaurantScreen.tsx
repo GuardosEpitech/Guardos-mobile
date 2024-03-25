@@ -79,7 +79,43 @@ const MyRestaurantsScreen = () => {
     if (isFocused) {
       loadSavedFilters();
     }
+    fetchFavourites().then(r => console.log("Loaded favourite resto list"));
   }, [isFocused]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
+    }, [])
+  );
+
+  const updateFavRestoData = async (filter, favRestoIds) => {
+    getFilteredRestosNew(filter)
+      .then((res) => {
+        const updatedRestoData = res.map(resto => ({
+          ...resto,
+          isFavouriteResto: favRestoIds?.includes(resto.uid)
+        }));
+        setRestoData(updatedRestoData);
+        setSelectedRestoData(updatedRestoData);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
+      });
+  };
+
+  const fetchFilteredFavourits = async (filter: ISearchCommunication) => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) { return; }
+
+    try {
+      const favourites = await getRestoFavourites(userToken);
+      const favouriteRestoIds = favourites.map((fav: any) => fav.uid);
+      setIsFavouriteRestos(favouriteRestoIds);
+      updateFavRestoData(filter, favouriteRestoIds);
+    } catch (error) {
+      console.error("Error fetching user favourites:", error);
+    }
+  }
 
   useEffect(() => {
     if (filter) {
@@ -99,18 +135,7 @@ const MyRestaurantsScreen = () => {
         selected: filter.allergenList ? 
           filter.allergenList.includes(allergen.name) : false,
       })));
-      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
-      getFilteredRestosNew(filter)
-        .then((res) => {
-          const updatedRestoData = res.map(resto => ({
-            ...resto,
-            isFavouriteResto: isFavouriteRestos?.includes(resto.uid)
-          }));
-          setRestoData(updatedRestoData);
-          setSelectedRestoData(updatedRestoData);
-        }).catch((error) => {
-          console.error('Error updating restaurant data:', error);
-        });
+      fetchFilteredFavourits(filter);
     } else {
       fetchFavourites().then(r => console.log("Loaded favourite resto list"));
       getAllResto().then((res) => {
@@ -118,19 +143,10 @@ const MyRestaurantsScreen = () => {
           ...resto,
           isFavouriteResto: isFavouriteRestos?.includes(resto.uid)
         }));
-        setRestoData(updatedRestoData);
         setSelectedRestoData(updatedRestoData);
-      }).catch((error) => {
-        console.error('Error updating restaurant data:', error);
       });
     }
   }, [filter]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
-    }, [])
-  );
 
   const updateRestoData = async (favRestoIds) => {
     getAllResto()
@@ -140,7 +156,6 @@ const MyRestaurantsScreen = () => {
           isFavouriteResto: favRestoIds?.includes(resto.uid)
         }));
         setRestoData(updatedRestoData);
-        setSelectedRestoData(res);
       })
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
@@ -155,8 +170,7 @@ const MyRestaurantsScreen = () => {
       const favourites = await getRestoFavourites(userToken);
       const favouriteRestoIds = favourites.map((fav: any) => fav.uid);
       setIsFavouriteRestos(favouriteRestoIds);
-
-      // updateRestoData(favouriteRestoIds).then(r => console.log("Loaded resto data"));
+      updateRestoData(favouriteRestoIds).then(r => console.log("Loaded resto data"));
     } catch (error) {
       console.error("Error fetching user favourites:", error);
     }
@@ -191,26 +205,12 @@ const MyRestaurantsScreen = () => {
         categories: selectedCategories,
         allergenList: selectedAllergens
       }
-      setSelectedRestoData(await getFilteredRestosNew(inter));
+      await setFilteredRestos(inter);
       setFilter(inter);
     } else {
       setSelectedRestoData(restoData);
     }
     Keyboard.dismiss();
-  };
-
-  const updateRestoByFilterData = async (filterSelections: any) => {
-    getFilteredRestosNew(filterSelections)
-      .then((res) => {
-        const updatedRestoData = res.map(resto => ({
-          ...resto,
-          isFavouriteResto: isFavouriteRestos.includes(resto.uid)
-        }));
-        setRestoData(updatedRestoData);
-      })
-      .catch((error) => {
-        console.error('Error updating restaurant data:', error);
-      });
   };
 
   const onRefresh = useCallback(() => {
@@ -229,6 +229,15 @@ const MyRestaurantsScreen = () => {
     navigation.navigate('MenuPage', { restaurantId, restaurantName });
   };
 
+  const setFilteredRestos = async (filter: ISearchCommunication) => {
+    const restos: IRestaurantFrontEnd[] = await getFilteredRestosNew(filter);
+    const updatedRestoData = restos.map(resto => ({
+      ...resto,
+      isFavouriteResto: isFavouriteRestos.includes(resto.uid)
+    }));
+    setSelectedRestoData(updatedRestoData);
+  }
+
   const handleFilter = async () => {
     let selectedRating = [];
     if (rating < 5 && rating !== 0) {
@@ -246,7 +255,7 @@ const MyRestaurantsScreen = () => {
       categories: selectedCategories,
       allergenList: selectedAllergens
     }
-    setSelectedRestoData(await getFilteredRestosNew(inter));
+    await setFilteredRestos(inter);
     setFilter(inter);
     setIsTabVisible(false);
   };
@@ -472,7 +481,7 @@ const MyRestaurantsScreen = () => {
           data={selectedRestoData}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
-              <Card info={item} isFavouriteResto={item.isFavouriteResto} />
+              <Card info={item} isFavouriteResto={item.isFavouriteResto} isSmallerCard={false}/>
             </TouchableOpacity>
           )}
           keyExtractor={(restaurant) => restaurant.uid.toString()}
