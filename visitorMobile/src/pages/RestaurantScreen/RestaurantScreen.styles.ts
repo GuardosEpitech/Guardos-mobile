@@ -103,9 +103,133 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: -5,
-    right: -5,
-}
+    top: 10,
+    right: 10,
+  },
+  popupHeading: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    alignSelf: 'center',
+  },
+  categoryText: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+    fontSize: 20,
+  },
+  filterPopup: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
+  distanceText: {
+    marginBottom: 15,
+    fontSize: 18,
+  },filterOptionsContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  savedFilterItem: {
+    flexDirection: 'row',
+    backgroundColor: '#f2f2f2',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  filterNameContainer: {
+    flex: 1,
+  },
+  saveButtonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loadFilterButton: {
+    backgroundColor: 'green',
+    padding: 5,
+    borderRadius: 5,
+    marginLeft: 10,
+  },
+  deleteFilterButton: {
+    backgroundColor: '#6d071a',
+    padding: 5,
+    borderRadius: 5,
+    marginLeft: 10,
+  },
+  successMessage: {
+    color: 'green',
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  errorMessage: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  saveInput: {
+    flex: 1,
+    height: 40,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderColor: '#ccc',
+    borderWidth: 1, 
+    color: 'black',
+    marginBottom: 10,
+  },
+  savedFilterName: { 
+    flexDirection: 'row', 
+    justifyContent: 'flex-start', 
+    alignItems: 'center' 
+  },
+  filterPopupButton: { 
+    backgroundColor: '#6d071a',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+  buttonTextPopup: {
+    color: 'white',
+  },
+  clearButton: {
+    backgroundColor: '#6d071a',
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    marginBottom: 10,
+  },
+  buttonContainerPopup: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    padding: 10,
+    backgroundColor: '#f2f2f2',
+    borderRadius: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    marginHorizontal: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10, 
+  },
+  button: {
+    backgroundColor: '#6d071a', 
+    borderRadius: 10, 
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  buttonText: {
+    color: '#fff', 
+    fontSize: 16,
+  },
 });
 
 

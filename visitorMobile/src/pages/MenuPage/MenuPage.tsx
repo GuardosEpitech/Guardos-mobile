@@ -9,13 +9,19 @@ import DishCard from "../../components/DishCard/DishCard";
 import {getDishFavourites} from "../../services/favourites";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "@react-navigation/native";
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
 export interface DishData {
   _id: number;
   dishes: Dish[];
 }
 
-const MenuPage: React.FC = ({ route, navigation }) => {
+type MenuProps = {
+  route: any;
+  navigation: NavigationProp<ParamListBase>;
+}
+
+const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   const [dishesData, setDishesData] = useState<DishData[]>([]);
   const [loading, setLoading] = useState(true);
   const {restaurantId, restaurantName } = route.params;
