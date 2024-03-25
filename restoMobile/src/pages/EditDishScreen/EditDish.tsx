@@ -16,16 +16,14 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { getAllProducts } from "../../services/productCalls";
-import { getAllRestaurantsByUser, getAllResto, getRestaurantByName } from "../../services/restoCalls";
+import { getAllRestaurantsByUser, getRestaurantByName } from "../../services/restoCalls";
 import * as ImagePicker from 'expo-image-picker';
 import { addDish, changeDishByName } from "../../services/dishCalls";
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   addImageDish,
-  addImageResto,
   deleteImageDish,
-  deleteImageRestaurant,
   getImages
 } from "../../services/imagesCalls";
 import {  defaultDishImage } from "../../assets/placeholderImagesBase64";
@@ -284,10 +282,9 @@ const EditDish = ({ route }) => {
       const dishCategory = route.params.dish && route.params.dish.category ? route.params.dish.category : { menuGroup: '', foodGroup: '', extraGroup: [] };
       const dishToSave: IDishFE = {
         name: name,
+        uid: route.params.dish ? route.params.dish.uid : -1,
         price: Number(price),
         description: description,
-        pictures: pictures,
-        picturesId: pictureId,
         allergens: selectedAllergens,
         products: selectedProducts,
         category: {
@@ -304,7 +301,12 @@ const EditDish = ({ route }) => {
         console.log('Dish saved');
       }
       if (dish == null) {
-        const newAddDish = await addDish(dishToSave, selectedRestaurants[i]);
+        const userToken = await AsyncStorage.getItem('user');
+        const newAddDish = await addDish({
+          dish: dishToSave,
+          resto: selectedRestaurants[i],
+          userToken: userToken,
+        }, selectedRestaurants[i]);
         if (newAddDish && newAddDish.name) {
           console.log('Dish saved');
         }

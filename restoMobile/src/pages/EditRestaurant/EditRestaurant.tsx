@@ -153,8 +153,10 @@ const EditRestaurant = ({ route }) => {
     try {
       const updatedData = {
         name: name,
-        phonenumber: phoneNumber,
+        phoneNumber: phoneNumber,
+        description: description,
         website: website,
+        openingHours: [],
         location: {
           streetName: streetName,
           streetNumber: streetNumber,
@@ -162,9 +164,8 @@ const EditRestaurant = ({ route }) => {
           city: city,
           country: country,
           latitude: "0",
-          longitude: "0",
+          longitude: "0"
         },
-        description: description,
         menuDesignID: selectedMenuDesignID,
       };
 

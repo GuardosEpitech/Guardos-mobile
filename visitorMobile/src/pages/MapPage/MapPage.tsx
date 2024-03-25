@@ -390,7 +390,7 @@ const MapPage = () => {
       >
         {filteredMarkers.map((marker) => (
           <Marker
-            key={marker.id}
+            key={marker.uid}
             coordinate={{ latitude: parseFloat(marker.location.latitude), 
               longitude: parseFloat(marker.location.longitude) }}
             title={marker.name}

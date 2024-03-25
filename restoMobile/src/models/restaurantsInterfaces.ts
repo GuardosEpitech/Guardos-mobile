@@ -1,6 +1,6 @@
 export interface IRestaurantFrontEnd {
     name: string;
-    id: number;
+    uid: number;
     phoneNumber: string;
     website: string;
     description: string;

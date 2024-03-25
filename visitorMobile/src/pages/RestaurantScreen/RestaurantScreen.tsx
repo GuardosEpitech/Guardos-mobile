@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { View, FlatList, TouchableOpacity, Text, RefreshControl, ScrollView} from 'react-native';
 import { Slider } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
-import Card from '../../components/RestaurantCard';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import Card from '../../components/RestaurantCard/RestaurantCard';
 import styles from './RestaurantScreen.styles'
 import { getAllResto , getFilteredRestos} from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IRestaurantFrontEnd, ICommunication } from '../../models/restaurantsInterfaces';
+import {getRestoFavourites} from "../../services/favourites";
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -45,27 +46,55 @@ const MyRestaurantsScreen = () => {
     categories: [],
     allergens: [],
   });
+  const [isFavouriteRestos, setIsFavouriteRestos] = React.useState<Array<number>>([]);
 
   useEffect(() => {
-    updateRestoData();
+    fetchFavourites().then(r => console.log("Loaded favourite resto list"));
   }, []);
 
-  const updateRestoData = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
+    }, [])
+  );
+
+  const updateRestoData = async (favRestoIds) => {
     getAllResto()
       .then((res) => {
-        setRestoData(res);
+        const updatedRestoData = res.map(resto => ({
+          ...resto,
+          isFavouriteResto: favRestoIds?.includes(resto.uid)
+        }));
+        setRestoData(updatedRestoData);
       })
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
       });
   };
 
+  const fetchFavourites = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) { return; }
+
+    try {
+      const favourites = await getRestoFavourites(userToken);
+      const favouriteRestoIds = favourites.map((fav: any) => fav.uid);
+      setIsFavouriteRestos(favouriteRestoIds);
+
+      updateRestoData(favouriteRestoIds).then(r => console.log("Loaded resto data"));
+    } catch (error) {
+      console.error("Error fetching user favourites:", error);
+    }
+  };
+
   const updateRestoByFilterData = async (filterSelections: any) => {
-    const userToken = await AsyncStorage.getItem('userToken');    
     getFilteredRestos(filterSelections)
       .then((res) => {
-        setRestoData(res);
+        const updatedRestoData = res.map(resto => ({
+          ...resto,
+          isFavouriteResto: isFavouriteRestos.includes(resto.uid)
+        }));
+        setRestoData(updatedRestoData);
       })
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
@@ -140,11 +169,11 @@ const MyRestaurantsScreen = () => {
         <FlatList
           data={restoData}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigateToMenu(item.id, item.name)}>
-              <Card info={item} />
+            <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
+              <Card info={item} isFavouriteResto={item.isFavouriteResto} />
             </TouchableOpacity>
           )}
-          keyExtractor={(restaurant) => restaurant.id.toString()}
+          keyExtractor={(restaurant) => restaurant.uid.toString()}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
