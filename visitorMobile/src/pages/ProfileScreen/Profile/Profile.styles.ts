@@ -110,6 +110,44 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
   },
+  tabs: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  tabButton: {
+    paddingVertical: 10,
+  },
+  tabButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  activeTab: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#6d071a',
+  },
+  favoriteListContainer: {
+    flexGrow: 1,
+  },
+  paginationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  paginationButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: '#0066FF',
+    borderRadius: 5,
+  },
+  paginationButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   };
 
   const handleEdit = () => {
-    const names: string[] = product.restaurantId.map((id) => restaurants.find((restaurant) => restaurant.id === id)?.name).filter(Boolean);
+    const names: string[] = product.restaurantId.map((id) => restaurants.find((restaurant) => restaurant.uid === id)?.name).filter(Boolean);
     navigation.navigate('EditProductPage', {
       productID: product.id,
       productName: product.name,

@@ -6,6 +6,7 @@ export interface Dish {
     };
     picturesId: number[];
     name: string;
+    uid: number;
     description: string;
     products: string[];
     pictures: string[];
