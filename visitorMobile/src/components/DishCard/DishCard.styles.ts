@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     width: deviceWidth - offset,
     backgroundColor: '#FFFFFF',
     height: 230,
+    margin: 20,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
