@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Modal } from 'react-native';
 import styles from './ResetPasswordScreen.styles';
-import { checkIfRestoUserExist } from '../../services/userCalls';
+import { checkIfRestoUserExist, sendRecoveryLinkForRestoUser } from '../../services/userCalls';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type ResetPasswordProps = {
     navigation: NavigationProp<ParamListBase>;
@@ -16,6 +15,9 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [step, setStep] = useState(1);
   const [error, setError] = useState('');
+  const [disableButton, setDisableButton] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [openFailed, setOpenFailed] = useState(true);
 
   const isValidEmail = (value: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -33,7 +35,15 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
         try {
             const response = await checkIfRestoUserExist({ email, username });
             if (response) {
-                navigation.navigate('Login');
+                setDisableButton(true);
+                const emailWasSend = await sendRecoveryLinkForRestoUser({ email, username });
+                
+                if (emailWasSend) {
+                  setStep(3);
+                  setDisableButton(true);
+                } else {
+                  setStep(4);
+                }
             } else {
               setError(`That username and email (${email}) don't match. Please check its spelling or try another username.`);
             }
@@ -51,6 +61,16 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
     setUsername('');
     setError('');
   };
+
+  const handleGoBackToLogin = () => {
+    setOpen(false);
+    navigation.navigate('Login');
+  };
+
+  const handleGoBackToSite = () => {
+    setOpenFailed(false);
+  };
+
 
   useFocusEffect(
     React.useCallback(() => {
@@ -84,7 +104,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
             <View style={styles.emailDisplay}>
               <Text style={styles.emailText}>{email}</Text>
               <TouchableOpacity onPress={handleGoBack}>
-                <FontAwesomeIcon style={styles.pencilIcon} icon={faPen} />
+              <Ionicons name={'create'} size={25} color={'gray'}/>
               </TouchableOpacity>
             </View>
           </View>
@@ -98,6 +118,24 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
           {error && <Text style={styles.error}>{error}</Text>}
         </>
       )}
+      <Modal visible={step === 3} animationType="slide">
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text>E-Mail was sent!</Text>
+            <Text>Please check your inbox for an email regarding password recovery, and also review your spam folder. The email contains a link that will remain valid for 15 minutes.</Text>
+            <Button title="Go back to login" onPress={handleGoBackToLogin} />
+          </View>
+        </View>
+      </Modal>
+      <Modal visible={step === 4} animationType="slide">
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text>There was an Error.</Text>
+            <Text>Please try again to get a recovery link. If the Error appears one more time, please contact us.</Text>
+            <Button title="Go back to login" onPress={handleGoBackToLogin} />
+          </View>
+        </View>
+      </Modal>
       <Button
         title={step === 1 ? 'Continue' : 'Send My Password Reset Link'}
         onPress={handleContinue}
