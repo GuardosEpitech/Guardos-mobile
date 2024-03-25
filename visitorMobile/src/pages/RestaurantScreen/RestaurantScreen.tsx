@@ -99,22 +99,30 @@ const MyRestaurantsScreen = () => {
         selected: filter.allergenList ? 
           filter.allergenList.includes(allergen.name) : false,
       })));
+      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
       getFilteredRestosNew(filter)
         .then((res) => {
-          setRestoData(res);
-          setSelectedRestoData(res);
+          const updatedRestoData = res.map(resto => ({
+            ...resto,
+            isFavouriteResto: isFavouriteRestos?.includes(resto.uid)
+          }));
+          setRestoData(updatedRestoData);
+          setSelectedRestoData(updatedRestoData);
         }).catch((error) => {
           console.error('Error updating restaurant data:', error);
         });
-
     } else {
+      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
       getAllResto().then((res) => {
-        setRestoData(res);
-        setSelectedRestoData(res);
+        const updatedRestoData = res.map(resto => ({
+          ...resto,
+          isFavouriteResto: isFavouriteRestos?.includes(resto.uid)
+        }));
+        setRestoData(updatedRestoData);
+        setSelectedRestoData(updatedRestoData);
       }).catch((error) => {
         console.error('Error updating restaurant data:', error);
       });
-      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
     }
   }, [filter]);
 
@@ -148,7 +156,7 @@ const MyRestaurantsScreen = () => {
       const favouriteRestoIds = favourites.map((fav: any) => fav.uid);
       setIsFavouriteRestos(favouriteRestoIds);
 
-      updateRestoData(favouriteRestoIds).then(r => console.log("Loaded resto data"));
+      // updateRestoData(favouriteRestoIds).then(r => console.log("Loaded resto data"));
     } catch (error) {
       console.error("Error fetching user favourites:", error);
     }
