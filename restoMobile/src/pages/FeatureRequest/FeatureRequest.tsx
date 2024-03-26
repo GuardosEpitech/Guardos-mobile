@@ -7,6 +7,7 @@ import {IRequestUser} from '../../models/emailInterfaces'
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { sendFeatureRequest } from '../../services/emailCalls';
 
+const baseUrl = `${process.env.DB_HOST}${process.env.DB_HOST_PORT}/api/featureRequest`;
 type FeatureRequestScreenProps = {
     navigation: NavigationProp<ParamListBase>;
   };
@@ -19,20 +20,12 @@ const initialRequestState = {
 
 const FeatureRequest: React.FC<FeatureRequestScreenProps> = ({navigation}) => {
   const [request, setRequest] = useState<IRequestUser>(initialRequestState);
-  const [input1, setInput1] = useState('');
-  const [input2, setInput2] = useState('');
-  const [input3, setInput3] = useState('');
 
-    const handleInputChange1 = (text) => {
-      setInput1(text);
-    };
-  
-    const handleInputChange2 = (text) => {
-      setInput2(text);
-    };
-  
-    const handleInputChange3 = (text) => {
-      setInput3(text);
+    const handleInputChange = (field: keyof IRequestUser, text: string) => {
+      setRequest(prevState => ({
+        ...prevState,
+      [field]: text,
+      }));
     };
   
     const handleButtonPress = () => {
@@ -44,24 +37,23 @@ const FeatureRequest: React.FC<FeatureRequestScreenProps> = ({navigation}) => {
         <TextInput
           style={styles.smallInput}
           placeholder="Name"
-          onChangeText={handleInputChange1}
+          onChangeText={(text) => handleInputChange('name', text)}
           value={request.name}
         />
         <TextInput
           style={styles.smallInput}
           placeholder="Subject"
-          onChangeText={handleInputChange2}
+          onChangeText={(text) => handleInputChange('subject', text)}
           value={request.subject}
         />
         <TextInput
           style={styles.mainInput}
           placeholder="Request"
-          onChangeText={handleInputChange3}
+          onChangeText={(text) => handleInputChange('request', text)}
           value={request.request}
         />
         <Button title="Submit" onPress={handleButtonPress} />
       </View>
     );
   };
-
 export default FeatureRequest;
