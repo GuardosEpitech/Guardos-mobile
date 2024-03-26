@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
   card: {
     width: deviceWidth - offset,
     backgroundColor: '#FFFFFF',
-    height: 230,
-    margin: 20,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
@@ -58,6 +56,37 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 10,
+    textAlign: 'center',
+  },
+  BtnTypeContainer: {
+    flexDirection: 'row',
+  },
+  BtnType: {
+    backgroundColor: '#6D071A',
+    color: '#ffffff',
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+  },
+  BtnTypeText: {
+    color: '#ffffff',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  AllergensText: {
+    fontWeight: 'bold',
+    borderWidth: 2,
+    borderColor: '#6D071A',
+    padding: 5,
+    borderRadius: 15,
+  },
+  TxtAllergens: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  AllergensLabel: {
+    marginRight: 5,
+    fontWeight: 'bold',
   },
 });
 

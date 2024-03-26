@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Image, ScrollView, Button, TouchableOpacity, Dimensions} from 'react-native';
 import styles from './MenuPage.styles';
 import { getDishesByResto } from '../../services/dishCalls';
 import {Dish} from '../../models/dishesInterfaces'
@@ -12,24 +12,64 @@ export  interface DishData {
   dishes: Dish[];
 }
 
+const DishCard = ({ dish, pictures, defaultDishImage, styles }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  return (
+    <TouchableOpacity onPress={toggleDescription}>
+      <View style={styles.card}>
+        <Image
+          source={{ uri: pictures[dish.picturesId[0]]?.base64 || defaultDishImage }}
+          style={styles.cardImage}
+        />
+        <View style={styles.cardContent}>
+          <Text style={styles.cardTitle}>{dish.name}</Text>
+          <Text numberOfLines={isExpanded ? undefined : 1} ellipsizeMode='tail'>
+            {isExpanded ? dish.description : (dish.description.length > 30 ? dish.description.substring(0, 30) + '...' : dish.description)}
+          </Text>
+          <Text>Price: ${dish.price}</Text>
+          <View style={styles.TxtAllergens}>
+            <Text style={styles.AllergensLabel}>Allergens:</Text>
+            <View>
+              <Text style={styles.AllergensText}>{dish.allergens.join(', ')}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 const MenuPage: React.FC = ({ route, navigation }) => {
   const [dishesData, setDishesData] = useState<DishData[]>([]);
   const [loading, setLoading] = useState(true);
   const {restaurantId, restaurantName } = route.params;
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await getDishesByResto(restaurantName);
-        const data: DishData[] = await response.json();
-        setDishesData(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      }
-    };
+  const scrollViewRef = useRef(null);
+  const AppetizerRef = useRef(null);
+  const MaindishRef = useRef(null);
+  const DessertRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
+  };
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
+  
+  const scrollToText = (btnref) => {
+    // Replace 'textRef' with the reference to your text component
+    if (scrollViewRef.current && btnref.current) {
+      btnref.current.measureLayout(
+        scrollViewRef.current,
+        (x, y) => {
+          scrollViewRef.current.scrollTo({ y, animated: true });
+        }
+      );
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -71,6 +111,9 @@ const MenuPage: React.FC = ({ route, navigation }) => {
       setLoading(false);
     }
   };
+
+  // Ref for the text component you want to scroll to
+
   const menuGroupOrder = ['Appetizer', 'Maindish', 'Dessert'];
 
   const sortedDishes = dishesData[0]?.dishes.sort((a, b) => {
@@ -84,23 +127,40 @@ const MenuPage: React.FC = ({ route, navigation }) => {
       {loading ? (
         <Text>Loading...</Text>
       ) : (
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView contentContainerStyle={styles.scrollView} ref={scrollViewRef}>
+          <View style={styles.BtnTypeContainer}>
+            <TouchableOpacity style={styles.BtnType} onPress={() => scrollToText(AppetizerRef)} ><Text style={styles.BtnTypeText}>Appetizer</Text></TouchableOpacity> 
+            <TouchableOpacity style={styles.BtnType} onPress={() => scrollToText(MaindishRef)} ><Text style={styles.BtnTypeText}>Maindish</Text></TouchableOpacity> 
+            <TouchableOpacity style={styles.BtnType} onPress={() => scrollToText(DessertRef)} ><Text style={styles.BtnTypeText}>Dessert</Text></TouchableOpacity> 
+          </View>
           {sortedDishes.map((dish, index) => (
             <React.Fragment key={dish.name+index}>
               {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (
-                <Text style={styles.groupTitle}>{dish.category.menuGroup}</Text>
+                  <Text style={styles.groupTitle} ref={ref => {
+                    switch (dish.category.menuGroup) {
+                      case 'Appetizer':
+                        AppetizerRef.current = ref;
+                        break;
+                        case 'Maindish':
+                          MaindishRef.current = ref;
+                          break;
+                          case 'Dessert':
+                            DessertRef.current = ref;
+                            break;
+                            default:
+                              break;
+                            }
+                          }}>
+                    {dish.category.menuGroup}
+                  </Text>
               )}
-              <View style={styles.card}>
-                <Image
-                  source={{ uri: pictures[dish.picturesId[0]]?.base64 || defaultDishImage }}
-                  style={styles.cardImage} />
-                <View style={styles.cardContent}>
-                  <Text style={styles.cardTitle}>{dish.name}</Text>
-                  <Text>{dish.description}</Text>
-                  <Text>Price: ${dish.price}</Text>
-                  <Text>Allergens: {dish.allergens.join(', ')}</Text>
-                </View>
-              </View>
+              <DishCard
+                key={index}
+                dish={dish}
+                pictures={pictures}
+                defaultDishImage={defaultDishImage}
+                styles={styles}
+                />
             </React.Fragment>
           ))}
         </ScrollView>

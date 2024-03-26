@@ -29,6 +29,7 @@
     "react-native-maps": "1.7.1",
     "react-native-modal": "^13.0.1",
     "react-native-navigation": "^7.37.1-hotfix.1",
+    "react-native-scroll-into-view": "^2.0.2",
     "react-native-vector-icons": "^10.0.2",
     "typescript": "^5.3.2"
   },

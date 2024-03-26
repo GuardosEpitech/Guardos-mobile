@@ -144,8 +144,7 @@ const MyRestaurantsScreen = () => {
               <Card info={item} />
             </TouchableOpacity>
           )}
-          keyExtractor={(restaurant) => restaurant.id.toString()}
-          showsVerticalScrollIndicator={false}
+          keyExtractor={(restaurant, index) => restaurant.id ? restaurant.id.toString() : index.toString()}          showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
