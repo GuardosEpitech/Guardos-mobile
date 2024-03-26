@@ -1,30 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView} from 'react-native';
+import { View, Text, ScrollView} from 'react-native';
 import styles from './MenuPage.styles';
 import { getDishesByResto } from '../../services/dishCalls';
-import {Dish} from '../../models/dishesInterfaces'
-import { defaultDishImage } from "../../../assets/placeholderImagesBase64";
+import {Dish, IDishFE} from '../../models/dishesInterfaces'
 import { IimageInterface } from "../../models/imageInterface";
 import { getImages } from "../../services/imageCalls";
+import DishCard from "../../components/DishCard/DishCard";
+import {getDishFavourites} from "../../services/favourites";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useFocusEffect} from "@react-navigation/native";
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
-export  interface DishData {
+export interface DishData {
   _id: number;
   dishes: Dish[];
 }
 
-const MenuPage: React.FC = ({ route, navigation }) => {
+type MenuProps = {
+  route: any;
+  navigation: NavigationProp<ParamListBase>;
+}
+
+const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   const [dishesData, setDishesData] = useState<DishData[]>([]);
   const [loading, setLoading] = useState(true);
   const {restaurantId, restaurantName } = route.params;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
+  const [isFavouriteDishs, setIsFavouriteDishs] = React.useState<Array<{ restoID: number, dish: IDishFE }>>([]);
 
   useEffect(() => {
+    fetchFavourites().then(r => console.log("Loaded favourite dish list"));
     fetchData();
 
     const unsubscribe = navigation.addListener('focus', fetchData);
 
     return unsubscribe;
   }, [restaurantName, navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFavourites().then(r => console.log("Loaded favourite dish list"));
+      fetchData();
+
+      const unsubscribe = navigation.addListener('focus', fetchData);
+
+      return unsubscribe;
+    }, [])
+  );
 
   const fetchData = async () => {
     setLoading(true);
@@ -58,6 +80,19 @@ const MenuPage: React.FC = ({ route, navigation }) => {
       setLoading(false);
     }
   };
+
+  const fetchFavourites = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) { return; }
+
+    try {
+      const favouriteDishIds = await getDishFavourites(userToken);
+      setIsFavouriteDishs(favouriteDishIds);
+    } catch (error) {
+      console.error("Error fetching user favourites:", error);
+    }
+  };
+
   const menuGroupOrder = ['Appetizer', 'Maindish', 'Dessert'];
 
   const sortedDishes = dishesData[0]?.dishes.sort((a, b) => {
@@ -73,28 +108,19 @@ const MenuPage: React.FC = ({ route, navigation }) => {
       ) : (
         <ScrollView contentContainerStyle={styles.scrollView}>
           {sortedDishes.map((dish, index) => (
-            <React.Fragment key={dish.name+index}>
+            <React.Fragment key={dish.name + index}>
               {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (
                 <Text style={styles.groupTitle}>{dish.category.menuGroup}</Text>
               )}
-              <View style={styles.card}>
-                <Image
-                  source={{ uri: pictures[dish.picturesId[0]]?.base64 || defaultDishImage }}
-                  style={styles.cardImage} />
-                <View style={styles.cardContent}>
-                  <Text style={styles.cardTitle}>{dish.name}</Text>
-                  <Text>{dish.description}</Text>
-                  <Text>Price: ${dish.price}</Text>
-                  <Text>Allergens: {dish.allergens.join(', ')}</Text>
-                </View>
-              </View>
+              <DishCard restoID={restaurantId} dish={dish} isFavourite={isFavouriteDishs.some(fav => {
+                return fav.restoID === restaurantId && fav.dish.uid === dish.uid;
+              })} pictures={pictures} />
             </React.Fragment>
           ))}
         </ScrollView>
       )}
     </View>
   );
-  
 };
 
 export default MenuPage;

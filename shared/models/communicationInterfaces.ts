@@ -11,6 +11,7 @@ export interface IIngredientsCommunication {
 
 export interface IDishesCommunication {
   name?: string;
+  uid: number;
   description?: string;
   price?: number;
   products?: string[];
@@ -25,6 +26,7 @@ export interface IDishesCommunication {
 
 export interface IRestaurantCommunication {
   name: string;
+  uid: number;
   phoneNumber?: string;
   website?: string;
   openingHours?: IOpeningHours[];

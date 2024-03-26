@@ -95,7 +95,7 @@ const ProductForm: React.FC<IDishFormProps> = ({
       }
 
       if (editable) {
-        const selectedId: number[] = selectedRestaurants.map((id) => restaurants.find((restaurant) => restaurant.name === id).id).filter(Boolean);
+        const selectedId: number[] = selectedRestaurants.map((id) => restaurants.find((restaurant) => restaurant.name === id).uid).filter(Boolean);
         const productFE: IProductFE = {
           name,
           id: productIdEdit,

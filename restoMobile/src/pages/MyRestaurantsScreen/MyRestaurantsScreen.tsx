@@ -2,7 +2,6 @@ import React, { useEffect, useState , useCallback} from 'react';
 import { View, FlatList, TouchableOpacity, Text , RefreshControl} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
-import axios from 'axios';
 import styles from '../MyRestaurantsScreen/MyRestaurantsScreen.styles';
 import MenuPage from '../MenuPage/MenuPage';
 import AddRestaurantScreen from '../AddRestaurantScreen/AddRestaurantScreen';
@@ -59,11 +58,11 @@ const MyRestaurantsScreen = () => {
       <FlatList
         data={restoData}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigateToMenu(item.id, item.name)}>
+          <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
             <Card info={item} onDelete={onDelete} />
           </TouchableOpacity>
         )}
-        keyExtractor={(restaurant) => restaurant.id.toString()}
+        keyExtractor={(restaurant) => (restaurant.uid ? restaurant.uid.toString() : '0')}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

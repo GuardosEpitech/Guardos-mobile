@@ -1,8 +1,10 @@
 import axios from 'axios';
 // @ts-ignore
 import { API_URL } from '@env';
+import { faA } from '@fortawesome/free-solid-svg-icons';
 
 const baseURL = API_URL;
+const menuDesignUrl = `${API_URL}menuDesigns/`;
 
 export const getAllResto = async () => {
   try {
@@ -76,5 +78,56 @@ export const deleteRestaurantByName = async (restaurantName: string) => {
   } catch (error) {
     console.error('Error deleting restaurant:', error);
     throw new Error('Failed to delete restaurant');
+  }
+};
+
+export const getAllMenuDesigns = async () => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: menuDesignUrl
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching all menu designs:", error);
+    throw new Error("Failed to fetch all menu designs");
+  }
+};
+
+export const editResto = async (restoName: string, body: any) => {
+  try {
+    const response = await axios({
+      url: baseURL + 'restaurants/' + restoName,
+      method: "PUT",
+      data: JSON.stringify(body),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error("Error editing restaurant:", error);
+    throw new Error("Failed to edit restaurant");
+  }
+};
+
+export const getRestoByName = async (restoName: string) => {
+  try {
+    const response = await axios({
+      url: baseURL + 'restaurants/' + restoName,
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error editing restaurant:", error);
+    throw new Error("Failed to edit restaurant");
   }
 };

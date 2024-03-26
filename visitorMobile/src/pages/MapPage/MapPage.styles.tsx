@@ -58,10 +58,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   starContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -123,9 +119,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   popupHeading: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    alignSelf: 'center',
   },
   clearButton: {
     backgroundColor: '#6d071a',
@@ -139,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
   },
-  filterPopupButton: {
+  filterPopupButton: { 
     backgroundColor: '#6d071a',
     borderRadius: 5,
     padding: 10,
@@ -161,11 +158,16 @@ const styles = StyleSheet.create({
   categoryText: {
     fontWeight: 'bold',
     marginBottom: 5,
+    fontSize: 20,
   },
   categoryCheckbox: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+  },
+  distanceText: {
+    marginBottom: 15,
+    fontSize: 18,
   },
   thumb: {
     width: 15, 
@@ -240,7 +242,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     justifyContent: 'flex-start', 
     alignItems: 'center' 
-}
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  categoriesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  categoryBox: {
+    width: '48%',
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: 'black',
+    marginTop: 6,
+    marginBottom: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default styles;
