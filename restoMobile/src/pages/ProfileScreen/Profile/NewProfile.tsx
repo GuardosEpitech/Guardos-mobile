@@ -102,6 +102,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
       }
     };
 
+    const handleFeatureRequest = () => {
+      navigation.navigate('FeatureRequest', {});
+    };
+
     const handleLogout = () => {
       Alert.alert(
         'Logout',
@@ -251,6 +255,12 @@ const ProfilePage: React.FC<ProfileScreenProps &
               title="Apply Changes"
               onPress={handleApplyChanges} color="green"
             />
+          </View>
+          <View style={styles.buttonContainer}>
+          <Button 
+          title="Feature request" 
+          onPress={handleFeatureRequest} 
+          color="green" />
           </View>
           <View style={styles.logoutButtonContainer}>
             <Button title="Logout" onPress={handleLogout} color="#6d071a"/>

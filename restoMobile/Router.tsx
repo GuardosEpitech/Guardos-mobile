@@ -26,6 +26,8 @@ import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
 import ChangePasswordScreen from './src/pages/ProfileScreen/ChangePassword/ChangePasswordScreen';
 import { RouteProp } from '@react-navigation/native';
 import ProfilePage from './src/pages/ProfileScreen/Profile/NewProfile';
+import FeatureRequest from './src/pages/FeatureRequest/FeatureRequest';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -223,6 +225,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
     >
       {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}
     </Stack.Screen>
+    <Stack.Screen name="FeatureRequest" component={FeatureRequest} />
     <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
   </Stack.Navigator>
 );

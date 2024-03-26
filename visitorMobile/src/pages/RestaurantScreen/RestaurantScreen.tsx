@@ -455,7 +455,6 @@ const MyRestaurantsScreen = () => {
       }
     })
   };
-
   return (
     <View style={styles.container}>
       {isTabVisible && <View style={styles.overlay} />}
@@ -484,7 +483,7 @@ const MyRestaurantsScreen = () => {
               <Card info={item} isFavouriteResto={item.isFavouriteResto} isSmallerCard={false}/>
             </TouchableOpacity>
           )}
-          keyExtractor={(restaurant) => restaurant.uid.toString()}
+          keyExtractor={(restaurant, index) => restaurant.id ? restaurant.id.toString() : index.toString()}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
