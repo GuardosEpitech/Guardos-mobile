@@ -20,6 +20,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {API_URL} from '@env';
 import {editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
 import {deleteRestoAccount} from "../../../services/userCalls";
+import i18n from "i18next";
+import {useTranslation} from "react-i18next";
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -36,13 +38,14 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [menuDesign, setMenuDesign] = useState<string>('default');
     const [languageOpen, setLanguageOpen] = useState(false);
     const [menuDesignOpen, setMenuDesignOpen] = useState(false);
-    const [language, setLanguage] = useState<string>('english');
+    const [language, setLanguage] = useState<string>('en');
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
+    const {t} = useTranslation();
 
     const languageOptions = [
-      {label: 'English', value: 'english'},
-      {label: 'German', value: 'german'},
-      {label: 'French', value: 'french'},
+      {label: 'English', value: 'en'},
+      {label: 'German', value: 'de'},
+      {label: 'French', value: 'fr'},
     ];
     const menuDesignOptions = [
       {label: 'Default', value: 'default'},
@@ -139,6 +142,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
         defaultMenuDesign: menuDesign,
         preferredLanguage: language
       });
+      i18n.changeLanguage(language);
 
       if (res) {
         await AsyncStorage.setItem('user', res);
@@ -201,7 +205,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.heading}>My Profile</Text>
+          <Text style={styles.heading}>{t('Account Page')}</Text>
           <TouchableOpacity
             onPress={selectImage}
             style={styles.profilePictureContainer}

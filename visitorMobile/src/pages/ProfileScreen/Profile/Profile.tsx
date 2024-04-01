@@ -10,6 +10,8 @@ import {deleteAccount} from "../../../services/userCalls";
 import RestaurantCard from "../../../components/RestaurantCard/RestaurantCard";
 import DishCard from "../../../components/DishCard/DishCard";
 import {getDishFavourites, getRestoFavourites} from "../../../services/favourites";
+import i18n from "i18next";
+import {useTranslation} from "react-i18next";
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -25,11 +27,11 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [watchedRestaurants, setWatchedRestaurants] = useState([]);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [allergensOpen, setAllergensOpen] = useState(false);
-  const [language, setLanguage] = useState<string>('english');
+  const [language, setLanguage] = useState<string>('en');
   const languageOptions = [
-    {label: 'English', value: 'english'},
-    {label: 'German', value: 'german'},
-    {label: 'French', value: 'french'},
+    {label: 'English', value: 'en'},
+    {label: 'German', value: 'de'},
+    {label: 'French', value: 'fr'},
   ];
   const allergensOptions = [
     { label: "celery", value: "celery"},
@@ -54,6 +56,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [restoPage, setRestoPage] = useState(1);
   const [dishPage, setDishPage] = useState(1);
   const pageSize = 3; // Number of items per page
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -243,6 +246,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       allergens: allergens,
       preferredLanguage: language
     });
+    i18n.changeLanguage(language);
 
     let isError = false;
     if (!res) {
@@ -277,7 +281,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileSection}>
-        <Text style={styles.heading}>Account Page</Text>
+        <Text style={styles.heading}>{t('Account Page')}</Text>
         {dataChangeStatus !== null && (
           <Text
             style={dataChangeStatus === 'success' ?

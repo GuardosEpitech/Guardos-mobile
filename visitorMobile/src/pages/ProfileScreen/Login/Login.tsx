@@ -4,6 +4,9 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import styles from './Login.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {loginUser} from "../../../services/userCalls";
+import {Ionicons} from "@expo/vector-icons";
+import {useTranslation} from "react-i18next";
+import {getVisitorProfileDetails} from "../../../services/profileCalls";
 
 type LoginScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -13,6 +16,8 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorForm, setErrorForm] = useState(false);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const {i18n} = useTranslation();
 
   const handleSubmit = async () => {
     try {
@@ -30,6 +35,12 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         AsyncStorage.removeItem('userName');
       } else {
         setErrorForm(false);
+        getVisitorProfileDetails(response)
+          .then((res) => {
+            if (res.preferredLanguage) {
+              i18n.changeLanguage(res.preferredLanguage);
+            }
+          });
         await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
         await AsyncStorage.setItem('user', response);
         setLoggedInStatus(true);
@@ -43,6 +54,43 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.languageButton}
+        onPress={() => setShowLanguageDropdown(!showLanguageDropdown)}
+      >
+        <Ionicons name="language" size={24} color="black" />
+      </TouchableOpacity>
+      {showLanguageDropdown && (
+        <View style={styles.languageDropdown}>
+          <TouchableOpacity
+            style={styles.languageOption}
+            onPress={() => {
+              i18n.changeLanguage('en');
+              setShowLanguageDropdown(false);
+            }}
+          >
+            <Text>English</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.languageOption}
+            onPress={() => {
+              i18n.changeLanguage('de');
+              setShowLanguageDropdown(false);
+            }}
+          >
+            <Text>German</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.languageOption}
+            onPress={() => {
+              i18n.changeLanguage('fr');
+              setShowLanguageDropdown(false);
+            }}
+          >
+            <Text>French</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={styles.form}>
         <TextInput
           style={styles.input}

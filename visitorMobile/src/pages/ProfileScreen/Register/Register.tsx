@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styles from './Register.styles';
 import {registerUser} from "../../../services/userCalls";
+import {useTranslation} from 'react-i18next';
+import { Ionicons } from "@expo/vector-icons";
 
 const Register = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -10,6 +12,8 @@ const Register = ({ navigation }) => {
   const [errorUsername, setErrorUsername] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const {t, i18n} = useTranslation();
 
   function isValidPassword(password) {
     const uppercaseRegex = /[A-Z]/;
@@ -59,7 +63,45 @@ const Register = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Register</Text>
+      <TouchableOpacity
+        style={styles.languageButton}
+        onPress={() => setShowLanguageDropdown(!showLanguageDropdown)}
+      >
+        <Ionicons name="language" size={24} color="black" />
+      </TouchableOpacity>
+      {showLanguageDropdown && (
+        <View style={styles.languageDropdown}>
+          <TouchableOpacity
+            style={styles.languageOption}
+            onPress={() => {
+              i18n.changeLanguage('en');
+              setShowLanguageDropdown(false);
+            }}
+          >
+            <Text>English</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.languageOption}
+            onPress={() => {
+              i18n.changeLanguage('de');
+              setShowLanguageDropdown(false);
+            }}
+          >
+            <Text>German</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.languageOption}
+            onPress={() => {
+              i18n.changeLanguage('fr');
+              setShowLanguageDropdown(false);
+            }}
+          >
+            <Text>French</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      <Text style={styles.header}>{t('register')}</Text>
       <View style={styles.form}>
         <TextInput
           style={styles.input}

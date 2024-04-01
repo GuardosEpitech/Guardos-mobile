@@ -1,4 +1,4 @@
-import React, {useState, createContext } from 'react';
+import React, {useState } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -20,6 +20,7 @@ import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import FeatureRequest from './src/pages/FeatureRequest/FeatureRequest';
 import { ISearchCommunication } from '../shared/models/communicationInterfaces';
 import { FilterContext } from './src/models/filterContext';
+import {useTranslation} from "react-i18next";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ LogBox.ignoreAllLogs()
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [filter, setFilter] = useState<ISearchCommunication>({});
+  const {t} = useTranslation();
 
   const setLoggedInStatus = (status) => {
     setLoggedIn(status);
@@ -97,7 +99,11 @@ const MyTabs = () => {
       >
         {loggedIn ? (
           <>
-            <Tab.Screen name="RestaurantScreen" component={RestauStack}/>
+            <Tab.Screen
+              name="RestaurantScreen"
+              options={{tabBarLabel: t('login')}}
+              component={RestauStack}
+            />
             <Tab.Screen name="MapScreen" component={MapPage}/>
             <Tab.Screen name="AboutUs" component={AboutUsScreen}/>
             <Tab.Screen name="ContactUs" component={ContactUsScreen}/>
