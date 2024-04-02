@@ -78,7 +78,7 @@ const Register = ({ navigation }) => {
               setShowLanguageDropdown(false);
             }}
           >
-            <Text>English</Text>
+            <Text>{t('common.english')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.languageOption}
@@ -87,7 +87,7 @@ const Register = ({ navigation }) => {
               setShowLanguageDropdown(false);
             }}
           >
-            <Text>German</Text>
+            <Text>{t('common.german')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.languageOption}
@@ -96,46 +96,46 @@ const Register = ({ navigation }) => {
               setShowLanguageDropdown(false);
             }}
           >
-            <Text>French</Text>
+            <Text>{t('common.french') as string}</Text>
           </TouchableOpacity>
         </View>
       )}
 
-      <Text style={styles.header}>{t('register')}</Text>
+      <Text style={styles.header}>{t('pages.Profile.register')}</Text>
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="Username"
+          placeholder={t('pages.Profile.username') as string}
           value={username}
           onChangeText={(text) => setUsername(text)}
         />
         {errorUsername && (
-          <Text style={styles.errorText}>The desired Username exists already or is invalid</Text>
+          <Text style={styles.errorText}>{t('pages.Profile.username-taken-or-invalid')}</Text>
         )}
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder={t('pages.Profile.email') as string}
           keyboardType="email-address"
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
         {errorEmail && (
-          <Text style={styles.errorText}>An account already exists for the specified email or is invalid</Text>
+          <Text style={styles.errorText}>{t('pages.Profile.email-taken-or-invalid')}</Text>
         )}
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder={t('pages.Profile.password') as string}
           secureTextEntry
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
         {errorPassword && (
           <Text style={styles.errorText}>
-            Your Password should contain minimum: 1x Uppercase and Lowercase Letter, 1x Number and minimum 7 Characters
+            {t('pages.Profile.wrong-pw-format')}
           </Text>
         )}
         <TouchableOpacity style={styles.registerButton} onPress={handleSubmit}>
-          <Text style={styles.registerText}>Register</Text>
+          <Text style={styles.registerText}>{t('pages.Profile.register')}</Text>
         </TouchableOpacity>
       </View>
     </View>

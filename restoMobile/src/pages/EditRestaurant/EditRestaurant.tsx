@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, StatusBar, ScrollView, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, StatusBar, ScrollView, Image } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Header from '../../components/Header';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ import { defaultRestoImage } from "../../assets/placeholderImagesBase64";
 import { addImageResto, deleteImageRestaurant, getImages } from "../../services/imagesCalls";
 import { editResto, getAllMenuDesigns, getRestoByName } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
+import {useTranslation} from "react-i18next";
 
 const EditRestaurant = ({ route }) => {
   const { restaurantId } = route.params; 
@@ -29,6 +30,7 @@ const EditRestaurant = ({ route }) => {
   const [selectedMenuDesignID, setSelectedMenuDesignID] = useState(0);
   const [menuDesignOpen, setMenuDesignOpen] = useState(false);
   const navigation = useNavigation();
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchRestaurantData = async () => {
@@ -121,7 +123,7 @@ const EditRestaurant = ({ route }) => {
   const changePicture = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+      alert(t('common.need-cam-permissions'));
       return;
     }
 
@@ -172,20 +174,20 @@ const EditRestaurant = ({ route }) => {
       const response = await editResto(name, updatedData);
 
       if (response) {
-        Alert.alert('Success', 'Restaurant data updated successfully', [
+        Alert.alert(String(t('common.success')), String(t('pages.EditRestaurant.updated-resto-success')), [
           {
-            text: 'OK',
+            text: String(t('common.ok')),
             onPress: () => {
               navigation.goBack();
             },
           },
         ]);
       } else {
-        Alert.alert('Error', 'Failed to update restaurant data');
+        Alert.alert(String(t('common.error')), String(t('pages.EditReastaurant.updated-resto-failure')));
       }
     } catch (error) {
       console.error('Error updating restaurant data:', error);
-      Alert.alert('Error', 'An unexpected error occurred');
+      Alert.alert(String(t('common.error')), String(t('common.unexpected-error')));
     }
   };
 
@@ -201,10 +203,10 @@ const EditRestaurant = ({ route }) => {
             <Image source={{ uri: pictures[0].base64}} style={styles.image} />
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={() => removePicture(pictures[0])} style={styles.deleteButton}>
-                <Text>Delete</Text>
+                <Text>{t('common.delete')}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={changePicture} style={styles.changeButton}>
-                <Text>Change</Text>
+                <Text>{t('common.change')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -212,7 +214,7 @@ const EditRestaurant = ({ route }) => {
           <View style={styles.centeredView}>
             <TouchableOpacity style={styles.imageContainer} onPress={changePicture}>
               <View style={styles.placeholderContainer}>
-                <Text style={styles.placeholderText}>Tap to Add Picture</Text>
+                <Text style={styles.placeholderText}>{t('common.add-picture')}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -228,13 +230,13 @@ const EditRestaurant = ({ route }) => {
           <View style={styles.inputPair}>
             <TextInput
               style={styles.input}
-              placeholder="Restaurant Name"
+              placeholder={t('pages.AddEditRestaurantScreen.resto-name-mandatory') as string}
               value={name}
               onChangeText={(text) => setName(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="Phone Number"
+              placeholder={t('pages.AddEditRestaurantScreen.phone-number') as string}
               value={phoneNumber}
               onChangeText={(text) => setPhoneNumber(text)}
             />
@@ -242,13 +244,13 @@ const EditRestaurant = ({ route }) => {
           <View style={styles.inputPair}>
             <TextInput
               style={styles.input}
-              placeholder="Website"
+              placeholder={t('pages.AddEditRestaurantScreen.website') as string}
               value={website}
               onChangeText={(text) => setWebsite(text)}
             />
             <TextInput
               style={[styles.input, styles.multilineInput]}
-              placeholder="Description"
+              placeholder={t('pages.AddEditRestaurantScreen.description') as string}
               value={description}
               onChangeText={(text) => setDescription(text)}
               multiline
@@ -259,13 +261,13 @@ const EditRestaurant = ({ route }) => {
           <View style={styles.inputPair}>
             <TextInput
               style={styles.input}
-              placeholder="Street Name"
+              placeholder={t('pages.AddEditRestaurantScreen.street-name-mandatory') as string}
               value={streetName}
               onChangeText={(text) => setStreetName(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="Street Number"
+              placeholder={t('pages.AddEditRestaurantScreen.street-number-mandatory') as string}
               value={streetNumber}
               onChangeText={(text) => setStreetNumber(text)}
             />
@@ -273,13 +275,13 @@ const EditRestaurant = ({ route }) => {
           <View style={styles.inputPair}>
             <TextInput
               style={styles.input}
-              placeholder="Postal Code"
+              placeholder={t('pages.AddEditRestaurantScreen.postal-code-mandatory') as string}
               value={postalCode}
               onChangeText={(text) => setPostalCode(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="City"
+              placeholder={t('pages.AddEditRestaurantScreen.city-mandatory') as string}
               value={city}
               onChangeText={(text) => setCity(text)}
             />
@@ -287,7 +289,7 @@ const EditRestaurant = ({ route }) => {
           <View style={styles.inputPair}>
             <TextInput
               style={styles.input}
-              placeholder="Country"
+              placeholder={t('pages.AddEditRestaurantScreen.country-mandatory') as string}
               value={country}
               onChangeText={(text) => setCountry(text)}
             />
@@ -312,7 +314,7 @@ const EditRestaurant = ({ route }) => {
         />
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.buttonText}>Save</Text>
+        <Text style={styles.buttonText}>{t('common.save')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

@@ -43,14 +43,14 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const {t} = useTranslation();
 
     const languageOptions = [
-      {label: 'English', value: 'en'},
-      {label: 'German', value: 'de'},
-      {label: 'French', value: 'fr'},
+      {label: t('common.english'), value: 'en'},
+      {label: t('common.german'), value: 'de'},
+      {label: t('common.french'), value: 'fr'},
     ];
     const menuDesignOptions = [
-      {label: 'Default', value: 'default'},
-      {label: 'Fast food', value: 'fast-food'},
-      {label: 'Pizzeria', value: 'pizzeria'},
+      {label: t('pages.Profile.default'), value: 'default'},
+      {label: t('pages.Profile.fast-food'), value: 'fast-food'},
+      {label: t('pages.Profile.pizzeria'), value: 'pizzeria'},
     ];
 
     useEffect(() => {
@@ -80,7 +80,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
       const permissionResult = await ImagePicker
         .requestMediaLibraryPermissionsAsync();
       if (permissionResult.granted === false) {
-        alert('Permission to access camera roll is required!');
+        alert(t('common.need-cam-permissions'));
         return;
       }
 
@@ -111,15 +111,15 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
     const handleLogout = () => {
       Alert.alert(
-        'Logout',
-        'Are you sure you want to logout?',
+        t('pages.Profile.logout') as string,
+        t('pages.Profile.confirm-logout') as string,
         [
           {
-            text: 'Cancel',
+            text: t('common.cancel') as string,
             style: 'cancel',
           },
           {
-            text: 'Logout',
+            text: t('pages.Profile.logout') as string,
             onPress: () => {
               AsyncStorage.removeItem('userToken');
               setLoggedInStatus(false);
@@ -169,19 +169,22 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
     const handleDeleteAccount = () => {
       Alert.alert(
-        'Delete Account',
-        'Are you sure you want to delete your account? This action is irreversible.',
+        t('pages.Profile.delete-account') as string,
+        t('pages.Profile.confirm-delete-account') as string,
         [
           {
-            text: 'Cancel',
+            text: t('common.cancel') as string,
             style: 'cancel',
           },
           {
-            text: 'Delete',
+            text: t('common.delete') as string,
             onPress: async () => {
               const userToken = await AsyncStorage.getItem('userToken');
               if (userToken === null) {
-                Alert.alert('Error', 'Failed to delete account. Please log in again.');
+                Alert.alert(
+                  String(t('common.error')),
+                  String(t('pages.Profile.delete-account-failure-login'))
+                );
               }
               deleteRestoAccount(userToken).then(res => {
                 if (res !== null) {
@@ -190,7 +193,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
                   setLoggedInStatus(false);
                   navigation.navigate('Login');
                 } else {
-                  Alert.alert('Error', 'Failed to delete account. Please try again.');
+                  Alert.alert(
+                    String(t('common.error')),
+                    String(t('pages.Profile.delete-account-failure-retry'))
+                  );
                 }
               });
             },
@@ -205,7 +211,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.heading}>{t('Account Page')}</Text>
+          <Text style={styles.heading}>{t('pages.Profile.profile-page')}</Text>
           <TouchableOpacity
             onPress={selectImage}
             style={styles.profilePictureContainer}
@@ -214,26 +220,26 @@ const ProfilePage: React.FC<ProfileScreenProps &
               <Image source={{uri: image}} style={styles.profilePicture}/>
             ) : (
               <View style={styles.defaultProfilePicture}>
-                <Text style={styles.defaultProfilePictureText}>Add Picture</Text>
+                <Text style={styles.defaultProfilePictureText}>{t('pages.Profile.add-picture')}</Text>
               </View>
             )}
           </TouchableOpacity>
           <TextInput
             style={styles.input}
-            placeholder="Username"
+            placeholder={t('pages.Profile.username') as string}
             value={username}
             onChangeText={(text) => setUsername(text)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder={t('pages.Profile.email') as string}
             value={email}
             onChangeText={(text) => setEmail(text)}
             keyboardType="email-address"
           />
           <View style={styles.changePasswordButton}>
             <Button
-              title="Change Password"
+              title={t('pages.Profile.change-pw') as string}
               onPress={handleNavigateToChangePassword}
             />
           </View>
@@ -256,27 +262,27 @@ const ProfilePage: React.FC<ProfileScreenProps &
           />
           <View style={styles.buttonContainer}>
             <Button
-              title="Apply Changes"
+              title={t('common.apply-changes') as string}
               onPress={handleApplyChanges} color="green"
             />
           </View>
           <View style={styles.buttonContainer}>
           <Button 
-          title="Feature request" 
+          title={t('pages.Profile.feature-request') as string}
           onPress={handleFeatureRequest} 
           color="green" />
           </View>
           <View style={styles.logoutButtonContainer}>
-            <Button title="Logout" onPress={handleLogout} color="#6d071a"/>
+            <Button title={t('pages.Profile.logout') as string} onPress={handleLogout} color="#6d071a"/>
           </View>
           {showPasswordChangedMessage && 
           <Text style={styles.passwordSuccess}>
-            Password Changed
+            {t('pages.Profile.pw-changed') as string}
           </Text>}
         </View>
           <View style={styles.deleteAccountSection}>
             <Button
-              title="Delete Account"
+              title={t('pages.Profile.delete-account') as string}
               onPress={handleDeleteAccount}
               color="#6d071a"
             />

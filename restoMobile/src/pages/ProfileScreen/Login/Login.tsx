@@ -17,7 +17,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
   const [password, setPassword] = useState('');
   const [errorForm, setErrorForm] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
-  const {i18n} = useTranslation();
+  const {t, i18n} = useTranslation();
 
   const handleSubmit = async () => {
     try {
@@ -66,7 +66,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
               setShowLanguageDropdown(false);
             }}
           >
-            <Text>English</Text>
+            <Text>{t('common.english')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.languageOption}
@@ -75,7 +75,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
               setShowLanguageDropdown(false);
             }}
           >
-            <Text>German</Text>
+            <Text>{t('common.german')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.languageOption}
@@ -84,7 +84,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
               setShowLanguageDropdown(false);
             }}
           >
-            <Text>French</Text>
+            <Text>{t('common.french')}</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -92,36 +92,36 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="Username or Email"
+          placeholder={t('pages.Profile.username-or-email') as string}
           value={username}
           onChangeText={text => setUsername(text)}
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder={t('pages.Profile.password') as string}
           secureTextEntry
           value={password}
           onChangeText={text => setPassword(text)}
         />
-        {errorForm && <Text style={styles.errorText}>Invalid Logindata</Text>}
+        {errorForm && <Text style={styles.errorText}>{t('pages.Profile.invalid-login')}</Text>}
         <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-          <Text style={styles.loginText}>Login</Text>
+          <Text style={styles.loginText}>{t('pages.Profile.login')}</Text>
         </TouchableOpacity>
         <Text style={styles.registerInfo}>
           <Text style={styles.registerLink} onPress={() => navigation.navigate('Account Recovery')}>
-          Trouble logging in?
+            {t('pages.Profile.trouble-logging-in')}
           </Text>
         </Text>
         <Text style={styles.registerInfo}>
-          Don't you have an account yet? Register yourself{' '}
+          {t('pages.Profile.register-prompt')}
           <Text style={styles.registerLink} onPress={() => navigation.navigate('Register')}>
-            here
+            {t('pages.Profile.register-here')}
           </Text>
           .
         </Text>
         <View style={styles.containerDivider}>
           <View style={styles.divider}></View>
-          <Text>Or</Text>
+          <Text>{t('pages.Profile.or')}</Text>
           <View style={styles.divider}></View>
         </View>
         <View style={styles.containerFlex}>

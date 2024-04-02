@@ -19,6 +19,7 @@ i18n
         compatibilityJSON: 'v3',
         resources,
         lng: 'en',// default language to use.
+        fallbackLng: 'en'
     });
 
 export default {i18n};
