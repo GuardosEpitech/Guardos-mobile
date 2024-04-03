@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Alert, StatusBar, ScrollView } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './AddRestaurantScreen.styles';
@@ -8,6 +8,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addRestaurant, getAllMenuDesigns } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
+
+DropDownPicker.addTranslation("DE", {
+  PLACEHOLDER: "Wählen Sie ein Element aus",
+  SEARCH_PLACEHOLDER: "Suche...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} Elemente ausgewählt",
+  NOTHING_TO_SHOW: "Es gibt nichts zu zeigen!"
+});
+
+DropDownPicker.addTranslation("FR", {
+  PLACEHOLDER: "Sélectionnez un élément",
+  SEARCH_PLACEHOLDER: "Tapez quelque chose...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} éléments ont été sélectionnés",
+  NOTHING_TO_SHOW: "Il n'y a rien à montrer!"
+});
 
 const AddRestaurantScreen = () => {
   const navigation = useNavigation();
@@ -25,7 +39,8 @@ const AddRestaurantScreen = () => {
   const [selectedMenuDesign, setSelectedMenuDesign] = useState('');
   const [selectedMenuDesignID, setSelectedMenuDesignID] = useState(0);
   const [menuDesignOpen, setMenuDesignOpen] = useState(false);
-  const {t} = useTranslation();
+  const [language, setLanguage] = useState('');
+  const {t, i18n} = useTranslation();
 
   useEffect(() => {    
     getAllMenuDesigns()
@@ -35,6 +50,7 @@ const AddRestaurantScreen = () => {
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
       });
+    setLanguage(i18n.language);
   }, []);
 
 
@@ -177,6 +193,7 @@ const AddRestaurantScreen = () => {
           <Text style={{ marginBottom: 5 }}>{t('pages.AddEditRestaurantScreen.select-menu-design')}</Text>
           <DropDownPicker
             open={menuDesignOpen}
+            language={language.toUpperCase() as LanguageType}
             items={menuDesigns.map((menuDesign) => ({ label: menuDesign.name, value: menuDesign._id }))}
             value={selectedMenuDesign}
             dropDownDirection={'TOP'}

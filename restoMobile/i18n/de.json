@@ -95,7 +95,8 @@
         "food-category": "Essenskategorie",
         "add-category": "Neue Kategorie hinzufügen",
         "resto": "Restaurant",
-        "add-resto": "Neues Restaurant hinzufügen"
+        "add-resto": "Neues Restaurant hinzufügen",
+        "categories": "Kategorien"
       },
       "EditProductPage": {
         "edit-product": "Produkt bearbeiten"
@@ -104,7 +105,7 @@
         "updated-resto-success": "Restaurantdaten erfolgreich aktualisiert",
         "updated-resto-failure": "Aktualisierung der Restaurantdaten fehlgeschlagen"
       },
-      "FeatureReques": {
+      "FeatureRequest": {
         "name": "Name",
         "subject": "Betreff",
         "request": "Anfragen"
@@ -179,6 +180,13 @@
         "try-again-msg": "Bitte versuchen Sie erneut, einen Wiederherstellungslink zu erhalten. Wenn der Fehler erneut auftritt, kontaktieren Sie uns bitte.",
         "continue": "Fortsetzen",
         "send-reset-link": "Meinen Passwort-Wiederherstellungslink senden"
+      },
+      "Router": {
+        "no-internet-error": "Keine Internetverbindung. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+        "scan": "Scannen",
+        "my-profile": "Mein Profil",
+        "login": "Anmelden",
+        "register": "Registrieren"
       }
     }
   }

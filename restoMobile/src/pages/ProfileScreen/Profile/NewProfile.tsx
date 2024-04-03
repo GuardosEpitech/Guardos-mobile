@@ -15,13 +15,26 @@ import * as ImagePicker from 'expo-image-picker';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './NewProfile.styles';
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 // @ts-ignore
 import {API_URL} from '@env';
 import {editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
 import {deleteRestoAccount} from "../../../services/userCalls";
-import i18n from "i18next";
 import {useTranslation} from "react-i18next";
+
+DropDownPicker.addTranslation("DE", {
+  PLACEHOLDER: "Wählen Sie ein Element aus",
+  SEARCH_PLACEHOLDER: "Suche...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} Elemente ausgewählt",
+  NOTHING_TO_SHOW: "Es gibt nichts zu zeigen!"
+});
+
+DropDownPicker.addTranslation("FR", {
+  PLACEHOLDER: "Sélectionnez un élément",
+  SEARCH_PLACEHOLDER: "Tapez quelque chose...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} éléments ont été sélectionnés",
+  NOTHING_TO_SHOW: "Il n'y a rien à montrer!"
+});
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -40,7 +53,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [menuDesignOpen, setMenuDesignOpen] = useState(false);
     const [language, setLanguage] = useState<string>('en');
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
-    const {t} = useTranslation();
+    const {t, i18n} = useTranslation();
 
     const languageOptions = [
       {label: t('common.english'), value: 'en'},
@@ -69,7 +82,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
             setUsername(res.username);
             setPictureId(res.profilePicId);
             setMenuDesign(res.defaultMenuDesign);
-            setLanguage(res.preferredLanguage);
+            setLanguage(res.preferredLanguage || i18n.language);
           });
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -245,6 +258,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
           </View>
           <DropDownPicker
             dropDownDirection={'TOP'}
+            language={language.toUpperCase() as LanguageType}
             open={menuDesignOpen}
             value={menuDesign}
             items={menuDesignOptions}
@@ -254,6 +268,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
           />
           <DropDownPicker
             dropDownDirection={'TOP'}
+            language={language.toUpperCase() as LanguageType}
             open={languageOpen}
             value={language}
             items={languageOptions}

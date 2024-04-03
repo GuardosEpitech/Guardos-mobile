@@ -95,7 +95,8 @@
         "food-category": "Catégorie alimentaire",
         "add-category": "Ajouter une nouvelle catégorie",
         "resto": "Restaurant",
-        "add-resto": "Ajouter un nouveau restaurant"
+        "add-resto": "Ajouter un nouveau restaurant",
+        "categories": "Catégories"
       },
       "EditProductPage": {
         "edit-product": "Modifier le produit"
@@ -104,7 +105,7 @@
         "updated-resto-success": "Données du restaurant mises à jour avec succès",
         "updated-resto-failure": "Échec de la mise à jour des données du restaurant"
       },
-      "FeatureReques": {
+      "FeatureRequest": {
         "name": "Nom",
         "subject": "Sujet",
         "request": "Demande"
@@ -179,6 +180,13 @@
         "try-again-msg": "Veuillez réessayer pour obtenir un lien de récupération. Si l'erreur se reproduit une fois de plus, veuillez nous contacter.",
         "continue": "Continuer",
         "send-reset-link": "Envoyer mon lien de réinitialisation de mot de passe"
+      },
+      "Router": {
+        "no-internet-error": "Pas de connexion Internet. Veuillez vérifier votre connexion et réessayer.",
+        "scan": "Scanner",
+        "my-profile": "Mon Profil",
+        "login": "Connexion",
+        "register": "S'inscrire"
       }
     }
   }

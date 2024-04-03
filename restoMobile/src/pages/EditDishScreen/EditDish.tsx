@@ -78,7 +78,7 @@ const EditDish = ({ route }) => {
     const newProducts = allProducts.filter(prod => !products.includes(prod.name)).map(prod => prod.name);
     setProducts([...products, ...newProducts]);
 
-    setModalContentType('Products');
+    setModalContentType(t('common.products') as string);
     setModalVisible(true);
   };
 
@@ -93,7 +93,7 @@ const EditDish = ({ route }) => {
     const newAllergens = allergens.filter(allergen => !selectedAllergens.includes(allergen));
     setAllergens([...selectedAllergens, ...newAllergens]);
 
-    setModalContentType('Allergens');
+    setModalContentType(t('pages.EditDishScreen.allergens') as string);
     setModalVisible(true);
   };
 
@@ -113,7 +113,7 @@ const EditDish = ({ route }) => {
     const newCategories = categories.filter(cat => !category.includes(cat.name)).map(cat => cat.name);
     setCategory([...category, ...newCategories]);
 
-    setModalContentType('Categories');
+    setModalContentType(t('pages.EditDishScreen.categories') as string);
     setModalVisible(true);
   };
 
@@ -124,7 +124,7 @@ const EditDish = ({ route }) => {
     const newRestaurants = allRestaurants.filter(resto => !restaurants.includes(resto.name)).map(resto => resto.name);
     setRestaurants([...restaurants, ...newRestaurants]);
 
-    setModalContentType('Restaurants');
+    setModalContentType(t('common.restos') as string);
     setModalVisible(true);
   }
 
@@ -491,7 +491,7 @@ const EditDish = ({ route }) => {
           <View style={styles.modalView}>
             <Text style={styles.label}>{modalContentType}</Text>
             <View style={styles.flexContainer}>
-              {modalContentType === 'Products' &&
+              {modalContentType === t('common.products') &&
                 products.map((item, index) => (
                   <TouchableOpacity
                     key={index}
@@ -502,7 +502,7 @@ const EditDish = ({ route }) => {
                   </TouchableOpacity>
                 ))
               }
-              {modalContentType === 'Allergens' &&
+              {modalContentType === t('pages.EditDishScreen.allergens') &&
                 allergens.map((item, index) => (
                   <TouchableOpacity
                     key={index}
@@ -514,7 +514,7 @@ const EditDish = ({ route }) => {
                 ))
               }
 
-              {modalContentType === 'Categories' &&
+              {modalContentType === t('pages.EditDishScreen.categories') &&
                 category.map((item, index) => (
                   <TouchableOpacity
                     key={index}
@@ -526,7 +526,7 @@ const EditDish = ({ route }) => {
                 ))
               }
 
-              {modalContentType === 'Restaurants' &&
+              {modalContentType === t('common.restos') &&
                 restaurants.map((item, index) => (
                   <TouchableOpacity
                     key={index}

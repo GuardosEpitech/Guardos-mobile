@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, StatusBar, ScrollView, Image } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 import Header from '../../components/Header';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,20 @@ import { addImageResto, deleteImageRestaurant, getImages } from "../../services/
 import { editResto, getAllMenuDesigns, getRestoByName } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
+
+DropDownPicker.addTranslation("DE", {
+  PLACEHOLDER: "Wählen Sie ein Element aus",
+  SEARCH_PLACEHOLDER: "Suche...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} Elemente ausgewählt",
+  NOTHING_TO_SHOW: "Es gibt nichts zu zeigen!"
+});
+
+DropDownPicker.addTranslation("FR", {
+  PLACEHOLDER: "Sélectionnez un élément",
+  SEARCH_PLACEHOLDER: "Tapez quelque chose...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} éléments ont été sélectionnés",
+  NOTHING_TO_SHOW: "Il n'y a rien à montrer!"
+});
 
 const EditRestaurant = ({ route }) => {
   const { restaurantId } = route.params; 
@@ -29,8 +43,9 @@ const EditRestaurant = ({ route }) => {
   const [selectedMenuDesign, setSelectedMenuDesign] = useState('');
   const [selectedMenuDesignID, setSelectedMenuDesignID] = useState(0);
   const [menuDesignOpen, setMenuDesignOpen] = useState(false);
+  const [language, setLanguage] = useState('');
   const navigation = useNavigation();
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
 
   useEffect(() => {
     const fetchRestaurantData = async () => {
@@ -56,6 +71,8 @@ const EditRestaurant = ({ route }) => {
     };
 
     fetchRestaurantData();
+
+    setLanguage(i18n.language);
 
     getAllMenuDesigns()
       .then((res) => {
@@ -299,6 +316,7 @@ const EditRestaurant = ({ route }) => {
       <View style={styles.containerPicker}>
         <DropDownPicker
           open={menuDesignOpen}
+          language={language.toUpperCase() as LanguageType}
           items={menuDesigns.map((menuDesign) => ({ label: menuDesign.name, value: menuDesign._id }))}
           value={selectedMenuDesign}
           dropDownDirection={'TOP'}

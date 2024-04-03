@@ -95,7 +95,8 @@
         "food-category": "Food Category",
         "add-category": "Add new Category",
         "resto": "Restaurant",
-        "add-resto": "Add new Restaurant"
+        "add-resto": "Add new Restaurant",
+        "categories": "Categories"
       },
       "EditProductPage": {
         "edit-product": "Edit Product"
@@ -104,7 +105,7 @@
         "updated-resto-success": "Restaurant data updated successfully",
         "updated-resto-failure": "Failed to update restaurant data"
       },
-      "FeatureReques": {
+      "FeatureRequest": {
         "name": "Name",
         "subject": "Subject",
         "request": "Request"
@@ -179,6 +180,13 @@
         "try-again-msg": "Please try again to get a recovery link. If the Error appears one more time, please contact us.",
         "continue": "Continue",
         "send-reset-link": "Send My Password Reset Link"
+      },
+      "Router": {
+        "no-internet-error": "No internet connection. Please check your connection and try again.",
+        "scan": "Scan",
+        "my-profile": "My Profile",
+        "login": "Login",
+        "register": "Register"
       }
     }
   }
