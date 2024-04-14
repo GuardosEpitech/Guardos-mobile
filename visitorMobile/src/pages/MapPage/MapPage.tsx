@@ -28,7 +28,6 @@ import styles from './MapPage.styles';
 import MenuPage from '../MenuPage/MenuPage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
-import placeholderImage from '../../../assets/logo.png';
 import { Slider } from 'react-native-elements';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -38,7 +37,8 @@ import {
 } from "../../services/profileCalls";
 import { defaultRestoImage } from "../../../assets/placeholderImagesBase64";
 import { getImages } from "../../services/imageCalls";
-import { FilterContext } from '../../models/filterContext'; 
+import { FilterContext } from '../../models/filterContext';
+import {useTranslation} from "react-i18next";
 
 const Epitech = [13.328820, 52.508540];// long,lat
 
@@ -66,6 +66,7 @@ const MapPage = () => {
     error: false,
     message: '',
   });
+  // TODO: apply i18n
   const [categories, setCategories] = useState([
     { name: 'Burger', selected: false },
     { name: 'Sushi', selected: false },
@@ -90,6 +91,7 @@ const MapPage = () => {
     { name: 'tree nuts', selected: false },
   ]);
   const isFocused = useIsFocused();
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (isFocused) {
@@ -331,7 +333,7 @@ const MapPage = () => {
       setSaveFilterStatus({
         success: false,
         error: true,
-        message: 'Error saving filter. Please try again.',
+        message: t('pages.MapPage.save-filter-error') as string,
       });
       setTimeout(() => {
         setSaveFilterStatus({
@@ -367,7 +369,7 @@ const MapPage = () => {
         setSaveFilterStatus({
           success: true,
           error: false,
-          message: 'Filter saved successfully!',
+          message: t('pages.MapPage.save-filter-success') as string,
         });
         console.log('Saved filter');
         setTimeout(() => {
@@ -381,7 +383,7 @@ const MapPage = () => {
         setSaveFilterStatus({
           success: false,
           error: true,
-          message: 'Error saving filter. Please try again.',
+          message: t('pages.MapPage.save-filter-error') as string,
         });
         console.error('Error saving filter');
         setTimeout(() => {
@@ -396,7 +398,7 @@ const MapPage = () => {
       setSaveFilterStatus({
         success: false,
         error: true,
-        message: 'Error saving filter. Please try again.',
+        message: t('pages.MapPage.save-filter-error') as string,
       });
       console.error('Error saving filter:', error);
       setTimeout(() => {
@@ -438,7 +440,7 @@ const MapPage = () => {
       setSaveFilterStatus({
         success: false,
         error: true,
-        message: 'Error deleting filter. Please log in again.',
+        message: t('pages.MapPage.delete-filter-error') as string,
       });
       setTimeout(() => {
         setSaveFilterStatus({
@@ -458,7 +460,7 @@ const MapPage = () => {
         setSaveFilterStatus({
           success: true,
           error: false,
-          message: 'Filter deleted successfully!',
+          message: t('pages.MapPage.delete-filter-success') as string,
         });
         console.log('Deleted filter');
         setTimeout(() => {
@@ -472,7 +474,7 @@ const MapPage = () => {
         setSaveFilterStatus({
           success: false,
           error: true,
-          message: 'Error deleting filter. Please try again.',
+          message: t('pages.MapPage.delete-filter-error') as string,
         });
         console.error('Error deleting filter');
         setTimeout(() => {
@@ -492,18 +494,18 @@ const MapPage = () => {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Enter restaurant name"
+          placeholder={t('pages.MapPage.enter-resto-name') as string}
           value={nameFilter}
           onChangeText={(text) => setNameFilter(text)}
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter city name"
+          placeholder={t('pages.MapPage.enter-city') as string}
           value={locationFilter}
           onChangeText={(text) => setLocationFilter(text)}
         />
         <TouchableOpacity style={styles.button} onPress={handleSearch}>
-          <Text style={styles.buttonText}>Search</Text>
+          <Text style={styles.buttonText}>{t('pages.MapPage.search')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -558,12 +560,12 @@ const MapPage = () => {
               
               return (
                 <Ionicons
-                key={index}
-                name={isFullStar ? 'star' : isHalfStar ? 
-                  'star-half' : 'star-outline'}
-                size={20}
-                color={isFullStar || isHalfStar ? 'gold' : 'black'}
-                style={styles.starIcon}
+                  key={index}
+                  name={isFullStar ? 'star' : isHalfStar ?
+                    'star-half' : 'star-outline'}
+                  size={20}
+                  color={isFullStar || isHalfStar ? 'gold' : 'black'}
+                  style={styles.starIcon}
                 />
                 );
               })}
@@ -588,9 +590,11 @@ const MapPage = () => {
             {selectedMarker && selectedMarker.description}
           </Text>
           <Text style={{ marginTop: 10 }}>
-            Telephone: {selectedMarker && selectedMarker.phoneNumber}
+            {t('pages.MapPage.telephone', {phoneNumber: selectedMarker && selectedMarker.phoneNumber})}
           </Text>
-          <Text>Website: {selectedMarker && selectedMarker.website}</Text>
+          <Text>
+            {t('pages.MapPage.website', {website: selectedMarker && selectedMarker.website})}
+          </Text>
 
           <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
               <Icon name="close" size={30} color="black" />
@@ -601,14 +605,14 @@ const MapPage = () => {
                 onPress={handleMenu} 
                 style={styles.menuButton}
               >
-                <Text style={styles.buttonText}>Menu</Text>
+                <Text style={styles.buttonText}>{t('pages.MapPage.menu')}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity 
                 onPress={handleNavigate} 
                 style={styles.navigateButton}
               >
-                <Text style={styles.buttonText}>Navigate</Text>
+                <Text style={styles.buttonText}>{t('pages.MapPage.navigate')}</Text>
               </TouchableOpacity>
             </View>
         </View>
@@ -624,9 +628,9 @@ const MapPage = () => {
       <Modal isVisible={showFilterPopup} style={{ marginTop: 50 }}>
       <ScrollView style={styles.filterPopup}>
         <View style={styles.filterPopup}>
-          <Text style={styles.popupHeading}>Filter</Text>
+          <Text style={styles.popupHeading}>{t('pages.MapPage.filter')}</Text>
 
-          <Text style={styles.categoryText}>Rating:</Text>
+          <Text style={styles.categoryText}>{t('pages.MapPage.rating')}</Text>
           <View style={styles.ratingContainer}>
             {[1, 2, 3, 4, 5].map((index) => (
               <TouchableOpacity
@@ -642,7 +646,7 @@ const MapPage = () => {
             ))}
           </View>
 
-          <Text style={styles.categoryText}>Range:</Text>
+          <Text style={styles.categoryText}>{t('pages.MapPage.range')}</Text>
               <Slider
                 thumbStyle={styles.thumb}
                 value={range}
@@ -654,9 +658,9 @@ const MapPage = () => {
                 maximumTrackTintColor="#e2b0b3"
                 thumbTintColor="#6d071a" 
               />
-              <Text style={styles.distanceText}>Distance: {range} km</Text>
+              <Text style={styles.distanceText}>{t('pages.MapPage.distance', {range: range})}</Text>
 
-          <Text style={styles.categoryText}>Categories:</Text>
+          <Text style={styles.categoryText}>{t('pages.MapPage.categories')}</Text>
 
           <View style={styles.categoriesContainer}>
             {categories.map((category, index) => (
@@ -671,7 +675,7 @@ const MapPage = () => {
             ))}
           </View>
 
-          <Text style={styles.categoryText}>Allergens:</Text>
+          <Text style={styles.categoryText}>{t('pages.MapPage.allergens')}</Text>
           <View style={styles.categoriesContainer}>
             {allergens.map((allergen, index) => (
               <TouchableOpacity
@@ -686,10 +690,10 @@ const MapPage = () => {
           </View>
 
           <View>
-            <Text style={styles.categoryText}>Save Filter:</Text>
+            <Text style={styles.categoryText}>{t('pages.MapPage.save-filter')}</Text>
             <TextInput
               style={styles.saveInput}
-              placeholder="Enter filter name"
+              placeholder={t('pages.MapPage.enter-filter-name') as string}
               placeholderTextColor="gray"
               value={filterName}
               onChangeText={(text) => setFilterName(text)}
@@ -709,12 +713,12 @@ const MapPage = () => {
               style={styles.filterPopupButton}
               onPress={handleSaveFilter}
             >
-              <Text style={styles.buttonTextPopup}>Save</Text>
+              <Text style={styles.buttonTextPopup}>{t('common.save')}</Text>
             </TouchableOpacity>
           </View>
 
           {/* Saved Filters Section */}
-          <Text style={styles.categoryText}>Saved Filters:</Text>
+          <Text style={styles.categoryText}>{t('pages.MapPage.saved-filters')}</Text>
           <ScrollView>
             {savedFilters.map((filter, index) => (
               <View key={index} style={styles.savedFilterItem}>
@@ -726,13 +730,13 @@ const MapPage = () => {
                     onPress={() => handleLoadFilter(filter.filterName)}
                     style={styles.loadFilterButton}
                   >
-                    <Text style={styles.buttonTextPopup}>Load</Text>
+                    <Text style={styles.buttonTextPopup}>{t('pages.MapPage.load')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => handleDeleteFilter(filter.filterName)}
                     style={styles.deleteFilterButton}
                   >
-                    <Text style={styles.buttonTextPopup}>Delete</Text>
+                    <Text style={styles.buttonTextPopup}>{t('common.delete')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -745,14 +749,14 @@ const MapPage = () => {
               style={styles.clearButton}
               onPress={clearFilters}
             >
-              <Text style={styles.buttonTextPopup}>Clear</Text>
+              <Text style={styles.buttonTextPopup}>{t('common.clear')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.filterPopupButton}
               onPress={handleFilter}
             >
-              <Text style={styles.buttonTextPopup}>Apply</Text>
+              <Text style={styles.buttonTextPopup}>{t('common.apply')}</Text>
             </TouchableOpacity>
           </View>
         </View>

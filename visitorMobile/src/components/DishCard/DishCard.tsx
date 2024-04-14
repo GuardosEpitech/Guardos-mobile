@@ -7,6 +7,7 @@ import {Dish} from '../../models/dishesInterfaces'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {addDishAsFavourite, deleteDishFromFavourites} from "../../services/favourites";
+import {useTranslation} from "react-i18next";
 
 interface DishCardProps {
   restoID: number;
@@ -17,6 +18,7 @@ interface DishCardProps {
 
 const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, pictures, isSmallerCard }) => {
   const [isDishFavorite, setIsDishFavorite] = useState(isFavourite);
+  const {t} = useTranslation();
 
   useEffect(() => {
     setIsDishFavorite(isFavourite);
@@ -56,8 +58,8 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
             </TouchableOpacity>
           </View>
           <Text numberOfLines={2} ellipsizeMode="tail">{dish.description}</Text>
-          <Text>Price: ${dish.price}</Text>
-          <Text>Allergens: {dish.allergens.join(', ')}</Text>
+          <Text>{t('components.DishCard.price', {price: dish.price})}</Text>
+          <Text>{t('components.DishCard.allergens', {allergens: dish.allergens.join(', ')})}</Text>
         </View>
       </View>
     </React.Fragment>

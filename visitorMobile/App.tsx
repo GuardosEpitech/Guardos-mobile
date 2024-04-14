@@ -17,7 +17,7 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({ errorMessage }) => (
 
 const App: React.FC = () => {
   const [hasInternetConnection, setHasInternetConnection] = useState(true);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
@@ -45,7 +45,7 @@ const App: React.FC = () => {
 
   const renderContent = () => {
     if (!hasInternetConnection) {
-      return <ErrorScreen errorMessage="No internet connection. Please check your connection and try again." />;
+      return <ErrorScreen errorMessage={t('pages.Router.no-internet-error') as string} />;
     }
     return (
       <MyTabs />

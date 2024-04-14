@@ -101,29 +101,68 @@ const MyTabs = () => {
           <>
             <Tab.Screen
               name="RestaurantScreen"
-              options={{tabBarLabel: t('login')}}
+              options={{
+                tabBarLabel: t('pages.Router.resto-screen') as string,
+                title: t('pages.Router.resto-screen') as string
+              }}
               component={RestauStack}
             />
-            <Tab.Screen name="MapScreen" component={MapPage}/>
-            <Tab.Screen name="AboutUs" component={AboutUsScreen}/>
-            <Tab.Screen name="ContactUs" component={ContactUsScreen}/>
+            <Tab.Screen
+              name="MapScreen"
+              component={MapPage}
+              options={{
+                tabBarLabel: t('pages.Router.map-screen') as string,
+                title: t('pages.Router.map-screen') as string
+              }}
+            />
+            <Tab.Screen
+              name="AboutUs"
+              component={AboutUsScreen}
+              options={{
+                tabBarLabel: t('pages.Router.about-us') as string,
+                title: t('pages.Router.about-us') as string
+              }}
+            />
+            <Tab.Screen
+              name="ContactUs"
+              component={ContactUsScreen}
+              options={{
+                tabBarLabel: t('pages.Router.contact-us') as string,
+                title: t('pages.Router.contact-us') as string
+              }}
+            />
             <Tab.Screen
               name="My Profile"
               options={{headerShown: false}}
             >
               {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus}/>}
             </Tab.Screen>
-            <Tab.Screen name="MenuPage" component={MenuPage} options={{ tabBarButton: () => null }} />
+            <Tab.Screen
+              name="MenuPage"
+              component={MenuPage}
+              options={{ tabBarButton: () => null }}
+            />
           </>
         ) : (
           <>
             <Tab.Screen
               name="Login"
-              options={{ headerShown: false }}
+              options={{
+                headerShown: false,
+                tabBarLabel: t('pages.Router.login') as string,
+                title: t('pages.Router.login') as string
+              }}
             >
               {() => <LoginStackScreen setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
-            <Tab.Screen name="Register" component={Register}/>
+            <Tab.Screen
+              name="Register"
+              component={Register}
+              options={{
+                tabBarLabel: t('pages.Router.register') as string,
+                title: t('pages.Router.register') as string
+              }}
+            />
           </>
         )}
       </Tab.Navigator>
@@ -136,17 +175,25 @@ interface ProfileStackProps {
   setLoggedInStatus: (status: boolean) => void;
 }
 
-const ProfileStackScreen: React.FC<ProfileStackProps> = ({setLoggedInStatus}) => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="Profile"
-    >
-      {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus}/>}
-    </Stack.Screen>
-    <Stack.Screen name="FeatureRequest" component={FeatureRequest} />
-    <Stack.Screen name="Change Password" component={ChangePasswordScreen}/>
-  </Stack.Navigator>
-);
+const ProfileStackScreen: React.FC<ProfileStackProps> = ({setLoggedInStatus}) => {
+  const {t} = useTranslation();
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Profile"
+        options={{
+          tabBarLabel: t('pages.Router.my-profile') as string,
+          title: t('pages.Router.my-profile') as string
+        }}
+      >
+        {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus}/>}
+      </Stack.Screen>
+      <Stack.Screen name="FeatureRequest" component={FeatureRequest} />
+      <Stack.Screen name="Change Password" component={ChangePasswordScreen}/>
+    </Stack.Navigator>
+  );
+}
 
 const RestauStack = () => {
   return (
@@ -169,14 +216,23 @@ interface LoginStackProps {
   setLoggedInStatus: (status: boolean) => void;
 }
 
-const LoginStackScreen: React.FC<LoginStackProps> = ({ setLoggedInStatus }) => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="Login">
-      {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
-    </Stack.Screen>
-    <Stack.Screen name="Account Recovery" component={ResetPassword} />
-  </Stack.Navigator>
-);
+const LoginStackScreen: React.FC<LoginStackProps> = ({ setLoggedInStatus }) => {
+  const {t} = useTranslation();
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        options={{
+          tabBarLabel: t('pages.Router.login') as string,
+          title: t('pages.Router.login') as string
+        }}
+      >
+        {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+      </Stack.Screen>
+      <Stack.Screen name="Account Recovery" component={ResetPassword} />
+    </Stack.Navigator>
+  );
+}
   
 export default MyTabs;

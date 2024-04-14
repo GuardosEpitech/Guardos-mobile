@@ -1,7 +1,191 @@
 {
   "translation": {
-    "register": "Registrieren",
-    "login": "Login",
-    "Account Page": "Profil"
+    "common": {
+      "save": "Speichern",
+      "apply": "Anwenden",
+      "submit": "Senden",
+      "clear": "Löschen",
+      "cancel": "Abbrechen",
+      "close": "Schließen",
+      "delete": "Löschen",
+
+      "loading": "Laden...",
+
+      "english": "Englisch",
+      "german": "Deutsch",
+      "french": "Französisch",
+
+      "error": "Fehler",
+      "need-cam-permissions": "Zugriff auf die Kamerarolle ist erforderlich!"
+    },
+    "components": {
+      "DishCard": {
+        "price": "Preis: {{ price }}",
+        "allergens": "Allergene: {{ allergens }}"
+      },
+      "ErrorBoundary": {
+        "oops": "Hoppla!",
+        "error": "Es gibt einen Fehler",
+        "try-again": "Erneut versuchen"
+      },
+      "RestaurantCard": {
+        "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"
+      }
+    },
+    "pages": {
+      "AboutUs": {
+        "member-description-german": "4. Jahr Epitech-Student aus Deutschland",
+        "member-description-french": "4. Jahr Epitech-Student aus Frankreich",
+        "introduction": "Einleitung",
+        "introduction-text": "Guardos ist Ihr vertrauenswürdiger Begleiter in der Welt des Essens, speziell entwickelt für Personen mit Nahrungsmittelunverträglichkeiten und spezifischen kulinarischen Vorlieben. Unsere innovative Plattform ermöglicht es Ihnen, mühelos Restaurants in Ihrer Nähe zu entdecken, die auf Ihre einzigartigen diätetischen Bedürfnisse eingehen. Egal, ob Sie glutenfrei, vegan oder andere diätetische Einschränkungen haben, Guardos sorgt dafür, dass Ihr kulinarisches Erlebnis auf Ihre Geschmacksrichtungen zugeschnitten ist. Verabschieden Sie sich von der Mühe, nach geeigneten Optionen zu suchen – mit Guardos ist es nur einen Klick entfernt, das perfekte Restaurant zu finden, das Ihren Präferenzen entspricht. Genießen Sie ein nahtloses und angenehmes kulinarisches Erlebnis mit Guardos, wo Ihre Essensauswahl stets respektiert und gefeiert wird.",
+        "founding-story": "Gründungsgeschichte",
+        "founding-story-text": "Unsere Reise bei Guardos begann während unserer Studienzeit, als eine vielfältige Gruppe von Personen, die jeweils mit den Herausforderungen von Nahrungsmittelunverträglichkeiten konfrontiert waren, gemeinsame Interessen fand. Ob wir mit unseren eigenen diätetischen Einschränkungen kämpften oder die Herausforderungen von Freunden und Familie beobachteten, wir erkannten die allgegenwärtige Unannehmlichkeit, geeignete Mahlzeiten zu entziffern. Belebt von dem gemeinsamen Wunsch, den Prozess der Suche nach köstlichen und maßgeschneiderten Essensmöglichkeiten zu vereinfachen, kamen wir mit einer gemeinsamen Mission zusammen: das komplexe Puzzle des gut Essen, unabhängig von den diätetischen Einschränkungen, zu lösen. So entstand Guardos, ein engagierter Versuch, Einzelpersonen in ihrem Streben nach angenehmen und problemlosen kulinarischen Erlebnissen zu unterstützen.",
+        "mission-and-values": "Mission und Werte",
+        "empowerment": "Ermächtigung und Inklusivität",
+        "empowerment-text": "Ermöglichen Sie Einzelpersonen, informierte und inklusive Essensentscheidungen zu treffen, die ihren einzigartigen diätetischen Präferenzen und Einschränkungen entsprechen.",
+        "transparency": "Transparenz und Vertrauen",
+        "transparency-text": "Bieten Sie transparente und vertrauenswürdige Informationen zu Speisekarten, Zutaten und Zubereitungsmethoden von Restaurants, damit Benutzer selbstbewusste Essensentscheidungen treffen können.",
+        "continuous-improvement": "Kontinuierliche Verbesserung und Innovation",
+        "improvement-text": "Wir verpflichten uns zur kontinuierlichen Verbesserung, indem wir Benutzerfeedback, technologische Fortschritte und bewährte Verfahren der Branche einbeziehen, um einen kontinuierlich wertvollen Service zu bieten.",
+        "team": "Team",
+        "team-description": "Unsere Reise begann während unserer Studienzeit, als wir durch eine gemeinsame Leidenschaft für positive Veränderungen zusammengebracht wurden. Was uns vereint, sind nicht nur unsere akademischen Bestrebungen, sondern auch ein gemeinsames Verständnis für die Herausforderungen, die durch Nahrungsmittelunverträglichkeiten entstehen. Ob persönlich betroffen oder Zeuge der Herausforderungen von Freunden und Familie, wir erkannten die Notwendigkeit für Veränderungen. Angetrieben von Empathie und dem Wunsch, einen Beitrag zu leisten, haben wir ein Team gebildet, das sich verpflichtet hat, einen Unterschied im Leben derjenigen zu machen, die mit Nahrungsmittelunverträglichkeiten zu kämpfen haben. Unsere vielfältigen Hintergründe und Fähigkeiten vereinen sich mit einem einzigen Ziel - Lösungen zu schaffen, die die Lebensqualität für Personen mit diätetischen Einschränkungen verbessern. Gemeinsam begeben wir uns auf eine Reise, um unsere Gemeinschaft zu stärken und zu unterstützen, Idee für Idee innovativ."
+      },
+      "ContactUs": {
+        "get-in-touch": "Kontaktieren Sie uns",
+        "address": "Fasanenstraße 86, 10623 Berlin, Deutschland",
+        "contact-form": "Kontaktformular",
+        "name": "Name",
+        "email": "E-Mail",
+        "subject": "Betreff",
+        "message": "Nachricht",
+        "message-sent-success": "Nachricht erfolgreich gesendet!"
+      },
+      "FeatureRequest": {
+        "name": "Name",
+        "subject": "Betreff",
+        "request": "Anfrage"
+      },
+      "MapPage": {
+        "save-filter-error": "Fehler beim Speichern des Filters. Bitte versuchen Sie es erneut.",
+        "save-filter-success": "Filter erfolgreich gespeichert.",
+        "delete-filter-error": "Fehler beim Löschen des Filters. Bitte versuchen Sie es erneut.",
+        "delete-filter-success": "Filter erfolgreich gelöscht",
+        "enter-resto-name": "Restaurantname eingeben",
+        "enter-city": "Stadtname eingeben",
+        "search": "Suchen",
+        "telephone": "Telefon: {{ phoneNumber }}",
+        "website": "Website: {{ website }}",
+        "menu": "Menü",
+        "navigate": "Navigieren",
+        "filter": "Filter",
+        "rating": "Bewertung:",
+        "range": "Bereich:",
+        "distance": "Entfernung: {{ range }} km",
+        "categories": "Kategorien:",
+        "allergens": "Allergene:",
+        "save-filter": "Filter speichern:",
+        "enter-filter-name": "Filternamen eingeben",
+        "saved-filters": "Gespeicherte Filter:",
+        "load": "Laden"
+      },
+      "Profile": {
+        "change-pw": "Passwort ändern",
+        "old-pw": "Altes Passwort eingeben",
+        "new-pw": "Neues Passwort eingeben",
+        "wrong-pw-format": "Ihr Passwort muss mindestens 1x Großbuchstaben und Kleinbuchstaben, 1x Zahl und mindestens 7 Zeichen enthalten",
+        "same-pw": "Ihr neues Passwort darf nicht Ihr altes Passwort sein",
+        "confirm-pw": "Neues Passwort bestätigen",
+        "no-match": "Neues Passwort und bestätigtes Passwort stimmen nicht überein.",
+        "pw-changed": "Passwort erfolgreich geändert",
+        "pw-changed-failure": "Fehler beim Ändern des Passworts. Bitte überprüfen Sie Ihr altes Passwort.",
+        "no-token-error": "Benutzertoken nicht gefunden. Bitte melden Sie sich erneut an.",
+
+        "username-or-email": "Benutzername oder E-Mail",
+        "password": "Passwort",
+        "invalid-login": "Ungültige Anmeldedaten",
+        "login": "Anmelden",
+        "trouble-logging-in": "Probleme beim Einloggen?",
+        "register-prompt": "Sie haben noch kein Konto? Registrieren Sie sich ",
+        "register-here": "hier",
+        "or": "oder",
+        "default": "Standard",
+        "fast-food": "Fast food",
+        "pizzeria": "Pizzeria",
+
+        "logout": "Abmelden",
+        "confirm-logout": "Möchten Sie sich wirklich abmelden?",
+        "delete-account": "Konto löschen",
+        "confirm-delete-account": "Möchten Sie Ihr Konto wirklich löschen? Diese Aktion ist nicht rückgängig zu machen.",
+        "delete-account-failure-login": "Fehler beim Löschen des Kontos. Bitte melden Sie sich erneut an.",
+        "delete-account-failure-retry": "Fehler beim Löschen des Kontos. Bitte versuchen Sie es erneut.",
+        "profile-page": "Mein Profil",
+        "changed-data-success": "Profilangaben erfolgreich geändert!",
+        "changed-data-failure": "Fehler beim Ändern der Profilangaben.",
+        "add-picture": "Bild hinzufügen",
+        "username": "Benutzername",
+        "enter-username": "Geben Sie Ihren Benutzernamen ein",
+        "email": "E-Mail",
+        "enter-email": "Geben Sie Ihre E-Mail ein",
+        "city": "Stadt",
+        "enter-city": "Geben Sie Ihre Stadt ein",
+        "apply-changes": "Änderungen übernehmen",
+        "fav-restos": "Lieblingsrestaurants",
+        "fav-dishes": "Lieblingsgerichte",
+        "previous": "Vorherige",
+        "next": "Nächste",
+        "feature-request": "Feature-Anfrage",
+
+        "register": "Registrieren",
+        "username-taken-or-invalid": "Der gewünschte Benutzername existiert bereits oder ist ungültig",
+        "email-taken-or-invalid": "Für die angegebene E-Mail existiert bereits ein Konto oder sie ist ungültig"
+      },
+      "ResetPasswordScreen": {
+        "username-email-no-match": "Dieser Benutzername und diese E-Mail ({{ email }}) stimmen nicht überein. Überprüfen Sie bitte die Schreibweise oder versuchen Sie es mit einem anderen Benutzernamen.",
+        "user-error": "Fehler beim Überprüfen des Benutzers. Bitte versuchen Sie es erneut.",
+        "re-enter-account": "Zurück in Ihr Guardos-Konto",
+        "enter-info": "Geben Sie uns einige Informationen zu Ihrem Konto",
+        "enter-username-prompt": "Geben Sie als Nächstes den Guardos-Benutzernamen ein, mit dem Sie Probleme haben",
+        "enter-email": "Geben Sie Ihre E-Mail-Adresse ein",
+        "email": "E-Mail",
+        "enter-username": "Geben Sie Ihren Benutzernamen ein",
+        "username": "Benutzername",
+        "email-sent": "E-Mail wurde gesendet!",
+        "check-your-emails": "Bitte überprüfen Sie Ihren Posteingang auf eine E-Mail zur Passwortwiederherstellung und überprüfen Sie auch Ihren Spam-Ordner. Die E-Mail enthält einen Link, der 15 Minuten gültig bleibt.",
+        "go-back": "Zurück zum Login",
+        "error": "Es gab einen Fehler.",
+        "try-again-msg": "Bitte versuchen Sie es erneut, um einen Wiederherstellungslink zu erhalten. Wenn der Fehler erneut auftritt, kontaktieren Sie uns bitte.",
+        "continue": "Fortfahren",
+        "send-reset-link": "Meinen Passwort-Wiederherstellungslink senden"
+      },
+      "RestaurantScreen": {
+        "save-filter-error": "Fehler beim Speichern des Filters. Bitte versuchen Sie es erneut.",
+        "save-filter-success": "Filter erfolgreich gespeichert",
+        "delete-filter-error": "Fehler beim Löschen des Filters. Bitte versuchen Sie es erneut.",
+        "delete-filter-success": "Filter erfolgreich gelöscht",
+        "enter-resto-name": "Restaurantname eingeben",
+        "enter-city": "Stadtname eingeben",
+        "search": "Suchen",
+        "filter": "Filter",
+        "rating": "Bewertung: ",
+        "distance": "Entfernung: ",
+        "distance-details": "Entfernung: {{ distance }} km",
+        "categories": "Kategorien:",
+        "allergens": "Allergene:",
+        "save-filter": "Filter speichern:",
+        "enter-filter-name": "Filternamen eingeben",
+        "saved-filters": "Gespeicherte Filter:",
+        "load": "Laden"
+      },
+      "Router": {
+        "no-internet-error": "Keine Internetverbindung. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+        "resto-screen": "Restaurants",
+        "map-screen": "Kartenansicht",
+        "about-us": "Über uns",
+        "contact-us": "Kontakt",
+        "my-profile": "Mein Profil",
+        "login": "Anmelden",
+        "register": "Registrieren"
+      }
+    }
   }
 }

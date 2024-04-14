@@ -1,7 +1,191 @@
 {
   "translation": {
-    "register": "Register",
-    "login": "Login",
-    "Account Page": "Account page"
+    "common": {
+      "save": "Save",
+      "apply": "Apply",
+      "submit": "Submit",
+      "clear": "Clear",
+      "cancel": "Cancel",
+      "close": "Close",
+      "delete": "Delete",
+
+      "loading": "Loading...",
+
+      "english": "English",
+      "german": "German",
+      "french": "French",
+
+      "error": "Error",
+      "need-cam-permissions": "Permission to access camera roll is required!"
+    },
+    "components": {
+      "DishCard": {
+        "price": "Price: {{ price }}",
+        "allergens": "Allergens: {{ allergens }}"
+      },
+      "ErrorBoundary": {
+        "oops": "Oops!",
+        "error": "There's an error",
+        "try-again": "Try again"
+      },
+      "RestaurantCard": {
+        "rating": "Rating: {{ rating }} ({{ ratingCount }} ratings)"
+      }
+    },
+    "pages": {
+      "AboutUs": {
+        "member-description-german": "4th year Epitech student from Germany",
+        "member-description-french": "4th year Epitech student from France",
+        "introduction": "Introduction",
+        "introduction-text": "Guardos is your trusted companion in the world of dining, specially crafted for individuals with food intolerances and specific culinary preferences. Our innovative platform empowers you to effortlessly discover restaurants in your vicinity \nthat cater to your unique dietary needs. Whether you're gluten-free, vegan, or have other dietary restrictions, Guardos ensures that your dining experience is tailored to your tastes. Say goodbye to the hassle of searching for suitable options – with Guardos, finding the perfect restaurant that aligns with your preferences is just a click away. Enjoy a seamless and delightful dining experience with Guardos, where your food choices are always respected and celebrated.",
+        "founding-story": "Founding Story",
+        "founding-story-text": "Our journey at Guardos commenced during our college days, where a diverse group of individuals, each navigating the challenges of food intolerances, found common ground. Whether grappling with our own dietary restrictions or witnessing the struggles of friends and family, we recognized the pervasive inconvenience of deciphering suitable meals. Fueled by the collective desire to simplify the process of finding delicious and tailored dining options, we came together with a shared mission: to solve the intricate puzzle of eating well, no matter the dietary constraints. Thus, Guardos was born, a dedicated effort to empower individuals in their quest for enjoyable and hassle-free dining experiences.",
+        "mission-and-values": "Mission and Values",
+        "empowerment": "Empowerment and Inclusivity",
+        "empowerment-text": "Empower individuals to make informed and inclusive dining choices that cater to their unique dietary preferences and restrictions.",
+        "transparency": "Transparency and Trust",
+        "transparency-text": "Provide transparent and trustworthy information about restaurant menus, ingredients, and preparation methods to ensure users can make confident dining decisions.",
+        "continuous-improvement": "Continuous Improvement and Innovation",
+        "improvement-text": "Commit to ongoing improvement, incorporating user feedback, technological advancements, and industry best practices to deliver a continually valuable service.",
+        "team": "Team",
+        "team-description": "Our journey began during our time as students, brought together by a shared passion for making a positive impact. What unites us is not only our academic pursuits but a common understanding of the challenges posed by food intolerances. Whether personally affected or witnessing the struggles of friends and family, we recognized the need for change. Driven by empathy and a desire to contribute, we formed a team committed to making a difference in the lives of those dealing with food intolerances. Our diverse backgrounds and skills converge with a singular purpose — to create solutions that enhance the quality of life for individuals affected by dietary restrictions. Together, we embark on a journey to empower and support our community, one innovative idea at a time."
+      },
+      "ContactUs": {
+        "get-in-touch": "Get in touch",
+        "address": "Fasanenstraße 86, 10623 Berlin, Germany",
+        "contact-form": "Contact Form",
+        "name": "Name",
+        "email": "Email",
+        "subject": "Subject",
+        "message": "Message",
+        "message-sent-success": "Message sent successfully!"
+      },
+      "FeatureRequest": {
+        "name": "Name",
+        "subject": "Subject",
+        "request": "Request"
+      },
+      "MapPage": {
+        "save-filter-error": "Error saving filter. Please try again.",
+        "save-filter-success": "Filter saved successfully.",
+        "delete-filter-error": "Error deleting filter. Please try again.",
+        "delete-filter-success": "Filter deleted successfully",
+        "enter-resto-name": "Enter restaurant name",
+        "enter-city": "Enter city name",
+        "search": "Search",
+        "telephone": "Telephone: {{ phoneNumber }}",
+        "website": "Website: {{ website }}",
+        "menu": "Menu",
+        "navigate": "Navigate",
+        "filter": "Filter",
+        "rating": "Rating:",
+        "range": "Range:",
+        "distance": "Distance: {{ range }} km",
+        "categories": "Categories:",
+        "allergens": "Allergens:",
+        "save-filter": "Save Filter:",
+        "enter-filter-name": "Enter filter name",
+        "saved-filters": "Saved Filters:",
+        "load": "Load"
+      },
+      "Profile": {
+        "change-pw": "Change Password",
+        "old-pw": "Enter old password",
+        "new-pw": "Enter new password",
+        "wrong-pw-format": "Your Password should contain minimum: 1x Uppercase and Lowercase Letter, 1x Number and minimum 7 Characters",
+        "same-pw": "Your new Password should not be your old password",
+        "confirm-pw": "Confirm new password",
+        "no-match": "New password and confirmed password do not match.",
+        "pw-changed": "Password Changed successfully",
+        "pw-changed-failure": "Failed to change password. Please check your old password.",
+        "no-token-error": "User token not found. Please log in again.",
+
+        "username-or-email": "Username or Email",
+        "password": "Password",
+        "invalid-login": "Invalid Login data",
+        "login": "Login",
+        "trouble-logging-in": "Trouble logging in?",
+        "register-prompt": "You don't have an account yet? Register yourself ",
+        "register-here": "here",
+        "or": "or",
+        "default": "Default",
+        "fast-food": "Fast food",
+        "pizzeria": "pizzeria",
+
+        "logout": "Logout",
+        "confirm-logout": "Are you sure you want to logout?",
+        "delete-account": "Delete Account",
+        "confirm-delete-account": "Are you sure you want to delete your account? This action is irreversible.",
+        "delete-account-failure-login": "Failed to delete account. Please log in again.",
+        "delete-account-failure-retry": "Failed to delete account. Please try again.",
+        "profile-page": "My Profile",
+        "changed-data-success": "Profile details changed successfully!",
+        "changed-data-failure": "Failed to change profile details.",
+        "add-picture": "Add Picture",
+        "username": "Username",
+        "enter-username": "Enter your username",
+        "email": "Email",
+        "enter-email": "Enter your email",
+        "city": "City",
+        "enter-city": "Enter your city",
+        "apply-changes": "Apply Changes",
+        "fav-restos": "Favourite Restaurants",
+        "fav-dishes": "Favourite Dishes",
+        "previous": "Previous",
+        "next": "Next",
+        "feature-request": "Feature request",
+
+        "register": "Register",
+        "username-taken-or-invalid": "The desired Username exists already or is invalid",
+        "email-taken-or-invalid": "An account already exists for the specified email or is invalid"
+      },
+      "ResetPasswordScreen": {
+        "username-email-no-match": "That username and email ({{ email }}) don't match. Please check its spelling or try another username.",
+        "user-error": "Error checking user. Please try again.",
+        "re-enter-account": "Getting back into your Guardos account",
+        "enter-info": "Tell us some information about your account",
+        "enter-username-prompt": "Next, give us the Guardos username you're having trouble with",
+        "enter-email": "Enter your email address",
+        "email": "Email",
+        "enter-username": "Enter your username",
+        "username": "Username",
+        "email-sent": "E-Mail was sent!",
+        "check-your-emails": "Please check your inbox for an email regarding password recovery, and also review your spam folder. The email contains a link that will remain valid for 15 minutes.",
+        "go-back": "Go back to login",
+        "error": "There was an Error.",
+        "try-again-msg": "Please try again to get a recovery link. If the Error appears one more time, please contact us.",
+        "continue": "Continue",
+        "send-reset-link": "Send My Password Reset Link"
+      },
+      "RestaurantScreen": {
+        "save-filter-error": "Error saving filter. Please try again.",
+        "save-filter-success": "Filter saved successfully",
+        "delete-filter-error": "Error deleting filter. Please try again.",
+        "delete-filter-success": "Filter deleted successfully",
+        "enter-resto-name": "Enter restaurant name",
+        "enter-city": "Enter city name",
+        "search": "Search",
+        "filter": "Filter",
+        "rating": "Rating: ",
+        "distance": "Distance: ",
+        "distance-details": "Distance: {{ distance }} km",
+        "categories": "Categories:",
+        "allergens": "Allergens:",
+        "save-filter": "Save Filter:",
+        "enter-filter-name": "Enter filter name",
+        "saved-filters": "Saved filters:",
+        "load": "Load"
+      },
+      "Router": {
+        "no-internet-error": "No internet connection. Please check your connection and try again.",
+        "resto-screen": "Restaurant Screen",
+        "map-screen": "Map Screen",
+        "about-us": "About Us",
+        "contact-us": "Contact Us",
+        "my-profile": "My Profile",
+        "login": "Login",
+        "register": "Register"
+      }
+    }
   }
 }
