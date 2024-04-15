@@ -26,6 +26,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [languageOpen, setLanguageOpen] = useState(false);
   const [allergensOpen, setAllergensOpen] = useState(false);
   const [language, setLanguage] = useState<string>('english');
+  const [darkMode, setDarkMode] = useState(false);
   const languageOptions = [
     {label: 'English', value: 'english'},
     {label: 'German', value: 'german'},
@@ -79,6 +80,16 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     };
     fetchUserData().then(r => console.log("Loaded user data successfully"));
   }, []);
+
+  const toggleDarkMode = async () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    try {
+      await AsyncStorage.setItem("DarkMode", JSON.stringify(newDarkMode));
+    } catch (error) {
+      console.error('Error storing dark mode value:', error);
+    }      
+  };
 
   const fetchFavoriteRestaurants = async () => {
     const userToken = await AsyncStorage.getItem("user");
@@ -275,8 +286,8 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.profileSection}>
+    <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
+      <View style={[styles.profileSection, darkMode && styles.profileSectionDarkTheme]}>
         <Text style={styles.heading}>Account Page</Text>
         {dataChangeStatus !== null && (
           <Text
@@ -301,9 +312,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           )}
         </TouchableOpacity>
         <View>
-          <Text>Name:</Text>
+          <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}>Name:</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             value={name}
             onChangeText={handleNameChange}
             placeholder="Enter your name"
@@ -311,9 +322,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           />
         </View>
         <View>
-          <Text>Email:</Text>
+          <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}>Email:</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             value={email}
             onChangeText={handleEmailChange}
             placeholder="Enter your email"
@@ -324,9 +335,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           />
         </View>
         <View>
-          <Text>City:</Text>
+          <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}>City:</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             value={city}
             onChangeText={handleCityChange}
             placeholder="Enter your city"
@@ -343,37 +354,39 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           multiple
           open={allergensOpen}
           value={allergens}
+          textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
           items={allergensOptions}
           setOpen={setAllergensOpen}
           setValue={setAllergens}
-          style={styles.dropDown}
+          style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
         <DropDownPicker
           dropDownDirection={'TOP'}
           open={languageOpen}
           value={language}
+          textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
           items={languageOptions}
           setOpen={setLanguageOpen}
           setValue={setLanguage}
-          style={styles.dropDown}
+          style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>Apply Change</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.restaurantSection}>
+      <View style={[styles.restaurantSection, darkMode && styles.restaurantSectionDarkTheme]}>
         <View style={styles.tabs}>
           <TouchableOpacity
             style={[styles.tabButton, activeTab === 'restaurants' && styles.activeTab]}
             onPress={() => handleTabChange('restaurants')}
           >
-            <Text style={styles.tabButtonText}>Favorite Restaurants</Text>
+            <Text style={[styles.tabButtonText, darkMode && styles.tabButtonTexDarkTheme]}>Favorite Restaurants</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.tabButton, activeTab === 'dishes' && styles.activeTab]}
             onPress={() => handleTabChange('dishes')}
           >
-            <Text style={styles.tabButtonText}>Favorite Dishes</Text>
+            <Text style={[styles.tabButtonText, darkMode && styles.tabButtonTexDarkTheme]}>Favorite Dishes</Text>
           </TouchableOpacity>
         </View>
 
@@ -431,23 +444,29 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           </View>
         </ScrollView>
       </View>
-      <View style={styles.logoutSection}>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button 
           title="Feature request" 
           onPress={handleFeatureRequest} 
-          color="#6d071a" />
+          color={darkMode ? "white" :  "#6d071a"} />
       </View>
-      <View style={styles.logoutSection}>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
+      <Button 
+          title={darkMode ? "Light Mode" : "Dark Mode"}
+          onPress={toggleDarkMode}
+          color={darkMode ? "white" :  "#6d071a"}  />
+      </View>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button  
           title="Logout" 
           onPress={handleLogout} 
-          color="#6d071a" />
+          color={darkMode ? "white" :  "#6d071a"}  />
       </View>
-      <View style={styles.deleteAccountSection}>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
           title="Delete Account"
           onPress={handleDeleteAccount}
-          color="#6d071a"
+          color={darkMode ? "white" :  "#6d071a"} 
         />
       </View>
     </ScrollView>
