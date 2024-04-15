@@ -38,6 +38,17 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [menuDesignOpen, setMenuDesignOpen] = useState(false);
     const [language, setLanguage] = useState<string>('english');
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);
+
+    const toggleDarkMode = async () => {
+      const newDarkMode = !darkMode;
+      setDarkMode(newDarkMode);
+      try {
+        await AsyncStorage.setItem("DarkMode", JSON.stringify(newDarkMode));
+      } catch (error) {
+        console.error('Error storing dark mode value:', error);
+      }      
+    };
 
     const languageOptions = [
       {label: 'English', value: 'english'},
@@ -200,7 +211,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
-        <View style={styles.container}>
+        <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
           <Text style={styles.heading}>My Profile</Text>
           <TouchableOpacity
             onPress={selectImage}
@@ -215,13 +226,13 @@ const ProfilePage: React.FC<ProfileScreenProps &
             )}
           </TouchableOpacity>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             placeholder="Username"
             value={username}
             onChangeText={(text) => setUsername(text)}
           />
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             placeholder="Email"
             value={email}
             onChangeText={(text) => setEmail(text)}
@@ -240,8 +251,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
             items={menuDesignOptions}
             setOpen={setMenuDesignOpen}
             setValue={setMenuDesign}
-            style={styles.dropDown}
-          />
+            style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <DropDownPicker
             dropDownDirection={'TOP'}
             open={languageOpen}
@@ -249,7 +259,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
             items={languageOptions}
             setOpen={setLanguageOpen}
             setValue={setLanguage}
-          />
+            style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <View style={styles.buttonContainer}>
             <Button
               title="Apply Changes"
@@ -262,6 +272,13 @@ const ProfilePage: React.FC<ProfileScreenProps &
           onPress={handleFeatureRequest} 
           color="green" />
           </View>
+          <View style={styles.buttonContainer}>
+          <Button 
+          title={darkMode ? "Light Mode" : "Dark Mode"}
+          onPress={toggleDarkMode}
+          color={darkMode ? "#6d071a" : "grey"}
+          />
+          </View>          
           <View style={styles.logoutButtonContainer}>
             <Button title="Logout" onPress={handleLogout} color="#6d071a"/>
           </View>
@@ -269,13 +286,14 @@ const ProfilePage: React.FC<ProfileScreenProps &
           <Text style={styles.passwordSuccess}>
             Password Changed
           </Text>}
-        </View>
-          <View style={styles.deleteAccountSection}>
+
+          <View style={[styles.deleteAccountSection, darkMode && styles.deleteAccountSectionDarkTheme]}>
             <Button
               title="Delete Account"
               onPress={handleDeleteAccount}
               color="#6d071a"
             />
+          </View>
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>

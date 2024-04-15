@@ -11,6 +11,7 @@ import ModalConfirm from '../ModalConfirm/ModalConfirm';
 import EditProductPage from '../../pages/EditProductPage/EditProductPage';
 import { useNavigation } from '@react-navigation/native';
 import { getAllResto } from '../../services/restoCalls';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface ProductCardProps {
   product: IProductFE;
@@ -21,8 +22,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [restaurants, setRestaurants] = useState<IRestaurantFrontEnd[]>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
+    fetchDarkMode();
     const fetchRestaurants = async () => {
       try {
         const allRestaurants = await getAllResto();
@@ -34,6 +37,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
 
     fetchRestaurants();
   }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -61,10 +76,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   };
 
   return (
-    <View style={styles.productCard}>
+    <View style={[styles.productCard, darkMode && styles.productCardDarkTheme]}>
       <View style={styles.productDetails}>
-        <Text style={styles.productName}>{product.name}</Text>
-        <Text style={styles.detailsText}>
+        <Text style={[styles.productName, darkMode && styles.productNameDarkTheme]}>{product.name}</Text>
+        <Text style={[styles.detailsText, darkMode && styles.detailsTextDarkTheme]}>
           Ingredients: {product.ingredients.join(', ')}
         </Text>
         <View style={styles.iconContainer}>

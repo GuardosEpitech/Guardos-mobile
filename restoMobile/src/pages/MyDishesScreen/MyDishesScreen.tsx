@@ -12,6 +12,8 @@ const MyDishesScreen: React.FC = () => {
   const isFocused = useIsFocused();
   const [dishList, setDishList] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [key, setKey] = useState(0);
 
   const fetchDishes = async () => {
     try {
@@ -24,10 +26,23 @@ const MyDishesScreen: React.FC = () => {
   };
 
   useEffect(() => {
+    fetchDarkMode();
     if (isFocused) {
       fetchDishes();
     }
   }, [isFocused]);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const onDelete = async (dishName: string, restaurant: string) => {
     try {
@@ -41,6 +56,8 @@ const MyDishesScreen: React.FC = () => {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     fetchDishes().then(() => setRefreshing(false));
+    setRefreshing(false);
+    setKey(prevKey => prevKey + 1);
   }, []);
 
   const navigateToAddDish = () => {
@@ -53,12 +70,12 @@ const MyDishesScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       <FlatList
         data={dishList}
         renderItem={({ item, index }) => (
           <TouchableOpacity onPress={() => navigateToChangeDish(item.resto, item)}>
-          <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} />
+          <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} key={key} />
           </TouchableOpacity>
         )}
         keyExtractor={(_, index) => index.toString()}

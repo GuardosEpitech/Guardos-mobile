@@ -114,6 +114,13 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
   },
+  containerDarkTheme: {
+    backgroundColor: "#3B3B3B",
+  },
+
+  containerLightTheme: {
+    backgroundColor: "#FFFFFF",
+  }
 });
 
 export default styles;

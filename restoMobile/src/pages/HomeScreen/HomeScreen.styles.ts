@@ -24,6 +24,12 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: 'bold',
     },
+
+    containerDarkTheme: {
+      backgroundColor: '#1B1D1E',
+      alignItems: 'center',
+      position: 'relative',
+    }
   });
   
 export default styles;

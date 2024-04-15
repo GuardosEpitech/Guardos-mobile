@@ -48,8 +48,23 @@ const EditDish = ({ route }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [checkName, setCheckName] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
+  useEffect(() => {
+    fetchDarkMode();
+  }, []);
 
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const onProductPress = (item: string) => {
     const updatedProducts = selectedProducts.filter(product => product !== item);
@@ -317,7 +332,7 @@ const EditDish = ({ route }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
       <Header label="Guardos"
               leftIcon={<Ionicons name="arrow-back" size={24} color="black" onPress={() => navigation.goBack()} />} />
       <StatusBar barStyle="dark-content" />
@@ -353,32 +368,32 @@ const EditDish = ({ route }) => {
         <View style={styles.column}>
           <View style={styles.inputPair}>
 
-            <Text style={styles.label}>Dish name</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>Dish name</Text>
             {
               checkName ? (
-              <Text style={styles.input}>
+              <Text style={[styles.input, darkMode && styles.inputDarkTheme]}>
                 {name}
               </Text>
               ) : (
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, darkMode && styles.inputDarkTheme]}
                   placeholder="Dish name"
                   value={name}
                   onChangeText={(text) => setName(text)}
                 />
               )
             }
-            <Text style={styles.label}>Price</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>Price</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, darkMode && styles.inputDarkTheme]}
               placeholder="Price"
               value={price}
               onChangeText={(text) => setPrice(text)} // check what happens if text is not a number
             />
 
-            <Text style={styles.label}>Description</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>Description</Text>
             <TextInput
-              style={[styles.input, styles.multilineInput]}
+              style={[[styles.input, darkMode && styles.inputDarkTheme], styles.multilineInput]}
               placeholder="Description"
               value={description}
               onChangeText={(text) => setDescription(text)}
@@ -389,7 +404,7 @@ const EditDish = ({ route }) => {
       </View>
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>Products</Text>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>Products</Text>
         <View style={styles.containerAllergens}>
           {selectedProducts.map((item, index) => (
             <TouchableOpacity
@@ -397,7 +412,7 @@ const EditDish = ({ route }) => {
               style={styles.button}
               onPress={() => onProductPress(item)}
             >
-              <Text style={styles.inputDishProduct}>{item}</Text>
+              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -405,13 +420,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEW"}
           style={styles.button}
           onPress={() => onAddProduct()}>
-          <Text style={styles.labelCernterd}>{'Add new product'}</Text>
+          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{'Add new product'}</Text>
         </TouchableOpacity>
       </View>
 
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>Allergens</Text>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>Allergens</Text>
         <View style={styles.containerAllergens}>
           {selectedAllergens.map((item, index) => (
             <TouchableOpacity
@@ -419,7 +434,7 @@ const EditDish = ({ route }) => {
               style={styles.button}
               onPress={() => onAllergenPress(item)}
             >
-              <Text style={styles.inputDishProduct}>{item}</Text>
+              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -427,13 +442,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEWAllergens"}
           style={styles.button}
           onPress={() => onAddAllergen()}>
-          <Text style={styles.labelCernterd}>{'Add new allergens'}</Text>
+          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{'Add new allergens'}</Text>
         </TouchableOpacity>
       </View>
 
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>Food Category</Text>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>Food Category</Text>
         <View style={styles.containerAllergens}>
           {selectedCategories.map((item, index) => (
             <TouchableOpacity
@@ -441,7 +456,7 @@ const EditDish = ({ route }) => {
               style={styles.button}
               onPress={() => onCategoryPress(item)}
             >
-              <Text style={styles.inputDishProduct}>{item}</Text>
+              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -449,13 +464,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEWCATEGORY"}
           style={styles.button}
           onPress={() => onAddCategory()}>
-          <Text style={styles.labelCernterd}>{'Add new category'}</Text>
+          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{'Add new category'}</Text>
         </TouchableOpacity>
       </View>
 
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>Restaurant</Text>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>Restaurant</Text>
         <View style={styles.containerAllergens}>
           {selectedRestaurants.map((item, index) => (
             <TouchableOpacity
@@ -463,7 +478,7 @@ const EditDish = ({ route }) => {
               style={styles.button}
               onPress={() => onRestaurantPress(item)}
             >
-              <Text style={styles.inputDishProduct}>{item}</Text>
+              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -471,7 +486,7 @@ const EditDish = ({ route }) => {
           key={"ADDNEW"}
           style={styles.button}
           onPress={() => onAddRestaurant()}>
-          <Text style={styles.labelCernterd}>{'Add new restaurant'}</Text>
+          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{'Add new restaurant'}</Text>
         </TouchableOpacity>
       </View>
 
@@ -490,7 +505,7 @@ const EditDish = ({ route }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.label}>{modalContentType}</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{modalContentType}</Text>
             <View style={styles.flexContainer}>
               {modalContentType === 'Products' &&
                 products.map((item, index) => (
@@ -499,7 +514,7 @@ const EditDish = ({ route }) => {
                     style={[styles.button, selectedProducts.includes(item) ? styles.selectedButton : null]}
                     onPress={() => toggleProductsSelection(item)}
                   >
-                    <Text style={styles.inputDishProduct}>{item}</Text>
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
                   </TouchableOpacity>
                 ))
               }
@@ -510,7 +525,7 @@ const EditDish = ({ route }) => {
                     style={[styles.button, selectedAllergens.includes(item) ? styles.selectedButton : null]}
                     onPress={() => toggleAllergensSelection(item)}
                   >
-                    <Text style={styles.inputDishProduct}>{item}</Text>
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
                   </TouchableOpacity>
                 ))
               }
@@ -522,7 +537,7 @@ const EditDish = ({ route }) => {
                     style={[styles.button, selectedCategories.includes(item) ? styles.selectedButton : null]}
                     onPress={() => toggleCategoriesSelection(item)}
                   >
-                    <Text style={styles.inputDishProduct}>{item}</Text>
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
                   </TouchableOpacity>
                 ))
               }
@@ -534,7 +549,7 @@ const EditDish = ({ route }) => {
                     style={[styles.button, selectedRestaurants.includes(item) ? styles.selectedButton : null]}
                     onPress={() => toggleRestaurantsSelection(item)}
                   >
-                    <Text style={styles.inputDishProduct}>{item}</Text>
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
                   </TouchableOpacity>
                 ))
               }

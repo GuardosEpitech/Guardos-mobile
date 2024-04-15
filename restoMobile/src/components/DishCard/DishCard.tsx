@@ -9,6 +9,7 @@ import styles from "./DishCard.style";
 import { getImages } from "../../services/imagesCalls";
 import { defaultDishImage, defaultRestoImage } from "../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface DishCardProps {
   dish: IDishFE;
@@ -21,7 +22,23 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
+  useEffect(() => {
+    fetchDarkMode();
+  }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   if (!dish) {
     return null;
@@ -80,7 +97,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
 //  };
   return (
     <View style={styles.container}>
-      <View style={styles.cardContainer}>
+      <View style={[styles.cardContainer, darkMode && styles.cardContainerDarkTheme]}>
         <Image
           style={styles.imageStyle}
           resizeMode="contain"
@@ -90,11 +107,11 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
               : { uri: defaultRestoImage }
           }
         />
-        <View style={styles.infoStyle}>
-          <Text style={styles.titleStyle} numberOfLines={1} ellipsizeMode="tail">
+        <View style={[styles.infoStyle, darkMode && styles.infoStyleDarkTheme]}>
+          <Text style={[styles.titleStyle, darkMode && styles.titleStyleDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
             {dish.name}
           </Text>
-          <Text style={styles.categoryStyle} numberOfLines={2} ellipsizeMode="tail">
+          <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
             {dish.description} // Add a description field or similar
           </Text>
         </View>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, RefreshControl } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons/faPen'
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
@@ -8,10 +8,30 @@ import { useNavigation } from '@react-navigation/native';
 import { getImages } from '../services/imagesCalls';
 import { IimageInterface } from '../models/imageInterface';
 import { defaultRestoImage } from "../assets/placeholderImagesBase64";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RestaurantCard = ({ info, onDelete }) => {
   const navigation = useNavigation();
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchDarkMode();  
+  }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        console.log(darkModeValue);
+        
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const handleDelete = () => {
     onDelete(info.name);
@@ -44,7 +64,7 @@ const RestaurantCard = ({ info, onDelete }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.cardContainer}>
+    <View style={[styles.cardContainer, darkMode && styles.cardContainerDarkTheme]}>
       <Image
           style={styles.imageStyle}
           resizeMode="contain"
@@ -55,10 +75,10 @@ const RestaurantCard = ({ info, onDelete }) => {
           }
         />
         <View style={styles.infoStyle}>
-          <Text style={styles.titleStyle} numberOfLines={1} ellipsizeMode="tail">
+          <Text style={[styles.titleStyle, darkMode && styles.titleStyleDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
             {info.name}
           </Text>
-          <Text style={styles.categoryStyle} numberOfLines={2} ellipsizeMode="tail">
+          <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
             {info.description}
           </Text>
           <Text numberOfLines={1} ellipsizeMode="tail">

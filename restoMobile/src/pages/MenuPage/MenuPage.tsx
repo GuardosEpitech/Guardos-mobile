@@ -8,6 +8,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { getImages } from "../../services/imagesCalls";
 import { defaultDishImage } from "../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface DishData {
   _id: number;
@@ -22,10 +23,25 @@ const MenuPage: React.FC = ({ route }) => {
   const { restaurantId, restaurantName } = route.params;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [picturesId, setPicturesId] = useState<number[]>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
 
   useEffect(() => {
+    fetchDarkMode();
     fetchData();
   }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -83,7 +99,7 @@ const MenuPage: React.FC = ({ route }) => {
 
   // @ts-ignore
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {loading ? (
         <Text>Loading...</Text>
       ) : (

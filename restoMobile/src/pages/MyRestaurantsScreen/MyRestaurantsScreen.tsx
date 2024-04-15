@@ -1,6 +1,6 @@
 import React, { useEffect, useState , useCallback} from 'react';
 import { View, FlatList, TouchableOpacity, Text , RefreshControl} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { DarkTheme, useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import styles from '../MyRestaurantsScreen/MyRestaurantsScreen.styles';
 import MenuPage from '../MenuPage/MenuPage';
@@ -13,10 +13,25 @@ const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
   const [restoData, setRestoData] = useState<IRestaurantFrontEnd[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [key, setKey] = useState(0);
 
   useEffect(() => {
+    fetchDarkMode();
     updateRestoData();
   }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const updateRestoData = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -42,7 +57,9 @@ const MyRestaurantsScreen = () => {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     updateRestoData();
+    fetchDarkMode()
     setRefreshing(false);
+    setKey(prevKey => prevKey + 1);
   }, []);
 
   const navigateToAddRestaurant = () => {
@@ -54,12 +71,12 @@ const MyRestaurantsScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       <FlatList
         data={restoData}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
-            <Card info={item} onDelete={onDelete} />
+            <Card info={item} onDelete={onDelete} key={key} />
           </TouchableOpacity>
         )}
         keyExtractor={(restaurant) => (restaurant.uid ? restaurant.uid.toString() : '0')}

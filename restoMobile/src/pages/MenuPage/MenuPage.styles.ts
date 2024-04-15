@@ -1,16 +1,16 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
+const deviceHeight = Math.round(Dimensions.get('window').height);
 const offset = 40;
 const radius = 20;
 const iconSize = 20;
 
 const styles = StyleSheet.create({
   container: {
-    width: deviceWidth - 20,
+    width: deviceWidth,
+    height: deviceHeight,
     alignItems: 'center',
-    marginTop: 25,
-    marginBottom: 25,
   },
   scrollView: {
     alignItems: 'center',
@@ -78,6 +78,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
+  },
+  containerDarkTheme: {
+    flex: 1,
+    width: deviceWidth,
+    height: deviceHeight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1B1D1E'
   },
 });
 
