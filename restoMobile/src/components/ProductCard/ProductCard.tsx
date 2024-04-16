@@ -11,6 +11,7 @@ import ModalConfirm from '../ModalConfirm/ModalConfirm';
 import EditProductPage from '../../pages/EditProductPage/EditProductPage';
 import { useNavigation } from '@react-navigation/native';
 import { getAllResto } from '../../services/restoCalls';
+import {useTranslation} from "react-i18next";
 
 interface ProductCardProps {
   product: IProductFE;
@@ -21,6 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [restaurants, setRestaurants] = useState<IRestaurantFrontEnd[]>([]);
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -65,7 +67,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
       <View style={styles.productDetails}>
         <Text style={styles.productName}>{product.name}</Text>
         <Text style={styles.detailsText}>
-          Ingredients: {product.ingredients.join(', ')}
+          {t('components.ProductCard.ingredients', {ingredients: product.ingredients.join(', ')})}
         </Text>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={toggleModal} style={styles.iconButton}>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet, Platform, NativeModules} from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import MyTabs from './Router';
-import ErrorBoundary from './src/components/ErrorBoundary/ErrorBoundary';
+import './i18n/i18n';
+import {useTranslation} from "react-i18next";
 
 interface ErrorScreenProps {
   errorMessage: string;
@@ -16,20 +17,35 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({ errorMessage }) => (
 
 const App: React.FC = () => {
   const [hasInternetConnection, setHasInternetConnection] = useState(true);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setHasInternetConnection(state.isConnected);
     });
 
+    fetchUserLanguage();
+
     return () => {
       unsubscribe();
     };
   }, []);
 
+  const fetchUserLanguage = async () => {
+    const deviceLanguage =
+      (Platform.OS === 'ios'
+        ? NativeModules.SettingsManager.settings.AppleLocale ||
+        NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
+        : NativeModules.I18nManager.localeIdentifier).split('_')[0];
+
+    if (deviceLanguage == 'en' || deviceLanguage == 'de' || deviceLanguage == 'fr') {
+      i18n.changeLanguage(deviceLanguage);
+    }
+  }
+
   const renderContent = () => {
     if (!hasInternetConnection) {
-      return <ErrorScreen errorMessage="No internet connection. Please check your connection and try again." />;
+      return <ErrorScreen errorMessage={t('pages.Router.no-internet-error') as string} />;
     }
     return (
       <MyTabs />

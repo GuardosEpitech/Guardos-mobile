@@ -11,6 +11,7 @@ import styles from './ChangePassword.styles';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {changeVisitorPassword} from "../../../services/profileCalls";
+import {useTranslation} from "react-i18next";
 
 
 type ChangePasswordScreenProps = {
@@ -24,6 +25,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const {t} = useTranslation();
 
     function isValidPassword(password: string): boolean {
       const uppercaseRegex = /[A-Z]/;
@@ -40,39 +42,39 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
 
     const handleSave = async () => {
       if (!isValidPassword(newPassword)) {
-        setErrorMessage('Password must be at least 7 characters long and contain uppercase, lowercase, and numeric characters.');
+        setErrorMessage( t('pages.Profile.wrong-pw-format') as string);
         return;
       }
       if (newPassword !== confirmPassword) {
-        setErrorMessage('New password and confirmed password do not match.');
+        setErrorMessage(t('pages.Profile.no-match') as string);
         return;
       }
 
       const userToken = await AsyncStorage.getItem('user');
       if (userToken === null) {
-        setErrorMessage('User token not found. Please log in again.');
+        setErrorMessage(t('pages.Profile.no-token-error') as string);
         return;
       }
 
       const res = await changeVisitorPassword(userToken, oldPassword, newPassword);
       if (res) {
         await AsyncStorage.setItem('user', res);
-        setSuccessMessage('Password changed successfully.');
+        setSuccessMessage(t('pages.Profile.pw-changed') as string);
         navigation.navigate('Profile');
       } else {
-        setErrorMessage('Failed to change password. Please check your old password.');
+        setErrorMessage(t('pages.Profile.pw-changed-failure') as string);
       }
     };
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Text style={styles.heading}>Change Password</Text>
+          <Text style={styles.heading}>{t('pages.Profile.change-pw')}</Text>
 
           {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
           {successMessage && <Text style={styles.successText}>{successMessage}</Text>}
 
-          <Text style={styles.label}>Enter old password</Text>
+          <Text style={styles.label}>{t('pages.Profile.old-pw')}</Text>
           <TextInput
             style={styles.input}
             secureTextEntry={true}
@@ -80,7 +82,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
             onChangeText={setOldPassword}
           />
 
-          <Text style={styles.label}>Enter new password</Text>
+          <Text style={styles.label}>{t('pages.Profile.new-pw')}</Text>
           <TextInput
             style={styles.input}
             secureTextEntry={true}
@@ -88,7 +90,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
             onChangeText={setNewPassword}
           />
 
-          <Text style={styles.label}>Confirm new password</Text>
+          <Text style={styles.label}>{t('pages.Profile.confirm-pw')}</Text>
           <TextInput
             style={styles.input}
             secureTextEntry={true}
@@ -96,7 +98,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
             onChangeText={setConfirmPassword}
           />
 
-          <Button title="Save" onPress={handleSave} />
+          <Button title={t('common.save') as string} onPress={handleSave} />
         </View>
       </TouchableWithoutFeedback>
     );

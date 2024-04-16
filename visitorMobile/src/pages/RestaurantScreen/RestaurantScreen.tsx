@@ -27,6 +27,7 @@ import {
 } from '../../../../shared/models/communicationInterfaces';
 import { FilterContext } from '../../models/filterContext';
 import {getRestoFavourites} from "../../services/favourites";
+import {useTranslation} from "react-i18next";
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -74,6 +75,7 @@ const MyRestaurantsScreen = () => {
   const { filter, setFilter } = useContext(FilterContext);
   const isFocused = useIsFocused();
   const [isFavouriteRestos, setIsFavouriteRestos] = React.useState<Array<number>>([]);
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (isFocused) {
@@ -303,7 +305,7 @@ const MyRestaurantsScreen = () => {
       setSaveFilterStatus({
         success: false,
         error: true,
-        message: 'Error saving filter. Please try again.',
+        message: t('pages.RestaurantScreen.save-filter-error') as string,
       });
       setTimeout(() => {
         setSaveFilterStatus({
@@ -339,7 +341,7 @@ const MyRestaurantsScreen = () => {
         setSaveFilterStatus({
           success: true,
           error: false,
-          message: 'Filter saved successfully!',
+          message: t('pages.RestaurantScreen.save-filter-success') as string,
         });
         console.log('Saved filter');
         setTimeout(() => {
@@ -353,7 +355,7 @@ const MyRestaurantsScreen = () => {
         setSaveFilterStatus({
           success: false,
           error: true,
-          message: 'Error saving filter. Please try again.',
+          message: t('pages.RestaurantScreen.save-filter-error') as string,
         });
         console.error('Error saving filter');
         setTimeout(() => {
@@ -368,7 +370,7 @@ const MyRestaurantsScreen = () => {
       setSaveFilterStatus({
         success: false,
         error: true,
-        message: 'Error saving filter. Please try again.',
+        message: t('pages.RestaurantScreen.save-filter-error') as string
       });
       console.error('Error saving filter:', error);
       setTimeout(() => {
@@ -408,7 +410,7 @@ const MyRestaurantsScreen = () => {
       setSaveFilterStatus({
         success: false,
         error: true,
-        message: 'Error deleting filter. Please log in again.',
+        message: t('pages.RestaurantScreen.delete-filter-error') as string
       });
       setTimeout(() => {
         setSaveFilterStatus({
@@ -428,7 +430,7 @@ const MyRestaurantsScreen = () => {
         setSaveFilterStatus({
           success: true,
           error: false,
-          message: 'Filter deleted successfully!',
+          message: t('pages.RestaurantScreen.delete-filter-success') as string,
         });
         console.log('Deleted filter');
         setTimeout(() => {
@@ -442,7 +444,7 @@ const MyRestaurantsScreen = () => {
         setSaveFilterStatus({
           success: false,
           error: true,
-          message: 'Error deleting filter. Please try again.',
+          message: t('pages.RestaurantScreen.delete-filter-error') as string,
         });
         console.error('Error deleting filter');
         setTimeout(() => {
@@ -461,18 +463,18 @@ const MyRestaurantsScreen = () => {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Enter restaurant name"
+          placeholder={t('pages.RestaurantScreen.enter-resto-name') as string}
           value={nameFilter}
           onChangeText={(text) => setNameFilter(text)}
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter city name"
+          placeholder={t('pages.RestaurantScreen.enter-city') as string}
           value={locationFilter}
           onChangeText={(text) => setLocationFilter(text)}
         />
         <TouchableOpacity style={styles.button} onPress={handleSearch}>
-          <Text style={styles.buttonText}>Search</Text>
+          <Text style={styles.buttonText}>{t('pages.RestaurantScreen.search')}</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
@@ -499,9 +501,9 @@ const MyRestaurantsScreen = () => {
         <Modal isVisible={isTabVisible} style={{ marginTop: 50 }}>
           <ScrollView style={styles.filterPopup}>
             <View style={styles.filterPopup}>
-              <Text style={styles.popupHeading}>Filter</Text>
+              <Text style={styles.popupHeading}>{t('pages.RestaurantScreen.filter')}</Text>
 
-              <Text style={styles.categoryText}>Rating:</Text>
+              <Text style={styles.categoryText}>{t('pages.RestaurantScreen.rating')}</Text>
               <View style={styles.ratingContainer}>
                 {[1, 2, 3, 4, 5].map((index) => (
                   <TouchableOpacity
@@ -517,7 +519,7 @@ const MyRestaurantsScreen = () => {
                 ))}
               </View>
 
-              <Text style={styles.categoryText}>Distance: </Text>
+              <Text style={styles.categoryText}>{t('pages.RestaurantScreen.distance')}</Text>
               <Slider
                 style={styles.slider}
                 minimumValue={0}
@@ -530,9 +532,9 @@ const MyRestaurantsScreen = () => {
                 thumbStyle={styles.thumbStyle}
                 onValueChange={(value) => handleDistanceChange(value)}
               /> 
-              <Text style={styles.distanceText}>Distance: {distance} km</Text>
+              <Text style={styles.distanceText}>{t('pages.RestaurantScreen.distance-details', {distance: distance})}</Text>
 
-              <Text style={styles.categoryText}>Categories:</Text>
+              <Text style={styles.categoryText}>{t('pages.RestaurantScreen.categories')}</Text>
               <View style={styles.categoriesContainer}>
                 {categories.map((category, index) => (
                   <TouchableOpacity
@@ -547,7 +549,7 @@ const MyRestaurantsScreen = () => {
                 ))}
               </View>
 
-              <Text style={styles.categoryText}>Allergens:</Text>
+              <Text style={styles.categoryText}>{t('pages.RestaurantScreen.allergens')}</Text>
               <View style={styles.categoriesContainer}>
                 {allergens.map((allergen, index) => (
                   <TouchableOpacity
@@ -563,10 +565,10 @@ const MyRestaurantsScreen = () => {
               </View>
 
               <View>
-            <Text style={styles.categoryText}>Save Filter:</Text>
+            <Text style={styles.categoryText}>{t('pages.RestaurantScreen.save-filter')}</Text>
             <TextInput
               style={styles.saveInput}
-              placeholder="Enter filter name"
+              placeholder={t('pages.RestaurantScreen.enter-filter-name') as string}
               placeholderTextColor="gray"
               value={filterName}
               onChangeText={(text) => setFilterName(text)}
@@ -586,12 +588,12 @@ const MyRestaurantsScreen = () => {
               style={styles.filterPopupButton}
               onPress={handleSaveFilter}
             >
-              <Text style={styles.buttonTextPopup}>Save</Text>
+              <Text style={styles.buttonTextPopup}>{t('common.save')}</Text>
             </TouchableOpacity>
           </View>
 
           {/* Saved Filters Section */}
-          <Text style={styles.categoryText}>Saved Filters:</Text>
+          <Text style={styles.categoryText}>{t('pages.RestaurantScreen.saved-filters')}</Text>
           <ScrollView>
             {savedFilters.map((filter, index) => (
               <View key={index} style={styles.savedFilterItem}>
@@ -603,13 +605,13 @@ const MyRestaurantsScreen = () => {
                     onPress={() => handleLoadFilter(filter.filterName)}
                     style={styles.loadFilterButton}
                   >
-                    <Text style={styles.buttonTextPopup}>Load</Text>
+                    <Text style={styles.buttonTextPopup}>{t('pages.RestaurantScreen.load')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => handleDeleteFilter(filter.filterName)}
                     style={styles.deleteFilterButton}
                   >
-                    <Text style={styles.buttonTextPopup}>Delete</Text>
+                    <Text style={styles.buttonTextPopup}>{t('common.delete')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -621,14 +623,14 @@ const MyRestaurantsScreen = () => {
               style={styles.clearButton}
               onPress={resetFilters}
             >
-              <Text style={styles.buttonTextPopup}>Clear</Text>
+              <Text style={styles.buttonTextPopup}>{t('common.clear')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.filterPopupButton}
               onPress={handleFilter}
             >
-              <Text style={styles.buttonTextPopup}>Apply</Text>
+              <Text style={styles.buttonTextPopup}>{t('common.apply')}</Text>
             </TouchableOpacity>
           </View>
             </View>

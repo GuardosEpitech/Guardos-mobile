@@ -1,0 +1,193 @@
+{
+  "translation": {
+    "common": {
+      "save": "Save",
+      "submit": "Submit",
+      "apply-changes": "Apply Changes",
+      "change": "Change",
+      "confirm": "Confirm",
+      "ok": "OK",
+      "cancel": "Cancel",
+      "close": "Close",
+      "delete": "Delete",
+      "yes": "Yes",
+      "no": "No",
+
+      "english": "English",
+      "german": "German",
+      "french": "French",
+
+      "ingredients": "Ingredients",
+      "my-ingredients": "My Ingredients",
+      "products": "Products",
+      "my-products": "My Products",
+      "dishes": "Dishes",
+      "my-dishes": "My Dishes",
+      "restos": "Restaurants",
+      "my-restos": "My Restaurants",
+
+      "add-picture": "Tap to Add Picture",
+
+      "loading": "Loading...",
+
+      "success": "Success",
+      "error": "Error",
+      "unexpected-error": "An unexpected error occurred",
+      "all-fields-mandatory": "All fields are mandatory.",
+      "need-cam-permissions": "Sorry, we need camera roll permissions to make this work!"
+    },
+    "components": {
+      "DishCard": {
+        "no-name": "No name",
+        "no-description": "No description"
+      },
+      "ErrorBoundary": {
+        "oops": "Oops!",
+        "error": "There's an error",
+        "try-again": "Try again"
+      },
+      "ModalConfirm": {
+        "do-you-want-to-delete-product": "Are you sure you want to delete this product?"
+      },
+      "ProductCard": {
+        "ingredients": "Ingredients: {{ ingredients }}"
+      },
+      "ProductForm": {
+        "product-name": "Product Name",
+        "select-ingredients": "Select Ingredients",
+        "restos": "Restaurants",
+        "select-restos": "Select Restaurants",
+        "edit-product": "Edit Product",
+        "add-product": "Add Product"
+      },
+      "RestaurantCard": {
+        "rating": "Rating: {{ rating }} ({{ ratingCount }} ratings)"
+      }
+    },
+    "pages": {
+      "AddPage": {
+        "add-ingredient": "Add Ingredients"
+      },
+      "AddProductScreen": {
+        "add-product": "Add new Product"
+      },
+      "AddEditRestaurantScreen": {
+        "add-resto-failed": "Failed to add restaurant. Please try again.",
+        "resto-name-mandatory": "Restaurant Name *",
+        "phone-number": "Phone Number",
+        "street-name-mandatory": "Street Name *",
+        "street-number-mandatory": "Street Number *",
+        "postal-code-mandatory": "Postal Code *",
+        "city-mandatory": "City *",
+        "country-mandatory": "Country *",
+        "description": "Description",
+        "website": "Website",
+        "select-menu-design": "Select a menu design:",
+        "add-resto": "Add Restaurant"
+      },
+      "EditDishScreen": {
+        "dish-name": "Dish name",
+        "price": "Price",
+        "description": "description",
+        "add-product": "Add new product",
+        "allergens": "Allergens",
+        "add-allergens": "Add new Allergens",
+        "food-category": "Food Category",
+        "add-category": "Add new Category",
+        "resto": "Restaurant",
+        "add-resto": "Add new Restaurant",
+        "categories": "Categories"
+      },
+      "EditProductPage": {
+        "edit-product": "Edit Product"
+      },
+      "EditRestaurant": {
+        "updated-resto-success": "Restaurant data updated successfully",
+        "updated-resto-failure": "Failed to update restaurant data"
+      },
+      "FeatureRequest": {
+        "name": "Name",
+        "subject": "Subject",
+        "request": "Request"
+      },
+      "MenuPage": {
+        "price": "Price: {{ price }}",
+        "allergens": "Allergens: {{ allergens }}",
+        "confirm-delete-dish": "Are you sure you want to delete this dish?"
+      },
+      "Profile": {
+        "change-pw": "Change Password",
+        "old-pw": "Enter old password",
+        "new-pw": "Enter new password",
+        "wrong-pw-format": "Your Password should contain minimum: 1x Uppercase and Lowercase Letter, 1x Number and minimum 7 Characters",
+        "same-pw": "Your new Password should not be your old password",
+        "confirm-pw": "Confirm new password",
+        "no-match": "Your password does not match",
+        "pw-changed": "Password Changed",
+
+        "username-or-email": "Username or Email",
+        "password": "Password",
+        "invalid-login": "Invalid Login data",
+        "login": "Login",
+        "trouble-logging-in": "Trouble logging in?",
+        "register-prompt": "You don't have an account yet? Register yourself ",
+        "register-here": "here",
+        "or": "or",
+        "default": "Default",
+        "fast-food": "Fast food",
+        "pizzeria": "pizzeria",
+
+        "logout": "Logout",
+        "confirm-logout": "Are you sure you want to logout?",
+        "delete-account": "Delete Account",
+        "confirm-delete-account": "Are you sure you want to delete your account? This action is irreversible.",
+        "delete-account-failure-login": "Failed to delete account. Please log in again.",
+        "delete-account-failure-retry": "Failed to delete account. Please try again.",
+        "profile-page": "My Profile",
+        "add-picture": "Add Picture",
+        "username": "Username",
+        "email": "Email",
+        "feature-request": "Feature request",
+
+        "register": "Register",
+        "username-taken-or-invalid": "The desired Username exists already or is invalid",
+        "email-taken-or-invalid": "An account already exists for the specified email or is invalid"
+      },
+      "QRCodeEngin": {
+        "unknown-product": "Unknown Product",
+        "get-product-info-failed": "Error fetching product information for barcode {{ data }}",
+        "scan-ingredients": "Scan Ingredients",
+        "scan-prompt": "Please scan the barcode of the product you wan’t to add",
+        "select-resto": "Select a restaurant",
+        "search": "Search...",
+        "scan-again": "Scan Again",
+        "scan-result-ask-if-want-to-add": "You just scanned {{ data }} (Product Name: {{ productName }}). Do you want to add it to your list of ingredients?"
+      },
+      "ResetPasswordScreen": {
+        "username-email-no-match": "That username and email ({{ email }}) don't match. Please check its spelling or try another username.",
+        "user-error": "Error checking user. Please try again.",
+        "re-enter-account": "Getting back into your Guardos account",
+        "enter-info": "Tell us some information about your account",
+        "enter-username-prompt": "Next, give us the Guardos username you're having trouble with",
+        "enter-email": "Enter your email address",
+        "email": "Email",
+        "enter-username": "Enter your username",
+        "username": "Username",
+        "email-sent": "E-Mail was sent!",
+        "check-your-emails": "Please check your inbox for an email regarding password recovery, and also review your spam folder. The email contains a link that will remain valid for 15 minutes.",
+        "go-back": "Go back to login",
+        "error": "There was an Error.",
+        "try-again-msg": "Please try again to get a recovery link. If the Error appears one more time, please contact us.",
+        "continue": "Continue",
+        "send-reset-link": "Send My Password Reset Link"
+      },
+      "Router": {
+        "no-internet-error": "No internet connection. Please check your connection and try again.",
+        "scan": "Scan",
+        "my-profile": "My Profile",
+        "login": "Login",
+        "register": "Register"
+      }
+    }
+  }
+}

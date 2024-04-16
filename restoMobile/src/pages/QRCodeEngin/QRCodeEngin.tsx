@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, Pressable, ImageBackground } from "react-native";
+import { Text, View, StyleSheet, Button, Pressable } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import IconBack from "react-native-vector-icons/AntDesign";
-import IconUser from "react-native-vector-icons/FontAwesome";
 import styles from "./QRCodeEngin.styles";
 import axios from "axios";
 import { API_URL } from '@env';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Restaurant } from "src/models/ingedientsInterfaces";
+import {useTranslation} from "react-i18next";
 
 const QRCodeEngin = ({ navigation }: { navigation: any }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -16,6 +15,7 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
   const [value, setValue] = useState(null);
   const [productName, setProductName] = useState("");
   const [RestoValue, setRestoValue] = useState<{ label: string; value: string }[]>([]);
+  const {t} = useTranslation();
 
   useEffect(() => {
     (async () => {
@@ -36,17 +36,14 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
     try {
       const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${data}.json`);
       const productData = response.data.product;
-      setProductName(productData.product_name || "Unknown Product");
+      setProductName(productData.product_name || t('pages.QRCodeEngin.unknown-product'));
     } catch (error) {
       console.error("Error fetching product information:", error);
-      alert(`Error fetching product information for barcode ${data}`);
+      alert(String(t('pages.QRCodeEngin.get-product-info-failed')));
     }
   };
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+  if (hasPermission === null || hasPermission === false) {
+    return <Text>{t('common.need-cam-permissions')}</Text>;
   }
 
   function GoToAddPage() {
@@ -95,8 +92,8 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
     <View style={{flex:1}}>
     <View style={{marginTop: 5, alignItems: "center"}}>
       <View style={styles.DivTop}>
-        <Text style={styles.TitleIngr}>Scan Ingredient</Text>
-        <Text>Please scan the barcode of the product you wan’t to add</Text>
+        <Text style={styles.TitleIngr}>{t('pages.QRCodeEngin.scan-ingredients')}</Text>
+        <Text>{t('pages.QRCodeEngin.scan-prompt')}</Text>
         <Dropdown
             style={styles.dropdown}
             placeholderStyle={styles.placeholderStyle}
@@ -108,8 +105,8 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder="Select a restaurant"
-            searchPlaceholder="Search..."
+            placeholder={t('pages.QRCodeEngin.select-resto') as string}
+            searchPlaceholder={t('pages.QRCodeEngin.search') as string}
             value={value}
             onChange={(item) => {
               setValue(item.label);
@@ -126,11 +123,11 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
         </View>
         {scanned && (
           <View>
-            <Button title={"Scan Again"} onPress={() => setScanned(false)} />
+            <Button title={t('pages.QRCodeEngin.scan-again')} onPress={() => setScanned(false)} />
             <View style={styles.DivButton}>
             <Text style={styles.TitleScan}>
-                  You just scanned {data} (Product Name: {productName}). Do you want to add it to your list of ingredients?
-                </Text>
+              {t('pages.QRCodeEngin.scan-result-ask-if-want-to-add', {data: data, productName: productName})}
+            </Text>
               <View style={styles.DivTop}>
                 <Pressable
                   style={styles.ButtonNo}
@@ -138,7 +135,7 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
                     setScanned(false);
                   }}
                 >
-                  <Text>NO</Text>
+                  <Text>{t('common.no')}</Text>
                 </Pressable>
                 <Pressable
                   style={styles.ButtonYes}
@@ -147,7 +144,7 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
                     AddProduct();
                   }}
                 >
-                  <Text style={{ color: "white" }}>YES</Text>
+                  <Text style={{ color: "white" }}>{t('common.yes')}</Text>
                 </Pressable>
               </View>
             </View>

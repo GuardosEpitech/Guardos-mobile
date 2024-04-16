@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons/faPen'
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
@@ -8,10 +8,12 @@ import { useNavigation } from '@react-navigation/native';
 import { getImages } from '../services/imagesCalls';
 import { IimageInterface } from '../models/imageInterface';
 import { defaultRestoImage } from "../assets/placeholderImagesBase64";
+import {useTranslation} from "react-i18next";
 
 const RestaurantCard = ({ info, onDelete }) => {
   const navigation = useNavigation();
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
+  const {t} = useTranslation();
 
   const handleDelete = () => {
     onDelete(info.name);
@@ -62,7 +64,7 @@ const RestaurantCard = ({ info, onDelete }) => {
             {info.description}
           </Text>
           <Text numberOfLines={1} ellipsizeMode="tail">
-            Rating: {info.rating} ({info.ratingCount} ratings)
+            {t('components.RestaurantCard.rating', { rating: info.rating, ratingCount: info.ratingCount})}
           </Text>
         </View>
         <View style={styles.iconContainer}>
