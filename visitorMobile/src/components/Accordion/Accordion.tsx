@@ -30,11 +30,7 @@ const Accordion = ({ title, children }) => {
         </View>
       )}
     </>
-
-
   );
 };
-
-
 
 export default Accordion;
