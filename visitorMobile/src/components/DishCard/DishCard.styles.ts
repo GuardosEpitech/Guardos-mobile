@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   cardSmall: {
-    width: deviceWidth - offset - decreaseSizeOffset,
+    width: "90%",
+    alignSelf: "center",
     backgroundColor: '#FFFFFF',
     height: 230,
     margin: 10,

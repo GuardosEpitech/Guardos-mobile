@@ -88,6 +88,9 @@
         "saved-filters": "Saved Filters:",
         "load": "Load"
       },
+      "MenuPage": {
+        "show-non-compatible-dishes": "Show non-compatible dishes"
+      },
       "Profile": {
         "change-pw": "Change Password",
         "old-pw": "Enter old password",

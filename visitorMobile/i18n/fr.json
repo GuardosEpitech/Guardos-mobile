@@ -85,6 +85,9 @@
         "saved-filters": "Filtres enregistrés :",
         "load": "Charger"
       },
+      "MenuPage": {
+        "show-non-compatible-dishes": "Afficher les plats incompatibles"
+      },
       "Profile": {
         "change-pw": "Changer de mot de passe",
         "old-pw": "Entrez l'ancien mot de passe",

@@ -23,6 +23,7 @@ export interface IDishFE {
   category: ICategoryFE;
   resto: string;
   products: string[];
+  fitsPreference?: boolean;
 }
 
 export interface IAddDish {

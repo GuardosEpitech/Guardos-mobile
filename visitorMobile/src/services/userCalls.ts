@@ -107,3 +107,25 @@ export const deleteAccount = async (token: string) => {
     throw new Error("Error deleting the User");
   }
 };
+
+export const getUserAllergens = async (token: string) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: API_URL + 'user/allergens/get',
+      params: {key: token},
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching the User allergens:", error);
+    throw new Error("Error fetching the User allergens");
+  }
+};
+

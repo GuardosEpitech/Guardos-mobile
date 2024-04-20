@@ -3,7 +3,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import styles from './DishCard.styles';
 import { defaultDishImage } from "../../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
-import {Dish} from '../../models/dishesInterfaces'
+import {IDishFE} from '../../models/dishesInterfaces'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {addDishAsFavourite, deleteDishFromFavourites} from "../../services/favourites";
@@ -11,7 +11,7 @@ import {useTranslation} from "react-i18next";
 
 interface DishCardProps {
   restoID: number;
-  dish: Dish;
+  dish: IDishFE;
   isFavourite: boolean;
   pictures: IimageInterface[];
 }

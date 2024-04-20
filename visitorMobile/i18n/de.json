@@ -88,6 +88,9 @@
         "saved-filters": "Gespeicherte Filter:",
         "load": "Laden"
       },
+      "MenuPage": {
+        "show-non-compatible-dishes": "Zeige inkompatible Gerichte"
+      },
       "Profile": {
         "change-pw": "Passwort ändern",
         "old-pw": "Altes Passwort eingeben",
