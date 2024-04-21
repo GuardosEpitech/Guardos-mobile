@@ -23,8 +23,6 @@ const RestaurantCard = ({ info, onDelete }) => {
     try {
       const darkModeValue = await AsyncStorage.getItem('DarkMode');
       if (darkModeValue !== null) {
-        console.log(darkModeValue);
-        
         const isDarkMode = darkModeValue === 'true';
         setDarkMode(isDarkMode);
       }

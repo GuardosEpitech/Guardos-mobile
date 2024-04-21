@@ -108,15 +108,15 @@ const MenuPage: React.FC = ({ route }) => {
             {sortedDishes.map((dish, index) => (
               <React.Fragment key={dish.name+index}>
                 {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (
-                  <Text style={styles.groupTitle}>{dish.category.menuGroup}</Text>
+                  <Text style={[styles.groupTitle, darkMode && styles.groupTitleDarkTheme]}>{dish.category.menuGroup}</Text>
                 )}
-                <View style={styles.card}>
+                <View style={[styles.card && darkMode && styles.cardDarkTheme]}>
                   <Image
                     source={{ uri: pictures[dish.picturesId[0]]?.base64 || defaultDishImage }}
                     style={styles.cardImage}
                   />
                   <View style={styles.cardContent}>
-                    <Text style={styles.cardTitle}>{dish.name}</Text>
+                    <Text style={[styles.cardTitle, darkMode && styles.cardTitleDarkTheme]}>{dish.name}</Text>
                     <Text>{dish.description}</Text>
                     <Text>Price: ${dish.price}</Text>
                     <Text>Allergens: {dish.allergens.join(', ')}</Text>

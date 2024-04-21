@@ -87,6 +87,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#1B1D1E'
   },
+  cardDarkTheme: {
+    backgroundColor: '#3B3B3B',
+    marginHorizontal: 20,
+    marginBottom: 20,
+    borderRadius: radius,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 4,
+    elevation: 9,
+    overflow: 'hidden',
+  },
+  cardTitleDarkTheme: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: "white"
+  },
+  groupTitleDarkTheme: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 10,
+    color: "white"
+  },
 });
 
 export default styles;

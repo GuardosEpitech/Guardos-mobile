@@ -106,7 +106,6 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
       console.log(err);
     }
   }
-[styles.container, darkMode && styles.containerDarkTheme]
   return (
   <View style={[{ flex: 1 }, darkMode ? styles.containerDarkTheme : styles.containerLightTheme]}>
     <View style={{marginTop: 5, alignItems: "center"}}>
