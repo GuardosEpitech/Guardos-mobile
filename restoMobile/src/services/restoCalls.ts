@@ -49,7 +49,7 @@ export const getAllRestaurantsByUserAndFilter = async (token: string, filter: st
     const response = await axios({
       method: "POST",
       url: baseURL + 'search/restaurants/',
-      params: { "token": token,"filter": filter },
+      data: { "token": token,"filter": filter },
       headers: {
         "content-type": "application/json",
       },
