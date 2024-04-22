@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import styles from './ModalConfirm.styles';
+import {useTranslation} from "react-i18next";
 
 interface ModalConfirmProps {
   isVisible: boolean;
@@ -9,6 +10,8 @@ interface ModalConfirmProps {
 }
 
 const ModalConfirm: React.FC<ModalConfirmProps> = ({ isVisible, onConfirm, onCancel }) => {
+  const {t} = useTranslation();
+
   return (
     <Modal
       animationType="slide"
@@ -18,13 +21,13 @@ const ModalConfirm: React.FC<ModalConfirmProps> = ({ isVisible, onConfirm, onCan
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text>Are you sure you want to delete this product?</Text>
+          <Text>{t('components.ModalConfirm.do-you-want-to-delete-product')}</Text>
           <View style={styles.buttonsContainer}>
             <TouchableOpacity style={styles.confirmButton} onPress={onConfirm}>
-              <Text style={styles.buttonText}>Confirm</Text>
+              <Text style={styles.buttonText}>{t('common.confirm')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-              <Text style={styles.buttonText}>Cancel</Text>
+              <Text style={styles.buttonText}>{t('common.cancel')}</Text>
             </TouchableOpacity>
           </View>
         </View>

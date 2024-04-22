@@ -10,6 +10,7 @@ import axios from "axios";
 import IconBack from "react-native-vector-icons/AntDesign";
 import IconUser from "react-native-vector-icons/FontAwesome";
 import { IIngredients } from "src/models/ingedientsInterfaces";
+import {useTranslation} from "react-i18next";
 
 
 const URL = API_URL + "/get";
@@ -38,6 +39,7 @@ const AddPage = ({ navigation }: { navigation: any }) => {
   //
   // });
   const [appIsReady, setAppIsReady] = useState(false);
+  const {t} = useTranslation();
 
   useEffect(() => {
     async function prepare() {
@@ -107,7 +109,7 @@ const AddPage = ({ navigation }: { navigation: any }) => {
               size={40}
               color="#4D4D4D"
             />
-            <Text style={styles.CategorieTitle}>Ingredients</Text>
+            <Text style={styles.CategorieTitle}>{t('common.ingredients')}</Text>
             <IconUser
               style={styles.IconUser}
               name="user"
@@ -116,7 +118,7 @@ const AddPage = ({ navigation }: { navigation: any }) => {
             />
           </View>
           <View style={styles.DivTitleIngr}>
-            <Text style={styles.TitleIngr}>My Ingredients</Text>
+            <Text style={styles.TitleIngr}>{t('common.ingredients')}</Text>
           </View>
           <ScrollView style={styles.ScrollView}>
             {IngrValue?.map((ingr) => (
@@ -142,7 +144,7 @@ const AddPage = ({ navigation }: { navigation: any }) => {
               size={30}
               color="#fff"
             />
-            <Text style={styles.TitleAddIngr}>Add Ingredients</Text>
+            <Text style={styles.TitleAddIngr}>{t('pages.AddPage.add-ingredient')}</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>

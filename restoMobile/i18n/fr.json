@@ -1,0 +1,193 @@
+{
+  "translation": {
+    "common": {
+      "save": "Enregistrer",
+      "submit": "Envoyer",
+      "apply-changes": "Appliquer les modifications",
+      "change": "Modifier",
+      "confirm": "Confirmer",
+      "ok": "OK",
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "delete": "Supprimer",
+      "yes": "Oui",
+      "no": "Non",
+
+      "english": "Anglais",
+      "german": "Allemand",
+      "french": "Français",
+
+      "ingredients": "Ingrédients",
+      "my-ingredients": "Mes ingrédients",
+      "products": "Produits",
+      "my-products": "Mes produits",
+      "dishes": "Plats",
+      "my-dishes": "Mes plats",
+      "restos": "Restaurants",
+      "my-restos": "Mes restaurants",
+
+      "add-picture": "Appuyez pour ajouter une image",
+
+      "loading": "Chargement...",
+
+      "success": "Succès",
+      "error": "Erreur",
+      "unexpected-error": "Une erreur inattendue s'est produite",
+      "all-fields-mandatory": "Tous les champs sont obligatoires.",
+      "need-cam-permissions": "Désolé, nous avons besoin des autorisations de la galerie photo pour que cela fonctionne !"
+    },
+    "components": {
+      "DishCard": {
+        "no-name": "Pas de nom",
+        "no-description": "Pas de description"
+      },
+      "ErrorBoundary": {
+        "oops": "Oups !",
+        "error": "Une erreur s'est produite",
+        "try-again": "Réessayer"
+      },
+      "ModalConfirm": {
+        "do-you-want-to-delete-product": "Êtes-vous sûr de vouloir supprimer ce produit ?"
+      },
+      "ProductCard": {
+        "ingredients": "Ingrédients : {{ ingredients }}"
+      },
+      "ProductForm": {
+        "product-name": "Nom du produit",
+        "select-ingredients": "Sélectionner les ingrédients",
+        "restos": "Restaurants",
+        "select-restos": "Sélectionner les restaurants",
+        "edit-product": "Modifier le produit",
+        "add-product": "Ajouter un produit"
+      },
+      "RestaurantCard": {
+        "rating": "Note : {{ rating }} ({{ ratingCount }} évaluations)"
+      }
+    },
+    "pages": {
+      "AddPage": {
+        "add-ingredient": "Ajouter des ingrédients"
+      },
+      "AddProductScreen": {
+        "add-product": "Ajouter un nouveau produit"
+      },
+      "AddEditRestaurantScreen": {
+        "add-resto-failed": "Échec de l'ajout du restaurant. Veuillez réessayer.",
+        "resto-name-mandatory": "Nom du restaurant *",
+        "phone-number": "Numéro de téléphone",
+        "street-name-mandatory": "Nom de la rue *",
+        "street-number-mandatory": "Numéro de rue *",
+        "postal-code-mandatory": "Code postal *",
+        "city-mandatory": "Ville *",
+        "country-mandatory": "Pays *",
+        "description": "Description",
+        "website": "Site web",
+        "select-menu-design": "Sélectionner un design de menu :",
+        "add-resto": "Ajouter un restaurant"
+      },
+      "EditDishScreen": {
+        "dish-name": "Nom du plat",
+        "price": "Prix",
+        "description": "Description",
+        "add-product": "Ajouter un nouveau produit",
+        "allergens": "Allergènes",
+        "add-allergens": "Ajouter de nouveaux allergènes",
+        "food-category": "Catégorie alimentaire",
+        "add-category": "Ajouter une nouvelle catégorie",
+        "resto": "Restaurant",
+        "add-resto": "Ajouter un nouveau restaurant",
+        "categories": "Catégories"
+      },
+      "EditProductPage": {
+        "edit-product": "Modifier le produit"
+      },
+      "EditRestaurant": {
+        "updated-resto-success": "Données du restaurant mises à jour avec succès",
+        "updated-resto-failure": "Échec de la mise à jour des données du restaurant"
+      },
+      "FeatureRequest": {
+        "name": "Nom",
+        "subject": "Sujet",
+        "request": "Demande"
+      },
+      "MenuPage": {
+        "price": "Prix : {{ price }}",
+        "allergens": "Allergènes : {{ allergens }}",
+        "confirm-delete-dish": "Êtes-vous sûr de vouloir supprimer ce plat ?"
+      },
+      "Profile": {
+        "change-pw": "Changer de mot de passe",
+        "old-pw": "Entrer l'ancien mot de passe",
+        "new-pw": "Entrer le nouveau mot de passe",
+        "wrong-pw-format": "Votre mot de passe doit contenir au minimum : 1x majuscule et minuscule, 1x chiffre et au moins 7 caractères",
+        "same-pw": "Votre nouveau mot de passe ne doit pas être identique à l'ancien",
+        "confirm-pw": "Confirmer le nouveau mot de passe",
+        "no-match": "Votre mot de passe ne correspond pas",
+        "pw-changed": "Mot de passe changé",
+
+        "username-or-email": "Nom d'utilisateur ou email",
+        "password": "Mot de passe",
+        "invalid-login": "Données de connexion invalides",
+        "login": "Connexion",
+        "trouble-logging-in": "Problèmes de connexion ?",
+        "register-prompt": "Vous n'avez pas encore de compte ? Inscrivez-vous ",
+        "register-here": "ici",
+        "or": "ou",
+        "default": "Défaut",
+        "fast-food": "Restauration rapide",
+        "pizzeria": "Pizzeria",
+
+        "logout": "Déconnexion",
+        "confirm-logout": "Êtes-vous sûr de vouloir vous déconnecter ?",
+        "delete-account": "Supprimer le compte",
+        "confirm-delete-account": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
+        "delete-account-failure-login": "Échec de la suppression du compte. Veuillez vous reconnecter.",
+        "delete-account-failure-retry": "Échec de la suppression du compte. Veuillez réessayer.",
+        "profile-page": "Mon profil",
+        "add-picture": "Ajouter une photo",
+        "username": "Nom d'utilisateur",
+        "email": "Email",
+        "feature-request": "Demande de fonctionnalité",
+
+        "register": "S'inscrire",
+        "username-taken-or-invalid": "Le nom d'utilisateur souhaité existe déjà ou est invalide",
+        "email-taken-or-invalid": "Un compte existe déjà pour l'e-mail spécifié ou est invalide"
+      },
+      "QRCodeEngin": {
+        "unknown-product": "Produit inconnu",
+        "get-product-info-failed": "Erreur lors de la récupération des informations sur le produit pour le code-barres {{ data }}",
+        "scan-ingredients": "Scanner les ingrédients",
+        "scan-prompt": "Veuillez scanner le code-barres du produit que vous souhaitez ajouter",
+        "select-resto": "Sélectionner un restaurant",
+        "search": "Recherche...",
+        "scan-again": "Scanner à nouveau",
+        "scan-result-ask-if-want-to-add": "Vous venez de scanner {{ data }} (Nom du produit : {{ productName }}). Voulez-vous l'ajouter à votre liste d'ingrédients ?"
+      },
+      "ResetPasswordScreen": {
+        "username-email-no-match": "Ce nom d'utilisateur et cet e-mail ({{ email }}) ne correspondent pas. Veuillez vérifier l'orthographe ou essayer un autre nom d'utilisateur.",
+        "user-error": "Erreur lors de la vérification de l'utilisateur. Veuillez réessayer.",
+        "re-enter-account": "Retourner dans votre compte Guardos",
+        "enter-info": "Fournissez-nous quelques informations sur votre compte",
+        "enter-username-prompt": "Ensuite, donnez-nous le nom d'utilisateur Guardos avec lequel vous rencontrez des problèmes",
+        "enter-email": "Entrez votre adresse e-mail",
+        "email": "Email",
+        "enter-username": "Entrez votre nom d'utilisateur",
+        "username": "Nom d'utilisateur",
+        "email-sent": "E-mail envoyé !",
+        "check-your-emails": "Veuillez vérifier votre boîte de réception pour un e-mail concernant la récupération de mot de passe, et vérifiez également votre dossier spam. L'e-mail contient un lien qui restera valide pendant 15 minutes.",
+        "go-back": "Retour à la connexion",
+        "error": "Il y a eu une erreur.",
+        "try-again-msg": "Veuillez réessayer pour obtenir un lien de récupération. Si l'erreur se reproduit une fois de plus, veuillez nous contacter.",
+        "continue": "Continuer",
+        "send-reset-link": "Envoyer mon lien de réinitialisation de mot de passe"
+      },
+      "Router": {
+        "no-internet-error": "Pas de connexion Internet. Veuillez vérifier votre connexion et réessayer.",
+        "scan": "Scanner",
+        "my-profile": "Mon Profil",
+        "login": "Connexion",
+        "register": "S'inscrire"
+      }
+    }
+  }
+}
