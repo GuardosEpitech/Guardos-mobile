@@ -27,6 +27,7 @@ import {
   getImages
 } from "../../services/imagesCalls";
 import {  defaultDishImage } from "../../assets/placeholderImagesBase64";
+import {useTranslation} from "react-i18next";
 
 
 const EditDish = ({ route }) => {
@@ -48,7 +49,7 @@ const EditDish = ({ route }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [checkName, setCheckName] = useState(false);
-
+  const {t} = useTranslation();
 
 
   const onProductPress = (item: string) => {
@@ -77,13 +78,14 @@ const EditDish = ({ route }) => {
     const newProducts = allProducts.filter(prod => !products.includes(prod.name)).map(prod => prod.name);
     setProducts([...products, ...newProducts]);
 
-    setModalContentType('Products');
+    setModalContentType(t('common.products') as string);
     setModalVisible(true);
   };
 
   const onAddAllergen = () => {
     let allergens;
     if (restaurantName.length === 0) {
+      // TODO: need to adjust this for i18n
       allergens = ["No Allergens", "Celery", "Gluten",
         "Crustaceans", "Eggs", "Fish", "Lupin", "Milk", "Molluscs", "Mustard",
         "Nuts", "Peanuts", "Sesame seeds", "Soya", "Sulphur dioxide", "Lactose"];
@@ -91,7 +93,7 @@ const EditDish = ({ route }) => {
     const newAllergens = allergens.filter(allergen => !selectedAllergens.includes(allergen));
     setAllergens([...selectedAllergens, ...newAllergens]);
 
-    setModalContentType('Allergens');
+    setModalContentType(t('pages.EditDishScreen.allergens') as string);
     setModalVisible(true);
   };
 
@@ -100,6 +102,7 @@ const EditDish = ({ route }) => {
     let categories;
 
     if (restaurantName.length === 0) {
+      // TODO: handle with i18n
       categories = [{name: 'Appetizers'}, {name: 'Main Dishes'}, {name: 'Desserts'}, {name: 'Drinks'}];
     } else {
       const restaurant = await getRestaurantByName(restaurantName);
@@ -110,7 +113,7 @@ const EditDish = ({ route }) => {
     const newCategories = categories.filter(cat => !category.includes(cat.name)).map(cat => cat.name);
     setCategory([...category, ...newCategories]);
 
-    setModalContentType('Categories');
+    setModalContentType(t('pages.EditDishScreen.categories') as string);
     setModalVisible(true);
   };
 
@@ -121,7 +124,7 @@ const EditDish = ({ route }) => {
     const newRestaurants = allRestaurants.filter(resto => !restaurants.includes(resto.name)).map(resto => resto.name);
     setRestaurants([...restaurants, ...newRestaurants]);
 
-    setModalContentType('Restaurants');
+    setModalContentType(t('common.restos') as string);
     setModalVisible(true);
   }
 
@@ -215,7 +218,7 @@ const EditDish = ({ route }) => {
   const changePicture = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+      alert(t('common.need-cam-permissions'));
       return;
     }
 
@@ -245,6 +248,7 @@ const EditDish = ({ route }) => {
 
   useEffect(() => {
     try {
+      // TODO: need to adjust this for i18n
       const allergens = ["No Allergens", "Celery", "Gluten",
         "Crustaceans", "Eggs", "Fish", "Lupin", "Milk", "Molluscs", "Mustard",
         "Nuts", "Peanuts", "Sesame seeds", "Soya", "Sulphur dioxide", "Lactose"];
@@ -270,15 +274,12 @@ const EditDish = ({ route }) => {
   }, [restaurantName]);
 
   const handleSave = async () => {
-    console.log('clicked on save');
-
     // check if valid
     if (!name || !price || !description || !pictures || !selectedAllergens || !selectedProducts || !selectedCategories || !selectedRestaurants) {
-      Alert.alert('Error', 'All fields are mandatory.');
+      Alert.alert(String(t('common.error')),  String(t('common.all-fields-mandatory')));
       return;
     }
     for (let i = 0; i < selectedRestaurants.length; i++) {
-      console.log(selectedRestaurants[i]);
       const dishCategory = route.params.dish && route.params.dish.category ? route.params.dish.category : { menuGroup: '', foodGroup: '', extraGroup: [] };
       const dishToSave: IDishFE = {
         name: name,
@@ -294,8 +295,6 @@ const EditDish = ({ route }) => {
         },
         resto: selectedRestaurants[i]
       }
-      console.log(selectedRestaurants[i]);
-      console.log(category);
       const dish = await changeDishByName(dishToSave, selectedRestaurants[i]);
       if (dish && dish.name) {
         console.log('Dish saved');
@@ -328,10 +327,10 @@ const EditDish = ({ route }) => {
             <Image source={{ uri: pictures[0].base64}} style={styles.image} />
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={() => removePicture(pictures[0])} style={styles.deleteButton}>
-                <Text>Delete</Text>
+                <Text>{t('common.delete')}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={changePicture} style={styles.changeButton}>
-                <Text>Change</Text>
+                <Text>{t('common.change')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -339,7 +338,7 @@ const EditDish = ({ route }) => {
           <View style={styles.centeredView}>
             <TouchableOpacity style={styles.imageContainer} onPress={changePicture}>
           <View style={styles.placeholderContainer}>
-            <Text style={styles.placeholderText}>Tap to Add Picture</Text>
+            <Text style={styles.placeholderText}>{t('common.add-picture')}</Text>
           </View>
             </TouchableOpacity>
           </View>
@@ -353,7 +352,7 @@ const EditDish = ({ route }) => {
         <View style={styles.column}>
           <View style={styles.inputPair}>
 
-            <Text style={styles.label}>Dish name</Text>
+            <Text style={styles.label}>{t('pages.EditDishScreen.dish-name')}</Text>
             {
               checkName ? (
               <Text style={styles.input}>
@@ -362,24 +361,24 @@ const EditDish = ({ route }) => {
               ) : (
                 <TextInput
                   style={styles.input}
-                  placeholder="Dish name"
+                  placeholder={t('pages.EditDishScreen.dish-name') as string}
                   value={name}
                   onChangeText={(text) => setName(text)}
                 />
               )
             }
-            <Text style={styles.label}>Price</Text>
+            <Text style={styles.label}>{t('pages.EditDishScreen.price')}</Text>
             <TextInput
               style={styles.input}
-              placeholder="Price"
+              placeholder={t('pages.EditDishScreen.price') as string}
               value={price}
               onChangeText={(text) => setPrice(text)} // check what happens if text is not a number
             />
 
-            <Text style={styles.label}>Description</Text>
+            <Text style={styles.label}>{t('pages.EditDishScreen.description')}</Text>
             <TextInput
               style={[styles.input, styles.multilineInput]}
-              placeholder="Description"
+              placeholder={t('pages.EditDishScreen.description') as string}
               value={description}
               onChangeText={(text) => setDescription(text)}
               multiline
@@ -389,7 +388,7 @@ const EditDish = ({ route }) => {
       </View>
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>Products</Text>
+        <Text style={styles.label}>{t('common.products')}</Text>
         <View style={styles.containerAllergens}>
           {selectedProducts.map((item, index) => (
             <TouchableOpacity
@@ -405,13 +404,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEW"}
           style={styles.button}
           onPress={() => onAddProduct()}>
-          <Text style={styles.labelCernterd}>{'Add new product'}</Text>
+          <Text style={styles.labelCernterd}>{t('pages.EditDishScreen.add-product')}</Text>
         </TouchableOpacity>
       </View>
 
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>Allergens</Text>
+        <Text style={styles.label}>{t('pages.EditDishScreen.allergens')}</Text>
         <View style={styles.containerAllergens}>
           {selectedAllergens.map((item, index) => (
             <TouchableOpacity
@@ -427,13 +426,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEWAllergens"}
           style={styles.button}
           onPress={() => onAddAllergen()}>
-          <Text style={styles.labelCernterd}>{'Add new allergens'}</Text>
+          <Text style={styles.labelCernterd}>{t('pages.EditDishScreen.add-allergens')}</Text>
         </TouchableOpacity>
       </View>
 
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>Food Category</Text>
+        <Text style={styles.label}>{t('pages.EditDishScreen.food-category')}</Text>
         <View style={styles.containerAllergens}>
           {selectedCategories.map((item, index) => (
             <TouchableOpacity
@@ -449,13 +448,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEWCATEGORY"}
           style={styles.button}
           onPress={() => onAddCategory()}>
-          <Text style={styles.labelCernterd}>{'Add new category'}</Text>
+          <Text style={styles.labelCernterd}>{t('pages.EditDishScreen.add-category')}</Text>
         </TouchableOpacity>
       </View>
 
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>Restaurant</Text>
+        <Text style={styles.label}>{t('pages.EditDishScreen.resto')}</Text>
         <View style={styles.containerAllergens}>
           {selectedRestaurants.map((item, index) => (
             <TouchableOpacity
@@ -471,13 +470,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEW"}
           style={styles.button}
           onPress={() => onAddRestaurant()}>
-          <Text style={styles.labelCernterd}>{'Add new restaurant'}</Text>
+          <Text style={styles.labelCernterd}>{t('pages.EditDishScreen.add-resto')}</Text>
         </TouchableOpacity>
       </View>
 
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.buttonText}>Save</Text>
+        <Text style={styles.buttonText}>{t('common.save')}</Text>
       </TouchableOpacity>
 
       <Modal
@@ -492,7 +491,7 @@ const EditDish = ({ route }) => {
           <View style={styles.modalView}>
             <Text style={styles.label}>{modalContentType}</Text>
             <View style={styles.flexContainer}>
-              {modalContentType === 'Products' &&
+              {modalContentType === t('common.products') &&
                 products.map((item, index) => (
                   <TouchableOpacity
                     key={index}
@@ -503,7 +502,7 @@ const EditDish = ({ route }) => {
                   </TouchableOpacity>
                 ))
               }
-              {modalContentType === 'Allergens' &&
+              {modalContentType === t('pages.EditDishScreen.allergens') &&
                 allergens.map((item, index) => (
                   <TouchableOpacity
                     key={index}
@@ -515,7 +514,7 @@ const EditDish = ({ route }) => {
                 ))
               }
 
-              {modalContentType === 'Categories' &&
+              {modalContentType === t('pages.EditDishScreen.categories') &&
                 category.map((item, index) => (
                   <TouchableOpacity
                     key={index}
@@ -527,7 +526,7 @@ const EditDish = ({ route }) => {
                 ))
               }
 
-              {modalContentType === 'Restaurants' &&
+              {modalContentType === t('common.restos') &&
                 restaurants.map((item, index) => (
                   <TouchableOpacity
                     key={index}
@@ -542,7 +541,7 @@ const EditDish = ({ route }) => {
 
             </View>
             <Button
-              title="Close"
+              title={t('common.close') as string}
               onPress={() => {
                 setModalVisible(false);
               }}

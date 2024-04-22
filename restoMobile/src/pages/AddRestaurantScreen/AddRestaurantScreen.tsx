@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert, StatusBar, Image, ScrollView } from 'react-native'; // Import ScrollView
-import {Picker} from '@react-native-picker/picker';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { View, TextInput, TouchableOpacity, Text, Alert, StatusBar, ScrollView } from 'react-native';
+import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
 import styles from './AddRestaurantScreen.styles';
-import HomeScreen from "src/pages/HomeScreen/HomeScreen";
-import Header from '../../components/Header';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addRestaurant, getAllMenuDesigns } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
+import {useTranslation} from "react-i18next";
+
+DropDownPicker.addTranslation("DE", {
+  PLACEHOLDER: "Wählen Sie ein Element aus",
+  SEARCH_PLACEHOLDER: "Suche...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} Elemente ausgewählt",
+  NOTHING_TO_SHOW: "Es gibt nichts zu zeigen!"
+});
+
+DropDownPicker.addTranslation("FR", {
+  PLACEHOLDER: "Sélectionnez un élément",
+  SEARCH_PLACEHOLDER: "Tapez quelque chose...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} éléments ont été sélectionnés",
+  NOTHING_TO_SHOW: "Il n'y a rien à montrer!"
+});
 
 const AddRestaurantScreen = () => {
   const navigation = useNavigation();
@@ -28,6 +39,8 @@ const AddRestaurantScreen = () => {
   const [selectedMenuDesign, setSelectedMenuDesign] = useState('');
   const [selectedMenuDesignID, setSelectedMenuDesignID] = useState(0);
   const [menuDesignOpen, setMenuDesignOpen] = useState(false);
+  const [language, setLanguage] = useState('');
+  const {t, i18n} = useTranslation();
 
   useEffect(() => {    
     getAllMenuDesigns()
@@ -37,12 +50,13 @@ const AddRestaurantScreen = () => {
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
       });
+    setLanguage(i18n.language);
   }, []);
 
 
   const handleAddRestaurant = async () => {
     if (!restaurantName || !streetName || !streetNumber || !postalCode || !city || !country) {
-      Alert.alert('Error', 'All fields are mandatory.');
+      Alert.alert(String(t('common.error')), String(t('common.all-fields-mandatory')));
       return;
     }
     const token = await AsyncStorage.getItem('userToken');
@@ -84,7 +98,7 @@ const AddRestaurantScreen = () => {
       navigation.navigate('MyRestaurantsScreen');
     } catch (error) {
       console.error('Error adding restaurant:', error);
-      Alert.alert('Error', 'Failed to add restaurant. Please try again.');
+      Alert.alert(String(t('common.error')), String(t('pages.AddEditRestaurantScreen.add-resto-failed')));
     }
   };
 
@@ -108,13 +122,13 @@ const AddRestaurantScreen = () => {
         <View style={styles.inputPair}>
           <TextInput
             style={styles.input}
-            placeholder="Restaurant Name *"
+            placeholder={t('pages.AddEditRestaurantScreen.resto-name-mandatory') as string}
             value={restaurantName}
             onChangeText={setRestaurantName}
           />
           <TextInput
             style={styles.input}
-            placeholder="Phone Number"
+            placeholder={t('pages.AddEditRestaurantScreen.phone-number') as string}
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -124,13 +138,13 @@ const AddRestaurantScreen = () => {
         <View style={styles.inputPair}>
           <TextInput
             style={styles.input}
-            placeholder="Street Name *"
+            placeholder={t('pages.AddEditRestaurantScreen.street-name-mandatory') as string}
             value={streetName}
             onChangeText={setStreetName}
           />
           <TextInput
             style={styles.input}
-            placeholder="Street Number *"
+            placeholder={t('pages.AddEditRestaurantScreen.street-number-mandatory') as string}
             value={streetNumber}
             onChangeText={setStreetNumber}
           />
@@ -139,13 +153,13 @@ const AddRestaurantScreen = () => {
         <View style={styles.inputPair}>
           <TextInput
             style={styles.input}
-            placeholder="Postal Code *"
+            placeholder={t('pages.AddEditRestaurantScreen.postal-code-mandatory') as string}
             value={postalCode}
             onChangeText={setPostalCode}
           />
           <TextInput
             style={styles.input}
-            placeholder="City *"
+            placeholder={t('pages.AddEditRestaurantScreen.city-mandatory') as string}
             value={city}
             onChangeText={setCity}
           />
@@ -154,13 +168,13 @@ const AddRestaurantScreen = () => {
         <View style={styles.inputPair}>
           <TextInput
             style={styles.input}
-            placeholder="Country *"
+            placeholder={t('pages.AddEditRestaurantScreen.country-mandatory') as string}
             value={country}
             onChangeText={setCountry}
           />
           <TextInput
             style={styles.input}
-            placeholder="Description"
+            placeholder={t('pages.AddEditRestaurantScreen.description') as string}
             value={description}
             onChangeText={setDescription}
             multiline
@@ -170,15 +184,16 @@ const AddRestaurantScreen = () => {
         <View style={styles.inputPair}>
           <TextInput
             style={styles.input}
-            placeholder="Website"
+            placeholder={t('pages.AddEditRestaurantScreen.website') as string}
             value={website}
             onChangeText={setWebsite}
           />
         </View>
         <View style={styles.containerPicker}>
-          <Text style={{ marginBottom: 5 }}>Select a menu design:</Text>
+          <Text style={{ marginBottom: 5 }}>{t('pages.AddEditRestaurantScreen.select-menu-design')}</Text>
           <DropDownPicker
             open={menuDesignOpen}
+            language={language.toUpperCase() as LanguageType}
             items={menuDesigns.map((menuDesign) => ({ label: menuDesign.name, value: menuDesign._id }))}
             value={selectedMenuDesign}
             dropDownDirection={'TOP'}
@@ -195,7 +210,7 @@ const AddRestaurantScreen = () => {
         </View>
       </View>
       <TouchableOpacity style={styles.addButton} onPress={handleAddRestaurant}>
-        <Text style={styles.buttonText}>Add Restaurant</Text>
+        <Text style={styles.buttonText}>{t('pages.AddEditRestaurantScreen.add-resto')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

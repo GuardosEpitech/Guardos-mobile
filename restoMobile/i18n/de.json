@@ -1,0 +1,193 @@
+{
+  "translation": {
+    "common": {
+      "save": "Speichern",
+      "submit": "Senden",
+      "apply-changes": "Änderungen übernehmen",
+      "change": "Ändern",
+      "confirm": "Bestätigen",
+      "ok": "OK",
+      "cancel": "Abbrechen",
+      "close": "Schließen",
+      "delete": "Löschen",
+      "yes": "Ja",
+      "no": "Nein",
+
+      "english": "Englisch",
+      "german": "Deutsch",
+      "french": "Französisch",
+
+      "ingredients": "Zutaten",
+      "my-ingredients": "Meine Zutaten",
+      "products": "Produkte",
+      "my-products": "Meine Produkte",
+      "dishes": "Gerichte",
+      "my-dishes": "Meine Gerichte",
+      "restos": "Restaurants",
+      "my-restos": "Meine Restaurants",
+
+      "add-picture": "Tippe, um ein Bild hinzuzufügen",
+
+      "loading": "Lädt...",
+
+      "success": "Geschafft",
+      "error": "Fehler",
+      "unexpected-error": "Ein unerwarteter Fehler ist aufgetreten",
+      "all-fields-mandatory": "Alle Felder sind Pflichtfelder.",
+      "need-cam-permissions": "Wir benötigen zusätzliche Berechtigungen für die Kamera!"
+    },
+    "components": {
+      "DishCard": {
+        "no-name": "Kein Name",
+        "no-description": "Keine Beschreibung"
+      },
+      "ErrorBoundary": {
+        "oops": "Hoppla!",
+        "error": "Es liegt ein Fehler vor",
+        "try-again": "Erneut versuchen"
+      },
+      "ModalConfirm": {
+        "do-you-want-to-delete-product": "Möchten Sie dieses Produkt wirklich löschen?"
+      },
+      "ProductCard": {
+        "ingredients": "Zutaten: {{ ingredients }}"
+      },
+      "ProductForm": {
+        "product-name": "Produktname",
+        "select-ingredients": "Zutaten auswählen",
+        "restos": "Restaurants",
+        "select-restos": "Restaurants auswählen",
+        "edit-product": "Produkt bearbeiten",
+        "add-product": "Produkt hinzufügen"
+      },
+      "RestaurantCard": {
+        "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"
+      }
+    },
+    "pages": {
+      "AddPage": {
+        "add-ingredient": "Zutat hinzufügen"
+      },
+      "AddProductScreen": {
+        "add-product": "Neues Produkt hinzufügen"
+      },
+      "AddEditRestaurantScreen": {
+        "add-resto-failed": "Restaurant konnte nicht hinzugefügt werden. Bitte versuchen Sie es erneut.",
+        "resto-name-mandatory": "Restaurantname *",
+        "phone-number": "Telefonnummer",
+        "street-name-mandatory": "Straßenname *",
+        "street-number-mandatory": "Hausnummer *",
+        "postal-code-mandatory": "Postleitzahl *",
+        "city-mandatory": "Stadt *",
+        "country-mandatory": "Land *",
+        "description": "Beschreibung",
+        "website": "Webseite",
+        "select-menu-design": "Menüdesign auswählen:",
+        "add-resto": "Restaurant hinzufügen"
+      },
+      "EditDishScreen": {
+        "dish-name": "Gerichtsname",
+        "price": "Preis",
+        "description": "Beschreibung",
+        "add-product": "Neues Produkt hinzufügen",
+        "allergens": "Allergene",
+        "add-allergens": "Neue Allergene hinzufügen",
+        "food-category": "Essenskategorie",
+        "add-category": "Neue Kategorie hinzufügen",
+        "resto": "Restaurant",
+        "add-resto": "Neues Restaurant hinzufügen",
+        "categories": "Kategorien"
+      },
+      "EditProductPage": {
+        "edit-product": "Produkt bearbeiten"
+      },
+      "EditRestaurant": {
+        "updated-resto-success": "Restaurantdaten erfolgreich aktualisiert",
+        "updated-resto-failure": "Aktualisierung der Restaurantdaten fehlgeschlagen"
+      },
+      "FeatureRequest": {
+        "name": "Name",
+        "subject": "Betreff",
+        "request": "Anfragen"
+      },
+      "MenuPage": {
+        "price": "Preis: {{ price }}",
+        "allergens": "Allergene: {{ allergens }}",
+        "confirm-delete-dish": "Möchten Sie dieses Gericht wirklich löschen?"
+      },
+      "Profile": {
+        "change-pw": "Passwort ändern",
+        "old-pw": "Altes Passwort eingeben",
+        "new-pw": "Neues Passwort eingeben",
+        "wrong-pw-format": "Ihr Passwort sollte mindestens enthalten: 1x Großbuchstaben und Kleinbuchstaben, 1x Zahl und mindestens 7 Zeichen",
+        "same-pw": "Ihr neues Passwort darf nicht Ihrem alten Passwort entsprechen",
+        "confirm-pw": "Neues Passwort bestätigen",
+        "no-match": "Ihr Passwort stimmt nicht überein",
+        "pw-changed": "Passwort geändert",
+
+        "username-or-email": "Benutzername oder E-Mail",
+        "password": "Passwort",
+        "invalid-login": "Ungültige Anmeldedaten",
+        "login": "Anmelden",
+        "trouble-logging-in": "Probleme beim Einloggen?",
+        "register-prompt": "Sie haben noch kein Konto? Registrieren Sie sich ",
+        "register-here": "hier",
+        "or": "oder",
+        "default": "Standard",
+        "fast-food": "Fast-Food",
+        "pizzeria": "Pizzeria",
+
+        "logout": "Abmelden",
+        "confirm-logout": "Möchten Sie sich wirklich abmelden?",
+        "delete-account": "Konto löschen",
+        "confirm-delete-account": "Möchten Sie Ihr Konto wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "delete-account-failure-login": "Löschen des Kontos fehlgeschlagen. Bitte loggen Sie sich erneut ein.",
+        "delete-account-failure-retry": "Löschen des Kontos fehlgeschlagen. Bitte versuchen Sie es erneut.",
+        "profile-page": "Mein Profil",
+        "add-picture": "Bild hinzufügen",
+        "username": "Benutzername",
+        "email": "E-Mail",
+        "feature-request": "Feature anfragen",
+
+        "register": "Registrieren",
+        "username-taken-or-invalid": "Der gewünschte Benutzername existiert bereits oder ist ungültig",
+        "email-taken-or-invalid": "Für die angegebene E-Mail-Adresse existiert bereits ein Konto oder sie ist ungültig"
+      },
+      "QRCodeEngin": {
+        "unknown-product": "Unbekanntes Produkt",
+        "get-product-info-failed": "Fehler beim Abrufen von Produktinformationen für Barcode {{ data }}",
+        "scan-ingredients": "Zutaten scannen",
+        "scan-prompt": "Bitte scannen Sie den Barcode des Produkts, das Sie hinzufügen möchten",
+        "select-resto": "Wählen Sie ein Restaurant aus",
+        "search": "Suchen...",
+        "scan-again": "Erneut scannen",
+        "scan-result-ask-if-want-to-add": "Sie haben gerade {{ data }} (Produktname: {{ productName }}) gescannt. Möchten Sie es zu Ihrer Liste der Zutaten hinzufügen?"
+      },
+      "ResetPasswordScreen": {
+        "username-email-no-match": "Dieser Benutzername und diese E-Mail-Adresse ({{ email }}) stimmen nicht überein. Bitte überprüfen Sie die Schreibweise oder versuchen Sie einen anderen Benutzernamen.",
+        "user-error": "Fehler beim Überprüfen des Benutzers. Bitte versuchen Sie es erneut.",
+        "re-enter-account": "Zurück in Ihr Guardos-Konto",
+        "enter-info": "Geben Sie uns einige Informationen zu Ihrem Konto",
+        "enter-username-prompt": "Geben Sie als Nächstes den Guardos-Benutzernamen ein, bei dem Sie Probleme haben",
+        "enter-email": "Geben Sie Ihre E-Mail-Adresse ein",
+        "email": "E-Mail",
+        "enter-username": "Geben Sie Ihren Benutzernamen ein",
+        "username": "Benutzername",
+        "email-sent": "E-Mail wurde gesendet!",
+        "check-your-emails": "Bitte überprüfen Sie Ihr Postfach auf eine E-Mail zur Passwortwiederherstellung und überprüfen Sie auch Ihren Spam-Ordner. Die E-Mail enthält einen Link, der 15 Minuten lang gültig bleibt.",
+        "go-back": "Zurück zur Anmeldung",
+        "error": "Es gab einen Fehler.",
+        "try-again-msg": "Bitte versuchen Sie erneut, einen Wiederherstellungslink zu erhalten. Wenn der Fehler erneut auftritt, kontaktieren Sie uns bitte.",
+        "continue": "Fortsetzen",
+        "send-reset-link": "Meinen Passwort-Wiederherstellungslink senden"
+      },
+      "Router": {
+        "no-internet-error": "Keine Internetverbindung. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+        "scan": "Scannen",
+        "my-profile": "Mein Profil",
+        "login": "Anmelden",
+        "register": "Registrieren"
+      }
+    }
+  }
+}

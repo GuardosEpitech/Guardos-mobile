@@ -4,6 +4,7 @@ import styles from './ContactUs.styles';
 import { Ionicons } from '@expo/vector-icons';
 import { IContactForm } from '../../models/emailInterfaces';
 import { sendEmail } from '../../services/emailCalls';
+import {useTranslation} from "react-i18next";
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState<IContactForm>({
@@ -13,6 +14,7 @@ const ContactUs: React.FC = () => {
     message: '',
   });
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const {t} = useTranslation();
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -59,7 +61,7 @@ const ContactUs: React.FC = () => {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
         {/* Display contact information */}
-        <Text style={styles.heading}>Get in touch</Text>
+        <Text style={styles.heading}>{t('pages.ContactUs.get-in-touch')}</Text>
         <View style={styles.contactInfo}>
           <View style={styles.contactDetail}>
             <Ionicons name="md-call" size={24} color="black" />
@@ -73,47 +75,47 @@ const ContactUs: React.FC = () => {
 
           <View style={styles.contactDetail}>
             <Ionicons name="md-pin" size={24} color="black" />
-            <Text style={styles.contactText}>Fasanenstraße 86, 10623 Berlin, Germany</Text>
+            <Text style={styles.contactText}>{t('pages.ContactUs.address')}</Text>
           </View>
         </View>
 
         {/* Display contact form */}
         <View style={styles.contactForm}>
-          <Text style={styles.heading}>Contact Form</Text>
+          <Text style={styles.heading}>{t('pages.ContactUs.contact-form')}</Text>
           <TextInput
             value={formData.name}
             onChangeText={(text) => handleChange('name', text)}
-            placeholder="Name"
+            placeholder={t('pages.ContactUs.name') as string}
             style={styles.input}
           />
           <TextInput
             value={formData.email}
             onChangeText={(text) => handleChange('email', text)}
-            placeholder="Email"
+            placeholder={t('pages.ContactUs.email') as string}
             style={styles.input}
           />
           <TextInput
             value={formData.subject}
             onChangeText={(text) => handleChange('subject', text)}
-            placeholder="Subject"
+            placeholder={t('pages.ContactUs.subject') as string}
             style={styles.input}
           />
           <TextInput
             value={formData.message}
             onChangeText={(text) => handleChange('message', text)}
-            placeholder="Message"
+            placeholder={t('pages.ContactUs.message') as string}
             multiline
             style={[styles.input, { height: 100 }]}
           />
 
           {/* Submit button */}
           <TouchableOpacity onPress={handleSubmit} style={[styles.button, { backgroundColor: '#6d071a' }]}>
-            <Text style={styles.buttonText}>Submit</Text>
+            <Text style={styles.buttonText}>{t('common.submit')}</Text>
           </TouchableOpacity>
 
           {/* Confirmation message */}
           {showConfirmation && (
-            <Text style={[styles.message, { color: 'green' }]}>Message sent successfully!</Text>
+            <Text style={[styles.message, { color: 'green' }]}>{t('pages.ContactUs.message-sent-success')}</Text>
           )}
         </View>
       </KeyboardAvoidingView>

@@ -8,6 +8,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { getImages } from "../../services/imagesCalls";
 import { defaultDishImage } from "../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
+import {useTranslation} from "react-i18next";
 
 export interface DishData {
   _id: number;
@@ -19,9 +20,9 @@ const MenuPage: React.FC = ({ route }) => {
   const [loading, setLoading] = useState(true);
   const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const { restaurantId, restaurantName } = route.params;
+  const { restaurantName } = route.params;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
-  const [picturesId, setPicturesId] = useState<number[]>([]);
+  const {t} = useTranslation();
 
   useEffect(() => {
     fetchData();
@@ -60,6 +61,7 @@ const MenuPage: React.FC = ({ route }) => {
     }
   };
 
+  // TODO: adjust for i18n
   const menuGroupOrder = ['Appetizer', 'Maindish', 'Dessert'];
 
   const sortedDishes = dishesData[0]?.dishes.sort((a, b) => {
@@ -85,7 +87,7 @@ const MenuPage: React.FC = ({ route }) => {
   return (
     <View style={styles.container}>
       {loading ? (
-        <Text>Loading...</Text>
+        <Text>{t('common.loading')}</Text>
       ) : (
         <>
           <ScrollView contentContainerStyle={styles.scrollView} horizontal={false} scrollEnabled={true}>
@@ -102,8 +104,8 @@ const MenuPage: React.FC = ({ route }) => {
                   <View style={styles.cardContent}>
                     <Text style={styles.cardTitle}>{dish.name}</Text>
                     <Text>{dish.description}</Text>
-                    <Text>Price: ${dish.price}</Text>
-                    <Text>Allergens: {dish.allergens.join(', ')}</Text>
+                    <Text>{t('pages.MenuPage.price', {price: dish.price})}</Text>
+                    <Text>{t('pages.MenuPage.allergens', {allergens: dish.allergens.join(', ')})}</Text>
                     <TouchableOpacity onPress={() => handleDelete(dish)} style={styles.deleteButton}>
                       <FontAwesomeIcon icon={faTrash} />
                     </TouchableOpacity>
@@ -115,10 +117,10 @@ const MenuPage: React.FC = ({ route }) => {
           <Modal visible={showConfirmation} transparent animationType="slide">
             <View style={styles.modalContainer}>
               <View style={styles.modalContent}>
-                <Text>Are you sure you want to delete this dish?</Text>
+                <Text>{t('pages.MenuPage.confirm-delete-dish')}</Text>
                 <View style={styles.modalButtons}>
-                  <Button title="Cancel" onPress={() => setShowConfirmation(false)} />
-                  <Button title="Delete" onPress={confirmDelete} />
+                  <Button title={t('common.cancel')} onPress={() => setShowConfirmation(false)} />
+                  <Button title={t('common.delete')} onPress={confirmDelete} />
                 </View>
               </View>
             </View>

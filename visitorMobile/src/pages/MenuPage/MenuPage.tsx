@@ -10,6 +10,7 @@ import {getDishFavourites} from "../../services/favourites";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "@react-navigation/native";
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import {useTranslation} from "react-i18next";
 
 export interface DishData {
   _id: number;
@@ -27,6 +28,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   const {restaurantId, restaurantName } = route.params;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [isFavouriteDishs, setIsFavouriteDishs] = React.useState<Array<{ restoID: number, dish: IDishFE }>>([]);
+  const {t} = useTranslation();
 
   useEffect(() => {
     fetchFavourites().then(r => console.log("Loaded favourite dish list"));
@@ -93,6 +95,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
     }
   };
 
+  // TODO: adjust for i18n
   const menuGroupOrder = ['Appetizer', 'Maindish', 'Dessert'];
 
   const sortedDishes = dishesData[0]?.dishes.sort((a, b) => {
@@ -104,7 +107,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       {loading ? (
-        <Text>Loading...</Text>
+        <Text>{t('common.loading')}</Text>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollView}>
           {sortedDishes.map((dish, index) => (
