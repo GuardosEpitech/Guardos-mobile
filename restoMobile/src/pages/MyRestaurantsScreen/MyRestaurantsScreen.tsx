@@ -3,6 +3,7 @@ import { View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput } fro
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import styles from '../MyRestaurantsScreen/MyRestaurantsScreen.styles';
+import {useTranslation} from "react-i18next";
 import MenuPage from '../MenuPage/MenuPage';
 import AddRestaurantScreen from '../AddRestaurantScreen/AddRestaurantScreen';
 import {
@@ -17,7 +18,7 @@ const MyRestaurantsScreen = () => {
   const [restoData, setRestoData] = useState<IRestaurantFrontEnd[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState('');
-
+  const {t} = useTranslation();
 
   useEffect(() => {
     updateRestoData(filter);
@@ -62,7 +63,7 @@ const MyRestaurantsScreen = () => {
     <View style={styles.container}>
       <TextInput
         style={styles.searchInput}
-        placeholder="Search restaurants..."
+        placeholder={t('common.search-restaurants')}
         value={filter}
         onChangeText={setFilter}
         autoCapitalize="none"
