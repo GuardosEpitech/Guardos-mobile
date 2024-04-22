@@ -287,6 +287,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('FeatureRequest', {});
   };
 
+  const handlePrivacy = () => {
+    navigation.navigate('Privacy', {});
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileSection}>
@@ -462,6 +466,13 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         <Button
           title={t('pages.Profile.delete-account') as string}
           onPress={handleDeleteAccount}
+          color="#6d071a"
+        />
+      </View>
+      <View style={styles.deleteAccountSection}>
+        <Button
+          title={t('pages.Profile.privacy') as string}
+          onPress={handlePrivacy}
           color="#6d071a"
         />
       </View>

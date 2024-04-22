@@ -220,6 +220,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
       );
     };
 
+    const handlePrivacy = () => {
+      navigation.navigate('Privacy', {});
+    };
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
@@ -299,6 +303,13 @@ const ProfilePage: React.FC<ProfileScreenProps &
             <Button
               title={t('pages.Profile.delete-account') as string}
               onPress={handleDeleteAccount}
+              color="#6d071a"
+            />
+          </View>
+          <View style={styles.deleteAccountSection}>
+            <Button
+              title={t('pages.Profile.privacy') as string}
+              onPress={handlePrivacy}
               color="#6d071a"
             />
           </View>
