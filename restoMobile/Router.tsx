@@ -25,6 +25,7 @@ import { RouteProp } from '@react-navigation/native';
 import ProfilePage from './src/pages/ProfileScreen/Profile/NewProfile';
 import FeatureRequest from './src/pages/FeatureRequest/FeatureRequest';
 import {useTranslation} from "react-i18next";
+import AddCategoryPage from './src/pages/AddCategories/AddCategories';
 
 
 const Tab = createBottomTabNavigator();
@@ -247,6 +248,11 @@ const MyDishStack = () => {
       <Stack.Screen
         name="EditDish"
         component={EditDish}
+        options={{ headerShown: false}}
+      />
+      <Stack.Screen
+        name="AddCategory"
+        component={AddCategoryPage}
         options={{ headerShown: false}}
       />
     </Stack.Navigator>

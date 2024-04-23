@@ -187,6 +187,11 @@
         "my-profile": "Mon Profil",
         "login": "Connexion",
         "register": "S'inscrire"
+      },
+      "AddCategory": {
+        "name": "Catégorie:",
+        "id": "Séquence:",
+        "add": "Nouveau"
       }
     }
   }

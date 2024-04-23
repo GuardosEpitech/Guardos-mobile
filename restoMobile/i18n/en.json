@@ -187,6 +187,11 @@
         "my-profile": "My Profile",
         "login": "Login",
         "register": "Register"
+      },
+      "AddCategory": {
+        "name": "Category:",
+        "id": "Order:",
+        "add": "New"
       }
     }
   }
