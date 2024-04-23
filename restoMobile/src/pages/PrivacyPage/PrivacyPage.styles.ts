@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 2,
-    paddingHorizontal: 20, // Add padding to create space between border and text
-    alignItems: 'center', // Center content horizontally
+    paddingHorizontal: 20, 
+    alignItems: 'center', 
   },
   title: {
     marginVertical: 20,
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 20,
-    textAlign: 'center', // Center text horizontally
+    textAlign: 'center', 
   },
   bold: {
     fontWeight: 'bold',
