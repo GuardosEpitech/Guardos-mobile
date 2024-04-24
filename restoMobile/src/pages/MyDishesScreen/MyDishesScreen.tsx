@@ -52,10 +52,6 @@ const MyDishesScreen: React.FC = () => {
     navigation.navigate('EditDish', { restaurantName, dish });
   };
 
-  const navigateToAddCategory = () => {
-    navigation.navigate('AddCategory');
-  }
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -73,9 +69,6 @@ const MyDishesScreen: React.FC = () => {
       />
       <TouchableOpacity style={styles.roundButton} onPress={navigateToAddDish}>
         <Text style={styles.buttonText}>+</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={navigateToAddCategory}>
-        <Text style={styles.buttonText}>Add Category</Text>
       </TouchableOpacity>
     </View>
   );

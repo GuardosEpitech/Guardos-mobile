@@ -3,7 +3,7 @@ import { NavigationContainer, ParamListBase } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faUtensils, faPizzaSlice, faShoppingBasket, faUser, faSignInAlt, faUserPlus, faQrcode, faUnlockKeyhole } from '@fortawesome/free-solid-svg-icons';
+import { faUtensils, faPizzaSlice, faShoppingBasket, faUser, faSignInAlt, faUserPlus, faQrcode, faUnlockKeyhole, faList } from '@fortawesome/free-solid-svg-icons';
 import MyRestaurantsScreen from './src/pages/MyRestaurantsScreen/MyRestaurantsScreen';
 import MyDishesScreen from './src/pages/MyDishesScreen/MyDishesScreen';
 import MyProductsScreen from './src/pages/MyProductsScreen/MyProductsScreen';
@@ -78,6 +78,8 @@ const MyTabs = () => {
               icon = focused ? faUtensils : faUtensils;
             } else if (route.name === 'My Dishes') {
               icon = focused ? faPizzaSlice : faPizzaSlice;
+            } else if (route.name === 'My Categories') {
+              icon = focused ? faList : faList;
             } else if (route.name === 'My Products') {
               icon = focused ? faShoppingBasket : faShoppingBasket;
             } else if (route.name === 'My Profile') {
@@ -115,6 +117,14 @@ const MyTabs = () => {
               options={{
                 tabBarLabel: t('common.my-restos') as string,
                 title: t('common.my-restos') as string
+              }}
+            />
+            <Tab.Screen
+              name="My Categories"
+              component={MyCategoryStack}
+              options={{
+                tabBarLabel: t('common.my-categories') as string,
+                title: t('common.my-categories') as string
               }}
             />
             <Tab.Screen
@@ -250,6 +260,18 @@ const MyDishStack = () => {
         component={EditDish}
         options={{ headerShown: false}}
       />
+      <Stack.Screen
+        name="AddCategory"
+        component={AddCategoryPage}
+        options={{ headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}
+
+const MyCategoryStack = () => {
+  return (
+    <Stack.Navigator>
       <Stack.Screen
         name="AddCategory"
         component={AddCategoryPage}
