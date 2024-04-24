@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     scrollContainer: {
-        flexGrow: 1, 
+        flexGrow: 1
     },
     categoryContainers: {
         flex: 1,

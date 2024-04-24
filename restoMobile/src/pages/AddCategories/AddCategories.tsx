@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, Button, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
 import { ICategories } from '../../../../shared/models/categoryInterfaces';
 import { IRestaurantFrontEnd } from '../../../../shared/models/restaurantInterfaces';
 import { getAllRestaurantsByUser, updateRestoCategories } from '../../services/restoCalls';
@@ -117,6 +117,7 @@ const AddCategoryPage = () => {
     };
 
     return (
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1, paddingTop: 20}}>
         <View style={styles.container}>
             <View style={styles.dropdownContainer}>
                 <DropDownPicker
@@ -134,7 +135,7 @@ const AddCategoryPage = () => {
                 />
             </View>
 
-            <ScrollView style={styles.scrollContainer} ref={scrollViewRef}>
+            <ScrollView style={styles.scrollContainer} ref={scrollViewRef} contentContainerStyle={{ paddingBottom: 30 }}>
                 <View style={styles.categoryContainers}>
                     {activeRestaurant !== -1 && (
                         <View style={{ width: '100%' }}>
@@ -153,7 +154,7 @@ const AddCategoryPage = () => {
                                             setNewCategoryName(text);
                                             setNewCategoryNameError(false);
                                         }}
-                                        style={[styles.input, { borderColor: newCategoryNameError ? 'red' : '' }]}
+                                        style={[styles.input, { borderColor: newCategoryNameError ? 'red' : 'black' }]}
                                     />
                                     <TextInput
                                         placeholder={t('pages.AddCategory.id')}
@@ -166,7 +167,7 @@ const AddCategoryPage = () => {
                                             setNewCategoryHitRateError(isNaN(numericValue) || numericValue <= 0);
                                         }}
                                         keyboardType="numeric"
-                                        style={[styles.input, { borderColor: newCategoryHitRateError ? 'red' : '' }]}
+                                        style={[styles.input, { borderColor: newCategoryHitRateError ? 'red' : 'black' }]}
                                     />
                                     <Button title={t('common.save')} onPress={handleSaveCategory} />
                                 </View>
@@ -180,6 +181,7 @@ const AddCategoryPage = () => {
                 <Button title={t('pages.AddCategory.add')} onPress={handleAddNewCategory} />
             </View>
         </View>
+        </KeyboardAvoidingView>
     );
 };
 
