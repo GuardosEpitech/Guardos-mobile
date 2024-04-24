@@ -55,9 +55,9 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   );
 
   const fetchMenu = async () => {
-    // const filter = JSON.parse(localStorage.getItem('filter') || '{}');
+    // const filter = JSON.parse(await AsyncStorage.getItem('filter') || '{}');
     // const allergenList = filter.allergenList;
-    const userToken = localStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('user');
     if (userToken === null) {
       return;
     }
