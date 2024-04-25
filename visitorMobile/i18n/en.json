@@ -249,6 +249,24 @@
         "email": "Email: guardos-help@outlook.com",
         "phone": "Phone: +49 211 1234567",
         "end": "Thank you for entrusting Guardos.eu with your personal information."
+      },
+      "Imprint": {
+        "title": "Imprint",
+        "intro": "Operator of the website Guardos.eu is",
+        "us": "Guardos",
+        "address1": "Fasanenstraße 86,",
+        "address2": "10623 Berlin",
+        "telephone": "Telephone: +49 211 1234567",
+        "email": "Email: guardos-help@outlook.com",
+        "register": "Registry court: ",
+        "registerNr": "Commercial register number: ",
+        "ust": "VAT ID: ",
+        "manager": "Managing Director: ",
+        "legal": "Legal Notice",
+        "introLegal": "The depicted trademarks and logos are registered trademarks of Guardos.",
+        "txtlegal1": "Consumer information according to Regulation (EU) No. 524/2013: ",
+        "txtlegal2": "An online dispute resolution platform of the EU Commission is available at",
+        "txtlegal3": ", within the framework of the regulation on online dispute resolution in consumer matters."
       }
     }
   }

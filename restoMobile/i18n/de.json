@@ -251,6 +251,24 @@
         "email": "E-Mail: guardos-help@outlook.com",
         "phone": "Telefon: +49 211 1234567",
         "end": "Vielen Dank, dass Sie Guardos.eu Ihre personenbezogenen Informationen anvertrauen."
+      },
+      "Imprint": {
+        "title": "Impressum",
+        "intro": "Betreiber der Website von Guardos.eu ist",
+        "us": "Guardos",
+        "address1": "Fasanenstraße 86,",
+        "address2": "10623 Berlin",
+        "telephone": "Telefon: +49 211 1234567",
+        "email": "E-Mail: guardos-help@outlook.com",
+        "register": "Registergericht: ",
+        "registerNr": "Handelsregisternummer: ",
+        "ust": "USt.-IdNr. ",
+        "manager": "Geschäftsführer: ",
+        "legal": "Rechtliche Hinweise",
+        "introLegal": "Die abgebildeten Marken und Logos sind eingetragene Warenzeichen von Guardos.",
+        "txtlegal1": "Verbraucherinformationen gemäß Verordnung (EU) Nr. 524/2013: ",
+        "txtlegal2": "Im Rahmen der Verordnung über Online-Streitbeilegung in Verbraucherangelegenheiten steht unter",
+        "txtlegal3": "eine Online-Streitbeilegungsplattform der EU-Kommission zur Verfügung."
       }
     }
   }
