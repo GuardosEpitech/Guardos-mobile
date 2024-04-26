@@ -93,21 +93,36 @@ const MyTabs = () => {
             //   icon = focused ? faUnlockKeyhole : faUnlockKeyhole;
             // }
 
-            return <FontAwesomeIcon icon={icon} size={size} style={{ color: focused ? '#6d071a' : color }} />;
+            return <FontAwesomeIcon icon={icon} size={size} style={{ color: focused ? 'white' : color }} />;
           },
-          tabBarActiveTintColor: '#6d071a',
-          tabBarInactiveTintColor: 'gray',
+          tabBarActiveTintColor: 'black',
+          tabBarInactiveTintColor: 'black',
+          tabBarStyle: {
+            backgroundColor: '#6d071a',
+          },
         })}
       >
         {loggedIn ? (
           <>
-            <Tab.Screen name="Scanning" component={MyQrStack} />
-            <Tab.Screen name="My Restaurants" component={MyStack} />
-            <Tab.Screen name="My Dishes" component={MyDishStack} />
-            <Tab.Screen name="My Products" component={MyProductStack} />
+            <Tab.Screen 
+              name="Scanning" 
+              component={MyQrStack} 
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}} />
+            <Tab.Screen 
+              name="My Restaurants" 
+              component={MyStack}
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}} />
+            <Tab.Screen 
+              name="My Dishes" 
+              component={MyDishStack}
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}} />
+            <Tab.Screen 
+              name="My Products" 
+              component={MyProductStack} 
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
             <Tab.Screen
               name="My Profile"
-              options={{ headerShown: false }}
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}
             >
               {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus} />}
             </Tab.Screen>
@@ -222,11 +237,18 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
   <Stack.Navigator>
     <Stack.Screen
       name="Profile"
+      options={{ headerShown: false}}
     >
       {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}
     </Stack.Screen>
-    <Stack.Screen name="FeatureRequest" component={FeatureRequest} />
-    <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
+    <Stack.Screen 
+      name="FeatureRequest" 
+      component={FeatureRequest} 
+      options={{ headerShown: false}} />
+    <Stack.Screen 
+      name="Change Password" 
+      component={ChangePasswordScreen} 
+      options={{ headerShown: false}} />
   </Stack.Navigator>
 );
 

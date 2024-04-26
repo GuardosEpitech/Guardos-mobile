@@ -20,6 +20,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {API_URL} from '@env';
 import {editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
 import {deleteRestoAccount} from "../../../services/userCalls";
+import { CommonActions, useIsFocused } from '@react-navigation/native';
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -39,15 +40,46 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [language, setLanguage] = useState<string>('english');
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     const toggleDarkMode = async () => {
       const newDarkMode = !darkMode;
       setDarkMode(newDarkMode);
       try {
-        await AsyncStorage.setItem("DarkMode", JSON.stringify(newDarkMode));
+        await saveDarkModeState(newDarkMode);
+        refreshApp();
       } catch (error) {
         console.error('Error storing dark mode value:', error);
-      }      
+      }
+    };
+
+    const saveDarkModeState = async (value: boolean) => {
+      try {
+        await AsyncStorage.setItem('DarkMode', JSON.stringify(value));
+      } catch (error) {
+        console.error('Error storing dark mode value:', error);
+      }
+    };
+    
+    const loadDarkModeState = async () => {
+      try {
+        const darkModeValue = await AsyncStorage.getItem('DarkMode');
+        if (darkModeValue !== null) {
+          setDarkMode(JSON.parse(darkModeValue));
+        }
+      } catch (error) {
+        console.error('Error loading dark mode value:', error);
+      }
+    };
+  
+    const refreshApp = () => {
+      setRefresh((prevRefresh) => !prevRefresh);
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Scanning' }],
+        })
+      );
     };
 
     const languageOptions = [
@@ -62,6 +94,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
     ];
 
     useEffect(() => {
+      loadDarkModeState();
       fetchUserData();
     }, []);
 

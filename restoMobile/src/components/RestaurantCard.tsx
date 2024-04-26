@@ -79,7 +79,7 @@ const RestaurantCard = ({ info, onDelete }) => {
           <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
             {info.description}
           </Text>
-          <Text numberOfLines={1} ellipsizeMode="tail">
+          <Text style={[darkMode && styles.ratingDarkTheme]}numberOfLines={1} ellipsizeMode="tail">
             Rating: {info.rating} ({info.ratingCount} ratings)
           </Text>
         </View>

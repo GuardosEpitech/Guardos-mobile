@@ -96,6 +96,9 @@ const styles = StyleSheet.create({
     position: 'relative',
     color: 'white'
   },
+  ratingDarkTheme: {
+    color: "white"
+  }
 });
 
 export default styles;
