@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import styles from './ContactUs.styles';
 import { Ionicons } from '@expo/vector-icons';
 import { IContactForm } from '../../models/emailInterfaces';
 import { sendEmail } from '../../services/emailCalls';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState<IContactForm>({
@@ -13,6 +15,24 @@ const ContactUs: React.FC = () => {
     message: '',
   });
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchDarkMode();  
+  })
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
+
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -57,40 +77,40 @@ const ContactUs: React.FC = () => {
 
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
+      <KeyboardAvoidingView style={[styles.container, darkMode && styles.containerDarkTheme]} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
         {/* Display contact information */}
-        <Text style={styles.heading}>Get in touch</Text>
+        <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>Get in touch</Text>
         <View style={styles.contactInfo}>
           <View style={styles.contactDetail}>
             <Ionicons name="md-call" size={24} color="black" />
-            <Text style={styles.contactText}>030 1234567</Text>
+            <Text style={[styles.contactText, darkMode && styles.contactTextDarkTheme]}>030 1234567</Text>
           </View>
 
           <View style={styles.contactDetail}>
             <Ionicons name="md-mail" size={24} color="black" />
-            <Text style={styles.contactText}>guardos-help@outlook.com</Text>
+            <Text style={[styles.contactText, darkMode && styles.contactTextDarkTheme]}>guardos-help@outlook.com</Text>
           </View>
 
           <View style={styles.contactDetail}>
             <Ionicons name="md-pin" size={24} color="black" />
-            <Text style={styles.contactText}>Fasanenstraße 86, 10623 Berlin, Germany</Text>
+            <Text style={[styles.contactText, darkMode && styles.contactTextDarkTheme]}>Fasanenstraße 86, 10623 Berlin, Germany</Text>
           </View>
         </View>
 
         {/* Display contact form */}
-        <View style={styles.contactForm}>
-          <Text style={styles.heading}>Contact Form</Text>
+        <View style={[styles.contactForm, darkMode && styles.contactFormDarkTheme]}>
+          <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>Contact Form</Text>
           <TextInput
             value={formData.name}
             onChangeText={(text) => handleChange('name', text)}
             placeholder="Name"
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
           />
           <TextInput
             value={formData.email}
             onChangeText={(text) => handleChange('email', text)}
             placeholder="Email"
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
           />
           <TextInput
             value={formData.subject}
@@ -103,7 +123,7 @@ const ContactUs: React.FC = () => {
             onChangeText={(text) => handleChange('message', text)}
             placeholder="Message"
             multiline
-            style={[styles.input, { height: 100 }]}
+            style={[[styles.input, darkMode && styles.inputDarkTheme], { height: 100 }]}
           />
 
           {/* Submit button */}

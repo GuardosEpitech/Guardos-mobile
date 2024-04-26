@@ -90,6 +90,7 @@ const MapPage = () => {
     { name: 'tree nuts', selected: false },
   ]);
   const isFocused = useIsFocused();
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     if (isFocused) {
@@ -136,7 +137,20 @@ const MapPage = () => {
     } else {
       updateRestoData();
     }
+    fetchDarkMode();
   }, [filter]);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const updateRestoData = () => {
     getAllResto()
@@ -489,15 +503,15 @@ const MapPage = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
+      <View style={[styles.searchContainer, darkMode && styles.searchContainerDarkTheme]}>
         <TextInput
-          style={styles.input}
+          style={[styles.input, darkMode && styles.inputDarkTheme]}
           placeholder="Enter restaurant name"
           value={nameFilter}
           onChangeText={(text) => setNameFilter(text)}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, darkMode && styles.inputDarkTheme]}
           placeholder="Enter city name"
           value={locationFilter}
           onChangeText={(text) => setLocationFilter(text)}

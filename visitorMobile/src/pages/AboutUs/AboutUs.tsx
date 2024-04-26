@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import styles from './AboutUs.styles';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import introduction from './text/Introduction';
 import foundingStory from './text/FoundingStory';
@@ -52,6 +53,23 @@ const AboutUs: React.FC = () => {
   ];
 
   const [selectedMember, setSelectedMember] = useState<any>(null);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+useEffect(() => {
+  fetchDarkMode();  
+})
+
+const fetchDarkMode = async () => {
+  try {
+    const darkModeValue = await AsyncStorage.getItem('DarkMode');
+    if (darkModeValue !== null) {
+      const isDarkMode = darkModeValue === 'true';
+      setDarkMode(isDarkMode);
+    }
+  } catch (error) {
+    console.error('Error fetching dark mode value:', error);
+  }
+};
 
   const openMemberDetails = (member: any) => {
     setSelectedMember(member);
@@ -62,44 +80,44 @@ const AboutUs: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, darkMode && styles.containerDarkTheme]}>
       <View style={styles.section}>
-        <Text style={[styles.heading, styles.centerText]}>Introduction</Text>
-        <Text style={[styles.centerText, styles.textSize]}>{introduction}</Text>
+        <Text style={[styles.heading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>Introduction</Text>
+        <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>{introduction}</Text>
         <View style={styles.separator}></View>
       </View>
 
       <View style={styles.section}>
-        <Text style={[styles.heading, styles.centerText]}>Founding Story</Text>
-        <Text style={[styles.centerText, styles.textSize]}>{foundingStory}</Text>
+        <Text style={[styles.heading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>Founding Story</Text>
+        <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>{foundingStory}</Text>
         <View style={styles.separator}></View>
       </View>
 
       <View style={styles.section}>
-        <Text style={[styles.heading, styles.centerText]}>
+        <Text style={[styles.heading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>
           Mission and Values
         </Text>
         <View style={styles.value}>
-          <Text style={[styles.valueHeading, styles.centerText]}>
+          <Text style={[styles.valueHeading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>
             Empowerment and Inclusivity
           </Text>
-          <Text style={[styles.centerText, styles.textSize]}>
+          <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>
             {empowerment}
           </Text>
         </View>
         <View style={styles.value}>
-          <Text style={[styles.valueHeading, styles.centerText]}>
+          <Text style={[styles.valueHeading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>
             Transparency and Trust
           </Text>
-          <Text style={[styles.centerText, styles.textSize]}>
+          <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>
             {transparency}
           </Text>
         </View>
         <View style={styles.value}>
-          <Text style={[styles.valueHeading, styles.centerText]}>
+          <Text style={[styles.valueHeading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>
             Continuous Improvement and Innovation
           </Text>
-          <Text style={[styles.centerText, styles.textSize]}>
+          <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>
             {improvement}
           </Text>
           <View style={styles.separator}></View>
@@ -107,7 +125,7 @@ const AboutUs: React.FC = () => {
       </View>
 
       <View style={styles.section}>
-        <Text style={[styles.heading, styles.centerText]}>Team</Text>
+        <Text style={[styles.heading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>Team</Text>
         <View style={styles.teamContainer}>
           {teamMembers.map(member => (
             <TouchableOpacity key={member.id} onPress={() => openMemberDetails(member)}>
@@ -115,7 +133,7 @@ const AboutUs: React.FC = () => {
             </TouchableOpacity>
           ))}
         </View>
-        <Text style={[styles.centerText, styles.textSize, styles.memberText]}>{teamDescription}</Text>
+        <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize, styles.memberText]}>{teamDescription}</Text>
       </View>
 
       <Modal

@@ -13,6 +13,7 @@ const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
   const navigation = useNavigation();
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [isFavorite, setIsFavorite] = useState(isFavouriteResto);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   let picturesId = info.picturesId;
   useEffect(() => {
@@ -33,7 +34,20 @@ const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
     }
 
     fetchImages();
+    fetchDarkMode();
   }, [picturesId, isFavouriteResto]);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const handleFavoriteClick = async () => {
     const userToken = await AsyncStorage.getItem('user');
@@ -52,7 +66,7 @@ const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
 
   return (
     <View style={isSmallerCard ? styles.containerSmall : styles.container}>
-      <View style={isSmallerCard ? styles.cardContainerSmall : styles.cardContainer}>
+      <View style={isSmallerCard ? (darkMode ? styles.cardContainerSmallDarkTheme : styles.cardContainerSmall) : ( darkMode ? styles.cardContainerDarkTheme : styles.cardContainer)}>
         <Image
           style={isSmallerCard ? styles.imageStyleSmall : styles.imageStyle}
           resizeMode="contain"
@@ -64,7 +78,7 @@ const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
         />
         <View style={styles.infoStyle}>
           <View style={styles.titleContainer}>
-            <Text style={styles.titleStyle} numberOfLines={1} ellipsizeMode="tail">
+            <Text style={[styles.titleStyle, darkMode && styles.titleStyleDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
               {info.name}
             </Text>
             <TouchableOpacity onPress={handleFavoriteClick}>
@@ -75,10 +89,10 @@ const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
               />
             </TouchableOpacity>
           </View>
-          <Text style={styles.categoryStyle} numberOfLines={2} ellipsizeMode="tail">
+          <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
             {info.description}
           </Text>
-          <Text numberOfLines={1} ellipsizeMode="tail">
+          <Text style={[darkMode && styles.ratingDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
             Rating: {info.rating} ({info.ratingCount} ratings)
           </Text>
         </View>

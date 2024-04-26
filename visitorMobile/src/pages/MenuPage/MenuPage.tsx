@@ -27,15 +27,28 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   const {restaurantId, restaurantName } = route.params;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [isFavouriteDishs, setIsFavouriteDishs] = React.useState<Array<{ restoID: number, dish: IDishFE }>>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
     fetchFavourites().then(r => console.log("Loaded favourite dish list"));
     fetchData();
-
+    fetchDarkMode()
     const unsubscribe = navigation.addListener('focus', fetchData);
 
     return unsubscribe;
   }, [restaurantName, navigation]);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -102,7 +115,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {loading ? (
         <Text>Loading...</Text>
       ) : (

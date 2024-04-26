@@ -18,6 +18,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 10,
   },
+  containerDarkTheme: {
+    width: deviceWidth,
+    alignItems: 'center',
+    marginTop: 25,
+    marginBottom: 25,
+    backgroundColor: "#181A1B"
+  }
 });
 
 export default styles;

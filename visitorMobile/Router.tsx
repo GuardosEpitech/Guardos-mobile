@@ -1,9 +1,10 @@
-import React, {useState, createContext } from 'react';
+import React, {useState, createContext, useEffect } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {LogBox} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RestaurantScreen from './src/pages/RestaurantScreen/RestaurantScreen';
 import AboutUsScreen from './src/pages/AboutUs/AboutUs';
@@ -30,11 +31,27 @@ LogBox.ignoreAllLogs()
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [filter, setFilter] = useState<ISearchCommunication>({});
+  const [darkMode, setDarkMode] = useState(false);
 
   const setLoggedInStatus = (status) => {
     setLoggedIn(status);
   };
 
+  useEffect(() => {
+    fetchDarkMode();  
+  });
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
   // const checkAuthentication = async () => {
   //   try {
   //     const userToken = await AsyncStorage.getItem('userToken');
@@ -89,25 +106,43 @@ const MyTabs = () => {
               iconName = focused ? 'settings' : 'settings-outline';
             }
 
-            return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color}/>;
+            return <Ionicons name={iconName} size={size} color={focused ? 'black' : color}/>;
           },
-          tabBarActiveTintColor: '#6d071a',
-          tabBarInactiveTintColor: 'gray',
+          tabBarActiveTintColor: 'black',
+          tabBarInactiveTintColor: 'black',
+          tabBarStyle: {
+            backgroundColor: '#6d071a',
+          },
         })}
       >
         {loggedIn ? (
           <>
-            <Tab.Screen name="RestaurantScreen" component={RestauStack}/>
-            <Tab.Screen name="MapScreen" component={MapPage}/>
-            <Tab.Screen name="AboutUs" component={AboutUsScreen}/>
-            <Tab.Screen name="ContactUs" component={ContactUsScreen}/>
+            <Tab.Screen 
+              name="RestaurantScreen" 
+              component={RestauStack} 
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
+            <Tab.Screen 
+              name="MapScreen" 
+              component={MapPage}
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
+            <Tab.Screen 
+              name="AboutUs" 
+              component={AboutUsScreen}
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
+            <Tab.Screen 
+              name="ContactUs" 
+              component={ContactUsScreen}
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}
+              />
             <Tab.Screen
               name="My Profile"
-              options={{headerShown: false}}
-            >
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}>
               {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus}/>}
             </Tab.Screen>
-            <Tab.Screen name="MenuPage" component={MenuPage} options={{ tabBarButton: () => null }} />
+            <Tab.Screen 
+              name="MenuPage"
+              component={MenuPage}
+              options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}, tabBarButton: () => null }} />
           </>
         ) : (
           <>
@@ -134,6 +169,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({setLoggedInStatus}) =>
   <Stack.Navigator>
     <Stack.Screen
       name="Profile"
+      options={{headerShown: false,}}
     >
       {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus}/>}
     </Stack.Screen>
@@ -148,12 +184,12 @@ const RestauStack = () => {
       <Stack.Screen
         name="RestaurantScreen"
         component={RestaurantScreen}
-        options={{headerShown: false}}
+        options={{headerShown: false, headerStyle: {backgroundColor: 'black'}}}
       />
       <Stack.Screen
         name="MenuPage"
         component={MenuPage}
-        options={{headerShown: false}}
+        options={{headerShown: false, headerStyle: {backgroundColor: '#6d071a'}}}
       />
     </Stack.Navigator>
   );

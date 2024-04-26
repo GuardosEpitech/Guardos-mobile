@@ -85,6 +85,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
       },
+      containerDarkTheme: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: "#181A1B",
+      },
+      centerTextDarkTheme: {
+        textAlign: 'center',
+        color: "white",
+      },
 });
 
 export default styles;

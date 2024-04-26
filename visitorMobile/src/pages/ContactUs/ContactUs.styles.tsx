@@ -50,6 +50,37 @@ const styles = StyleSheet.create({
       contactText: {
         marginLeft: 10,
       },
+      containerDarkTheme: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: "#181A1B"
+      },
+      headingDarkTheme: {
+        fontWeight: 'bold',
+        fontSize: 24,
+        marginBottom: 20,
+        alignSelf: 'center',
+        color: "white"
+      },
+      contactTextDarkTheme: {
+        marginLeft: 10,
+        color: "white"
+      },
+      contactFormDarkTheme: {
+        backgroundColor: '#1B1D1E',
+        padding: 20,
+        borderTopWidth: 1,
+        borderTopColor: 'black',
+      },
+      inputDarkTheme: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+        color: 'white',
+        placeholderTextColor: 'white'
+      },
 });
 
 export default styles;

@@ -78,6 +78,60 @@ const styles = StyleSheet.create({
   favoriteIcon: {
     paddingLeft: 0.8,
     paddingTop: 0.2,
+  },
+  cardDarkTheme: {
+    width: deviceWidth - offset,
+    backgroundColor: '#181A1B',
+    height: 230,
+    margin: 20,
+    borderRadius: radius,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 4,
+    elevation: 9,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  cardSmallDarkTheme: {
+    width: deviceWidth - offset - decreaseSizeOffset,
+    backgroundColor: '#181A1B',
+    height: 230,
+    margin: 10,
+    borderRadius: radius,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 4,
+    elevation: 9,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  titleContainerDarkTheme: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    color: "white"
+  },
+  cardTitleDarkTheme: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingRight: 6,
+    color: "white"
+  },
+  descriptionDarkTheme:{
+    color: "white"
+  },
+  priceDarkTheme:{
+    color: "white"
+  },
+  allergensDarkTheme:{
+    color: "white"
   }
 });
 

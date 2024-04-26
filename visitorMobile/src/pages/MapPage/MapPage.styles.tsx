@@ -267,6 +267,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  searchContainerDarkTheme: {
+    backgroundColor: '#181A1B',
+    borderColor: 'white',
+  },
+  inputDarkTheme: {
+    flex: 1,
+    height: 40,
+    marginHorizontal: 5,
+    paddingHorizontal: 10,
+    backgroundColor: 'grey',
+    borderRadius: 10, 
+    color: 'white',
+  },
 });
 
 export default styles;

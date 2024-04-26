@@ -10,6 +10,7 @@ import {deleteAccount} from "../../../services/userCalls";
 import RestaurantCard from "../../../components/RestaurantCard/RestaurantCard";
 import DishCard from "../../../components/DishCard/DishCard";
 import {getDishFavourites, getRestoFavourites} from "../../../services/favourites";
+import { CommonActions, useIsFocused } from '@react-navigation/native';
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -55,8 +56,12 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [restoPage, setRestoPage] = useState(1);
   const [dishPage, setDishPage] = useState(1);
   const pageSize = 3; // Number of items per page
+  const [refresh, setRefresh] = useState(false);
+  const isFocused = useIsFocused();
+
 
   useEffect(() => {
+    loadDarkModeState();
     const fetchUserData = async () => {
       try {
         const userToken = await AsyncStorage.getItem('user');
@@ -85,11 +90,43 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
     try {
-      await AsyncStorage.setItem("DarkMode", JSON.stringify(newDarkMode));
+      await saveDarkModeState(newDarkMode);
+      refreshApp();
     } catch (error) {
       console.error('Error storing dark mode value:', error);
-    }      
+    }
   };
+
+
+  const saveDarkModeState = async (value: boolean) => {
+    try {
+      await AsyncStorage.setItem('DarkMode', JSON.stringify(value));
+    } catch (error) {
+      console.error('Error storing dark mode value:', error);
+    }
+  };
+  
+  const loadDarkModeState = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        setDarkMode(JSON.parse(darkModeValue));
+      }
+    } catch (error) {
+      console.error('Error loading dark mode value:', error);
+    }
+  };
+
+  const refreshApp = () => {
+    setRefresh((prevRefresh) => !prevRefresh);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'RestaurantScreen' }],
+      })
+    );
+  };
+ 
 
   const fetchFavoriteRestaurants = async () => {
     const userToken = await AsyncStorage.getItem("user");
