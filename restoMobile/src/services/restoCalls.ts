@@ -174,3 +174,24 @@ export const getRestoByName = async (restoName: string) => {
     throw new Error("Failed to edit restaurant");
   }
 };
+
+export const updateRestoCategories = async (userToken: string, uid: number, newCategories: any) => {
+  try {
+    const response = await axios({
+      url: baseURL + 'restaurants/updateCategories', 
+      method: 'POST',
+      data: {
+        userToken: userToken,
+        uid: uid,
+        newCategories: newCategories
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user categories:', error);
+    throw new Error('Failed to update user categories');
+  }
+};
