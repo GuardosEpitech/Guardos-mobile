@@ -104,24 +104,28 @@ const ContactUs: React.FC = () => {
             value={formData.name}
             onChangeText={(text) => handleChange('name', text)}
             placeholder="Name"
+            placeholderTextColor={darkMode ? 'white' : 'black'}
             style={[styles.input, darkMode && styles.inputDarkTheme]}
           />
           <TextInput
             value={formData.email}
             onChangeText={(text) => handleChange('email', text)}
             placeholder="Email"
+            placeholderTextColor={darkMode ? 'white' : 'black'}
             style={[styles.input, darkMode && styles.inputDarkTheme]}
           />
           <TextInput
             value={formData.subject}
             onChangeText={(text) => handleChange('subject', text)}
             placeholder="Subject"
-            style={styles.input}
+            placeholderTextColor={darkMode ? 'white' : 'black'}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
           />
           <TextInput
             value={formData.message}
             onChangeText={(text) => handleChange('message', text)}
             placeholder="Message"
+            placeholderTextColor={darkMode ? 'white' : 'black'}
             multiline
             style={[[styles.input, darkMode && styles.inputDarkTheme], { height: 100 }]}
           />

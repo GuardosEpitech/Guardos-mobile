@@ -64,10 +64,10 @@ const styles = StyleSheet.create({
       },
       contactTextDarkTheme: {
         marginLeft: 10,
-        color: "white"
+        color: "white",
       },
       contactFormDarkTheme: {
-        backgroundColor: '#1B1D1E',
+        backgroundColor: '#181A1B',
         padding: 20,
         borderTopWidth: 1,
         borderTopColor: 'black',
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         color: 'white',
-        placeholderTextColor: 'white'
+        backgroundColor : "grey"
       },
 });
 

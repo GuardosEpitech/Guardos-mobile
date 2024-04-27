@@ -19,12 +19,23 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   containerDarkTheme: {
+    flex: 1,
     width: deviceWidth,
     alignItems: 'center',
-    marginTop: 25,
-    marginBottom: 25,
+    marginTop: 0,
+    marginBottom: 0,
     backgroundColor: "#181A1B"
-  }
+  },
+  scrollViewDarkTheme: {
+    alignItems: 'center',
+    backgroundColor: '#181A1B'
+  },
+  groupTitleDarkTheme: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 10,
+    color: 'white',
+  },
 });
 
 export default styles;

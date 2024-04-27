@@ -119,11 +119,11 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
       {loading ? (
         <Text>Loading...</Text>
       ) : (
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView contentContainerStyle={[styles.scrollView, darkMode && styles.scrollViewDarkTheme]}>
           {sortedDishes.map((dish, index) => (
             <React.Fragment key={dish.name + index}>
               {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (
-                <Text style={styles.groupTitle}>{dish.category.menuGroup}</Text>
+                <Text style={[styles.groupTitle , darkMode && styles.groupTitleDarkTheme]}>{dish.category.menuGroup}</Text>
               )}
               <DishCard restoID={restaurantId} dish={dish} isFavourite={isFavouriteDishs.some(fav => {
                 return fav.restoID === restaurantId && fav.dish.uid === dish.uid;
