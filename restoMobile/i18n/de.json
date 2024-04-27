@@ -25,6 +25,7 @@
       "my-dishes": "Meine Gerichte",
       "restos": "Restaurants",
       "my-restos": "Meine Restaurants",
+      "my-categories": "Meine Kategorien",
 
       "add-picture": "Tippe, um ein Bild hinzuzufügen",
 
@@ -269,6 +270,11 @@
         "txtlegal1": "Verbraucherinformationen gemäß Verordnung (EU) Nr. 524/2013: ",
         "txtlegal2": "Im Rahmen der Verordnung über Online-Streitbeilegung in Verbraucherangelegenheiten steht unter",
         "txtlegal3": "eine Online-Streitbeilegungsplattform der EU-Kommission zur Verfügung."
+      },
+      "AddCategory": {
+        "name": "Kategorie:",
+        "id": "Reihenfolge:",
+        "add": "Neu"
       }
     }
   }
