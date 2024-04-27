@@ -217,7 +217,7 @@ const MapPage = () => {
   const handleMenu = () => {  
     try {
       if (selectedMarker != null) {
-        const restaurantId = selectedMarker.id;
+        const restaurantId = selectedMarker.uid;
         const restaurantName = selectedMarker.name;
         toggleModal();
         navigation.navigate('MenuPage', { restaurantId, restaurantName });
