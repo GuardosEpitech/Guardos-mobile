@@ -21,6 +21,8 @@ import FeatureRequest from './src/pages/FeatureRequest/FeatureRequest';
 import { ISearchCommunication } from '../shared/models/communicationInterfaces';
 import { FilterContext } from './src/models/filterContext';
 import {useTranslation} from "react-i18next";
+import PrivacyPage from './src/pages/PrivacyPage/PrivacyPage';
+import ImprintPage from './src/pages/ImprintPage/ImprintPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -191,6 +193,8 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({setLoggedInStatus}) =>
       </Stack.Screen>
       <Stack.Screen name="FeatureRequest" component={FeatureRequest} />
       <Stack.Screen name="Change Password" component={ChangePasswordScreen}/>
+      <Stack.Screen name="Privacy" component={PrivacyPage}/>
+      <Stack.Screen name="Imprint" component={ImprintPage}/>
     </Stack.Navigator>
   );
 }

@@ -220,6 +220,14 @@ const ProfilePage: React.FC<ProfileScreenProps &
       );
     };
 
+    const handlePrivacy = () => {
+      navigation.navigate('Privacy', {});
+    };
+
+    const handleImprint = () => {
+      navigation.navigate('Imprint', {});
+    };
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
@@ -302,6 +310,20 @@ const ProfilePage: React.FC<ProfileScreenProps &
               color="#6d071a"
             />
           </View>
+          <View style={styles.deleteAccountSection}>
+            <Button
+              title={t('pages.Profile.privacy') as string}
+              onPress={handlePrivacy}
+              color="#6d071a"
+            />
+          </View>
+          <View style={styles.deleteAccountSection}>
+        <Button
+          title={t('pages.Imprint.title') as string}
+          onPress={handleImprint}
+          color="#6d071a"
+        />
+      </View>
         </ScrollView>
       </TouchableWithoutFeedback>
     );
