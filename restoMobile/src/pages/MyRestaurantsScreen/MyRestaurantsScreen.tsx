@@ -1,15 +1,15 @@
 import React, { useEffect, useState , useCallback} from 'react';
-import { View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput } from "react-native";
+import { View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import styles from '../MyRestaurantsScreen/MyRestaurantsScreen.styles';
-import {useTranslation} from "react-i18next";
+import {useTranslation} from 'react-i18next';
 import MenuPage from '../MenuPage/MenuPage';
 import AddRestaurantScreen from '../AddRestaurantScreen/AddRestaurantScreen';
 import {
   deleteRestaurantByName,
   getAllRestaurantsByUserAndFilter
-} from "../../services/restoCalls";
+} from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IRestaurantFrontEnd } from 'src/models/restaurantsInterfaces';
 
