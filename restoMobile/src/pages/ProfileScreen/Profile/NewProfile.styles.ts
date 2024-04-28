@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
   },
-  // Dark Theme
   containerDarkTheme: {
     flex: 1,
     alignItems: 'center',

@@ -7,6 +7,9 @@ const baseUrl = API_URL + "images/";
 
 export const getImages = async (imageIds: number[]) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       headers: {
         "content-type": "application/json",
@@ -24,6 +27,9 @@ export const getImages = async (imageIds: number[]) => {
 export const deleteImageRestaurant =
   async (imageId: number, restaurantName: string) => {
     try {
+      if (baseUrl === undefined) {
+        throw new Error("baseUrl is not defined");
+      }
       const body = {
         restaurant: restaurantName,
         imageId: imageId
@@ -42,6 +48,9 @@ export const deleteImageRestaurant =
 export const addImageResto = async (restaurantName: string,
                                     imageName: string, contentType: string, size: number, base64: string) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const body = {
       restaurant: restaurantName,
       image: {
@@ -69,6 +78,9 @@ export const addImageResto = async (restaurantName: string,
 export const addImageDish = async (restaurantName: string, dishName: string,
                                    imageName: string, contentType: string, size: number, base64: string) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const body = {
       restaurant: restaurantName,
       dish: dishName,
@@ -98,6 +110,9 @@ export const addImageDish = async (restaurantName: string, dishName: string,
 export const deleteImageDish = async (imageId: number, restaurantName: string,
                                       dishName: string) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const body = {
       restaurant: restaurantName,
       dish: dishName,

@@ -9,6 +9,7 @@ import { getImages } from '../services/imagesCalls';
 import { IimageInterface } from '../models/imageInterface';
 import { defaultRestoImage } from "../assets/placeholderImagesBase64";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useTranslation} from "react-i18next";
 
 const RestaurantCard = ({ info, onDelete }) => {
   const navigation = useNavigation();
@@ -30,6 +31,7 @@ const RestaurantCard = ({ info, onDelete }) => {
       console.error('Error fetching dark mode value:', error);
     }
   };
+  const {t} = useTranslation();
 
   const handleDelete = () => {
     onDelete(info.name);
@@ -80,7 +82,7 @@ const RestaurantCard = ({ info, onDelete }) => {
             {info.description}
           </Text>
           <Text style={[darkMode && styles.ratingDarkTheme]}numberOfLines={1} ellipsizeMode="tail">
-            Rating: {info.rating} ({info.ratingCount} ratings)
+            {t('components.RestaurantCard.rating', { rating: info.rating, ratingCount: info.ratingCount})}
           </Text>
         </View>
         <View style={styles.iconContainer}>

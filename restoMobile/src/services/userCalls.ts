@@ -8,6 +8,9 @@ const baseUrlEmail = `${API_URL}sendEmail/`;
 
 export const checkIfTokenIsValid = async (body: any) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "GET",
       url: baseUrl + 'restoWeb/checkIn',
@@ -26,6 +29,9 @@ export const checkIfTokenIsValid = async (body: any) => {
 
 export const loginUser = async (userData: any) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios.post(baseUrl + 'restoWeb', userData, {
       headers: {
         'Content-Type': 'application/json',
@@ -40,6 +46,9 @@ export const loginUser = async (userData: any) => {
 
 export const sendRecoveryLinkForRestoUser = async (body: any) => {
   try {
+    if (baseUrlEmail === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "POST",
       url: baseUrlEmail + 'userResto/sendPasswordRecovery',
@@ -57,6 +66,9 @@ export const sendRecoveryLinkForRestoUser = async (body: any) => {
 
 export const registerUser = async (userData: any) => {
   try {
+    if (API_URL === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios.post(API_URL + "register/restoWeb", userData, {
       headers: {
         'Content-Type': 'application/json',
@@ -71,6 +83,9 @@ export const registerUser = async (userData: any) => {
 
 export const checkIfRestoUserExist = async (body: any) => {
   try {
+    if (baseUrl1 === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "POST",
       url: baseUrl1 + 'userRestoExist',
@@ -88,6 +103,9 @@ export const checkIfRestoUserExist = async (body: any) => {
 
 export const deleteRestoAccount = async (token: string) => {
   try {
+    if (API_URL === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "DELETE",
       url: `${API_URL}delete/resto`,

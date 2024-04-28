@@ -8,12 +8,14 @@ import { defaultRestoImage } from "../../../assets/placeholderImagesBase64";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {addRestoAsFavourite, deleteRestoFromFavourites} from "../../services/favourites";
+import {useTranslation} from "react-i18next";
 
 const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
   const navigation = useNavigation();
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [isFavorite, setIsFavorite] = useState(isFavouriteResto);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const {t} = useTranslation();
 
   let picturesId = info.picturesId;
   useEffect(() => {
@@ -92,8 +94,8 @@ const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
           <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
             {info.description}
           </Text>
-          <Text style={[darkMode && styles.ratingDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
-            Rating: {info.rating} ({info.ratingCount} ratings)
+          <Text style = {[darkMode && styles.ratingDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
+            {t('components.RestaurantCard.rating', {rating: info.rating, ratingCount: info.ratingCount})}
           </Text>
         </View>
       </View>

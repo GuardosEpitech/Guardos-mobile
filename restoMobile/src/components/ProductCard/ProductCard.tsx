@@ -12,6 +12,7 @@ import EditProductPage from '../../pages/EditProductPage/EditProductPage';
 import { useNavigation } from '@react-navigation/native';
 import { getAllResto } from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useTranslation} from "react-i18next";
 
 interface ProductCardProps {
   product: IProductFE;
@@ -23,6 +24,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [restaurants, setRestaurants] = useState<IRestaurantFrontEnd[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const {t} = useTranslation();
 
   useEffect(() => {
     fetchDarkMode();
@@ -78,9 +80,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   return (
     <View style={[styles.productCard, darkMode && styles.productCardDarkTheme]}>
       <View style={styles.productDetails}>
-        <Text style={[styles.productName, darkMode && styles.productNameDarkTheme]}>{product.name}</Text>
+      <Text style={[styles.productName, darkMode && styles.productNameDarkTheme]}>{product.name}</Text>
         <Text style={[styles.detailsText, darkMode && styles.detailsTextDarkTheme]}>
-          Ingredients: {product.ingredients.join(', ')}
+          {t('components.ProductCard.ingredients', {ingredients: product.ingredients.join(', ')})}
         </Text>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={toggleModal} style={styles.iconButton}>

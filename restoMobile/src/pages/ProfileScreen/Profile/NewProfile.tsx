@@ -15,12 +15,27 @@ import * as ImagePicker from 'expo-image-picker';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './NewProfile.styles';
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 // @ts-ignore
 import {API_URL} from '@env';
 import {editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
 import {deleteRestoAccount} from "../../../services/userCalls";
 import { CommonActions, useIsFocused } from '@react-navigation/native';
+import {useTranslation} from "react-i18next";
+
+DropDownPicker.addTranslation("DE", {
+  PLACEHOLDER: "Wählen Sie ein Element aus",
+  SEARCH_PLACEHOLDER: "Suche...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} Elemente ausgewählt",
+  NOTHING_TO_SHOW: "Es gibt nichts zu zeigen!"
+});
+
+DropDownPicker.addTranslation("FR", {
+  PLACEHOLDER: "Sélectionnez un élément",
+  SEARCH_PLACEHOLDER: "Tapez quelque chose...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} éléments ont été sélectionnés",
+  NOTHING_TO_SHOW: "Il n'y a rien à montrer!"
+});
 
 type ProfileScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -37,7 +52,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [menuDesign, setMenuDesign] = useState<string>('default');
     const [languageOpen, setLanguageOpen] = useState(false);
     const [menuDesignOpen, setMenuDesignOpen] = useState(false);
-    const [language, setLanguage] = useState<string>('english');
+    const [language, setLanguage] = useState<string>('en');
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
     const [refresh, setRefresh] = useState(false);
@@ -81,16 +96,17 @@ const ProfilePage: React.FC<ProfileScreenProps &
         })
       );
     };
+    const {t, i18n} = useTranslation();
 
     const languageOptions = [
-      {label: 'English', value: 'english'},
-      {label: 'German', value: 'german'},
-      {label: 'French', value: 'french'},
+      {label: t('common.english'), value: 'en'},
+      {label: t('common.german'), value: 'de'},
+      {label: t('common.french'), value: 'fr'},
     ];
     const menuDesignOptions = [
-      {label: 'Default', value: 'default'},
-      {label: 'Fast food', value: 'fast-food'},
-      {label: 'Pizzeria', value: 'pizzeria'},
+      {label: t('pages.Profile.default'), value: 'default'},
+      {label: t('pages.Profile.fast-food'), value: 'fast-food'},
+      {label: t('pages.Profile.pizzeria'), value: 'pizzeria'},
     ];
 
     useEffect(() => {
@@ -110,7 +126,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
             setUsername(res.username);
             setPictureId(res.profilePicId);
             setMenuDesign(res.defaultMenuDesign);
-            setLanguage(res.preferredLanguage);
+            setLanguage(res.preferredLanguage || i18n.language);
           });
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -121,7 +137,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
       const permissionResult = await ImagePicker
         .requestMediaLibraryPermissionsAsync();
       if (permissionResult.granted === false) {
-        alert('Permission to access camera roll is required!');
+        alert(t('common.need-cam-permissions'));
         return;
       }
 
@@ -152,15 +168,15 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
     const handleLogout = () => {
       Alert.alert(
-        'Logout',
-        'Are you sure you want to logout?',
+        t('pages.Profile.logout') as string,
+        t('pages.Profile.confirm-logout') as string,
         [
           {
-            text: 'Cancel',
+            text: t('common.cancel') as string,
             style: 'cancel',
           },
           {
-            text: 'Logout',
+            text: t('pages.Profile.logout') as string,
             onPress: () => {
               AsyncStorage.removeItem('userToken');
               setLoggedInStatus(false);
@@ -183,6 +199,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
         defaultMenuDesign: menuDesign,
         preferredLanguage: language
       });
+      i18n.changeLanguage(language);
 
       if (res) {
         await AsyncStorage.setItem('user', res);
@@ -209,19 +226,22 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
     const handleDeleteAccount = () => {
       Alert.alert(
-        'Delete Account',
-        'Are you sure you want to delete your account? This action is irreversible.',
+        t('pages.Profile.delete-account') as string,
+        t('pages.Profile.confirm-delete-account') as string,
         [
           {
-            text: 'Cancel',
+            text: t('common.cancel') as string,
             style: 'cancel',
           },
           {
-            text: 'Delete',
+            text: t('common.delete') as string,
             onPress: async () => {
               const userToken = await AsyncStorage.getItem('userToken');
               if (userToken === null) {
-                Alert.alert('Error', 'Failed to delete account. Please log in again.');
+                Alert.alert(
+                  String(t('common.error')),
+                  String(t('pages.Profile.delete-account-failure-login'))
+                );
               }
               deleteRestoAccount(userToken).then(res => {
                 if (res !== null) {
@@ -230,7 +250,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
                   setLoggedInStatus(false);
                   navigation.navigate('Login');
                 } else {
-                  Alert.alert('Error', 'Failed to delete account. Please try again.');
+                  Alert.alert(
+                    String(t('common.error')),
+                    String(t('pages.Profile.delete-account-failure-retry'))
+                  );
                 }
               });
             },
@@ -241,11 +264,19 @@ const ProfilePage: React.FC<ProfileScreenProps &
       );
     };
 
+    const handlePrivacy = () => {
+      navigation.navigate('Privacy', {});
+    };
+
+    const handleImprint = () => {
+      navigation.navigate('Imprint', {});
+    };
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
-          <Text style={styles.heading}>My Profile</Text>
+          <Text style={styles.heading}>{t('pages.Profile.profile-page')}</Text>
           <TouchableOpacity
             onPress={selectImage}
             style={styles.profilePictureContainer}
@@ -254,31 +285,32 @@ const ProfilePage: React.FC<ProfileScreenProps &
               <Image source={{uri: image}} style={styles.profilePicture}/>
             ) : (
               <View style={styles.defaultProfilePicture}>
-                <Text style={styles.defaultProfilePictureText}>Add Picture</Text>
+                <Text style={styles.defaultProfilePictureText}>{t('pages.Profile.add-picture')}</Text>
               </View>
             )}
           </TouchableOpacity>
           <TextInput
             style={[styles.input, darkMode && styles.inputDarkTheme]}
-            placeholder="Username"
+            placeholder={t('pages.Profile.username') as string}
             value={username}
             onChangeText={(text) => setUsername(text)}
           />
           <TextInput
             style={[styles.input, darkMode && styles.inputDarkTheme]}
-            placeholder="Email"
+            placeholder={t('pages.Profile.email') as string}
             value={email}
             onChangeText={(text) => setEmail(text)}
             keyboardType="email-address"
           />
           <View style={styles.changePasswordButton}>
             <Button
-              title="Change Password"
+              title={t('pages.Profile.change-pw') as string}
               onPress={handleNavigateToChangePassword}
             />
           </View>
           <DropDownPicker
             dropDownDirection={'TOP'}
+            language={language.toUpperCase() as LanguageType}
             open={menuDesignOpen}
             value={menuDesign}
             items={menuDesignOptions}
@@ -287,6 +319,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
             style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <DropDownPicker
             dropDownDirection={'TOP'}
+            language={language.toUpperCase() as LanguageType}
             open={languageOpen}
             value={language}
             items={languageOptions}
@@ -295,13 +328,13 @@ const ProfilePage: React.FC<ProfileScreenProps &
             style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <View style={styles.buttonContainer}>
             <Button
-              title="Apply Changes"
+              title={t('common.apply-changes') as string}
               onPress={handleApplyChanges} color="green"
             />
           </View>
           <View style={styles.buttonContainer}>
           <Button 
-          title="Feature request" 
+          title={t('pages.Profile.feature-request') as string}
           onPress={handleFeatureRequest} 
           color="green" />
           </View>
@@ -313,21 +346,35 @@ const ProfilePage: React.FC<ProfileScreenProps &
           />
           </View>          
           <View style={styles.logoutButtonContainer}>
-            <Button title="Logout" onPress={handleLogout} color="#6d071a"/>
+            <Button title={t('pages.Profile.logout') as string} onPress={handleLogout} color="#6d071a"/>
           </View>
           {showPasswordChangedMessage && 
           <Text style={styles.passwordSuccess}>
-            Password Changed
+            {t('pages.Profile.pw-changed') as string}
           </Text>}
 
           <View style={[styles.deleteAccountSection, darkMode && styles.deleteAccountSectionDarkTheme]}>
             <Button
-              title="Delete Account"
+              title={t('pages.Profile.delete-account') as string}
               onPress={handleDeleteAccount}
               color="#6d071a"
             />
           </View>
           </View>
+          <View style={styles.deleteAccountSection}>
+            <Button
+              title={t('pages.Profile.privacy') as string}
+              onPress={handlePrivacy}
+              color="#6d071a"
+            />
+          </View>
+          <View style={styles.deleteAccountSection}>
+        <Button
+          title={t('pages.Imprint.title') as string}
+          onPress={handleImprint}
+          color="#6d071a"
+        />
+      </View>
         </ScrollView>
       </TouchableWithoutFeedback>
     );

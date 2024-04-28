@@ -6,6 +6,7 @@ import { IContactForm } from '../../models/emailInterfaces';
 import { sendEmail } from '../../services/emailCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import {useTranslation} from "react-i18next";
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState<IContactForm>({
@@ -33,6 +34,7 @@ const ContactUs: React.FC = () => {
     }
   };
 
+  const {t} = useTranslation();
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -79,7 +81,7 @@ const ContactUs: React.FC = () => {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <KeyboardAvoidingView style={[styles.container, darkMode && styles.containerDarkTheme]} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
         {/* Display contact information */}
-        <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>Get in touch</Text>
+        <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>{t('pages.ContactUs.get-in-touch')}</Text>
         <View style={styles.contactInfo}>
           <View style={styles.contactDetail}>
             <Ionicons name="md-call" size={24} color="black" />
@@ -93,38 +95,37 @@ const ContactUs: React.FC = () => {
 
           <View style={styles.contactDetail}>
             <Ionicons name="md-pin" size={24} color="black" />
-            <Text style={[styles.contactText, darkMode && styles.contactTextDarkTheme]}>Fasanenstraße 86, 10623 Berlin, Germany</Text>
+            <Text style={[styles.contactText, darkMode && styles.contactTextDarkTheme]}>{t('pages.ContactUs.address')}</Text>
           </View>
         </View>
 
         {/* Display contact form */}
         <View style={[styles.contactForm, darkMode && styles.contactFormDarkTheme]}>
-          <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>Contact Form</Text>
+          <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>{t('pages.ContactUs.contact-form')}</Text>
           <TextInput
             value={formData.name}
             onChangeText={(text) => handleChange('name', text)}
-            placeholder="Name"
-            placeholderTextColor={darkMode ? 'white' : 'black'}
-            style={[styles.input, darkMode && styles.inputDarkTheme]}
+            placeholder={t('pages.ContactUs.name') as string}
+            style={styles.input}
           />
           <TextInput
             value={formData.email}
             onChangeText={(text) => handleChange('email', text)}
-            placeholder="Email"
+            placeholder={t('pages.ContactUs.email') as string}
             placeholderTextColor={darkMode ? 'white' : 'black'}
             style={[styles.input, darkMode && styles.inputDarkTheme]}
           />
           <TextInput
             value={formData.subject}
             onChangeText={(text) => handleChange('subject', text)}
-            placeholder="Subject"
+            placeholder={t('pages.ContactUs.subject') as string}
             placeholderTextColor={darkMode ? 'white' : 'black'}
             style={[styles.input, darkMode && styles.inputDarkTheme]}
           />
           <TextInput
             value={formData.message}
             onChangeText={(text) => handleChange('message', text)}
-            placeholder="Message"
+            placeholder={t('pages.ContactUs.message') as string}
             placeholderTextColor={darkMode ? 'white' : 'black'}
             multiline
             style={[[styles.input, darkMode && styles.inputDarkTheme], { height: 100 }]}
@@ -132,12 +133,12 @@ const ContactUs: React.FC = () => {
 
           {/* Submit button */}
           <TouchableOpacity onPress={handleSubmit} style={[styles.button, { backgroundColor: '#6d071a' }]}>
-            <Text style={styles.buttonText}>Submit</Text>
+            <Text style={styles.buttonText}>{t('common.submit')}</Text>
           </TouchableOpacity>
 
           {/* Confirmation message */}
           {showConfirmation && (
-            <Text style={[styles.message, { color: 'green' }]}>Message sent successfully!</Text>
+            <Text style={[styles.message, { color: 'green' }]}>{t('pages.ContactUs.message-sent-success')}</Text>
           )}
         </View>
       </KeyboardAvoidingView>

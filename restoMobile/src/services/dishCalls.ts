@@ -7,6 +7,9 @@ const baseURL = API_URL + "dishes/";
 
 export const getAllDishes = async () => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const response = await axios({
         method: "GET",
         url: baseURL,
@@ -20,6 +23,9 @@ export const getAllDishes = async () => {
 
 export const deleteDishByName = async (restaurant: string, name: string) => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const data = {name : name}
         const response = await axios({
         method: "DELETE",
@@ -35,6 +41,9 @@ export const deleteDishByName = async (restaurant: string, name: string) => {
 
 export const changeDishByName = async (dish: IDishFE, restaurant: string) => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const response = await axios({
             method: "PUT",
             url: baseURL + restaurant,
@@ -54,6 +63,9 @@ export const changeDishByName = async (dish: IDishFE, restaurant: string) => {
 
 export const addDish = async (dish: IAddDish, restaurant: string) => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const response = await axios({
             method: "POST",
             url: baseURL + restaurant,
@@ -68,6 +80,9 @@ export const addDish = async (dish: IAddDish, restaurant: string) => {
 
 export const getDishesByUser = async (userToken: string) => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const response = await axios({
             method: "GET",
             params: {key: userToken},
@@ -84,5 +99,8 @@ export const getDishesByUser = async (userToken: string) => {
 };
 
 export const getDishesByResto = async (restaurantName: string) => {
+    if (baseURL === undefined) {
+        throw new Error("baseUrl is not defined");
+    }
     return(await fetch(`${baseURL}${restaurantName}`));
 };

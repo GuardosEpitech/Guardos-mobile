@@ -1,11 +1,15 @@
 import React, { useEffect, useState , useCallback} from 'react';
-import { View, FlatList, TouchableOpacity, Text , RefreshControl} from 'react-native';
-import { DarkTheme, useNavigation } from '@react-navigation/native';
+import { View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import styles from '../MyRestaurantsScreen/MyRestaurantsScreen.styles';
+import {useTranslation} from 'react-i18next';
 import MenuPage from '../MenuPage/MenuPage';
 import AddRestaurantScreen from '../AddRestaurantScreen/AddRestaurantScreen';
-import {getAllRestaurantsByUser, deleteRestaurantByName} from "../../services/restoCalls";
+import {
+  deleteRestaurantByName,
+  getAllRestaurantsByUserAndFilter
+} from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IRestaurantFrontEnd } from 'src/models/restaurantsInterfaces';
 
@@ -34,8 +38,16 @@ const MyRestaurantsScreen = () => {
   };
 
   const updateRestoData = async () => {
+  const [filter, setFilter] = useState('');
+  const {t} = useTranslation();
+
+  useEffect(() => {
+    updateRestoData(filter);
+  }, [filter]);
+
+  const updateRestoData = async (filter: string) => {
     const userToken = await AsyncStorage.getItem('userToken');
-    getAllRestaurantsByUser({key: userToken})
+    getAllRestaurantsByUserAndFilter(userToken, filter)
       .then((res) => {
         setRestoData(res);
       })
@@ -56,11 +68,11 @@ const MyRestaurantsScreen = () => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    updateRestoData();
+    updateRestoData(filter);
     fetchDarkMode()
     setRefreshing(false);
     setKey(prevKey => prevKey + 1);
-  }, []);
+  }, [filter]);
 
   const navigateToAddRestaurant = () => {
     navigation.navigate('AddRestaurantScreen');
@@ -72,6 +84,13 @@ const MyRestaurantsScreen = () => {
 
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+      <TextInput
+        style={styles.searchInput}
+        placeholder={t('common.search-restaurants')}
+        value={filter}
+        onChangeText={setFilter}
+        autoCapitalize="none"
+      />
       <FlatList
         data={restoData}
         renderItem={({ item }) => (
@@ -94,5 +113,5 @@ const MyRestaurantsScreen = () => {
     </View>
   );
 };
-
+}
 export default MyRestaurantsScreen;
