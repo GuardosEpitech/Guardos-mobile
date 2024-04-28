@@ -197,6 +197,12 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 10,
   },
+  headingDarkTheme: {
+    textAlign: 'center',
+    color: 'white',
+    paddingBottom: 10,
+    fontSize: 20,
+  },
 });
 
 export default styles;

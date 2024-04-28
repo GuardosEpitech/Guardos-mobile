@@ -325,7 +325,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   return (
     <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
       <View style={[styles.profileSection, darkMode && styles.profileSectionDarkTheme]}>
-        <Text style={styles.heading}>Account Page</Text>
+        <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>Account Page</Text>
         {dataChangeStatus !== null && (
           <Text
             style={dataChangeStatus === 'success' ?
@@ -355,6 +355,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             value={name}
             onChangeText={handleNameChange}
             placeholder="Enter your name"
+            placeholderTextColor={darkMode ? 'white' : 'black'}
             required
           />
         </View>
@@ -365,6 +366,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             value={email}
             onChangeText={handleEmailChange}
             placeholder="Enter your email"
+            placeholderTextColor={darkMode ? 'white' : 'black'}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
@@ -378,6 +380,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             value={city}
             onChangeText={handleCityChange}
             placeholder="Enter your city"
+            placeholderTextColor={darkMode ? 'white' : 'black'}
           />
         </View>
         <View style={styles.changePasswordButton}>
