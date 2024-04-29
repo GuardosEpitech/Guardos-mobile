@@ -28,31 +28,31 @@ const ImprintPage: React.FC = () => {
     <View style={[styles.impressumContainer, darkMode && styles.impressumContainerDarkTheme]}>
       <Text style={[styles.headline, darkMode && styles.headlineDarkTheme]}>{t('pages.Imprint.title')}</Text>
       <Text>{"\n"}</Text>
-      <View style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.intro')}</Text>
+      <View style={[styles.impressumInfo]}>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.intro')}</Text>
         <Text>{"\n"}</Text>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.us')}</Text>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.address1')}</Text>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.address2')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.us')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.address1')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.address2')}</Text>
         <Text>{"\n"}</Text>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.telephone')}</Text>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.email')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.telephone')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.email')}</Text>
         <Text>{"\n"}</Text>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.register')}</Text>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.registerNr')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.register')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.registerNr')}</Text>
         <Text>{"\n"}</Text>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.ust')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.ust')}</Text>
         <Text>{"\n"}</Text>
-        <Text style={[styles.impressumInfo, darkMode && styles.impressumInfoDarkTheme]}>{t('pages.Imprint.manager')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.manager')}</Text>
       </View>
       <View style={styles.impressumLegal}>
         <Text style={[[styles.headline, darkMode && styles.headlineDarkTheme], [styles.legalTitle, darkMode && styles.legalTitleDarkTheme]]}>{t('pages.Imprint.legal')}</Text>
         <Text>{"\n"}</Text>
-        <Text style = {[styles.impressumLegal, darkMode && styles.impressumLegalDarkTheme]} >{t('pages.Imprint.introLegal')}</Text>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.introLegal')}</Text>
         <Text>{"\n"}</Text>
         <Text style={[[styles.headline, darkMode && styles.headlineDarkTheme], [styles.legalTitle, darkMode && styles.legalTitleDarkTheme]]}>{t('pages.Imprint.txtlegal1')}</Text>
         <Text>{"\n"}</Text>
-        <Text style = {[styles.impressumLegal, darkMode && styles.impressumLegalDarkTheme]}>
+        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>
           {t('pages.Imprint.txtlegal2')}{' '}
           <Text style={styles.link}>
             http://ec.europa.eu/consumers/odr

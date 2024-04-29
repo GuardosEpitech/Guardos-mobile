@@ -13,6 +13,8 @@ const styles = StyleSheet.create({
     legalTitle: {
       marginBottom: 10,
     },
+    impressumText: {
+    },
     link: {
       color: 'blue',
       textDecorationLine: 'underline',
@@ -41,6 +43,9 @@ const styles = StyleSheet.create({
     headlineDarkTheme: {
       fontWeight: 'bold',
       fontSize: 16,
+      color: 'white',
+    },
+    impressumTextDarkTheme: {
       color: 'white',
     },
   });
