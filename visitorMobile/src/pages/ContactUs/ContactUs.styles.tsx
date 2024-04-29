@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         color: 'white',
-        backgroundColor : "grey"
+        backgroundColor : "#181A1B"
       },
 });
 

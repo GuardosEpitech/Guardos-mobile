@@ -10,6 +10,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginHorizontal: 10,
   },
+  titleDarkTheme: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    marginHorizontal: 10,
+  },
 });
 
 export default styles;
