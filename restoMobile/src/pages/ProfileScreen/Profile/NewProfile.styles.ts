@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
 
   deleteAccountSectionDarkTheme: {
-    marginTop: 20,
+    marginTop: 0,
     alignItems: 'center',
     backgroundColor: '#1B1D1E',
   },

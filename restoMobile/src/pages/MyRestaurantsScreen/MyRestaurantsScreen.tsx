@@ -19,11 +19,8 @@ const MyRestaurantsScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [key, setKey] = useState(0);
-
-  useEffect(() => {
-    fetchDarkMode();
-    updateRestoData();
-  }, []);
+  const [filter, setFilter] = useState('');
+  const {t} = useTranslation();
 
   const fetchDarkMode = async () => {
     try {
@@ -37,14 +34,22 @@ const MyRestaurantsScreen = () => {
     }
   };
 
-  const updateRestoData = async () => {
-  const [filter, setFilter] = useState('');
-  const {t} = useTranslation();
-
   useEffect(() => {
     updateRestoData(filter);
+    fetchDarkMode();
   }, [filter]);
 
+
+
+  const onDelete = async (restaurantName: string) => {
+    try {
+      await deleteRestaurantByName(restaurantName);
+      updateRestoData(filter);
+    } catch (error) {
+      console.error('Error deleting restaurant:', error);
+    }
+  };
+  
   const updateRestoData = async (filter: string) => {
     const userToken = await AsyncStorage.getItem('userToken');
     getAllRestaurantsByUserAndFilter(userToken, filter)
@@ -54,16 +59,6 @@ const MyRestaurantsScreen = () => {
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
       });
-  };
-
-  const onDelete = async (restaurantName: string) => {
-
-    try {
-      await deleteRestaurantByName(restaurantName);
-      updateRestoData();
-    } catch (error) {
-      console.error('Error deleting restaurant:', error);
-    }
   };
 
   const onRefresh = useCallback(() => {
@@ -113,5 +108,5 @@ const MyRestaurantsScreen = () => {
     </View>
   );
 };
-}
+
 export default MyRestaurantsScreen;

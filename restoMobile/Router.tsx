@@ -318,10 +318,10 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
       >
         {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}
       </Stack.Screen>
-      <Stack.Screen name="FeatureRequest" component={FeatureRequest} />
+      <Stack.Screen name="FeatureRequest" component={FeatureRequest} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}} />
       <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
-      <Stack.Screen name="Privacy" component={PrivacyPage}/>
-      <Stack.Screen name="Imprint" component={ImprintPage}/>
+      <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
+      <Stack.Screen name="Imprint" component={ImprintPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
     </Stack.Navigator>
   );
 }

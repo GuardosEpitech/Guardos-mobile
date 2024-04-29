@@ -274,7 +274,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView>
+        <ScrollView >
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
           <Text style={styles.heading}>{t('pages.Profile.profile-page')}</Text>
           <TouchableOpacity
@@ -361,14 +361,14 @@ const ProfilePage: React.FC<ProfileScreenProps &
             />
           </View>
           </View>
-          <View style={styles.deleteAccountSection}>
+          <View style={[styles.deleteAccountSection, darkMode && styles.deleteAccountSectionDarkTheme]}>
             <Button
               title={t('pages.Profile.privacy') as string}
               onPress={handlePrivacy}
               color="#6d071a"
             />
           </View>
-          <View style={styles.deleteAccountSection}>
+          <View style={[styles.deleteAccountSection, darkMode && styles.deleteAccountSectionDarkTheme]}>
         <Button
           title={t('pages.Imprint.title') as string}
           onPress={handleImprint}
