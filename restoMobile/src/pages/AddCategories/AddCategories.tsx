@@ -133,7 +133,7 @@ const AddCategoryPage = () => {
     };
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1, paddingTop: 20}}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
             <View style={[styles.dropdownContainer, darkMode && styles.dropdownContainerDarkTheme]}>
                 <DropDownPicker
@@ -145,8 +145,8 @@ const AddCategoryPage = () => {
                     setValue={setActiveRestaurant}
                     onSelectItem={(item) => {handleRestaurantChange(item.value.toString());}}
                     multiple={false}
-                    dropDownContainerStyle={{ backgroundColor: darkMode ? '#181A1B' : 'white' }}
-                    style={{ width: 'auto', marginLeft: 5, marginRight: 5 }}
+                    dropDownContainerStyle={{backgroundColor: darkMode ? '#181A1B' : 'white'}}
+                    style={{ width: 'auto', marginLeft: 5, marginRight: 5, backgroundColor: darkMode ? '#181A1B' : 'white' }}
                     textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
                 />
             </View>

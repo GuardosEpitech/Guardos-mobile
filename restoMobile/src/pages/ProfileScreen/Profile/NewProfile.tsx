@@ -276,7 +276,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView >
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
-          <Text style={styles.heading}>{t('pages.Profile.profile-page')}</Text>
+          <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>{t('pages.Profile.profile-page')}</Text>
           <TouchableOpacity
             onPress={selectImage}
             style={styles.profilePictureContainer}
@@ -316,6 +316,8 @@ const ProfilePage: React.FC<ProfileScreenProps &
             items={menuDesignOptions}
             setOpen={setMenuDesignOpen}
             setValue={setMenuDesign}
+            dropDownContainerStyle={{backgroundColor: darkMode ? '#181A1B' : 'white'}}
+            textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
             style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <DropDownPicker
             dropDownDirection={'TOP'}
@@ -325,6 +327,8 @@ const ProfilePage: React.FC<ProfileScreenProps &
             items={languageOptions}
             setOpen={setLanguageOpen}
             setValue={setLanguage}
+            dropDownContainerStyle={{backgroundColor: darkMode ? '#181A1B' : 'white'}}
+            textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
             style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <View style={styles.buttonContainer}>
             <Button

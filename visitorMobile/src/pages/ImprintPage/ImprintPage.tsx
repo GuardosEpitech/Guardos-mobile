@@ -1,5 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text } from 'react-native';
+import {
+  View, 
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import styles from './ImprintPage.styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -25,6 +30,8 @@ const ImprintPage: React.FC = () => {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <ScrollView style={{flexGrow: 1, backgroundColor: darkMode ? '#181A1B' : 'white'}}>
     <View style={[styles.impressumContainer, darkMode && styles.impressumContainerDarkTheme]}>
       <Text style={[styles.headline, darkMode && styles.headlineDarkTheme]}>{t('pages.Imprint.title')}</Text>
       <Text>{"\n"}</Text>
@@ -61,6 +68,8 @@ const ImprintPage: React.FC = () => {
         </Text>
       </View>
     </View>
+    </ScrollView>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -113,6 +113,37 @@ const styles = StyleSheet.create({
   },
 
   // Filter Popup Styles
+  modalContentDarkTheme: {
+    backgroundColor: '#181A1B',
+    borderRadius: 10,
+    padding: 10,
+    paddingTop: 20,
+    alignSelf: 'center',
+    alignItems: 'stretch',
+    width: '95%',
+  },
+  headingContainerDarkTheme: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: 'white',
+  },
+  headingTextDarkTheme: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  locationContainerDarkTheme: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+    backgroundColor: '#181A1B',
+    color: 'white',
+  },
+  starIconDarkTheme: {
+    marginRight: 5,
+    color: 'white',
+  },
   filterPopup: {
     backgroundColor: 'white',
     padding: 20,

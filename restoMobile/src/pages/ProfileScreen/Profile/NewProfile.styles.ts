@@ -80,6 +80,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
   },
+  headingDarkTheme: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'white',
+  },
   containerDarkTheme: {
     flex: 1,
     alignItems: 'center',
@@ -98,11 +104,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     backgroundColor: '#3B3B3B',
+    color: 'white',
   },
 
   dropDownDarkTheme: {
     marginBottom: 20,
     backgroundColor: '#3B3B3B',
+    color: 'white',
   },
 
   deleteAccountSectionDarkTheme: {

@@ -61,6 +61,8 @@ const styles = StyleSheet.create({
         width: '100%',
         marginBottom: 20,
         zIndex: 1,
+        backgroundColor: '#181A1B',
+        color: '#181A1B',
     },
     categoryContainersDarkTheme: {
         flex: 1,

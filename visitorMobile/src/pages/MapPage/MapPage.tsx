@@ -543,8 +543,8 @@ const MapPage = () => {
         ))}
       </MapView>
 
-      <Modal isVisible={isModalVisible} style={{ margin: 0 }}>
-        <View style={styles.modalContent}>
+      <Modal isVisible={isModalVisible} style={{ margin: 0}}>
+        <View style={[styles.modalContent, darkMode && styles.modalContentDarkTheme]}>
           <Image 
             source={
               !imageError &&
@@ -561,8 +561,8 @@ const MapPage = () => {
               return null; 
             }}
           />
-          <View style={styles.headingContainer}>
-            <Text style={styles.headingText}>
+          <View style={[styles.headingContainer, darkMode && styles.headingContainerDarkTheme]}>
+            <Text style={[styles.headingText, darkMode && styles.headingTextDarkTheme]}>
               {selectedMarker && selectedMarker.name}
             </Text>
           <View style={styles.starContainer}>
@@ -579,7 +579,7 @@ const MapPage = () => {
                     'star-half' : 'star-outline'}
                   size={20}
                   color={isFullStar || isHalfStar ? 'gold' : 'black'}
-                  style={styles.starIcon}
+                  style={[styles.starIcon, darkMode && styles.starIconDarkTheme]}
                 />
                 );
               })}
@@ -589,9 +589,9 @@ const MapPage = () => {
           </View>
               </View>
 
-          <View style={styles.locationContainer}>
-            <Ionicons name="location-sharp" size={18} color="black" />
-            <Text style={{ marginLeft: 5 }}>
+          <View style={[styles.locationContainer, darkMode && styles.locationContainerDarkTheme]}>
+            <Ionicons name="location-sharp" size={18} color={darkMode ? 'white' : 'black'} />
+            <Text style={{ marginLeft: 5, color: darkMode ? 'white' : 'black'}}>
               {`${selectedMarker && selectedMarker.location.streetName} `+ 
               `${selectedMarker && selectedMarker.location.streetNumber}, ` + 
               `${selectedMarker && selectedMarker.location.postalCode} `+ 
@@ -600,13 +600,13 @@ const MapPage = () => {
             </Text>
           </View>
 
-          <Text style={{ marginTop: 10 }}>
+          <Text style={{ marginTop: 10, color: darkMode ? 'white' : 'black' }}>
             {selectedMarker && selectedMarker.description}
           </Text>
-          <Text style={{ marginTop: 10 }}>
+          <Text style={{ marginTop: 10, color: darkMode ? 'white' : 'black' }}>
             {t('pages.MapPage.telephone', {phoneNumber: selectedMarker && selectedMarker.phoneNumber})}
           </Text>
-          <Text>
+          <Text style={{color: darkMode ? 'white' : 'black'}}>
             {t('pages.MapPage.website', {website: selectedMarker && selectedMarker.website})}
           </Text>
 
