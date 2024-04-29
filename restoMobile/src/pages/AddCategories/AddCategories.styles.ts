@@ -49,6 +49,51 @@ const styles = StyleSheet.create({
     categoryHitRate: {
         fontSize: 16,
     },
+    // Dark theme
+    containerDarkTheme: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingVertical: 20,
+        backgroundColor: '#181A1B'
+    },
+    dropdownContainerDarkTheme: {
+        width: '100%',
+        marginBottom: 20,
+        zIndex: 1,
+        backgroundColor: '#181A1B',
+        color: '#181A1B',
+    },
+    categoryContainersDarkTheme: {
+        flex: 1,
+        width: '100%',
+        zIndex: 2,
+        backgroundColor: '#181A1B'
+    },
+    scrollContainerDarkTheme: {
+        flexGrow: 1,
+        backgroundColor: '#181A1B'
+    },
+    categoryNameDarkTheme: {
+        fontSize: 16, 
+        color: 'white'
+    },
+    categoryHitRateDarkTheme: {
+        fontSize: 16,
+        color: 'white'
+    },
+    categoryItemContainerDarkTheme: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: 'white',
+        borderRadius: 10,
+        paddingVertical: 10,
+        width: screenWidth - 20, 
+        marginHorizontal: 10, 
+    },
 });
 
 export default styles;

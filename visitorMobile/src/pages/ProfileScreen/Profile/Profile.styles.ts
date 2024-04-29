@@ -148,6 +148,61 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  containerDarkTheme: {
+    flexGrow: 1,
+    backgroundColor: '#1B1D1E',
+    padding: 16,
+  },
+  profileSectionDarkTheme: {
+    backgroundColor: '#1B1D1E',
+    borderRadius: 8,
+    padding: 20,
+    marginBottom: 20,
+  },
+  inputDarkTheme: {
+    width: '100%',
+    padding: 10,
+    marginTop: 5,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    fontSize: 16,
+    color: 'white'
+  },
+  profileHeader: {
+    color: 'black',
+  },
+  profileHeaderDarkTheme: {
+    color: 'white',
+  },
+  dropDownDarkTheme: {
+    marginBottom: 20,
+    backgroundColor: '#3B3B3B'
+  },
+  restaurantSectionDarkTheme: {
+    backgroundColor: '#1B1D1E',
+    borderRadius: 8,
+    padding: 20,
+    marginBottom: 20,
+  },
+  tabButtonTexDarkTheme: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  logoutSectionDarkTheme: {
+    backgroundColor: '#3B3B3B',
+    borderRadius: 8,
+    padding: 20,
+    marginBottom: 10,
+  },
+  headingDarkTheme: {
+    textAlign: 'center',
+    color: 'white',
+    paddingBottom: 10,
+    fontSize: 20,
+  },
 });
 
 export default styles;

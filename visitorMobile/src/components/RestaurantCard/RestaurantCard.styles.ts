@@ -102,6 +102,56 @@ const styles = StyleSheet.create({
   FavoriteIcon: {
     marginLeft: "auto",
     padding: 8,
+  },
+  cardContainerDarkTheme: {
+    width: deviceWidth - offset,
+    backgroundColor: '#181A1B',
+    height: 230,
+    borderRadius: radius,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 4,
+    elevation: 9,
+    position: 'relative',
+  },
+  cardContainerSmallDarkTheme: {
+    width: deviceWidth - offset - decreaseSizeOffset,
+    backgroundColor: '#181A1B',
+    height: 230,
+    borderRadius: radius,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 4,
+    elevation: 9,
+    position: 'relative',
+  },
+  titleStyleDarkTheme: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: 'white'
+  },
+  categoryStyleDarkTheme: {
+    fontWeight: '200',
+    maxHeight: 40,
+    overflow: 'hidden',
+    color: 'white'
+  },
+  infoStyleDarkTheme: {
+    marginHorizontal: 10,
+    marginVertical: 10,
+    position: 'relative',
+    color: 'white'
+  },
+  ratingDarkTheme:{
+    color: "white"
   }
 });
 

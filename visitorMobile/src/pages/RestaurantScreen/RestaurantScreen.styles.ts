@@ -230,6 +230,28 @@ const styles = StyleSheet.create({
     color: '#fff', 
     fontSize: 16,
   },
+  containerDarkTheme: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#181A1B',
+  },
+  searchContainerDarkTheme: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    padding: 10,
+    backgroundColor: '#181A1B',
+    borderRadius: 10,
+  },
+  inputDarkTheme: {
+    flex: 1,
+    height: 40,
+    marginHorizontal: 5,
+    paddingHorizontal: 10,
+    backgroundColor: 'grey',
+    borderRadius: 10, 
+  },
 });
 
 

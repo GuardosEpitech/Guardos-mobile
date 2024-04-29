@@ -20,6 +20,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
   },
+
+  containerDarkTheme: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#1B1D1E"
+  },
+
 });
 
 export default styles;

@@ -26,6 +26,7 @@
     "@react-navigation/native-stack": "^6.9.6",
     "@types/react": "~18.2.14",
     "@types/react-native": "~0.70.6",
+    "AsyncStorage": "^0.1.5",
     "axios": "^1.2.1",
     "expo": "^49.0.22",
     "expo-app-loading": "^2.1.1",

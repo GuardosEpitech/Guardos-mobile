@@ -20,6 +20,7 @@ import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 import {API_URL} from '@env';
 import {editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
 import {deleteRestoAccount} from "../../../services/userCalls";
+import { CommonActions, useIsFocused } from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
 
 DropDownPicker.addTranslation("DE", {
@@ -53,6 +54,48 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [menuDesignOpen, setMenuDesignOpen] = useState(false);
     const [language, setLanguage] = useState<string>('en');
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+
+    const toggleDarkMode = async () => {
+      const newDarkMode = !darkMode;
+      setDarkMode(newDarkMode);
+      try {
+        await saveDarkModeState(newDarkMode);
+        refreshApp();
+      } catch (error) {
+        console.error('Error storing dark mode value:', error);
+      }
+    };
+
+    const saveDarkModeState = async (value: boolean) => {
+      try {
+        await AsyncStorage.setItem('DarkMode', JSON.stringify(value));
+      } catch (error) {
+        console.error('Error storing dark mode value:', error);
+      }
+    };
+    
+    const loadDarkModeState = async () => {
+      try {
+        const darkModeValue = await AsyncStorage.getItem('DarkMode');
+        if (darkModeValue !== null) {
+          setDarkMode(JSON.parse(darkModeValue));
+        }
+      } catch (error) {
+        console.error('Error loading dark mode value:', error);
+      }
+    };
+  
+    const refreshApp = () => {
+      setRefresh((prevRefresh) => !prevRefresh);
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Scanning' }],
+        })
+      );
+    };
     const {t, i18n} = useTranslation();
 
     const languageOptions = [
@@ -67,6 +110,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
     ];
 
     useEffect(() => {
+      loadDarkModeState();
       fetchUserData();
     }, []);
 
@@ -230,9 +274,9 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView>
-        <View style={styles.container}>
-          <Text style={styles.heading}>{t('pages.Profile.profile-page')}</Text>
+        <ScrollView >
+        <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+          <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>{t('pages.Profile.profile-page')}</Text>
           <TouchableOpacity
             onPress={selectImage}
             style={styles.profilePictureContainer}
@@ -246,13 +290,13 @@ const ProfilePage: React.FC<ProfileScreenProps &
             )}
           </TouchableOpacity>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             placeholder={t('pages.Profile.username') as string}
             value={username}
             onChangeText={(text) => setUsername(text)}
           />
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             placeholder={t('pages.Profile.email') as string}
             value={email}
             onChangeText={(text) => setEmail(text)}
@@ -272,8 +316,9 @@ const ProfilePage: React.FC<ProfileScreenProps &
             items={menuDesignOptions}
             setOpen={setMenuDesignOpen}
             setValue={setMenuDesign}
-            style={styles.dropDown}
-          />
+            dropDownContainerStyle={{backgroundColor: darkMode ? '#181A1B' : 'white'}}
+            textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
+            style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <DropDownPicker
             dropDownDirection={'TOP'}
             language={language.toUpperCase() as LanguageType}
@@ -282,7 +327,9 @@ const ProfilePage: React.FC<ProfileScreenProps &
             items={languageOptions}
             setOpen={setLanguageOpen}
             setValue={setLanguage}
-          />
+            dropDownContainerStyle={{backgroundColor: darkMode ? '#181A1B' : 'white'}}
+            textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
+            style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <View style={styles.buttonContainer}>
             <Button
               title={t('common.apply-changes') as string}
@@ -295,6 +342,13 @@ const ProfilePage: React.FC<ProfileScreenProps &
           onPress={handleFeatureRequest} 
           color="green" />
           </View>
+          <View style={styles.buttonContainer}>
+          <Button 
+          title={darkMode ? "Light Mode" : "Dark Mode"}
+          onPress={toggleDarkMode}
+          color={darkMode ? "#6d071a" : "grey"}
+          />
+          </View>          
           <View style={styles.logoutButtonContainer}>
             <Button title={t('pages.Profile.logout') as string} onPress={handleLogout} color="#6d071a"/>
           </View>
@@ -302,22 +356,23 @@ const ProfilePage: React.FC<ProfileScreenProps &
           <Text style={styles.passwordSuccess}>
             {t('pages.Profile.pw-changed') as string}
           </Text>}
-        </View>
-          <View style={styles.deleteAccountSection}>
+
+          <View style={[styles.deleteAccountSection, darkMode && styles.deleteAccountSectionDarkTheme]}>
             <Button
               title={t('pages.Profile.delete-account') as string}
               onPress={handleDeleteAccount}
               color="#6d071a"
             />
           </View>
-          <View style={styles.deleteAccountSection}>
+          </View>
+          <View style={[styles.deleteAccountSection, darkMode && styles.deleteAccountSectionDarkTheme]}>
             <Button
               title={t('pages.Profile.privacy') as string}
               onPress={handlePrivacy}
               color="#6d071a"
             />
           </View>
-          <View style={styles.deleteAccountSection}>
+          <View style={[styles.deleteAccountSection, darkMode && styles.deleteAccountSectionDarkTheme]}>
         <Button
           title={t('pages.Imprint.title') as string}
           onPress={handleImprint}

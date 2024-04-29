@@ -13,6 +13,8 @@ const styles = StyleSheet.create({
     legalTitle: {
       marginBottom: 10,
     },
+    impressumText: {
+    },
     link: {
       color: 'blue',
       textDecorationLine: 'underline',
@@ -20,6 +22,31 @@ const styles = StyleSheet.create({
     headline: {
       fontWeight: 'bold',
       fontSize: 16
+    },
+    impressumContainerDarkTheme: {
+      maxWidth: 800,
+      marginHorizontal: 'auto',
+      padding: 20,
+      backgroundColor: '#181A1B',
+    },
+    impressumInfoDarkTheme: {
+      marginBottom: 30,
+      color: 'white',
+    },
+    impressumLegalDarkTheme: {
+      color: 'white',
+    },
+    legalTitleDarkTheme: {
+      marginBottom: 10,
+      color: 'white',
+    },
+    headlineDarkTheme: {
+      fontWeight: 'bold',
+      fontSize: 16,
+      color: 'white',
+    },
+    impressumTextDarkTheme: {
+      color: 'white',
     },
   });
 

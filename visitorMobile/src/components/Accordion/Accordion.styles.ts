@@ -34,6 +34,26 @@ const styles = StyleSheet.create({
   icon: {
     marginLeft: 10,
   },
+  accordionDarkTheme: {
+    backgroundColor: '#181A1B',
+    borderRadius: 5,
+    width: "90%",
+    alignSelf: "center",
+    paddingHorizontal: 0,
+    marginHorizontal: 0,
+  },
+  titleContainerDarkTheme: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#181A1B',
+  },
+  titleDarkTheme: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });
 
 export default styles;

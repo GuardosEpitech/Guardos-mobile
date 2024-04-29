@@ -6,6 +6,7 @@ import axios from "axios";
 import { API_URL } from '@env';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Restaurant } from "src/models/ingedientsInterfaces";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useTranslation} from "react-i18next";
 
 const QRCodeEngin = ({ navigation }: { navigation: any }) => {
@@ -15,6 +16,7 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
   const [value, setValue] = useState(null);
   const [productName, setProductName] = useState("");
   const [RestoValue, setRestoValue] = useState<{ label: string; value: string }[]>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const {t} = useTranslation();
 
   useEffect(() => {
@@ -22,8 +24,22 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
     })();
+    fetchDarkMode();
     getResto();
   }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
+
   const handleBarCodeScanned = async ({
     type,
     data,
@@ -87,9 +103,8 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
       console.log(err);
     }
   }
-
   return (
-    <View style={{flex:1}}>
+  <View style={[{ flex: 1 }, darkMode ? styles.containerDarkTheme : styles.containerLightTheme]}>
     <View style={{marginTop: 5, alignItems: "center"}}>
       <View style={styles.DivTop}>
         <Text style={styles.TitleIngr}>{t('pages.QRCodeEngin.scan-ingredients')}</Text>
@@ -153,7 +168,6 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
       </View>
     </View>
     </View>
-
   );
 };
 

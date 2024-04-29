@@ -10,6 +10,7 @@ import {deleteAccount} from "../../../services/userCalls";
 import RestaurantCard from "../../../components/RestaurantCard/RestaurantCard";
 import DishCard from "../../../components/DishCard/DishCard";
 import {getDishFavourites, getRestoFavourites} from "../../../services/favourites";
+import { CommonActions, useIsFocused } from '@react-navigation/native';
 import i18n from "i18next";
 import {useTranslation} from "react-i18next";
 
@@ -43,6 +44,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [allergensOpen, setAllergensOpen] = useState(false);
   const [language, setLanguage] = useState<string>('en');
   const {t} = useTranslation();
+  const [darkMode, setDarkMode] = useState(false);
   const languageOptions = [
     {label: t('common.english'), value: 'en'},
     {label: t('common.german'), value: 'de'},
@@ -72,8 +74,12 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [restoPage, setRestoPage] = useState(1);
   const [dishPage, setDishPage] = useState(1);
   const pageSize = 3; // Number of items per page
+  const [refresh, setRefresh] = useState(false);
+  const isFocused = useIsFocused();
+
 
   useEffect(() => {
+    loadDarkModeState();
     const fetchUserData = async () => {
       try {
         const userToken = await AsyncStorage.getItem('user');
@@ -97,6 +103,48 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     };
     fetchUserData().then(r => console.log("Loaded user data successfully"));
   }, []);
+
+  const toggleDarkMode = async () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    try {
+      await saveDarkModeState(newDarkMode);
+      refreshApp();
+    } catch (error) {
+      console.error('Error storing dark mode value:', error);
+    }
+  };
+
+
+  const saveDarkModeState = async (value: boolean) => {
+    try {
+      await AsyncStorage.setItem('DarkMode', JSON.stringify(value));
+    } catch (error) {
+      console.error('Error storing dark mode value:', error);
+    }
+  };
+  
+  const loadDarkModeState = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        setDarkMode(JSON.parse(darkModeValue));
+      }
+    } catch (error) {
+      console.error('Error loading dark mode value:', error);
+    }
+  };
+
+  const refreshApp = () => {
+    setRefresh((prevRefresh) => !prevRefresh);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'RestaurantScreen' }],
+      })
+    );
+  };
+ 
 
   const fetchFavoriteRestaurants = async () => {
     const userToken = await AsyncStorage.getItem("user");
@@ -296,9 +344,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.profileSection}>
-        <Text style={styles.heading}>{t('pages.Profile.profile-page')}</Text>
+    <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
+      <View style={[styles.profileSection, darkMode && styles.profileSectionDarkTheme]}>
+        <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>{t('pages.Profile.profile-page')}</Text>
         {dataChangeStatus !== null && (
           <Text
             style={dataChangeStatus === 'success' ?
@@ -322,22 +370,24 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           )}
         </TouchableOpacity>
         <View>
-          <Text>{t('pages.Profile.username')}</Text>
+          <Text  style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.username')}</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             value={name}
             onChangeText={handleNameChange}
             placeholder={t('pages.Profile.enter-username') as string}
+            placeholderTextColor={darkMode ? 'white' : 'black'}
             required
           />
         </View>
         <View>
-          <Text>{t('pages.Profile.email')}</Text>
+          <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.email')}</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             value={email}
             onChangeText={handleEmailChange}
             placeholder={t('pages.Profile.enter-email') as string}
+            placeholderTextColor={darkMode ? 'white' : 'black'}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
@@ -345,12 +395,13 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           />
         </View>
         <View>
-          <Text>{t('pages.Profile.city')}</Text>
+          <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.city')}</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode && styles.inputDarkTheme]}
             value={city}
             onChangeText={handleCityChange}
             placeholder={t('pages.Profile.enter-city') as string}
+            placeholderTextColor={darkMode ? 'white' : 'black'}
           />
         </View>
         <View style={styles.changePasswordButton}>
@@ -365,38 +416,40 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           multiple
           open={allergensOpen}
           value={allergens}
+          textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
           items={allergensOptions}
           setOpen={setAllergensOpen}
           setValue={setAllergens}
-          style={styles.dropDown}
+          style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
         <DropDownPicker
           dropDownDirection={'TOP'}
           language={language.toUpperCase()}
           open={languageOpen}
           value={language}
+          textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
           items={languageOptions}
           setOpen={setLanguageOpen}
           setValue={setLanguage}
-          style={styles.dropDown}
+          style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>{t('pages.Profile.apply-changes')}</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.restaurantSection}>
+      <View style={[styles.restaurantSection, darkMode && styles.restaurantSectionDarkTheme]}>
         <View style={styles.tabs}>
           <TouchableOpacity
             style={[styles.tabButton, activeTab === 'restaurants' && styles.activeTab]}
             onPress={() => handleTabChange('restaurants')}
           >
-            <Text style={styles.tabButtonText}>{t('pages.Profile.fav-restos')}</Text>
+            <Text style={[styles.tabButtonText, darkMode && styles.tabButtonTexDarkTheme]}>{t('pages.Profile.fav-restos')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.tabButton, activeTab === 'dishes' && styles.activeTab]}
             onPress={() => handleTabChange('dishes')}
           >
-            <Text style={styles.tabButtonText}>{t('pages.Profile.fav-dishes')}</Text>
+            <Text style={[styles.tabButtonText, darkMode && styles.tabButtonTexDarkTheme]}>{t('pages.Profile.fav-dishes')}</Text>
           </TouchableOpacity>
         </View>
 
@@ -454,23 +507,29 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           </View>
         </ScrollView>
       </View>
-      <View style={styles.logoutSection}>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button 
           title={t('pages.Profile.feature-request') as string}
           onPress={handleFeatureRequest} 
-          color="#6d071a" />
+          color={darkMode ? "white" :  "#6d071a"} />
       </View>
-      <View style={styles.logoutSection}>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
+      <Button 
+          title={darkMode ? "Light Mode" : "Dark Mode"}
+          onPress={toggleDarkMode}
+          color={darkMode ? "white" :  "#6d071a"}  />
+      </View>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button  
           title={t('pages.Profile.logout') as string}
           onPress={handleLogout} 
-          color="#6d071a" />
+          color={darkMode ? "white" :  "#6d071a"}  />
       </View>
-      <View style={styles.deleteAccountSection}>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
           title={t('pages.Profile.delete-account') as string}
           onPress={handleDeleteAccount}
-          color="#6d071a"
+          color={darkMode ? "white" :  "#6d071a"} 
         />
       </View>
       <View style={styles.deleteAccountSection}>

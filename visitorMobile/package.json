@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.9.6",
     "@types/react": "^18.2.38",
     "axios": "^1.6.6",
+    "darkreader": "^4.9.83",
     "expo": "~49.0.15",
     "expo-image-picker": "~14.3.2",
     "expo-status-bar": "~1.6.0",
@@ -31,6 +32,7 @@
     "react-native-maps": "1.7.1",
     "react-native-modal": "^13.0.1",
     "react-native-navigation": "^7.37.1-hotfix.1",
+    "react-native-restart": "^0.0.27",
     "react-native-vector-icons": "^10.0.2",
     "typescript": "^5.3.2"
   },

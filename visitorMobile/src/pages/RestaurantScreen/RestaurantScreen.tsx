@@ -75,6 +75,7 @@ const MyRestaurantsScreen = () => {
   const { filter, setFilter } = useContext(FilterContext);
   const isFocused = useIsFocused();
   const [isFavouriteRestos, setIsFavouriteRestos] = React.useState<Array<number>>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const {t} = useTranslation();
 
   useEffect(() => {
@@ -82,6 +83,7 @@ const MyRestaurantsScreen = () => {
       loadSavedFilters();
     }
     fetchFavourites().then(r => console.log("Loaded favourite resto list"));
+    fetchDarkMode();  
   }, [isFocused]);
 
   useFocusEffect(
@@ -89,6 +91,20 @@ const MyRestaurantsScreen = () => {
       fetchFavourites().then(r => console.log("Loaded favourite resto list"));
     }, [])
   );
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
+  
+
 
   const updateFavRestoData = async (filter, favRestoIds) => {
     getFilteredRestosNew(filter)
@@ -458,17 +474,17 @@ const MyRestaurantsScreen = () => {
     })
   };
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {isTabVisible && <View style={styles.overlay} />}
-      <View style={styles.searchContainer}>
+      <View style={[styles.searchContainer, darkMode && styles.searchContainerDarkTheme]}>
         <TextInput
-          style={styles.input}
+          style={[styles.input, darkMode && styles.inputDarkTheme]}
           placeholder={t('pages.RestaurantScreen.enter-resto-name') as string}
           value={nameFilter}
           onChangeText={(text) => setNameFilter(text)}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, darkMode && styles.inputDarkTheme]}
           placeholder={t('pages.RestaurantScreen.enter-city') as string}
           value={locationFilter}
           onChangeText={(text) => setLocationFilter(text)}

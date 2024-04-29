@@ -17,13 +17,39 @@ const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
   const [restoData, setRestoData] = useState<IRestaurantFrontEnd[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [key, setKey] = useState(0);
   const [filter, setFilter] = useState('');
   const {t} = useTranslation();
 
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
+
   useEffect(() => {
     updateRestoData(filter);
+    fetchDarkMode();
   }, [filter]);
 
+
+
+  const onDelete = async (restaurantName: string) => {
+    try {
+      await deleteRestaurantByName(restaurantName);
+      updateRestoData(filter);
+    } catch (error) {
+      console.error('Error deleting restaurant:', error);
+    }
+  };
+  
   const updateRestoData = async (filter: string) => {
     const userToken = await AsyncStorage.getItem('userToken');
     getAllRestaurantsByUserAndFilter(userToken, filter)
@@ -35,20 +61,12 @@ const MyRestaurantsScreen = () => {
       });
   };
 
-  const onDelete = async (restaurantName: string) => {
-
-    try {
-      await deleteRestaurantByName(restaurantName);
-      updateRestoData();
-    } catch (error) {
-      console.error('Error deleting restaurant:', error);
-    }
-  };
-
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     updateRestoData(filter);
+    fetchDarkMode()
     setRefreshing(false);
+    setKey(prevKey => prevKey + 1);
   }, [filter]);
 
   const navigateToAddRestaurant = () => {
@@ -60,7 +78,7 @@ const MyRestaurantsScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       <TextInput
         style={styles.searchInput}
         placeholder={t('common.search-restaurants')}
@@ -72,7 +90,7 @@ const MyRestaurantsScreen = () => {
         data={restoData}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
-            <Card info={item} onDelete={onDelete} />
+            <Card info={item} onDelete={onDelete} key={key} />
           </TouchableOpacity>
         )}
         keyExtractor={(restaurant) => (restaurant.uid ? restaurant.uid.toString() : '0')}

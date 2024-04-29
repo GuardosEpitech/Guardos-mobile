@@ -20,6 +20,7 @@ const AddCategoryPage = () => {
     const [showPicker, setShowPicker] = useState(false);
     const { t } = useTranslation();
     const scrollViewRef = useRef<ScrollView>(null);
+    const [darkMode, setDarkMode] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchRestaurants() {
@@ -33,6 +34,7 @@ const AddCategoryPage = () => {
                 console.error('Error fetching restaurants:', error);
             }
         }
+        fetchDarkMode();
         fetchRestaurants();
     }, []);
 
@@ -43,6 +45,20 @@ const AddCategoryPage = () => {
             }, 100);
         }
     }, [showNewCategoryInput]);
+
+
+    const fetchDarkMode = async () => {
+        try {
+          const darkModeValue = await AsyncStorage.getItem('DarkMode');
+          if (darkModeValue !== null) {
+            const isDarkMode = darkModeValue === 'true';
+            setDarkMode(isDarkMode);
+          }
+        } catch (error) {
+          console.error('Error fetching dark mode value:', error);
+        }
+      };
+    
 
     const updateNewCategories = (categories: ICategories[]) => {
         const formattedCategories: { name: string; hitRate: number }[] = categories.map(category => ({
@@ -117,9 +133,9 @@ const AddCategoryPage = () => {
     };
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1, paddingTop: 20}}>
-        <View style={styles.container}>
-            <View style={styles.dropdownContainer}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
+        <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+            <View style={[styles.dropdownContainer, darkMode && styles.dropdownContainerDarkTheme]}>
                 <DropDownPicker
                     items={restoData.map(restaurant => ({label: restaurant.name, value: restaurant.uid}))}
                     dropDownDirection={'BOTTOM'}
@@ -129,20 +145,20 @@ const AddCategoryPage = () => {
                     setValue={setActiveRestaurant}
                     onSelectItem={(item) => {handleRestaurantChange(item.value.toString());}}
                     multiple={false}
-                    dropDownContainerStyle={{ backgroundColor: 'white' }}
-                    style={{ width: 'auto', marginLeft: 5, marginRight: 5 }}
-                    textStyle={{ fontSize: 16 }}
+                    dropDownContainerStyle={{backgroundColor: darkMode ? '#181A1B' : 'white'}}
+                    style={{ width: 'auto', marginLeft: 5, marginRight: 5, backgroundColor: darkMode ? '#181A1B' : 'white' }}
+                    textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
                 />
             </View>
 
-            <ScrollView style={styles.scrollContainer} ref={scrollViewRef} contentContainerStyle={{ paddingBottom: 30 }}>
-                <View style={styles.categoryContainers}>
+            <ScrollView style={[styles.scrollContainer, darkMode && styles.scrollContainerDarkTheme]} ref={scrollViewRef} contentContainerStyle={{ paddingBottom: 30 }}>
+                <View style={[styles.categoryContainers, darkMode && styles.categoryContainersDarkTheme]}>
                     {activeRestaurant !== -1 && (
                         <View style={{ width: '100%' }}>
                             {newCategories.map((category, index) => (
-                                <View key={index} style={styles.categoryItemContainer}>
-                                    <Text style={styles.categoryName}>{t('pages.AddCategory.name')} {category.name}</Text>
-                                    <Text style={styles.categoryHitRate}>{t('pages.AddCategory.id')} {category.hitRate}</Text>
+                                <View key={index} style={[styles.categoryItemContainer, darkMode && styles.categoryItemContainerDarkTheme]}>
+                                    <Text style={[styles.categoryName, darkMode && styles.categoryNameDarkTheme]}>{t('pages.AddCategory.name')} {category.name}</Text>
+                                    <Text style={[styles.categoryHitRate, darkMode && styles.categoryHitRateDarkTheme]}>{t('pages.AddCategory.id')} {category.hitRate}</Text>
                                 </View>
                             ))}
                             {showNewCategoryInput && (

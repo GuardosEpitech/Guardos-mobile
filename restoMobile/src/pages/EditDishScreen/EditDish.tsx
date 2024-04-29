@@ -49,8 +49,25 @@ const EditDish = ({ route }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [checkName, setCheckName] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const {t} = useTranslation();
+  
+  useEffect(() => {
+    fetchDarkMode();
+  }, []);
 
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const onProductPress = (item: string) => {
     const updatedProducts = selectedProducts.filter(product => product !== item);
@@ -316,7 +333,7 @@ const EditDish = ({ route }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
       <Header label="Guardos"
               leftIcon={<Ionicons name="arrow-back" size={24} color="black" onPress={() => navigation.goBack()} />} />
       <StatusBar barStyle="dark-content" />
@@ -352,32 +369,32 @@ const EditDish = ({ route }) => {
         <View style={styles.column}>
           <View style={styles.inputPair}>
 
-            <Text style={styles.label}>{t('pages.EditDishScreen.dish-name')}</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.dish-name')}</Text>
             {
               checkName ? (
-              <Text style={styles.input}>
+              <Text style={[styles.input, darkMode && styles.inputDarkTheme]}>
                 {name}
               </Text>
               ) : (
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, darkMode && styles.inputDarkTheme]}
                   placeholder={t('pages.EditDishScreen.dish-name') as string}
                   value={name}
                   onChangeText={(text) => setName(text)}
                 />
               )
             }
-            <Text style={styles.label}>{t('pages.EditDishScreen.price')}</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.price')}</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, darkMode && styles.inputDarkTheme]}
               placeholder={t('pages.EditDishScreen.price') as string}
               value={price}
               onChangeText={(text) => setPrice(text)} // check what happens if text is not a number
             />
 
-            <Text style={styles.label}>{t('pages.EditDishScreen.description')}</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.description')}</Text>
             <TextInput
-              style={[styles.input, styles.multilineInput]}
+              style={[[styles.input, darkMode && styles.inputDarkTheme], styles.multilineInput]}
               placeholder={t('pages.EditDishScreen.description') as string}
               value={description}
               onChangeText={(text) => setDescription(text)}
@@ -388,7 +405,7 @@ const EditDish = ({ route }) => {
       </View>
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>{t('common.products')}</Text>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('common.products')}</Text>
         <View style={styles.containerAllergens}>
           {selectedProducts.map((item, index) => (
             <TouchableOpacity
@@ -396,7 +413,7 @@ const EditDish = ({ route }) => {
               style={styles.button}
               onPress={() => onProductPress(item)}
             >
-              <Text style={styles.inputDishProduct}>{item}</Text>
+              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -404,13 +421,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEW"}
           style={styles.button}
           onPress={() => onAddProduct()}>
-          <Text style={styles.labelCernterd}>{t('pages.EditDishScreen.add-product')}</Text>
+          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-product')}</Text>
         </TouchableOpacity>
       </View>
 
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>{t('pages.EditDishScreen.allergens')}</Text>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.allergens')}</Text>
         <View style={styles.containerAllergens}>
           {selectedAllergens.map((item, index) => (
             <TouchableOpacity
@@ -418,7 +435,7 @@ const EditDish = ({ route }) => {
               style={styles.button}
               onPress={() => onAllergenPress(item)}
             >
-              <Text style={styles.inputDishProduct}>{item}</Text>
+              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -426,13 +443,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEWAllergens"}
           style={styles.button}
           onPress={() => onAddAllergen()}>
-          <Text style={styles.labelCernterd}>{t('pages.EditDishScreen.add-allergens')}</Text>
+          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-allergens')}</Text>
         </TouchableOpacity>
       </View>
 
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>{t('pages.EditDishScreen.food-category')}</Text>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.food-category')}</Text>
         <View style={styles.containerAllergens}>
           {selectedCategories.map((item, index) => (
             <TouchableOpacity
@@ -440,7 +457,7 @@ const EditDish = ({ route }) => {
               style={styles.button}
               onPress={() => onCategoryPress(item)}
             >
-              <Text style={styles.inputDishProduct}>{item}</Text>
+              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -448,13 +465,13 @@ const EditDish = ({ route }) => {
           key={"ADDNEWCATEGORY"}
           style={styles.button}
           onPress={() => onAddCategory()}>
-          <Text style={styles.labelCernterd}>{t('pages.EditDishScreen.add-category')}</Text>
+          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-category')}</Text>
         </TouchableOpacity>
       </View>
 
 
       <View style={styles.contentProducsDishes}>
-        <Text style={styles.label}>{t('pages.EditDishScreen.resto')}</Text>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.resto')}</Text>
         <View style={styles.containerAllergens}>
           {selectedRestaurants.map((item, index) => (
             <TouchableOpacity
@@ -462,7 +479,7 @@ const EditDish = ({ route }) => {
               style={styles.button}
               onPress={() => onRestaurantPress(item)}
             >
-              <Text style={styles.inputDishProduct}>{item}</Text>
+              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -470,7 +487,7 @@ const EditDish = ({ route }) => {
           key={"ADDNEW"}
           style={styles.button}
           onPress={() => onAddRestaurant()}>
-          <Text style={styles.labelCernterd}>{t('pages.EditDishScreen.add-resto')}</Text>
+          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-resto')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -489,7 +506,7 @@ const EditDish = ({ route }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.label}>{modalContentType}</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{modalContentType}</Text>
             <View style={styles.flexContainer}>
               {modalContentType === t('common.products') &&
                 products.map((item, index) => (
@@ -498,7 +515,7 @@ const EditDish = ({ route }) => {
                     style={[styles.button, selectedProducts.includes(item) ? styles.selectedButton : null]}
                     onPress={() => toggleProductsSelection(item)}
                   >
-                    <Text style={styles.inputDishProduct}>{item}</Text>
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
                   </TouchableOpacity>
                 ))
               }
@@ -509,7 +526,7 @@ const EditDish = ({ route }) => {
                     style={[styles.button, selectedAllergens.includes(item) ? styles.selectedButton : null]}
                     onPress={() => toggleAllergensSelection(item)}
                   >
-                    <Text style={styles.inputDishProduct}>{item}</Text>
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
                   </TouchableOpacity>
                 ))
               }
@@ -521,7 +538,7 @@ const EditDish = ({ route }) => {
                     style={[styles.button, selectedCategories.includes(item) ? styles.selectedButton : null]}
                     onPress={() => toggleCategoriesSelection(item)}
                   >
-                    <Text style={styles.inputDishProduct}>{item}</Text>
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
                   </TouchableOpacity>
                 ))
               }
@@ -533,7 +550,7 @@ const EditDish = ({ route }) => {
                     style={[styles.button, selectedRestaurants.includes(item) ? styles.selectedButton : null]}
                     onPress={() => toggleRestaurantsSelection(item)}
                   >
-                    <Text style={styles.inputDishProduct}>{item}</Text>
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
                   </TouchableOpacity>
                 ))
               }

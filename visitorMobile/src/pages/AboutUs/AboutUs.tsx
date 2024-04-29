@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import styles from './AboutUs.styles';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import introduction from './text/Introduction';
+import foundingStory from './text/FoundingStory';
+import teamDescription from './text/TeamDescription';
+import { 
+  empowerment, 
+  transparency, 
+  improvement 
+} from './text/MissionAndValues';
 import {useTranslation} from "react-i18next";
 
 const AboutUs: React.FC = () => {
@@ -45,6 +55,23 @@ const AboutUs: React.FC = () => {
   ];
 
   const [selectedMember, setSelectedMember] = useState<any>(null);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+useEffect(() => {
+  fetchDarkMode();  
+})
+
+const fetchDarkMode = async () => {
+  try {
+    const darkModeValue = await AsyncStorage.getItem('DarkMode');
+    if (darkModeValue !== null) {
+      const isDarkMode = darkModeValue === 'true';
+      setDarkMode(isDarkMode);
+    }
+  } catch (error) {
+    console.error('Error fetching dark mode value:', error);
+  }
+};
 
   const openMemberDetails = (member: any) => {
     setSelectedMember(member);
@@ -55,44 +82,44 @@ const AboutUs: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, darkMode && styles.containerDarkTheme]}>
       <View style={styles.section}>
-        <Text style={[styles.heading, styles.centerText]}>{t('pages.AboutUs.introduction')}</Text>
-        <Text style={[styles.centerText, styles.textSize]}>{t('pages.AboutUs.introduction-text')}</Text>
+        <Text style={[styles.heading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>{t('pages.AboutUs.introduction')}</Text>
+        <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>{t('pages.AboutUs.introduction-text')}</Text>
         <View style={styles.separator}></View>
       </View>
 
       <View style={styles.section}>
-        <Text style={[styles.heading, styles.centerText]}>{t('pages.AboutUs.founding-story')}</Text>
-        <Text style={[styles.centerText, styles.textSize]}>{t('pages.AboutUs.founding-story-text')}</Text>
+        <Text style={[styles.heading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>{t('pages.AboutUs.founding-story')}</Text>
+        <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>{t('pages.AboutUs.founding-story-text')}</Text>
         <View style={styles.separator}></View>
       </View>
 
       <View style={styles.section}>
-        <Text style={[styles.heading, styles.centerText]}>
+        <Text style={[styles.heading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>
           {t('pages.AboutUs.mission-and-values')}
         </Text>
         <View style={styles.value}>
-          <Text style={[styles.valueHeading, styles.centerText]}>
+          <Text style={[styles.valueHeading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>
             {t('pages.AboutUs.empowerment')}
           </Text>
-          <Text style={[styles.centerText, styles.textSize]}>
+          <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>
             {t('pages.AboutUs.empowerment-text')}
           </Text>
         </View>
         <View style={styles.value}>
-          <Text style={[styles.valueHeading, styles.centerText]}>
+          <Text style={[styles.valueHeading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>
             {t('pages.AboutUs.transparency')}
           </Text>
-          <Text style={[styles.centerText, styles.textSize]}>
+          <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>
             {t('pages.AboutUs.transparency-text')}
           </Text>
         </View>
         <View style={styles.value}>
-          <Text style={[styles.valueHeading, styles.centerText]}>
+          <Text style={[styles.valueHeading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>
             {t('pages.AboutUs.continuous-improvement')}
           </Text>
-          <Text style={[styles.centerText, styles.textSize]}>
+          <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme), styles.textSize]}>
             {t('pages.AboutUs.improvement-text')}
           </Text>
           <View style={styles.separator}></View>
@@ -100,7 +127,7 @@ const AboutUs: React.FC = () => {
       </View>
 
       <View style={styles.section}>
-        <Text style={[styles.heading, styles.centerText]}>{t('pages.AboutUs.team')}</Text>
+        <Text style={[styles.heading, (styles.centerText, darkMode && styles.centerTextDarkTheme)]}>{t('pages.AboutUs.team')}</Text>
         <View style={styles.teamContainer}>
           {teamMembers.map(member => (
             <TouchableOpacity key={member.id} onPress={() => openMemberDetails(member)}>
@@ -108,7 +135,7 @@ const AboutUs: React.FC = () => {
             </TouchableOpacity>
           ))}
         </View>
-        <Text style={[styles.centerText, styles.textSize, styles.memberText]}>{t('pages.AboutUs.team-description')}</Text>
+        <Text style={[(styles.centerText, darkMode && styles.centerTextDarkTheme)]}>{t('pages.AboutUs.team-description')}</Text>
       </View>
 
       <Modal

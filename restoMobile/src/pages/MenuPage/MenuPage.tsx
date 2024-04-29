@@ -8,6 +8,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { getImages } from "../../services/imagesCalls";
 import { defaultDishImage } from "../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useTranslation} from "react-i18next";
 
 export interface DishData {
@@ -22,11 +23,27 @@ const MenuPage: React.FC = ({ route }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const { restaurantName } = route.params;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
+  const [picturesId, setPicturesId] = useState<number[]>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
   const {t} = useTranslation();
 
   useEffect(() => {
+    fetchDarkMode();
     fetchData();
   }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -85,7 +102,7 @@ const MenuPage: React.FC = ({ route }) => {
 
   // @ts-ignore
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {loading ? (
         <Text>{t('common.loading')}</Text>
       ) : (
@@ -94,15 +111,15 @@ const MenuPage: React.FC = ({ route }) => {
             {sortedDishes.map((dish, index) => (
               <React.Fragment key={dish.name+index}>
                 {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (
-                  <Text style={styles.groupTitle}>{dish.category.menuGroup}</Text>
+                  <Text style={[styles.groupTitle, darkMode && styles.groupTitleDarkTheme]}>{dish.category.menuGroup}</Text>
                 )}
-                <View style={styles.card}>
+                <View style={[styles.card && darkMode && styles.cardDarkTheme]}>
                   <Image
                     source={{ uri: pictures[dish.picturesId[0]]?.base64 || defaultDishImage }}
                     style={styles.cardImage}
                   />
                   <View style={styles.cardContent}>
-                    <Text style={styles.cardTitle}>{dish.name}</Text>
+                    <Text style={[styles.cardTitle, darkMode && styles.cardTitleDarkTheme]}>{dish.name}</Text>
                     <Text>{dish.description}</Text>
                     <Text>{t('pages.MenuPage.price', {price: dish.price})}</Text>
                     <Text>{t('pages.MenuPage.allergens', {allergens: dish.allergens.join(', ')})}</Text>

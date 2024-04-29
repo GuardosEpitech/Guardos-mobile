@@ -97,10 +97,13 @@ const MyTabs = () => {
             //   icon = focused ? faUnlockKeyhole : faUnlockKeyhole;
             // }
 
-            return <FontAwesomeIcon icon={icon} size={size} style={{ color: focused ? '#6d071a' : color }} />;
+            return <FontAwesomeIcon icon={icon} size={size} style={{ color: focused ? 'white' : color }} />;
           },
-          tabBarActiveTintColor: '#6d071a',
-          tabBarInactiveTintColor: 'gray',
+          tabBarActiveTintColor: 'black',
+          tabBarInactiveTintColor: 'black',
+          tabBarStyle: {
+            backgroundColor: '#6d071a',
+          },
         })}
       >
         {loggedIn ? (
@@ -110,7 +113,9 @@ const MyTabs = () => {
               component={MyQrStack}
               options={{
                 tabBarLabel: t('pages.Router.scan') as string,
-                title: t('pages.Router.scan') as string
+                title: t('pages.Router.scan') as string,
+                headerShown: true, 
+                headerStyle: {backgroundColor: '#6d071a'}
               }}
             />
             <Tab.Screen
@@ -118,7 +123,9 @@ const MyTabs = () => {
               component={MyStack}
               options={{
                 tabBarLabel: t('common.my-restos') as string,
-                title: t('common.my-restos') as string
+                title: t('common.my-restos') as string,
+                headerShown: true, 
+                headerStyle: {backgroundColor: '#6d071a'}
               }}
             />
             <Tab.Screen
@@ -126,7 +133,9 @@ const MyTabs = () => {
               component={MyCategoryStack}
               options={{
                 tabBarLabel: t('common.my-categories') as string,
-                title: t('common.my-categories') as string
+                title: t('common.my-categories') as string,
+                headerShown: true, 
+                headerStyle: {backgroundColor: '#6d071a'}
               }}
             />
             <Tab.Screen
@@ -134,7 +143,9 @@ const MyTabs = () => {
               component={MyDishStack}
               options={{
                 tabBarLabel: t('common.my-dishes') as string,
-                title: t('common.my-dishes') as string
+                title: t('common.my-dishes') as string,
+                headerShown: true, 
+                headerStyle: {backgroundColor: '#6d071a'}
               }}
             />
             <Tab.Screen
@@ -142,14 +153,17 @@ const MyTabs = () => {
               component={MyProductStack}
               options={{
                 tabBarLabel: t('common.my-products') as string,
-                title: t('common.my-products') as string
+                title: t('common.my-products') as string,
+                headerShown: true, 
+                headerStyle: {backgroundColor: '#6d071a'}
               }}
             />
             <Tab.Screen
               name="My Profile"
               options={{
-                headerShown: false,
                 tabBarLabel: t('pages.Router.my-profile') as string,
+                headerShown: false, 
+                headerStyle: {backgroundColor: '#6d071a'}
              }}
             >
               {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus} />}
@@ -297,15 +311,17 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
         name="Profile"
         options={{
           tabBarLabel: t('pages.Router.my-profile') as string,
-          title: t('pages.Router.my-profile') as string
+          title: t('pages.Router.my-profile') as string,
+          headerStyle: {backgroundColor: '#6d071a'},
+          headerShown: true, 
         }}
       >
         {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}
       </Stack.Screen>
-      <Stack.Screen name="FeatureRequest" component={FeatureRequest} />
+      <Stack.Screen name="FeatureRequest" component={FeatureRequest} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}} />
       <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
-      <Stack.Screen name="Privacy" component={PrivacyPage}/>
-      <Stack.Screen name="Imprint" component={ImprintPage}/>
+      <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
+      <Stack.Screen name="Imprint" component={ImprintPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
     </Stack.Navigator>
   );
 }

@@ -1,9 +1,10 @@
-import React, {useState } from 'react';
+import React, {useState, createContext, useEffect } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {LogBox} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RestaurantScreen from './src/pages/RestaurantScreen/RestaurantScreen';
 import AboutUsScreen from './src/pages/AboutUs/AboutUs';
@@ -33,12 +34,28 @@ LogBox.ignoreAllLogs()
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [filter, setFilter] = useState<ISearchCommunication>({});
+  const [darkMode, setDarkMode] = useState(false);
   const {t} = useTranslation();
 
   const setLoggedInStatus = (status) => {
     setLoggedIn(status);
   };
 
+  useEffect(() => {
+    fetchDarkMode();  
+  });
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
   // const checkAuthentication = async () => {
   //   try {
   //     const userToken = await AsyncStorage.getItem('userToken');
@@ -93,10 +110,13 @@ const MyTabs = () => {
               iconName = focused ? 'settings' : 'settings-outline';
             }
 
-            return <Ionicons name={iconName} size={size} color={focused ? '#6d071a' : color}/>;
+            return <Ionicons name={iconName} size={size} color={focused ? 'black' : color}/>;
           },
-          tabBarActiveTintColor: '#6d071a',
-          tabBarInactiveTintColor: 'gray',
+          tabBarActiveTintColor: 'black',
+          tabBarInactiveTintColor: 'black',
+          tabBarStyle: {
+            backgroundColor: '#6d071a',
+          },
         })}
       >
         {loggedIn ? (
@@ -105,7 +125,9 @@ const MyTabs = () => {
               name="RestaurantScreen"
               options={{
                 tabBarLabel: t('pages.Router.resto-screen') as string,
-                title: t('pages.Router.resto-screen') as string
+                title: t('pages.Router.resto-screen') as string,
+                headerShown: true,
+                headerStyle: {backgroundColor: '#6d071a'}
               }}
               component={RestauStack}
             />
@@ -114,7 +136,9 @@ const MyTabs = () => {
               component={MapPage}
               options={{
                 tabBarLabel: t('pages.Router.map-screen') as string,
-                title: t('pages.Router.map-screen') as string
+                title: t('pages.Router.map-screen') as string,
+                headerShown: true,
+                headerStyle: {backgroundColor: '#6d071a'}
               }}
             />
             <Tab.Screen
@@ -122,7 +146,9 @@ const MyTabs = () => {
               component={AboutUsScreen}
               options={{
                 tabBarLabel: t('pages.Router.about-us') as string,
-                title: t('pages.Router.about-us') as string
+                title: t('pages.Router.about-us') as string,
+                headerShown: true,
+                headerStyle: {backgroundColor: '#6d071a'}
               }}
             />
             <Tab.Screen
@@ -130,19 +156,21 @@ const MyTabs = () => {
               component={ContactUsScreen}
               options={{
                 tabBarLabel: t('pages.Router.contact-us') as string,
-                title: t('pages.Router.contact-us') as string
+                title: t('pages.Router.contact-us') as string,
+                headerShown: true,
+                headerStyle: {backgroundColor: '#6d071a'}
               }}
             />
             <Tab.Screen
               name="My Profile"
-              options={{headerShown: false}}
-            >
+              options={{headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}>
               {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus}/>}
             </Tab.Screen>
             <Tab.Screen
               name="MenuPage"
               component={MenuPage}
-              options={{ tabBarButton: () => null }}
+              options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}, 
+              tabBarButton: () => null }}
             />
           </>
         ) : (
@@ -186,15 +214,16 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({setLoggedInStatus}) =>
         name="Profile"
         options={{
           tabBarLabel: t('pages.Router.my-profile') as string,
-          title: t('pages.Router.my-profile') as string
+          title: t('pages.Router.my-profile') as string,
+          headerShown: false,
         }}
       >
         {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus}/>}
       </Stack.Screen>
-      <Stack.Screen name="FeatureRequest" component={FeatureRequest} />
+      <Stack.Screen name="FeatureRequest" component={FeatureRequest}  options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
       <Stack.Screen name="Change Password" component={ChangePasswordScreen}/>
-      <Stack.Screen name="Privacy" component={PrivacyPage}/>
-      <Stack.Screen name="Imprint" component={ImprintPage}/>
+      <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
+      <Stack.Screen name="Imprint" component={ImprintPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
     </Stack.Navigator>
   );
 }
@@ -205,12 +234,12 @@ const RestauStack = () => {
       <Stack.Screen
         name="RestaurantScreen"
         component={RestaurantScreen}
-        options={{headerShown: false}}
+        options={{headerShown: false, headerStyle: {backgroundColor: 'black'}}}
       />
       <Stack.Screen
         name="MenuPage"
         component={MenuPage}
-        options={{headerShown: false}}
+        options={{headerShown: false, headerStyle: {backgroundColor: '#6d071a'}}}
       />
     </Stack.Navigator>
   );
