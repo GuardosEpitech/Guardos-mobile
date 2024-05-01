@@ -1,12 +1,15 @@
 import axios from 'axios';
 // @ts-ignore
 import { API_URL } from '@env';
-import { IDishFE } from "../../../shared/models/dishInterfaces";
+import {IAddDish, IDishFE} from "../../../shared/models/dishInterfaces";
 const baseURL = API_URL + "dishes/";
 
 
 export const getAllDishes = async () => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const response = await axios({
         method: "GET",
         url: baseURL,
@@ -20,6 +23,9 @@ export const getAllDishes = async () => {
 
 export const deleteDishByName = async (restaurant: string, name: string) => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const data = {name : name}
         const response = await axios({
         method: "DELETE",
@@ -35,6 +41,9 @@ export const deleteDishByName = async (restaurant: string, name: string) => {
 
 export const changeDishByName = async (dish: IDishFE, restaurant: string) => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const response = await axios({
             method: "PUT",
             url: baseURL + restaurant,
@@ -43,7 +52,7 @@ export const changeDishByName = async (dish: IDishFE, restaurant: string) => {
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            console.error("Error 404: Not Found");
+            console.log("Error 404: Not Found");
             return null;
         } else {
             console.error("Error changing dish:", error);
@@ -52,8 +61,11 @@ export const changeDishByName = async (dish: IDishFE, restaurant: string) => {
     }
 }
 
-export const addDish = async (dish: IDishFE, restaurant: string) => {
+export const addDish = async (dish: IAddDish, restaurant: string) => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const response = await axios({
             method: "POST",
             url: baseURL + restaurant,
@@ -68,6 +80,9 @@ export const addDish = async (dish: IDishFE, restaurant: string) => {
 
 export const getDishesByUser = async (userToken: string) => {
     try {
+        if (baseURL === undefined) {
+            throw new Error("baseUrl is not defined");
+        }
         const response = await axios({
             method: "GET",
             params: {key: userToken},
@@ -84,5 +99,8 @@ export const getDishesByUser = async (userToken: string) => {
 };
 
 export const getDishesByResto = async (restaurantName: string) => {
+    if (baseURL === undefined) {
+        throw new Error("baseUrl is not defined");
+    }
     return(await fetch(`${baseURL}${restaurantName}`));
 };

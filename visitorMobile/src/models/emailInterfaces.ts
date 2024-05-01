@@ -4,3 +4,9 @@ export interface IContactForm {
     subject: string;
     message: string;
   }
+
+export interface IRequestUser {
+    name: string;
+    subject: string;
+    request: string;
+  }

@@ -7,6 +7,9 @@ const baseUrl =
 
 export const getProfileDetails = async (token: string) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "GET",
       url: baseUrl,
@@ -28,6 +31,9 @@ export const getProfileDetails = async (token: string) => {
 
 export const editProfileDetails = async (token: string, body: any) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "PUT",
       url: baseUrl,
@@ -51,6 +57,9 @@ export const editProfileDetails = async (token: string, body: any) => {
 export const changePassword = async (token: string, oldPassword: string,
                                      newPassword: string) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "PUT",
       url: baseUrl + 'password',

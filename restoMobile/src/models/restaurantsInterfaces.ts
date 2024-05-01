@@ -1,6 +1,6 @@
 export interface IRestaurantFrontEnd {
     name: string;
-    id: number;
+    uid: number;
     phoneNumber: string;
     website: string;
     description: string;
@@ -10,4 +10,5 @@ export interface IRestaurantFrontEnd {
     range: number;
     rating: number;
     ratingCount?: number;
+    menuDesignID?: number;
   }

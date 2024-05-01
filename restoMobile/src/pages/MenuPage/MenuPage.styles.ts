@@ -1,16 +1,16 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
+const deviceHeight = Math.round(Dimensions.get('window').height);
 const offset = 40;
 const radius = 20;
 const iconSize = 20;
 
 const styles = StyleSheet.create({
   container: {
-    width: deviceWidth - 20,
+    width: deviceWidth,
+    height: deviceHeight,
     alignItems: 'center',
-    marginTop: 25,
-    marginBottom: 25,
   },
   scrollView: {
     alignItems: 'center',
@@ -78,6 +78,40 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
+  },
+  containerDarkTheme: {
+    flex: 1,
+    width: deviceWidth,
+    height: deviceHeight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1B1D1E'
+  },
+  cardDarkTheme: {
+    backgroundColor: '#3B3B3B',
+    marginHorizontal: 20,
+    marginBottom: 20,
+    borderRadius: radius,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 4,
+    elevation: 9,
+    overflow: 'hidden',
+  },
+  cardTitleDarkTheme: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: "white"
+  },
+  groupTitleDarkTheme: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 10,
+    color: "white"
   },
 });
 

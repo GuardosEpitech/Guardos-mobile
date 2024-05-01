@@ -57,6 +57,30 @@ const styles = StyleSheet.create({
     height: iconSize,
     resizeMode: 'contain',
   },
+  productCardDarkTheme: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#181A1B',
+    borderRadius: 10,
+    marginBottom: 16,
+    padding: 16,
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  productNameDarkTheme: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: 'white',
+  },
+  detailsTextDarkTheme: {
+    fontSize: 14,
+    marginBottom: 4,
+    color: 'white',
+  },
 });
 
 export default styles;

@@ -11,6 +11,7 @@ import styles from './ChangePasswordScreen.styles';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {changePassword} from "../../../services/profileCalls";
+import {useTranslation} from "react-i18next";
 
 type ChangePasswordScreenProps = {
     navigation: NavigationProp<ParamListBase>;
@@ -24,6 +25,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
   const [errorNewPassword, setErrorNewPassword] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorSamePassword, setErrorSamePassword] = useState(false);
+  const {t} = useTranslation();
 
   function isValidPassword(password: string): boolean {
     const uppercaseRegex = /[A-Z]/;
@@ -68,9 +70,9 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
-      <Text style={styles.heading}>Change Password</Text>
+      <Text style={styles.heading}>{t('pages.Profile.change-pw')}</Text>
       
-      <Text style={styles.label}>Enter old password</Text>
+      <Text style={styles.label}>{t('pages.Profile.old-pw')}</Text>
       <TextInput
         style={styles.input}
         secureTextEntry={true}
@@ -78,7 +80,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
         onChangeText={setOldPassword}
       />
       
-      <Text style={styles.label}>Enter new password</Text>
+      <Text style={styles.label}>{t('pages.Profile.new-pw')}</Text>
       <TextInput
         style={styles.input}
         secureTextEntry={true}
@@ -87,15 +89,15 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
       />
       {errorNewPassword && (
           <Text style={styles.errorText}>
-            Your Password should contain minimum: 1x Uppercase and Lowercase Letter, 1x Number and minimum 7 Characters
+            {t('pages.Profile.wrong-pw-format')}
           </Text>
         )}
       {errorSamePassword && (
           <Text style={styles.errorText}>
-            Your new Password should not be your old password
+            {t('pages.Profile.same-pw')}
           </Text>
         )}
-      <Text style={styles.label}>Confirm new password</Text>
+      <Text style={styles.label}>{t('pages.Profile.confirm-pw')}</Text>
       <TextInput
         style={styles.input}
         secureTextEntry={true}
@@ -104,10 +106,10 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
       />
       {errorPassword && (
           <Text style={styles.errorText}>
-            Your Password does not match
+            {t('pages.Profile.no-match')}
           </Text>
         )}
-      <Button title="Save" onPress={handleSave} />
+      <Button title={t('common.save')} onPress={handleSave} />
     </View>
     </TouchableWithoutFeedback>
   );

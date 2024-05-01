@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Modal } from 'react-native';
 import styles from './ResetPasswordScreen.styles';
-import { checkIfVisitorUserExist } from '../../services/userCalls';
+import { checkIfVisitorUserExist, sendRecoveryLinkForVisitorUser } from '../../services/userCalls';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useTranslation} from "react-i18next";
 
 type ResetPasswordProps = {
     navigation: NavigationProp<ParamListBase>;
@@ -15,6 +16,10 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [step, setStep] = useState(1);
   const [error, setError] = useState('');
+  const [disableButton, setDisableButton] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [openFailed, setOpenFailed] = useState(true);
+  const {t} = useTranslation();
 
   const isValidEmail = (value: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,13 +37,21 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
         try {
             const response = await checkIfVisitorUserExist({ email, username });
             if (response) {
-                navigation.navigate('Login');
+                setDisableButton(true);
+                const emailWasSend = await sendRecoveryLinkForVisitorUser({ email, username });
+                
+                if (emailWasSend) {
+                  setStep(3);
+                  setDisableButton(true);
+                } else {
+                  setStep(4);
+                }
             } else {
-              setError(`That username and email (${email}) don't match. Please check its spelling or try another username.`);
+              setError(t('pages.ResetPasswordScreen.username-email-no-match', {email: email}) as string);
             }
         } catch (error) {
           console.error('Error checking user:', error);
-          setError('Error checking user. Please try again.');
+          setError(t('pages.ResetPasswordScreen.user-error') as string);
         }
       }
     }
@@ -51,6 +64,16 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
     setError('');
   };
 
+  const handleGoBackToLogin = () => {
+    setOpen(false);
+    navigation.navigate('Login');
+  };
+
+  const handleGoBackToSite = () => {
+    setOpenFailed(false);
+  };
+
+
   useFocusEffect(
     React.useCallback(() => {
       handleGoBack();
@@ -60,18 +83,18 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
-      <Text style={styles.heading}>Getting back into your Guardos account</Text>
+      <Text style={styles.heading}>{t('pages.ResetPasswordScreen.re-enter-account')}</Text>
       <Text style={styles.description}>
-        {step === 1 ? 'Tell us some information about your account' : 
-        'Next, give us the Guardos username you\'re having trouble with'}
+        {step === 1 ? t('pages.ResetPasswordScreen.enter-info') :
+          t('pages.ResetPasswordScreen.enter-username-prompt')}
       </Text>
       {step === 1 ? (
         <>
-          <Text style={styles.label}>Enter your email address</Text>
+          <Text style={styles.label}>{t('pages.ResetPasswordScreen.enter-email')}</Text>
           <TextInput
             value={email}
             onChangeText={setEmail}
-            placeholder="Email"
+            placeholder={t('pages.ResetPasswordScreen.email')}
             keyboardType="email-address"
             style={styles.input}
           />
@@ -79,7 +102,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
       ) : (
         <>
           <View style={styles.emailSection}>
-            <Text style={styles.label}>Email</Text>
+            <Text style={styles.label}>{t('pages.ResetPasswordScreen.email')}</Text>
             <View style={styles.emailDisplay}>
               <Text style={styles.emailText}>{email}</Text>
               <TouchableOpacity onPress={handleGoBack}>
@@ -87,18 +110,37 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
-          <Text style={styles.label}>Enter your username</Text>
+          <Text style={styles.label}>{t('pages.ResetPasswordScreen.enter-username')}</Text>
           <TextInput
             value={username}
             onChangeText={setUsername}
-            placeholder="Username"
+            placeholder={t('pages.ResetPasswordScreen.username') as string}
             style={styles.input}
           />
           {error && <Text style={styles.error}>{error}</Text>}
         </>
       )}
+      <Modal visible={step === 3} animationType="slide">
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text>{t('pages.ResetPasswordScreen.email-sent')}</Text>
+            <Text>{t('pages.ResetPasswordScreen.check-your-emails')}</Text>
+            <Button title={t('pages.ResetPasswordScreen.go-back')} onPress={handleGoBackToLogin} />
+          </View>
+        </View>
+      </Modal>
+      <Modal visible={step === 4} animationType="slide">
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text>{t('pages.ResetPasswordScreen.error')}</Text>
+            <Text>{t('pages.ResetPasswordScreen.try-again-msg')}</Text>
+            <Button title={t('pages.ResetPasswordScreen.go-back')} onPress={handleGoBackToLogin} />
+          </View>
+        </View>
+      </Modal>
       <Button
-        title={step === 1 ? 'Continue' : 'Send My Password Reset Link'}
+        title={step === 1 ? t('pages.ResetPasswordScreen.continue') as string :
+          t('pages.ResetPasswordScreen.send-reset-link') as string}
         onPress={handleContinue}
         disabled={step === 1 ? !isValidEmail(email) : username.trim() === ''}
         color={step === 1 ? 'blue' : 'red'}

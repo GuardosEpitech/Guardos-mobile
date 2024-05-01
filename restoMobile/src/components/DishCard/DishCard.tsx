@@ -1,14 +1,16 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
 import ModalConfirm from '../ModalConfirm/ModalConfirm';
 import { useNavigation } from '@react-navigation/native';
-import {IDishFE} from "../../../../shared/models/dishInterfaces";
+import { IDishFE } from "../../../../shared/models/dishInterfaces";
 import styles from "./DishCard.style";
 import { getImages } from "../../services/imagesCalls";
 import { defaultDishImage, defaultRestoImage } from "../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTranslation } from "react-i18next";
 
 interface DishCardProps {
   dish: IDishFE;
@@ -21,17 +23,34 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const { t } = useTranslation();
 
+  useEffect(() => {
+    fetchDarkMode();
+  }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   if (!dish) {
     return null;
   }
 
   if (dish.name.length === 0) {
-    dish.name = "No name";
+    dish.name = t('components.DishCard.no-name') as string;
   }
   if (dish.description.length === 0) {
-    dish.description = "No description";
+    dish.description = t('components.DishCard.no-desciption') as string;
   }
 
   const toggleModal = () => {
@@ -80,7 +99,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
 //  };
   return (
     <View style={styles.container}>
-      <View style={styles.cardContainer}>
+      <View style={[styles.cardContainer, darkMode && styles.cardContainerDarkTheme]}>
         <Image
           style={styles.imageStyle}
           resizeMode="contain"
@@ -90,12 +109,12 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
               : { uri: defaultRestoImage }
           }
         />
-        <View style={styles.infoStyle}>
-          <Text style={styles.titleStyle} numberOfLines={1} ellipsizeMode="tail">
+        <View style={[styles.infoStyle, darkMode && styles.infoStyleDarkTheme]}>
+          <Text style={[styles.titleStyle, darkMode && styles.titleStyleDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
             {dish.name}
           </Text>
-          <Text style={styles.categoryStyle} numberOfLines={2} ellipsizeMode="tail">
-            {dish.description} // Add a description field or similar
+          <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
+            {dish.description} {/* Add a description field or similar*/}
           </Text>
         </View>
         <View style={styles.iconContainer}>

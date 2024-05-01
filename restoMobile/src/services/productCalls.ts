@@ -8,6 +8,9 @@ const baseURL = API_URL + "products/";
 
 export const getAllProducts = async () => {
     try {
+      if (baseURL === undefined) {
+        throw new Error("baseUrl is not defined");
+      }
       const response = await axios({
         method: "GET",
         url: baseURL,
@@ -21,6 +24,9 @@ export const getAllProducts = async () => {
 
 export const getProductsByUser = async (userToken: string) => {
   try {
+    if (baseURL === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "GET",
       url: baseURL + "/user/product",
@@ -38,6 +44,9 @@ export const getProductsByUser = async (userToken: string) => {
 
 export const addNewProduct = async (product: IProduct, restoName: string) => {
     try {
+      if (baseURL === undefined) {
+        throw new Error("baseUrl is not defined");
+      }
       if (!product.name) {
         console.error("Error adding new product:");
         throw new Error("Failed to add new product");
@@ -64,6 +73,9 @@ export const addNewProduct = async (product: IProduct, restoName: string) => {
 
   export const deleteProduct = async (product: any) => {
     try {
+      if (baseURL === undefined) {
+        throw new Error("baseUrl is not defined");
+      }
       const response = await axios({
         url: baseURL + product.name,
         method: "DELETE",
@@ -81,6 +93,9 @@ export const addNewProduct = async (product: IProduct, restoName: string) => {
   
   export const editProduct = async (product: IProductFE, originalProductName: string) => {
     try {
+      if (baseURL === undefined) {
+        throw new Error("baseUrl is not defined");
+      }
       const response = await axios({
         url: baseURL + originalProductName,
         method: "PUT",

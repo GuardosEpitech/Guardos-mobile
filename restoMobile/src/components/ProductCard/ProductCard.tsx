@@ -11,6 +11,8 @@ import ModalConfirm from '../ModalConfirm/ModalConfirm';
 import EditProductPage from '../../pages/EditProductPage/EditProductPage';
 import { useNavigation } from '@react-navigation/native';
 import { getAllResto } from '../../services/restoCalls';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useTranslation} from "react-i18next";
 
 interface ProductCardProps {
   product: IProductFE;
@@ -21,8 +23,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [restaurants, setRestaurants] = useState<IRestaurantFrontEnd[]>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const {t} = useTranslation();
 
   useEffect(() => {
+    fetchDarkMode();
     const fetchRestaurants = async () => {
       try {
         const allRestaurants = await getAllResto();
@@ -34,6 +39,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
 
     fetchRestaurants();
   }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -51,7 +68,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   };
 
   const handleEdit = () => {
-    const names: string[] = product.restaurantId.map((id) => restaurants.find((restaurant) => restaurant.id === id)?.name).filter(Boolean);
+    const names: string[] = product.restaurantId.map((id) => restaurants.find((restaurant) => restaurant.uid === id)?.name).filter(Boolean);
     navigation.navigate('EditProductPage', {
       productID: product.id,
       productName: product.name,
@@ -61,11 +78,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   };
 
   return (
-    <View style={styles.productCard}>
+    <View style={[styles.productCard, darkMode && styles.productCardDarkTheme]}>
       <View style={styles.productDetails}>
-        <Text style={styles.productName}>{product.name}</Text>
-        <Text style={styles.detailsText}>
-          Ingredients: {product.ingredients.join(', ')}
+      <Text style={[styles.productName, darkMode && styles.productNameDarkTheme]}>{product.name}</Text>
+        <Text style={[styles.detailsText, darkMode && styles.detailsTextDarkTheme]}>
+          {t('components.ProductCard.ingredients', {ingredients: product.ingredients.join(', ')})}
         </Text>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={toggleModal} style={styles.iconButton}>

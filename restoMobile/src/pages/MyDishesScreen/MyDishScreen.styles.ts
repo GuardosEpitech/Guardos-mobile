@@ -21,9 +21,19 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
   },
+
+  containerDarkTheme: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#1B1D1E"
+  },
   ErrorMsg: {
     fontSize: 28,
     textAlign: "center",
+  },
+  darkModeTxt: {
+    color: 'white'
   }
 });
   
