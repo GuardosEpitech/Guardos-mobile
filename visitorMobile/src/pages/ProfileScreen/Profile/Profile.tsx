@@ -343,6 +343,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('Imprint', {});
   };
 
+  const handlePayment = () => {
+    navigation.navigate('Payment methods');
+  };
+
   return (
     <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
       <View style={[styles.profileSection, darkMode && styles.profileSectionDarkTheme]}>
@@ -506,6 +510,12 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             </TouchableOpacity>
           </View>
         </ScrollView>
+      </View>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
+        <Button 
+          title={t('pages.Profile.payBtn') as string}
+          onPress={handlePayment} 
+          color={darkMode ? "white" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button 

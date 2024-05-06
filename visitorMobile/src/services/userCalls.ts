@@ -129,3 +129,92 @@ export const getUserAllergens = async (token: string) => {
   }
 };
 
+export const addCustomer = async (token: string) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: API_URL + 'payments/addCustomerVisitor',
+      data: {
+        userToken: token
+      },
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.error("Unexpected status code:", response.status);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error adding Customer:", error);
+    throw new Error("Error adding Customer");
+  }
+};
+
+export const getCustomer = async (token: string) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: API_URL + 'payments/getCustomerVisitor',
+      params: {key: token},
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching Customer:", error);
+    throw new Error("Error fetching Customer");
+  }
+};
+
+export const getPaymentMethods = async (token: string) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: API_URL + 'payments/showPaymentMethodsVisitor',
+      params: {key: token},
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching payment methods:", error);
+    throw new Error("Error fetching payment methods");
+  }
+};
+
+export const deletePaymentMethod = async (paymentID: string) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: API_URL + 'payments/deletePaymentMethod',
+      data: JSON.stringify({
+        paymentID: paymentID,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      return true;
+    } else {
+      console.error("Unexpected status code:", response.status);
+      throw new Error("Unexpected status code");
+    }
+  } catch (error) {
+    console.error("Error deleting payment method:", error);
+    throw new Error("Error deleting payment method");
+  }
+};

@@ -64,6 +64,10 @@
       },
       "RestaurantCard": {
         "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"
+      },
+      "CreditCard": {
+        "expire": "läuft ab am: ",
+        "msg": "Sind Sie sicher, dass Sie diese Methode löschen möchten?"
       }
     },
     "pages": {
@@ -154,7 +158,9 @@
         "register": "Registrieren",
         "username-taken-or-invalid": "Der gewünschte Benutzername existiert bereits oder ist ungültig",
         "email-taken-or-invalid": "Für die angegebene E-Mail-Adresse existiert bereits ein Konto oder sie ist ungültig",
-        "privacy": "Datenschutzerklärung"
+        "privacy": "Datenschutzerklärung",
+        "payment": "Zahlungsmethoden",
+        "payBtn": "Zahlungsmethoden verwalten"
       },
       "QRCodeEngin": {
         "unknown-product": "Unbekanntes Produkt",
@@ -276,6 +282,19 @@
         "name": "Kategorie:",
         "id": "Reihenfolge:",
         "add": "Neu"
+      },
+      "Payment": {
+        "title": "Zahlungsmethoden",
+        "nopay": "Es liegen keine Zahlungsmethoden vor.",
+        "add": "Hinzufügen"
+      },
+      "PaymentAdd": {
+        "title": "Zahlungsmethode erfolgreich hinzugefügt",
+        "back": "Zur Zahlungsseite gehen"
+      },
+      "PaymentCancel": {
+          "title": "Zahlungsmethode nicht hinzugefügt",
+          "back": "Zur Zahlungsseite gehen"
       }
     }
   }

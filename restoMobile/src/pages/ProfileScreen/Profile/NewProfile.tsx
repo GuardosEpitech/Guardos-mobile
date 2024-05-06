@@ -272,6 +272,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
       navigation.navigate('Imprint', {});
     };
 
+    const handlePayment = () => {
+      navigation.navigate('Payment methods');
+    };
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView >
@@ -335,6 +339,12 @@ const ProfilePage: React.FC<ProfileScreenProps &
               title={t('common.apply-changes') as string}
               onPress={handleApplyChanges} color="green"
             />
+          </View>
+          <View style={styles.buttonContainer}>
+          <Button 
+          title={t('pages.Profile.payBtn') as string}
+          onPress={handlePayment} 
+          color="green" />
           </View>
           <View style={styles.buttonContainer}>
           <Button 

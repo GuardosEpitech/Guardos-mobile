@@ -8,6 +8,7 @@
       "cancel": "Abbrechen",
       "close": "Schließen",
       "delete": "Löschen",
+      "confirm": "Bestätigen",
 
       "loading": "Laden...",
 
@@ -30,6 +31,10 @@
       },
       "RestaurantCard": {
         "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"
+      },
+      "CreditCard": {
+        "expire": "läuft ab am: ",
+        "msg": "Sind Sie sicher, dass Sie diese Methode löschen möchten?"
       }
     },
     "pages": {
@@ -141,7 +146,9 @@
         "register": "Registrieren",
         "username-taken-or-invalid": "Der gewünschte Benutzername existiert bereits oder ist ungültig",
         "email-taken-or-invalid": "Für die angegebene E-Mail existiert bereits ein Konto oder sie ist ungültig",
-        "privacy": "Datenschutzerklärung"
+        "privacy": "Datenschutzerklärung",
+        "payment": "Zahlungsmethoden",
+        "payBtn": "Zahlungsmethoden verwalten"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "Dieser Benutzername und diese E-Mail ({{ email }}) stimmen nicht überein. Überprüfen Sie bitte die Schreibweise oder versuchen Sie es mit einem anderen Benutzernamen.",
@@ -270,6 +277,19 @@
         "txtlegal1": "Verbraucherinformationen gemäß Verordnung (EU) Nr. 524/2013: ",
         "txtlegal2": "Im Rahmen der Verordnung über Online-Streitbeilegung in Verbraucherangelegenheiten steht unter",
         "txtlegal3": "eine Online-Streitbeilegungsplattform der EU-Kommission zur Verfügung."
+      },
+      "Payment": {
+        "title": "Zahlungsmethoden",
+        "nopay": "Es liegen keine Zahlungsmethoden vor.",
+        "add": "Hinzufügen"
+      },
+      "PaymentAdd": {
+        "title": "Zahlungsmethode erfolgreich hinzugefügt",
+        "back": "Zur Zahlungsseite gehen"
+      },
+      "PaymentCancel": {
+          "title": "Zahlungsmethode nicht hinzugefügt",
+          "back": "Zur Zahlungsseite gehen"
       }
     }
   }

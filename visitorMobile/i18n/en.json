@@ -4,6 +4,7 @@
       "save": "Save",
       "apply": "Apply",
       "submit": "Submit",
+      "confirm": "Confirm",
       "clear": "Clear",
       "cancel": "Cancel",
       "close": "Close",
@@ -30,6 +31,10 @@
       },
       "RestaurantCard": {
         "rating": "Rating: {{ rating }} ({{ ratingCount }} ratings)"
+      },
+      "CreditCard": {
+        "expire": "Expires on: ",
+        "msg": "Are you sure you want to delete this method?"
       }
     },
     "pages": {
@@ -141,7 +146,9 @@
         "register": "Register",
         "username-taken-or-invalid": "The desired Username exists already or is invalid",
         "email-taken-or-invalid": "An account already exists for the specified email or is invalid",
-        "privacy": "Privacy statement"
+        "privacy": "Privacy statement",
+        "payment": "Payment methods",
+        "payBtn": "Manage payment methods"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "That username and email ({{ email }}) don't match. Please check its spelling or try another username.",
@@ -270,6 +277,19 @@
         "txtlegal1": "Consumer information according to Regulation (EU) No. 524/2013: ",
         "txtlegal2": "An online dispute resolution platform of the EU Commission is available at",
         "txtlegal3": ", within the framework of the regulation on online dispute resolution in consumer matters."
+      },
+      "Payment": {
+        "title": "Payment methods",
+        "nopay": "No payment methods added.",
+        "add": "Add payment"
+      },
+      "PaymentAdd": {
+        "title": "Payment method successfully added",
+        "back": "Go to Payment Page"
+      },
+      "PaymentCancel": {
+        "title": "Payment method not added",
+        "back": "Go to Payment Page"
       }
     }
   }
