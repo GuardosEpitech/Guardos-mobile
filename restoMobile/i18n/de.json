@@ -276,6 +276,20 @@
         "name": "Kategorie:",
         "id": "Reihenfolge:",
         "add": "Neu"
+      },
+      "Intro": {
+        "ScanIntro": "Scannen Sie den Barcode eines Produkts, um es zu Ihrer Zutatenliste hinzuzufügen",
+        "ScanInfo": "Sie können den Barcode eines Produkts scannen, um es zu Ihrer Zutatenliste hinzuzufügen. Auf diese Weise können Sie die von Ihnen verwendeten Produkte und deren Inhaltsstoffe leicht im Auge behalten",
+        "RestoIntro": "Überprüfen Sie Ihre hinzugefügten Restaurants",
+        "RestoInfo": "Sie können die Restaurants anzeigen, die Sie zu Guardos hinzugefügt haben. Fügen Sie neue Restaurants hinzu oder bearbeiten Sie bestehende, um Ihre Liste auf dem neuesten Stand zu halten.",
+        "CategoriesIntro": "Verwalten Sie Ihre Kategorien",
+        "CategoriesInfo": "Sie können die Kategorien, die Sie zu Guardos hinzugefügt haben, verwalten. Fügen Sie neue Kategorien hinzu oder bearbeiten Sie bestehende, um Ihre Liste auf dem neuesten Stand zu halten",
+        "DishesIntro": "Überprüfen Sie Ihre hinzugefügten Gerichte",
+        "DishesInfo": "Hier können Sie die Gerichte sehen, die Sie zu Guardos hinzugefügt haben. Fügen Sie neue Gerichte hinzu oder bearbeiten Sie bestehende, um Ihre Liste auf dem neuesten Stand zu halten",
+        "ProductsIntro": "Überprüfen Sie Ihre hinzugefügten Produkte",
+        "ProductsInfo": "Sie können die Produkte einsehen, die Sie zu Guardos hinzugefügt haben. Fügen Sie neue Produkte hinzu oder bearbeiten Sie bestehende, um Ihre Liste auf dem neuesten Stand zu halten",
+        "ProfileIntro": "Verwalten Sie Ihr Profil",
+        "ProfileInfo": "Sie können Ihre Profilinformationen einsehen und bearbeiten. Ändern Sie Ihr Passwort, fügen Sie ein Profilbild hinzu oder löschen Sie Ihr Konto"
       }
     }
   }

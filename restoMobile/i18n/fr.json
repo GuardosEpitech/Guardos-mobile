@@ -276,6 +276,20 @@
         "name": "Catégorie:",
         "id": "Séquence:",
         "add": "Nouveau"
+      },
+      "Intro": {
+        "ScanIntro": "Scannez le code-barres d'un produit pour l'ajouter à votre liste d'ingrédients",
+        "ScanInfo": "Vous pouvez scanner le code-barres d'un produit pour l'ajouter à votre liste d'ingrédients. De cette manière, vous pouvez facilement garder une trace des produits que vous utilisez.",
+        "RestoIntro": "Vérifiez les restaurants que vous avez ajoutés",
+        "RestoInfo": "Vous pouvez consulter les restaurants que vous avez ajoutés à Guardos. Ajoutez de nouveaux restaurants ou modifiez les restaurants existants pour tenir votre liste à jour",
+        "CategoriesIntro": "Gérer vos catégories",
+        "CategoriesInfo": "Vous pouvez gérer les catégories que vous avez ajoutées à Guardos. Ajoutez de nouvelles catégories ou modifiez celles qui existent déjà pour tenir votre liste à jour ",
+        "DishesIntro": "Vérifiez les plats que vous avez ajoutés ",
+        "DishesInfo": "Vous pouvez consulter les plats que vous avez ajoutés à Guardos. Ajoutez de nouveaux plats ou modifiez les plats existants pour tenir votre liste à jour",
+        "ProductsIntro": "Vérifiez les produits que vous avez ajoutés",
+        "ProductsInfo": "Vous pouvez consulter les produits que vous avez ajoutés à Guardos. Ajoutez de nouveaux produits ou modifiez les produits existants pour tenir votre liste à jour",
+        "ProfileIntro": "Gérer votre profil ",
+        "ProfileInfo": " Vous pouvez consulter et modifier les informations de votre profil. Changez votre mot de passe, ajoutez une photo de profil ou supprimez votre compte"
       }
     }
   }
