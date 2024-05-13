@@ -218,3 +218,48 @@ export const deletePaymentMethod = async (paymentID: string) => {
     throw new Error("Error deleting payment method");
   }
 };
+
+export const fetchPaymentSheetParams = async (userToken: string) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: API_URL + 'payments/payment-sheet-setup-intent-visitor',
+      data: JSON.stringify({
+        userToken: userToken,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return;
+    }
+  } catch (error) {
+    console.error("Error fetching payment params:", error);
+    throw new Error("Error fetching payment params");
+  }
+};
+
+export const getStripeKey = async () => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: API_URL + 'payments/stripe-key',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return;
+    }
+
+  } catch (error) {
+    console.error("Error fetching stripe key:", error);
+    throw new Error("Error fetching stripe key");
+  }
+};

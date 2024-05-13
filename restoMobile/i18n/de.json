@@ -286,15 +286,10 @@
       "Payment": {
         "title": "Zahlungsmethoden",
         "nopay": "Es liegen keine Zahlungsmethoden vor.",
-        "add": "Hinzufügen"
-      },
-      "PaymentAdd": {
-        "title": "Zahlungsmethode erfolgreich hinzugefügt",
-        "back": "Zur Zahlungsseite gehen"
-      },
-      "PaymentCancel": {
-          "title": "Zahlungsmethode nicht hinzugefügt",
-          "back": "Zur Zahlungsseite gehen"
+        "add": "Hinzufügen",
+        "success": "Erfolg",
+        "msg": "Die Zahlungsmethode wurde erfolgreich hinzugefügt",
+        "error": "Error Code:"
       }
     }
   }

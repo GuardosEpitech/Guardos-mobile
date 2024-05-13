@@ -32,6 +32,7 @@ const CreditCard: React.FC<ICreditCardProps> = (props: ICreditCardProps) => {
     await onDelete(id);
     if (onUpdate) {
       await onUpdate();
+      toggleModal();
     }
   };
 
@@ -59,12 +60,17 @@ const CreditCard: React.FC<ICreditCardProps> = (props: ICreditCardProps) => {
       <View style={styles.cardNumberContainer}>
         <View style={styles.cardNumber}>
           {[...Array(3)].map((_, index) => (
-            <Text key={index} style={[styles.cardNumberDigit, darkMode && styles.cardNumberDark]}>
+            <Text 
+              key={index} 
+              style={[styles.cardNumberDigit, darkMode && styles.cardNumberDark]}
+            >
               {'****'}
               {'\u00A0'}
             </Text>
           ))}
-          <Text style={[styles.last4, darkMode && styles.last4Dark]}>{last4}</Text>
+          <Text style={[styles.last4, darkMode && styles.last4Dark]}>
+            {last4}
+          </Text>
         </View>
       </View>
       <View style={styles.cardInfo}>

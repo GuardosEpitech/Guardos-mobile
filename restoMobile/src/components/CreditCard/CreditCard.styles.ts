@@ -36,15 +36,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%', // Make the cardNumber span the whole width
+    width: '100%',
     paddingHorizontal: 20,
   },
   cardNumberDigit: {
-    fontFamily: 'monospace',
     fontSize: 24,
   },
   last4: {
-    fontFamily: 'monospace',
     fontSize: 24,
   },
   cardInfo: {

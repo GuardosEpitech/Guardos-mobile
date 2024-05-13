@@ -24,9 +24,7 @@ import { FilterContext } from './src/models/filterContext';
 import {useTranslation} from "react-i18next";
 import PrivacyPage from './src/pages/PrivacyPage/PrivacyPage';
 import ImprintPage from './src/pages/ImprintPage/ImprintPage';
-import PaymentPage from './src/pages/Payment/PaymentPage/PaymentPage';
-import PaymentSuccess from './src/pages/Payment/PaymentSuccess/PaymentSuccess';
-import PaymentCancel from './src/pages/Payment/PaymentCancel/PaymentCancel';
+import PaymentPage from './src/pages/Payment/PaymentPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -228,8 +226,6 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({setLoggedInStatus}) =>
       <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
       <Stack.Screen name="Imprint" component={ImprintPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
       <Stack.Screen name="Payment methods" component={PaymentPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
-      <Stack.Screen name="Payment success" component={PaymentSuccess} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
-      <Stack.Screen name="Payment cancel" component={PaymentCancel} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
     </Stack.Navigator>
   );
 }

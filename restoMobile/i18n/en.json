@@ -286,15 +286,10 @@
       "Payment": {
         "title": "Payment methods",
         "nopay": "No payment methods added.",
-        "add": "Add payment"
-      },
-      "PaymentAdd": {
-        "title": "Payment method successfully added",
-        "back": "Go to Payment Page"
-      },
-      "PaymentCancel": {
-        "title": "Payment method not added",
-        "back": "Go to Payment Page"
+        "add": "Add payment",
+        "success": "Success",
+        "msg": "The payment method was added successfully",
+        "error": "Error code:"
       }
     }
   }

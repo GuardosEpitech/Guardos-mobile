@@ -278,15 +278,10 @@
       "Payment": {
         "title": "Méthodes de paiement",
         "nopay": "Aucune méthode de paiement ajoutée.",
-        "add": "Ajouter un paiement"
-      },
-      "PaymentAdd": {
-        "title": "Méthode de paiement ajoutée avec succès",
-        "back": "Aller à la page de paiement"
-      },
-      "PaymentCancel": {
-          "title": "Méthode de paiement non ajoutée",
-          "back": "Aller à la page de paiement"
+        "add": "Ajouter un paiement",
+        "success": "Succès",
+        "msg": "La méthode de paiement a été ajoutée avec succès",
+        "error": "Code d'erreur :"
       }
     }
   }

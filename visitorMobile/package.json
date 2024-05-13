@@ -17,6 +17,7 @@
     "@react-native-community/netinfo": "9.3.10",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native-stack": "^6.9.6",
+    "@stripe/stripe-react-native": "^0.37.3",
     "@types/react": "^18.2.38",
     "axios": "^1.6.6",
     "darkreader": "^4.9.83",

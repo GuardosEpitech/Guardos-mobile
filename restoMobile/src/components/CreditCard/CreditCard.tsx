@@ -30,6 +30,7 @@ const CreditCard: React.FC<ICreditCardProps> = (props: ICreditCardProps) => {
     await onDelete(id);
     if (onUpdate) {
       await onUpdate();
+      toggleModal();
     }
   };
 
