@@ -335,6 +335,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('FeatureRequest', {});
   };
 
+  const handleRedirectSubscriptions = () => {
+    navigation.navigate('Subscriptions', {});
+  };
+
   const handlePrivacy = () => {
     navigation.navigate('Privacy', {});
   };
@@ -433,6 +437,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           setValue={setLanguage}
           style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
+        <TouchableOpacity style={styles.button} onPress={handleRedirectSubscriptions}>
+          <Text style={styles.buttonText}>{t('pages.Profile.subscriptions')}</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>{t('pages.Profile.apply-changes')}</Text>
         </TouchableOpacity>

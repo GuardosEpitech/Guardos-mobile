@@ -166,6 +166,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
       navigation.navigate('FeatureRequest', {});
     };
 
+    const handleRedirectSubscriptions = () => {
+      navigation.navigate('Subscriptions', {});
+    };
+
     const handleLogout = () => {
       Alert.alert(
         t('pages.Profile.logout') as string,
@@ -330,6 +334,12 @@ const ProfilePage: React.FC<ProfileScreenProps &
             dropDownContainerStyle={{backgroundColor: darkMode ? '#181A1B' : 'white'}}
             textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
             style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
+          <View style={styles.buttonContainer}>
+            <Button
+              title={t('pages.Profile.subscriptions') as string}
+              onPress={handleRedirectSubscriptions} color="white"
+            />
+          </View>
           <View style={styles.buttonContainer}>
             <Button
               title={t('common.apply-changes') as string}

@@ -64,6 +64,10 @@
       },
       "RestaurantCard": {
         "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"
+      },
+      "SubscriptionBox": {
+        "select": "Auswählen",
+        "monthly-price": "Monatlicher Preis"
       }
     },
     "pages": {
@@ -150,7 +154,7 @@
         "username": "Benutzername",
         "email": "E-Mail",
         "feature-request": "Feature anfragen",
-
+        "subscriptions": "Abonnement verwalten",
         "register": "Registrieren",
         "username-taken-or-invalid": "Der gewünschte Benutzername existiert bereits oder ist ungültig",
         "email-taken-or-invalid": "Für die angegebene E-Mail-Adresse existiert bereits ein Konto oder sie ist ungültig",
@@ -190,6 +194,17 @@
         "my-profile": "Mein Profil",
         "login": "Anmelden",
         "register": "Registrieren"
+      },
+      "SubscriptionPage": {
+        "my-subscription": "Mein Abonnement",
+        "free": "Kostenlose Nutzung",
+        "free-description": "Nutzen Sie die Grundfunktionen kostenlos",
+        "basic": "Basis Abonnement",
+        "description-low-level-1": "Werbung entfernen",
+        "description-low-level-2": "Personalisiertes Menü",
+        "premium": "Premium-Abonnement",
+        "description-high-level-1": "Feature-Anfragen werden priorisiert",
+        "description-high-level-2": "Detaillierte Analyse-Einblicke"
       },
       "Privacy": {
         "title": "Datenschutzerklärung",
