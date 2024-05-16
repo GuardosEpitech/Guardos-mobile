@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import {
-  addRestoUserPermissions,
-  getRestoUserPermission,
-  removeRestoUserPermissions,
-} from '../../services/permissionsCalls'; // Make sure to adapt the path to your project structure
-import SubscriptionBox from '@src/components/SubscriptionBox/SubscriptionBox'; // Make sure to adapt the path to your project structure
+  addVisitorUserPermissions,
+  getVisitorUserPermission,
+  removeVisitorUserPermissions,
+} from '../../services/permissionsCalls';
+import SubscriptionBox from '../../components/SubscriptionBox/SubscriptionBox';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import styles from "./SubscriptionPage.styles";
 
 const SubscriptionPage = () => {
   const [userPermissions, setUserPermissions] = useState([]);
@@ -16,10 +18,11 @@ const SubscriptionPage = () => {
     const fetchData = async () => {
       try {
         const userToken = await AsyncStorage.getItem('user');
-        if (!userToken) {
+        console.log(userToken);
+        if (userToken === null) {
           return;
         }
-        const permissions = await getRestoUserPermission(userToken);
+        const permissions = await getVisitorUserPermission(userToken);
         setUserPermissions(permissions || []);
       } catch (error) {
         console.error('Error fetching user permissions:', error);
@@ -34,8 +37,8 @@ const SubscriptionPage = () => {
       if (!userToken) {
         return;
       }
-      await addRestoUserPermissions(userToken, permission);
-      const permissions = await getRestoUserPermission(userToken);
+      await addVisitorUserPermissions(userToken, permission);
+      const permissions = await getVisitorUserPermission(userToken);
       setUserPermissions(permissions || []);
     } catch (error) {
       console.error('Error adding user permissions:', error);
@@ -48,8 +51,8 @@ const SubscriptionPage = () => {
       if (!userToken) {
         return;
       }
-      await removeRestoUserPermissions(userToken, permission);
-      const permissions = await getRestoUserPermission(userToken);
+      await removeVisitorUserPermissions(userToken, permission);
+      const permissions = await getVisitorUserPermission(userToken);
       setUserPermissions(permissions || []);
     } catch (error) {
       console.error('Error removing user permissions:', error);
@@ -63,7 +66,7 @@ const SubscriptionPage = () => {
   };
 
   return (
-    <View style={styles.userPermissionsContainer}>
+    <ScrollView contentContainerStyle={styles.userPermissionsContainer}>
       <Text style={styles.title}>{t('pages.SubscriptionPage.my-subscription')}</Text>
       <View style={styles.subscriptionContainer}>
         <SubscriptionBox
@@ -92,7 +95,7 @@ const SubscriptionPage = () => {
             t('pages.SubscriptionPage.description-low-level-1'),
             t('pages.SubscriptionPage.description-low-level-2'),
             t('pages.SubscriptionPage.description-high-level-1'),
-            t('pages.SubscriptionPage.description-high-level-1'),
+            t('pages.SubscriptionPage.description-high-level-2'),
           ]}
           price="5.99 €"
           onClick={handleSwitchPermissions}
@@ -101,52 +104,8 @@ const SubscriptionPage = () => {
           onDelete={handleRemovePermission}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 export default SubscriptionPage;
-
-const styles = StyleSheet.create({
-  userPermissionsContainer: {
-    margin: '0 auto',
-  },
-  title: {
-    fontSize: 32,
-    marginBottom: 16,
-  },
-  subscriptionContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  subscriptionCard: {
-    position: 'relative',
-    width: '45%',
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
-    padding: 16,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    overflow: 'hidden',
-  },
-  highlighted: {
-    borderWidth: 2,
-    borderColor: '#007bff',
-  },
-  cardTitle: {
-    fontSize: 24,
-    marginBottom: 8,
-  },
-  descriptionText: {
-    marginBottom: 16,
-  },
-  button: {
-    backgroundColor: '#333',
-    color: 'white',
-    padding: 8,
-    textAlign: 'center',
-  },
-  buttonHover: {
-    backgroundColor: '#555',
-  },
-});

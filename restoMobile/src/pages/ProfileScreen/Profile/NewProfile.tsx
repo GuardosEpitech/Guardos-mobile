@@ -336,21 +336,21 @@ const ProfilePage: React.FC<ProfileScreenProps &
             style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <View style={styles.buttonContainer}>
             <Button
-              title={t('pages.Profile.subscriptions') as string}
-              onPress={handleRedirectSubscriptions} color="white"
+              title={t('common.apply-changes') as string}
+              onPress={handleApplyChanges} color="green"
             />
           </View>
           <View style={styles.buttonContainer}>
             <Button
-              title={t('common.apply-changes') as string}
-              onPress={handleApplyChanges} color="green"
+              title={t('pages.Profile.subscriptions') as string}
+              onPress={handleRedirectSubscriptions} color="grey"
             />
           </View>
           <View style={styles.buttonContainer}>
           <Button 
           title={t('pages.Profile.feature-request') as string}
           onPress={handleFeatureRequest} 
-          color="green" />
+          color="grey" />
           </View>
           <View style={styles.buttonContainer}>
           <Button 

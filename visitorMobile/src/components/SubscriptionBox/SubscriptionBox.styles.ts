@@ -6,12 +6,15 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#f0f0f0',
     borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'gray',
     padding: 16,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     minHeight: 200,
     overflow: 'hidden',
+    marginBottom: 16,
   },
   highlighted: {
     borderWidth: 2,
@@ -22,8 +25,18 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   descriptionList: {
-    fontSize: 20,
     marginBottom: 16,
+  },
+  bulletPointContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bulletPoint: {
+    fontSize: 20,
+    marginRight: 8,
+  },
+  descriptionText: {
+    fontSize: 20,
   },
   priceContainer: {
     display: 'flex',
@@ -42,10 +55,12 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#333',
-    color: 'white',
-    borderWidth: 0,
     padding: 8,
-    textAlign: 'center',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
   },
   deleteIcon: {
     position: 'absolute',
@@ -54,3 +69,5 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
+
+export default styles;

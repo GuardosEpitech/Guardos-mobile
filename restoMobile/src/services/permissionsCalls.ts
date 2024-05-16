@@ -1,11 +1,14 @@
-
 import axios from "axios";
+// @ts-ignore
+import { API_URL } from '@env';
 
-const baseUrl =
-  `${process.env.DB_HOST}${process.env.DB_HOST_PORT}/api/permissions/resto/`;
+const baseUrl = `${API_URL}permissions/resto`;
 
 export const getRestoUserPermission = async (token: string) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "GET",
       url: baseUrl,
@@ -27,9 +30,12 @@ export const getRestoUserPermission = async (token: string) => {
 
 export const addRestoUserPermissions = async (token: string, permissions: string[]) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: 'POST',
-      url: baseUrl + 'addPermissions',
+      url: baseUrl + '/addPermissions',
       params: {key: token},
       data: {
         permissions: permissions
@@ -47,9 +53,12 @@ export const addRestoUserPermissions = async (token: string, permissions: string
 
 export const removeRestoUserPermissions = async (token: string, permissions: string[]) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "PUT",
-      url: baseUrl + 'removePermissions',
+      url: baseUrl + '/removePermissions',
       params: {key: token},
       data: {
         permissions: permissions
@@ -71,9 +80,12 @@ export const removeRestoUserPermissions = async (token: string, permissions: str
 
 export const deleteAllRestoUserPermissions = async (token: string) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: 'DELETE',
-      url: baseUrl + 'deleteAllPermissions',
+      url: baseUrl + '/deleteAllPermissions',
       params: {key: token},
       headers: {
         "content-type": "application/json",

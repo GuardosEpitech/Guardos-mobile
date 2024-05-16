@@ -437,9 +437,6 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           setValue={setLanguage}
           style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
-        <TouchableOpacity style={styles.button} onPress={handleRedirectSubscriptions}>
-          <Text style={styles.buttonText}>{t('pages.Profile.subscriptions')}</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>{t('pages.Profile.apply-changes')}</Text>
         </TouchableOpacity>
@@ -516,8 +513,14 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button 
+          title={t('pages.Profile.subscriptions') as string}
+          onPress={handleRedirectSubscriptions}
+          color={darkMode ? "white" :  "#6d071a"} />
+      </View>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
+        <Button
           title={t('pages.Profile.feature-request') as string}
-          onPress={handleFeatureRequest} 
+          onPress={handleFeatureRequest}
           color={darkMode ? "white" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
