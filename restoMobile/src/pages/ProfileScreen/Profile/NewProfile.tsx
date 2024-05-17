@@ -166,6 +166,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
       navigation.navigate('FeatureRequest', {});
     };
 
+    const handleRedirectSubscriptions = () => {
+      navigation.navigate('Subscriptions', {});
+    };
+
     const handleLogout = () => {
       Alert.alert(
         t('pages.Profile.logout') as string,
@@ -337,10 +341,16 @@ const ProfilePage: React.FC<ProfileScreenProps &
             />
           </View>
           <View style={styles.buttonContainer}>
+            <Button
+              title={t('pages.Profile.subscriptions') as string}
+              onPress={handleRedirectSubscriptions} color="grey"
+            />
+          </View>
+          <View style={styles.buttonContainer}>
           <Button 
           title={t('pages.Profile.feature-request') as string}
           onPress={handleFeatureRequest} 
-          color="green" />
+          color="grey" />
           </View>
           <View style={styles.buttonContainer}>
           <Button 

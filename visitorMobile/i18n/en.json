@@ -30,6 +30,10 @@
       },
       "RestaurantCard": {
         "rating": "Rating: {{ rating }} ({{ ratingCount }} ratings)"
+      },
+      "SubscriptionBox": {
+        "select": "Select",
+        "monthly-price": "Monthly price"
       }
     },
     "pages": {
@@ -137,7 +141,7 @@
         "previous": "Previous",
         "next": "Next",
         "feature-request": "Feature request",
-
+        "subscriptions": "Manage Subscription",
         "register": "Register",
         "username-taken-or-invalid": "The desired Username exists already or is invalid",
         "email-taken-or-invalid": "An account already exists for the specified email or is invalid",
@@ -189,6 +193,17 @@
         "my-profile": "My Profile",
         "login": "Login",
         "register": "Register"
+      },
+      "SubscriptionPage": {
+        "my-subscription": "My Subscription",
+        "free": "Free usage",
+        "free-description": "Use the basic features for free",
+        "basic": "Basic Subscription",
+        "description-low-level-1": "Remove ads",
+        "description-low-level-2": "Group search - save multiple dietary profiles",
+        "premium": "Premium Subscription",
+        "description-high-level-1": "Feature requests are prioritized",
+        "description-high-level-2": "Make reservations"
       },
       "Privacy": {
         "title": "Privacy Statement",
