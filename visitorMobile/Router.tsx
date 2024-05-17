@@ -24,6 +24,7 @@ import { FilterContext } from './src/models/filterContext';
 import {useTranslation} from "react-i18next";
 import PrivacyPage from './src/pages/PrivacyPage/PrivacyPage';
 import ImprintPage from './src/pages/ImprintPage/ImprintPage';
+import SubscriptionPage from "./src/pages/SubscriptionPage/SubscriptionPage";
 import PaymentPage from './src/pages/Payment/PaymentPage';
 
 const Tab = createBottomTabNavigator();
@@ -222,6 +223,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({setLoggedInStatus}) =>
         {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus}/>}
       </Stack.Screen>
       <Stack.Screen name="FeatureRequest" component={FeatureRequest}  options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
+      <Stack.Screen name="Subscriptions" component={SubscriptionPage}  options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
       <Stack.Screen name="Change Password" component={ChangePasswordScreen}/>
       <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
       <Stack.Screen name="Imprint" component={ImprintPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
