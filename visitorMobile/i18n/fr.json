@@ -122,6 +122,7 @@
         "changed-data-success": "Détails du profil modifiés avec succès !",
         "changed-data-failure": "Échec de la modification des détails du profil.",
         "add-picture": "Ajouter une photo",
+        "delete-picture": "Supprimer l'image",
         "username": "Nom d'utilisateur",
         "enter-username": "Entrez votre nom d'utilisateur",
         "email": "Email",

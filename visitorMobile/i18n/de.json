@@ -125,6 +125,7 @@
         "changed-data-success": "Profilangaben erfolgreich geändert!",
         "changed-data-failure": "Fehler beim Ändern der Profilangaben.",
         "add-picture": "Bild hinzufügen",
+        "delete-picture": "Bild löschen",
         "username": "Benutzername",
         "enter-username": "Geben Sie Ihren Benutzernamen ein",
         "email": "E-Mail",
