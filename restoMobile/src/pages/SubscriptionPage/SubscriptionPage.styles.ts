@@ -9,9 +9,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 16,
   },
+  titleDark: {
+    color: 'white',
+  },
   subscriptionContainer: {
     flex: 1,
     paddingBottom: 16,
+  },
+  containerDarkTheme: {
+    backgroundColor: '#181A1B',
   },
 });
 

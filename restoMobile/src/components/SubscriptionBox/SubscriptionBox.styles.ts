@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 16,
   },
+  subscriptionCardDark: {
+    backgroundColor: '#444',
+    borderColor: '#666',
+  },
   highlighted: {
     borderWidth: 2,
     borderColor: '#007bff',
@@ -23,6 +27,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 8,
+  },
+  titleDark: {
+    color: 'white',
   },
   descriptionList: {
     marginBottom: 16,
@@ -35,8 +42,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginRight: 8,
   },
+  bulletPointDark: {
+    color: 'white',
+  },
   descriptionText: {
     fontSize: 20,
+  },
+  descriptionTextDark: {
+    color: 'white',
   },
   priceContainer: {
     display: 'flex',
@@ -48,16 +61,26 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#777',
   },
+  smallFontDark: {
+    color: '#ccc',
+  },
   bigFont: {
     fontSize: 27,
     fontWeight: 'bold',
-    marginTop: 8,
+    marginTop: 5,
+    marginBottom: 10,
+  },
+  bigFontDark: {
+    color: 'white',
   },
   button: {
     backgroundColor: '#333',
     padding: 8,
     borderRadius: 5,
     alignItems: 'center',
+  },
+  buttonDark: {
+    backgroundColor: '#666',
   },
   buttonText: {
     color: 'white',

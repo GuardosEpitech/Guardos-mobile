@@ -12,6 +12,7 @@ import styles from "./SubscriptionPage.styles";
 
 const SubscriptionPage = () => {
   const [userPermissions, setUserPermissions] = useState([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -27,8 +28,21 @@ const SubscriptionPage = () => {
         console.error('Error fetching user permissions:', error);
       }
     };
+    fetchDarkMode();
     fetchData();
   }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const handleAddPermission = async (permission) => {
     try {
@@ -65,8 +79,8 @@ const SubscriptionPage = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.userPermissionsContainer}>
-      <Text style={styles.title}>{t('pages.SubscriptionPage.my-subscription')}</Text>
+    <ScrollView contentContainerStyle={[styles.userPermissionsContainer, darkMode && styles.containerDarkTheme]}>
+      <Text style={[styles.title, darkMode && styles.titleDark]}>{t('pages.SubscriptionPage.my-subscription')}</Text>
       <View style={styles.subscriptionContainer}>
         <SubscriptionBox
           title={t('pages.SubscriptionPage.free')}
@@ -75,6 +89,7 @@ const SubscriptionPage = () => {
           onClick={handleSwitchPermissions}
           isActive={userPermissions.includes('default') || userPermissions.length === 0}
           permission="default"
+          darkMode={darkMode}
         />
         <SubscriptionBox
           title={t('pages.SubscriptionPage.basic')}
@@ -87,6 +102,7 @@ const SubscriptionPage = () => {
           isActive={userPermissions.includes('basicSubscription')}
           permission="basicSubscription"
           onDelete={handleRemovePermission}
+          darkMode={darkMode}
         />
         <SubscriptionBox
           title={t('pages.SubscriptionPage.premium')}
@@ -101,6 +117,7 @@ const SubscriptionPage = () => {
           isActive={userPermissions.includes('premiumUser')}
           permission="premiumUser"
           onDelete={handleRemovePermission}
+          darkMode={darkMode}
         />
       </View>
     </ScrollView>
