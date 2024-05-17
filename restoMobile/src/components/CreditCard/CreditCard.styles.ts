@@ -18,12 +18,18 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginBottom: 10,
   },
+  creditCardDark: {
+    backgroundColor: '#3B3B3B'
+  },
   brand: {
     fontSize: 24,
     fontWeight: 'bold',
     position: 'absolute',
     top: 20,
     left: 20,
+  },
+  brandDark: {
+    color: 'white'
   },
   cardNumberContainer: {
     position: 'absolute',
@@ -39,11 +45,17 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
   },
+  cardNumberDark: {
+    color: 'white'
+  },
   cardNumberDigit: {
     fontSize: 24,
   },
   last4: {
     fontSize: 24,
+  },
+  last4Dark: {
+    color: 'white'
   },
   cardInfo: {
     position: 'absolute',
@@ -57,9 +69,15 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: 'bold',
   },
+  nameDark: {
+    color: 'white'
+  },
   expiresOn: {
     fontSize: 16,
     color: '#666',
+  },
+  expiresOnDark: {
+    color: 'white'
   },
   menu: {
     position: 'absolute',
