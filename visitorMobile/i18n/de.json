@@ -182,7 +182,8 @@
         "save-filter": "Filter speichern:",
         "enter-filter-name": "Filternamen eingeben",
         "saved-filters": "Gespeicherte Filter:",
-        "load": "Laden"
+        "load": "Laden",
+        "noresto": "Keine passenden Restaurants gefunden. Bitte ändern Sie ihren Filter."
       },
       "Router": {
         "no-internet-error": "Keine Internetverbindung. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",

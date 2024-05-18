@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1B1D1E'
+    backgroundColor: '#1B1D1E',
   },
   searchInput: {
     fontSize: 16,
@@ -42,6 +42,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 
+  ErrorMsg: {
+    fontSize: 28,
+    textAlign: "center",
+  },
+  darkModeTxt: {
+    color: 'white'
+  }
 });
   
 export default styles;

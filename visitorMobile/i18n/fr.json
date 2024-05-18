@@ -179,7 +179,8 @@
         "save-filter": "Enregistrer le filtre :",
         "enter-filter-name": "Entrez le nom du filtre",
         "saved-filters": "Filtres enregistrés :",
-        "load": "Charger"
+        "load": "Charger",
+        "noresto": "Aucun restaurant adapté n'a été trouvé. Veuillez mettre à jour votre filtre."
       },
       "Router": {
         "no-internet-error": "Pas de connexion Internet. Veuillez vérifier votre connexion et réessayer.",

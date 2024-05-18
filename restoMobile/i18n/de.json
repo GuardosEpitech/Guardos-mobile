@@ -121,6 +121,15 @@
         "allergens": "Allergene: {{ allergens }}",
         "confirm-delete-dish": "Möchten Sie dieses Gericht wirklich löschen?"
       },
+      "MyDishPage": {
+        "nodish": "Keine Gerichte verfügbar. Bitte fügen Sie Ihr Gericht hinzu. Fügen Sie aber zuerst ein Restaurant hinzu."
+      },
+      "MyProductPage": {
+        "noprod": "Keine Produkte verfügbar. Bitte fügen Sie Ihr Produkt hinzu. Fügen Sie aber zuerst ein Restaurant hinzu."
+      },
+      "MyRestoPage": {
+        "noresto": "Kein Restaurant verfügbar. Bitte fügen Sie Ihr Restaurant hinzu."
+      },
       "Profile": {
         "change-pw": "Passwort ändern",
         "old-pw": "Altes Passwort eingeben",
@@ -290,7 +299,8 @@
       "AddCategory": {
         "name": "Kategorie:",
         "id": "Reihenfolge:",
-        "add": "Neu"
+        "add": "Neu",
+        "noresto": "Kein Restaurant verfügbar. Bitte fügen Sie zuerst Ihr Restaurant hinzu."
       }
     }
   }

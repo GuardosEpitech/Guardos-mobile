@@ -135,6 +135,12 @@ const AddCategoryPage = () => {
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+            {restoData.length === 0 ? (
+                <View style={styles.centered}>
+                <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.AddCategory.noresto')}</Text> 
+                </View>
+            ) : (
+                <>
             <View style={[styles.dropdownContainer, darkMode && styles.dropdownContainerDarkTheme]}>
                 <DropDownPicker
                     items={restoData.map(restaurant => ({label: restaurant.name, value: restaurant.uid}))}
@@ -196,6 +202,8 @@ const AddCategoryPage = () => {
             <View style={styles.addButtonContainer}>
                 <Button title={t('pages.AddCategory.add')} onPress={handleAddNewCategory} />
             </View>
+            </>
+        )}
         </View>
         </KeyboardAvoidingView>
     );
