@@ -299,8 +299,22 @@
       "AddCategory": {
         "name": "Category:",
         "id": "Order:",
-        "add": "New",
         "noresto": "No restaurant available. Please add your restaurant first."
+        "add": "New"
+      },
+      "Intro": {
+        "ScanIntro": "Scan the barcode of a product to add it to your list of ingredients",
+        "ScanInfo": "You can scan the barcode of a product to add it to your list of ingredients. This way, you can easily keep track of the products you use and their ingredients.",
+        "RestoIntro": "Check your added restaurants",
+        "RestoInfo": "You can view the restaurants you have added to Guardos. Add new restaurants or edit existing ones to keep your list up to date.",
+        "CategoriesIntro": "Manage your categories",
+        "CategoriesInfo": "You can manage the categories you have added to Guardos. Add new categories or edit existing ones to keep your list up to date.",
+        "DishesIntro": "Check your added dishes",
+        "DishesInfo": "You can view the dishes you have added to Guardos. Add new dishes or edit existing ones to keep your list up to date.",
+        "ProductsIntro": "Check your added products",
+        "ProductsInfo": "You can view the products you have added to Guardos. Add new products or edit existing ones to keep your list up to date.",
+        "ProfileIntro": "Manage your profile",
+        "ProfileInfo": "You can view and edit your profile information. Change your password, add a profile picture, or delete your account."
       }
     }
   }

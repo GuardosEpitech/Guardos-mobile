@@ -286,6 +286,14 @@
         "txtlegal1": "Verbraucherinformationen gemäß Verordnung (EU) Nr. 524/2013: ",
         "txtlegal2": "Im Rahmen der Verordnung über Online-Streitbeilegung in Verbraucherangelegenheiten steht unter",
         "txtlegal3": "eine Online-Streitbeilegungsplattform der EU-Kommission zur Verfügung."
+      },
+      "Intro": {
+        "RestoIntro": "Sehen Sie die Liste aller unserer Partner-Restaurants im restoScreen",
+        "RestoInfo" : "Auf dem restoScreen können Sie nach Restaurants suchen und diese nach Entfernung, Bewertung, Kategorien und Allergenen filtern. Sie können Ihre Filter auch speichern und später wieder laden.",
+        "MapIntro": "Schauen Sie sich die Restaurants in Ihrer Nähe auf dem mapScreen an",
+        "MapInfo": "Im mapScreen können sie alle Restaurants in ihrer Nähe sehen und nach verschiedenen Kriterien filtern.",
+        "ProfileIntro": "Verwalten Sie Ihr Profil im Profilbereich",
+        "ProfileInfo": "Im Profilbereich können Sie Ihr Passwort und Ihre Profildaten ändern und Ihre Lieblingsrestaurants und -gerichte einsehen. Sie können auch Ihr Konto löschen."
       }
     }
   }
