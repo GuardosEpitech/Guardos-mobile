@@ -272,9 +272,9 @@
         "txtlegal3": ", within the framework of the regulation on online dispute resolution in consumer matters."
       },
       "Intro": {
-        "RestoIntro": "Do you research in the restoScreen",
+        "RestoIntro": "See the list of all our partner restaurants in the restoScreen",
         "RestoInfo" : "In the restoScreen you can look for restaurants and filter them by distance, rating, categories and allergens. You can also save your filters and load them later.",
-        "MapIntro": "Have a look at restaurants near you in the mapScreen",
+        "MapIntro": "Have a look at restaurants near your location in the mapScreen",
         "MapInfo": "In the mapScreen you can look for restaurants neer you",
         "ProfileIntro": "Manage your profile in the profile section",
         "ProfileInfo": "In the profile section you can change your password, your profile data and see your favorite restaurants and dishes. You can also delete your account."
