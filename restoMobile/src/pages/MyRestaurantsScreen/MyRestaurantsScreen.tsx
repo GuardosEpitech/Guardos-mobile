@@ -79,7 +79,11 @@ const MyRestaurantsScreen = () => {
 
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
-      <TextInput
+      {restoData.length === 0 ? (
+        <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyRestoPage.noresto')}</Text>
+      ) : (
+        <>
+        <TextInput
         style={styles.searchInput}
         placeholder={t('common.search-restaurants')}
         value={filter}
@@ -99,6 +103,8 @@ const MyRestaurantsScreen = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      </>
+      )}
       <TouchableOpacity
         style={styles.roundButton}
         onPress={navigateToAddRestaurant}

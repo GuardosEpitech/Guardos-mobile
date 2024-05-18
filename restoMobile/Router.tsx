@@ -28,6 +28,7 @@ import {useTranslation} from "react-i18next";
 import PrivacyPage from './src/pages/PrivacyPage/PrivacyPage';
 import ImprintPage from './src/pages/ImprintPage/ImprintPage';
 import AddCategoryPage from './src/pages/AddCategories/AddCategories';
+import AppIntro from './src/pages/AppIntro/AppIntro';
 import SubscriptionPage from "./src/pages/SubscriptionPage/SubscriptionPage";
 import PaymentPage from './src/pages/Payment/PaymentPage';
 
@@ -39,6 +40,7 @@ LogBox.ignoreAllLogs()
 const MyTabs = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const {t} = useTranslation();
+  const [showIntro, setShowIntro] = useState(false);
 
   const setLoggedInStatus = (status: any) => {
     setLoggedIn(status);
@@ -66,12 +68,34 @@ const MyTabs = () => {
     }
   };
 
+  const fetchIntro = async () => {
+    try {
+      const introValue = await AsyncStorage.getItem('introShown');
+      if (introValue === null) {
+        setShowIntro(true);
+      } else {
+       setShowIntro(true);
+      } /*Use this to force the intro screen to show */
+    } catch (error) {
+      console.error('Error fetching intro value:', error);
+    }
+  };
+  
+  const handleIntroFinish = () => {
+    setShowIntro(false);
+    AsyncStorage.setItem('introShown', 'true');
+  };
+
   useEffect(() => {
+    fetchIntro();
     checkAuthentication();
   }, []);
 
   return (
     <NavigationContainer>
+        {loggedIn && showIntro ? (
+        <AppIntro onFinish={handleIntroFinish} />
+      ) : (
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -192,8 +216,8 @@ const MyTabs = () => {
           </>
           )
         }
-
       </Tab.Navigator>
+      )}
     </NavigationContainer>
   );
 };

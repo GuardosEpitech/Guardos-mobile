@@ -186,7 +186,8 @@
         "save-filter": "Enregistrer le filtre :",
         "enter-filter-name": "Entrez le nom du filtre",
         "saved-filters": "Filtres enregistrés :",
-        "load": "Charger"
+        "load": "Charger",
+        "noresto": "Aucun restaurant adapté n'a été trouvé. Veuillez mettre à jour votre filtre."
       },
       "Router": {
         "no-internet-error": "Pas de connexion Internet. Veuillez vérifier votre connexion et réessayer.",
@@ -289,6 +290,14 @@
         "txtlegal1": "Informations aux consommateurs conformément au règlement (UE) n° 524/2013 : ",
         "txtlegal2": "Dans le cadre du règlement sur la résolution des litiges en ligne en matière de consommation, ",
         "txtlegal3": "une plateforme de résolution des litiges en ligne de la Commission européenne est disponible à l'adresse."
+      },
+      "Intro": {
+        "RestoIntro": "Vous pouvez voir la liste de tous nos restaurants partenaires dans le restoScreen",
+        "RestoInfo" : "Dans l'écran des restaurants, vous pouvez rechercher des restaurants et les filtrer en fonction de la distance, de l'évaluation, des catégories et des allergènes. Vous pouvez également enregistrer vos filtres et les charger ultérieurement.",
+        "MapIntro": "Consultez les restaurants situés à proximité de vous sur l'écran de la carte.",
+        "MapInfo": "Dans l'écran carte des restaurants, vous pouvez rechercher des restaurants sans avoir à vous déplacer.",
+        "ProfileIntro": "Gérez votre profil dans la section profil",
+        "ProfileInfo": "Dans la section profil, vous pouvez modifier votre mot de passe, vos données de profil et voir vos restaurants et plats préférés. Vous pouvez également supprimer votre compte."
       },
       "Payment": {
         "title": "Méthodes de paiement",

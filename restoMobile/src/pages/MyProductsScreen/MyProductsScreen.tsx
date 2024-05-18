@@ -6,6 +6,7 @@ import AddProductScreen from '../AddProductScreen/AddProductScreen';
 import { useIsFocused } from '@react-navigation/native';
 import { getProductsByUser } from '../../services/productCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useTranslation} from "react-i18next";
 
 
 
@@ -15,6 +16,7 @@ const MyProductsScreen = ({ navigation }: { navigation: any }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [key, setKey] = useState(0);
+  const {t} = useTranslation();
 
   useEffect(() => {
     fetchDarkMode();
@@ -62,17 +64,23 @@ const MyProductsScreen = ({ navigation }: { navigation: any }) => {
 
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
-      <FlatList
+      {productList.length === 0 ? (
+        <View style={styles.centered}>
+        <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyProductPage.noprod')}</Text> 
+        </View>
+      ) : (
+        <FlatList
         data={productList}
         renderItem={({ item }) => (
           <ProductCard key={item._id} product={item} onDelete={updateProductList} key={key}/>
+          )}
+          keyExtractor={(item) => item._id}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }
+          />
         )}
-        keyExtractor={(item) => item._id}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-        }
-      />
       <TouchableOpacity style={styles.addButton} onPress={navigateToAddProduct}>
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>

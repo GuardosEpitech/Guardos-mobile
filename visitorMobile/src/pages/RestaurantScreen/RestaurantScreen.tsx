@@ -494,19 +494,23 @@ const MyRestaurantsScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <FlatList
-          data={selectedRestoData}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
-              <Card info={item} isFavouriteResto={item.isFavouriteResto} isSmallerCard={false}/>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(restaurant, index) => restaurant.id ? restaurant.id.toString() : index.toString()}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
+        {selectedRestoData.length === 0 ? (
+          <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.RestaurantScreen.noresto')}</Text>
+        ) : (
+          <FlatList
+            data={selectedRestoData}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
+                <Card info={item} isFavouriteResto={item.isFavouriteResto} isSmallerCard={false}/>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(restaurant, index) => restaurant.uid ? restaurant.uid.toString() : index.toString()}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        )}
         <TouchableOpacity 
           style={styles.roundButton} 
           onPress={() => setIsTabVisible(!isTabVisible)}
