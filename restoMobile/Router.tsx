@@ -86,7 +86,6 @@ const MyTabs = () => {
 
   useEffect(() => {
     fetchIntro();
-    console.log("intro", showIntro);
     checkAuthentication();
   }, []);
 

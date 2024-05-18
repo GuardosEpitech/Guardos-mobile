@@ -45,9 +45,7 @@ const MyTabs = () => {
 
   useEffect(() => {
     fetchIntro();
-    fetchDarkMode();
-    console.log("intro", showIntro);
-    
+    fetchDarkMode();    
   });
 
   const fetchIntro = async () => {
