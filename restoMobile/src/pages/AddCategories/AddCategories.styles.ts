@@ -94,6 +94,18 @@ const styles = StyleSheet.create({
         width: screenWidth - 20, 
         marginHorizontal: 10, 
     },
+    ErrorMsg: {
+        fontSize: 28,
+        textAlign: "center",
+      },
+      darkModeTxt: {
+        color: 'white'
+      },
+      centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
 });
 
 export default styles;

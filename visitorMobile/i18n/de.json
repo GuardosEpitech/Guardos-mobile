@@ -30,6 +30,10 @@
       },
       "RestaurantCard": {
         "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"
+      },
+      "SubscriptionBox": {
+        "select": "Auswählen",
+        "monthly-price": "Monatlicher Preis"
       }
     },
     "pages": {
@@ -137,7 +141,7 @@
         "previous": "Vorherige",
         "next": "Nächste",
         "feature-request": "Feature-Anfrage",
-
+        "subscriptions": "Abonnement verwalten",
         "register": "Registrieren",
         "username-taken-or-invalid": "Der gewünschte Benutzername existiert bereits oder ist ungültig",
         "email-taken-or-invalid": "Für die angegebene E-Mail existiert bereits ein Konto oder sie ist ungültig",
@@ -178,7 +182,8 @@
         "save-filter": "Filter speichern:",
         "enter-filter-name": "Filternamen eingeben",
         "saved-filters": "Gespeicherte Filter:",
-        "load": "Laden"
+        "load": "Laden",
+        "noresto": "Keine passenden Restaurants gefunden. Bitte ändern Sie ihren Filter."
       },
       "Router": {
         "no-internet-error": "Keine Internetverbindung. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
@@ -189,6 +194,17 @@
         "my-profile": "Mein Profil",
         "login": "Anmelden",
         "register": "Registrieren"
+      },
+      "SubscriptionPage": {
+        "my-subscription": "Mein Abonnement",
+        "free": "Kostenlose Nutzung",
+        "free-description": "Nutzen Sie die Grundfunktionen kostenlos",
+        "basic": "Basis Abonnement",
+        "description-low-level-1": "Werbung entfernen",
+        "description-low-level-2": "Gruppensuche - speichere mehrere Ernährungsprofile",
+        "premium": "Premium-Abonnement",
+        "description-high-level-1": "Feature-Anfragen werden priorisiert",
+        "description-high-level-2": "Reservierungen vornehmen"
       },
       "Privacy": {
         "title": "Datenschutzerklärung",

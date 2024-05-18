@@ -27,6 +27,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#1B1D1E"
   },
 
+  ErrorMsg: {
+    fontSize: 28,
+    textAlign: "center",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  darkModeTxt: {
+    color: 'white'
+  }
 });
 
 export default styles;

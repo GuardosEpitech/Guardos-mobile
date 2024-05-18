@@ -28,6 +28,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: "#1B1D1E"
   },
+  ErrorMsg: {
+    fontSize: 28,
+    textAlign: "center",
+  },
+  darkModeTxt: {
+    color: 'white'
+  }
 });
   
 export default styles;

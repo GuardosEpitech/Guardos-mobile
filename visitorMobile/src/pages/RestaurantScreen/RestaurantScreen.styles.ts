@@ -252,6 +252,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'grey',
     borderRadius: 10, 
   },
+  ErrorMsg: {
+    fontSize: 28,
+    textAlign: "center",
+  },
+  darkModeTxt: {
+    color: 'white'
+  }
 });
 
 

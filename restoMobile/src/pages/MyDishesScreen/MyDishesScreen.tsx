@@ -6,6 +6,7 @@ import { deleteDishByName, getDishesByUser } from "../../services/dishCalls";
 import styles from '../MyDishesScreen/MyDishScreen.styles';
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useTranslation} from "react-i18next";
 
 const MyDishesScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -14,6 +15,7 @@ const MyDishesScreen: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [key, setKey] = useState(0);
+  const {t, i18n} = useTranslation();
 
   const fetchDishes = async () => {
     try {
@@ -71,6 +73,9 @@ const MyDishesScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+      {dishList.length === 0 ? (
+        <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyDishPage.nodish')}</Text>
+      ) : (
       <FlatList
         data={dishList}
         renderItem={({ item, index }) => (
@@ -84,6 +89,7 @@ const MyDishesScreen: React.FC = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      )}
       <TouchableOpacity style={styles.roundButton} onPress={navigateToAddDish}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>

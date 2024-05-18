@@ -64,6 +64,10 @@
       },
       "RestaurantCard": {
         "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"
+      },
+      "SubscriptionBox": {
+        "select": "Auswählen",
+        "monthly-price": "Monatlicher Preis"
       }
     },
     "pages": {
@@ -117,6 +121,15 @@
         "allergens": "Allergene: {{ allergens }}",
         "confirm-delete-dish": "Möchten Sie dieses Gericht wirklich löschen?"
       },
+      "MyDishPage": {
+        "nodish": "Keine Gerichte verfügbar. Bitte fügen Sie Ihr Gericht hinzu. Fügen Sie aber zuerst ein Restaurant hinzu."
+      },
+      "MyProductPage": {
+        "noprod": "Keine Produkte verfügbar. Bitte fügen Sie Ihr Produkt hinzu. Fügen Sie aber zuerst ein Restaurant hinzu."
+      },
+      "MyRestoPage": {
+        "noresto": "Kein Restaurant verfügbar. Bitte fügen Sie Ihr Restaurant hinzu."
+      },
       "Profile": {
         "change-pw": "Passwort ändern",
         "old-pw": "Altes Passwort eingeben",
@@ -150,7 +163,7 @@
         "username": "Benutzername",
         "email": "E-Mail",
         "feature-request": "Feature anfragen",
-
+        "subscriptions": "Abonnement verwalten",
         "register": "Registrieren",
         "username-taken-or-invalid": "Der gewünschte Benutzername existiert bereits oder ist ungültig",
         "email-taken-or-invalid": "Für die angegebene E-Mail-Adresse existiert bereits ein Konto oder sie ist ungültig",
@@ -190,6 +203,17 @@
         "my-profile": "Mein Profil",
         "login": "Anmelden",
         "register": "Registrieren"
+      },
+      "SubscriptionPage": {
+        "my-subscription": "Mein Abonnement",
+        "free": "Kostenlose Nutzung",
+        "free-description": "Nutzen Sie die Grundfunktionen kostenlos",
+        "basic": "Basis Abonnement",
+        "description-low-level-1": "Werbung entfernen",
+        "description-low-level-2": "Personalisiertes Menü",
+        "premium": "Premium-Abonnement",
+        "description-high-level-1": "Feature-Anfragen werden priorisiert",
+        "description-high-level-2": "Detaillierte Analyse-Einblicke"
       },
       "Privacy": {
         "title": "Datenschutzerklärung",
@@ -275,6 +299,7 @@
       "AddCategory": {
         "name": "Kategorie:",
         "id": "Reihenfolge:",
+        "noresto": "Kein Restaurant verfügbar. Bitte fügen Sie zuerst Ihr Restaurant hinzu."
         "add": "Neu"
       },
       "Intro": {

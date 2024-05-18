@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import styles from './AddRestaurantScreen.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addRestaurant, getAllMenuDesigns } from '../../services/restoCalls';
-import { IMenuDesigns } from 'src/models/menuDesignsInterface'
+import { IMenuDesigns } from 'src/models/menuDesignsInterface';
 import {useTranslation} from "react-i18next";
 
 DropDownPicker.addTranslation("DE", {
