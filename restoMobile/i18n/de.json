@@ -147,6 +147,7 @@
         "delete-account-failure-retry": "Löschen des Kontos fehlgeschlagen. Bitte versuchen Sie es erneut.",
         "profile-page": "Mein Profil",
         "add-picture": "Bild hinzufügen",
+        "delete-picture": "Bild löschen",
         "username": "Benutzername",
         "email": "E-Mail",
         "feature-request": "Feature anfragen",
