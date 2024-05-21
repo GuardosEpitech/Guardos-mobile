@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "visitorMobile",
+    "scheme": "com.guardos.visitorMobile",
     "slug": "visitorMobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,9 +18,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.guardos.visitorMobile"
     },
     "android": {
+      "package": "com.guardos.visitorMobile",
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
