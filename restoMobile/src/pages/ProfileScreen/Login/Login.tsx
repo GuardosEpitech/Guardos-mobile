@@ -4,6 +4,9 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import styles from './Login.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {loginUser} from "../../../services/userCalls";
+import {Ionicons} from "@expo/vector-icons";
+import {useTranslation} from "react-i18next";
+import {getProfileDetails} from "../../../services/profileCalls";
 
 type LoginScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -13,6 +16,8 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorForm, setErrorForm] = useState(false);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const {t, i18n} = useTranslation();
 
   const handleSubmit = async () => {
     try {
@@ -28,6 +33,12 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         AsyncStorage.removeItem('userToken');
       } else {
         setErrorForm(false);
+        getProfileDetails(response)
+          .then((res) => {
+            if (res.preferredLanguage) {
+              i18n.changeLanguage(res.preferredLanguage);
+            }
+          });
         AsyncStorage.setItem('userToken', response);
         setLoggedInStatus(true);
         navigation.navigate('Scanning');
@@ -40,34 +51,77 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.languageButton}
+        onPress={() => setShowLanguageDropdown(!showLanguageDropdown)}
+      >
+        <Ionicons name="language" size={24} color="black" />
+      </TouchableOpacity>
+      {showLanguageDropdown && (
+        <View style={styles.languageDropdown}>
+          <TouchableOpacity
+            style={styles.languageOption}
+            onPress={() => {
+              i18n.changeLanguage('en');
+              setShowLanguageDropdown(false);
+            }}
+          >
+            <Text>{t('common.english')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.languageOption}
+            onPress={() => {
+              i18n.changeLanguage('de');
+              setShowLanguageDropdown(false);
+            }}
+          >
+            <Text>{t('common.german')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.languageOption}
+            onPress={() => {
+              i18n.changeLanguage('fr');
+              setShowLanguageDropdown(false);
+            }}
+          >
+            <Text>{t('common.french')}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="Username or Email"
+          placeholder={t('pages.Profile.username-or-email') as string}
           value={username}
           onChangeText={text => setUsername(text)}
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder={t('pages.Profile.password') as string}
           secureTextEntry
           value={password}
           onChangeText={text => setPassword(text)}
         />
-        {errorForm && <Text style={styles.errorText}>Invalid Logindata</Text>}
+        {errorForm && <Text style={styles.errorText}>{t('pages.Profile.invalid-login')}</Text>}
         <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-          <Text style={styles.loginText}>Login</Text>
+          <Text style={styles.loginText}>{t('pages.Profile.login')}</Text>
         </TouchableOpacity>
         <Text style={styles.registerInfo}>
-          Don't you have an account yet? Register yourself{' '}
+          <Text style={styles.registerLink} onPress={() => navigation.navigate('Account Recovery')}>
+            {t('pages.Profile.trouble-logging-in')}
+          </Text>
+        </Text>
+        <Text style={styles.registerInfo}>
+          {t('pages.Profile.register-prompt')}
           <Text style={styles.registerLink} onPress={() => navigation.navigate('Register')}>
-            here
+            {t('pages.Profile.register-here')}
           </Text>
           .
         </Text>
         <View style={styles.containerDivider}>
           <View style={styles.divider}></View>
-          <Text>Or</Text>
+          <Text>{t('pages.Profile.or')}</Text>
           <View style={styles.divider}></View>
         </View>
         <View style={styles.containerFlex}>

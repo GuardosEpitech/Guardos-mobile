@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { 
   View, 
   Text, 
@@ -11,6 +11,7 @@ import {
   Keyboard, 
   TouchableWithoutFeedback 
 } from 'react-native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 import Modal from 'react-native-modal';
 import { 
@@ -19,42 +20,31 @@ import {
 import { 
   ISearchCommunication 
 } from '../../../../shared/models/communicationInterfaces';
-import { 
-  getSelectedFilteredRestos, 
-  getAllResto 
+import {  
+  getAllResto,
+  getFilteredRestosNew
 } from '../../services/restoCalls';
 import styles from './MapPage.styles';
+import MenuPage from '../MenuPage/MenuPage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
-import placeholderImage from '../../../assets/logo.png';
-import { CheckBox, Slider } from 'react-native-elements';
-
-function findMinMax(arr: any) {
-  if (!arr || arr.length === 0) {
-    return [0, 5];
-  }
-
-  let minVal = arr[0];
-  let maxVal = arr[0];
-
-  for (let i = 1; i < arr.length; i++) {
-    const num = arr[i];
-    if (num < minVal) {
-      minVal = num;
-    } else if (num > maxVal) {
-      maxVal = num;
-    }
-  }
-
-  return [minVal, maxVal];
-}
-
+import { Slider } from 'react-native-elements';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  addSavedFilter, 
+  deleteSavedFilter, 
+  getSavedFilters
+} from "../../services/profileCalls";
+import { defaultRestoImage } from "../../../assets/placeholderImagesBase64";
+import { getImages } from "../../services/imageCalls";
+import { FilterContext } from '../../models/filterContext';
+import {useTranslation} from "react-i18next";
 
 const Epitech = [13.328820, 52.508540];// long,lat
 
 const MapPage = () => {
   const [markers, setMarkers] = useState<IRestaurantFrontEnd[]>([]);
-
+  const { filter, setFilter } = useContext(FilterContext);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [restoData, setRestoData] = useState<IRestaurantFrontEnd[]>([]);
@@ -63,17 +53,106 @@ const MapPage = () => {
   const [locationFilter, setLocationFilter] = useState('');
   const [filteredMarkers, setFilteredMarkers] = 
     useState<IRestaurantFrontEnd[]>([]);
-
+  const [filterName, setFilterName] = useState('');
+  const [savedFilters, setSavedFilters] = useState([]);
+  const [rating, setRating] = useState(0);
   const [showFilterPopup, setShowFilterPopup] = useState(false);
-  const [selectedRating, setSelectedRating] = useState([]);
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [range, setRange] = useState(100);
-
+  const [range, setRange] = useState(0);
+  const navigation = useNavigation();
+  const [saveFilterStatus, setSaveFilterStatus] = useState({
+    success: false,
+    error: false,
+    message: '',
+  });
+  // TODO: apply i18n
+  const [categories, setCategories] = useState([
+    { name: 'Burger', selected: false },
+    { name: 'Sushi', selected: false },
+    { name: 'Pizza', selected: false },
+    { name: 'Salad', selected: false },
+    { name: 'Pasta', selected: false },
+  ]);
+  const [allergens, setAllergens] = useState([
+    { name: 'gluten', selected: false },
+    { name: 'celery', selected: false },
+    { name: 'crustaceans', selected: false },
+    { name: 'eggs', selected: false },
+    { name: 'fish', selected: false },
+    { name: 'lupin', selected: false },
+    { name: 'milk', selected: false },
+    { name: 'molluscs', selected: false },
+    { name: 'mustard', selected: false },
+    { name: 'peanuts', selected: false },
+    { name: 'sesame', selected: false },
+    { name: 'soybeans', selected: false },
+    { name: 'sulphides', selected: false },
+    { name: 'tree nuts', selected: false },
+  ]);
+  const isFocused = useIsFocused();
+  const [darkMode, setDarkMode] = useState(false);
+  const {t} = useTranslation();
 
   useEffect(() => {
-    updateRestoData();
-  }, []);
+    if (isFocused) {
+      loadSavedFilters(); // Trigger loadSavedFilters when the screen is focused
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (filter) {
+      setNameFilter(filter.name || '');
+      setLocationFilter(filter.location || '');
+      setRange(filter.range || 0);
+      setRating(filter.rating ? filter.rating[0] : 0);
+      setCategories(categories.map(category => ({
+        ...category,
+        selected: filter.categories ? 
+          filter.categories.includes(category.name) : false,
+      })));
+      setAllergens(allergens.map(allergen => ({
+        ...allergen,
+        selected: filter.allergenList ? 
+          filter.allergenList.includes(allergen.name) : false,
+      })));
+      getFilteredRestosNew(filter)
+      .then((res) => {
+        const validMarkers = res
+          .filter(marker => marker.location.latitude && 
+            marker.location.longitude);
+        setFilteredMarkers(validMarkers);
+    })
+    .catch((error) => {
+      console.error('Error updating restaurant data:', error);
+    });
+      getAllResto()
+      .then((res) => {
+        const validMarkers = res
+        .filter(marker => marker.location.latitude && 
+          marker.location.longitude);
+      setMarkers(validMarkers);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
+      });
+    } else {
+      updateRestoData();
+    }
+    fetchDarkMode();
+  }, [filter]);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const updateRestoData = () => {
     getAllResto()
@@ -89,6 +168,17 @@ const MapPage = () => {
       });
   };
 
+  const loadSavedFilters = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      return;
+    }
+
+    getSavedFilters(userToken).then((res) => {
+      setSavedFilters(res);
+    })
+  }
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -96,8 +186,18 @@ const MapPage = () => {
   useEffect(() => {
     setImageError(false);
   }, [isModalVisible]);
-
-  const handleMarkerPress = (marker) => {
+ 
+  const handleMarkerPress = async (marker) => {
+    if (marker.picturesId.length > 0) {
+      try {
+        const res = await getImages(marker.picturesId);
+        marker.pictures = res[0].base64;
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    } else {
+      marker.pictures = defaultRestoImage;
+    }
     setSelectedMarker(marker);
     toggleModal();
   };
@@ -128,20 +228,48 @@ const MapPage = () => {
     }
   };
 
-  const handleMenu = () => {
+  const handleMenu = () => {  
+    try {
+      if (selectedMarker != null) {
+        const restaurantId = selectedMarker.uid;
+        const restaurantName = selectedMarker.name;
+        toggleModal();
+        navigation.navigate('MenuPage', { restaurantId, restaurantName });
+      }
+    } catch (error) {
+      console.error('Error navigating to MenuPage:', error);
+    }
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (nameFilter || locationFilter) {
-      const filtered = markers.filter((marker) => {
-        const nameMatch = !nameFilter || 
-        marker.name.toLowerCase().includes(nameFilter.toLowerCase());
-        const locationMatch = !locationFilter || 
-        marker.location.city.toLowerCase()
-          .includes(locationFilter.toLowerCase());
-        return nameMatch && locationMatch;
+      let selectedRating = [];
+      if (rating < 5 && rating !== 0) {
+        selectedRating = [rating, rating + 1]
+      } else if (rating === 0) {
+        selectedRating = [];
+      } else if (rating === 5) {
+        selectedRating = [rating, rating];
+      }
+      const inter: ISearchCommunication = {
+        range: range,
+        rating: selectedRating,
+        name: nameFilter,
+        location: locationFilter,
+        categories: selectedCategories,
+        allergenList: selectedAllergens
+      }
+      await getFilteredRestosNew(inter)
+        .then((res) => {
+          const validMarkers = res
+            .filter(marker => marker.location.latitude && 
+              marker.location.longitude);
+          setFilteredMarkers(validMarkers);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
       });
-      setFilteredMarkers(filtered);
+      setFilter(inter);
     } else {
       setFilteredMarkers(markers);
     }
@@ -149,44 +277,249 @@ const MapPage = () => {
   };
 
   const handleFilter = async () => {
+    let selectedRating = [];
+      if (rating < 5 && rating !== 0) {
+        selectedRating = [rating, rating + 1]
+      } else if (rating === 0) {
+        selectedRating = [];
+      } else if (rating === 5) {
+        selectedRating = [rating, rating];
+      }
     const inter: ISearchCommunication = {
       range: range,
-      rating: findMinMax(selectedRating),
+      rating: selectedRating,
       name: nameFilter,
       location: locationFilter,
       categories: selectedCategories,
       allergenList: selectedAllergens
     }
-    setFilteredMarkers(await getSelectedFilteredRestos(inter));
-
+    await getFilteredRestosNew(inter)
+      .then((res) => {
+        const validMarkers = res
+          .filter(marker => marker.location.latitude && 
+            marker.location.longitude);
+        setFilteredMarkers(validMarkers);
+    })
+    .catch((error) => {
+      console.error('Error updating restaurant data:', error);
+    });
+    setFilter(inter);
     setShowFilterPopup(false);
   };
 
-  const clearFilters = () => {
-    setSelectedRating([]);
+  const handleRatingChange = (index: number) => {
+    setRating(index);
+  };
+
+  const handleCategoryToggle = (index: number) => {
+    const updatedCategories = [...categories];
+    updatedCategories[index].selected = !updatedCategories[index].selected;
+    setCategories(updatedCategories);
+    setSelectedCategories(categories
+      .filter(category => category.selected).map(category => category.name));
+  };
+
+  const handleAllergenToggle = (index: number) => {
+    const updatedAllergens = [...allergens];
+    updatedAllergens[index].selected = !updatedAllergens[index].selected;
+    setAllergens(updatedAllergens);
+    setSelectedAllergens(allergens
+      .filter(allergen => allergen.selected).map(allergen => allergen.name));
+  };
+
+  const clearFilters = async () => {
+    setNameFilter('');
+    setLocationFilter('');
     setSelectedAllergens([]);
     setSelectedCategories([]);
-    setRange(100);
+    setRange(0);
+    setRating(0);
+    setCategories(categories.map(category => 
+      ({ ...category, selected: false })));
+    setAllergens(allergens.map(allergen => 
+      ({ ...allergen, selected: false })));
+    await AsyncStorage.removeItem('filter');
+  };
+
+  const handleSaveFilter = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      setSaveFilterStatus({
+        success: false,
+        error: true,
+        message: t('pages.MapPage.save-filter-error') as string,
+      });
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
+      return;
+    }
+    let selectedRating = [];
+      if (rating < 5 && rating !== 0) {
+        selectedRating = [rating, rating + 1]
+      } else if (rating === 0) {
+        selectedRating = [];
+      } else if (rating === 5) {
+        selectedRating = [rating, rating];
+      }
+    const filter : ISearchCommunication = {
+      filterName: filterName,
+      range: range,
+      rating: selectedRating,
+      name: nameFilter,
+      location: locationFilter,
+      categories: selectedCategories,
+      allergenList: selectedAllergens
+    }
+    addSavedFilter(userToken, filter).then((res) => {
+      if (res !== null) {
+        const savedFiltersCopy = savedFilters;
+        savedFiltersCopy.push(filter);
+        setSavedFilters(savedFiltersCopy);
+        setSaveFilterStatus({
+          success: true,
+          error: false,
+          message: t('pages.MapPage.save-filter-success') as string,
+        });
+        console.log('Saved filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
+      } else {
+        setSaveFilterStatus({
+          success: false,
+          error: true,
+          message: t('pages.MapPage.save-filter-error') as string,
+        });
+        console.error('Error saving filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
+      }
+    }).catch((error) => {
+      setSaveFilterStatus({
+        success: false,
+        error: true,
+        message: t('pages.MapPage.save-filter-error') as string,
+      });
+      console.error('Error saving filter:', error);
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
+    });
+    setFilterName('');
+  };
+
+  const handleLoadFilter = async (loadFilterName: string) => {
+    const newFilter : ISearchCommunication = savedFilters
+      .find((filter) => filter.filterName === loadFilterName);
+
+    await AsyncStorage.setItem('filter', JSON.stringify(newFilter));
+
+    setSelectedCategories(newFilter.categories);
+    setSelectedAllergens(newFilter.allergenList);
+    setRating(newFilter.rating[0]);
+    setRange(newFilter.range);
+    const updatedCategories = categories.map(category => ({
+      ...category,
+      selected: newFilter.categories.includes(category.name),
+    }));
+    setCategories(updatedCategories);
+    const updatedAllergens = allergens.map(allergen => ({
+      ...allergen,
+      selected: newFilter.allergenList.includes(allergen.name),
+    }));
+    setAllergens(updatedAllergens);
+  };
+
+  const handleDeleteFilter = async (filterName: string) => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      setSaveFilterStatus({
+        success: false,
+        error: true,
+        message: t('pages.MapPage.delete-filter-error') as string,
+      });
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
+      return;
+    }
+
+    deleteSavedFilter(userToken, filterName).then((res) => {
+      if (res !== null) {
+        const remainingFilters = savedFilters.filter((filter) => 
+          filter.filterName !== filterName);
+        setSavedFilters(remainingFilters);
+        setSaveFilterStatus({
+          success: true,
+          error: false,
+          message: t('pages.MapPage.delete-filter-success') as string,
+        });
+        console.log('Deleted filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
+      } else {
+        setSaveFilterStatus({
+          success: false,
+          error: true,
+          message: t('pages.MapPage.delete-filter-error') as string,
+        });
+        console.error('Error deleting filter');
+        setTimeout(() => {
+          setSaveFilterStatus({
+            success: false,
+            error: false,
+            message: '',
+          });
+        }, 5000);
+      }
+    })
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
+      <View style={[styles.searchContainer, darkMode && styles.searchContainerDarkTheme]}>
         <TextInput
-          style={styles.input}
-          placeholder="Enter restaurant name"
+          style={[styles.input, darkMode && styles.inputDarkTheme]}
+          placeholder={t('pages.MapPage.enter-resto-name') as string}
           value={nameFilter}
           onChangeText={(text) => setNameFilter(text)}
         />
         <TextInput
-          style={styles.input}
-          placeholder="Enter city name"
+          style={[styles.input, darkMode && styles.inputDarkTheme]}
+          placeholder={t('pages.MapPage.enter-city') as string}
           value={locationFilter}
           onChangeText={(text) => setLocationFilter(text)}
         />
         <TouchableOpacity style={styles.button} onPress={handleSearch}>
-          <Text style={styles.buttonText}>Search</Text>
+          <Text style={styles.buttonText}>{t('pages.MapPage.search')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -201,7 +534,7 @@ const MapPage = () => {
       >
         {filteredMarkers.map((marker) => (
           <Marker
-            key={marker.id}
+            key={marker.uid}
             coordinate={{ latitude: parseFloat(marker.location.latitude), 
               longitude: parseFloat(marker.location.longitude) }}
             title={marker.name}
@@ -210,16 +543,16 @@ const MapPage = () => {
         ))}
       </MapView>
 
-      <Modal isVisible={isModalVisible} style={{ margin: 0 }}>
-        <View style={styles.modalContent}>
+      <Modal isVisible={isModalVisible} style={{ margin: 0}}>
+        <View style={[styles.modalContent, darkMode && styles.modalContentDarkTheme]}>
           <Image 
             source={
               !imageError &&
               selectedMarker &&
               selectedMarker.pictures &&
               selectedMarker.pictures.length > 0
-                ? { uri: selectedMarker.pictures[0] }
-                : placeholderImage
+                ? { uri: selectedMarker.pictures }
+                : { uri: defaultRestoImage }
             }
             style={styles.modalImage}
             onError={() => {
@@ -228,8 +561,8 @@ const MapPage = () => {
               return null; 
             }}
           />
-          <View style={styles.headingContainer}>
-            <Text style={styles.headingText}>
+          <View style={[styles.headingContainer, darkMode && styles.headingContainerDarkTheme]}>
+            <Text style={[styles.headingText, darkMode && styles.headingTextDarkTheme]}>
               {selectedMarker && selectedMarker.name}
             </Text>
           <View style={styles.starContainer}>
@@ -241,12 +574,12 @@ const MapPage = () => {
               
               return (
                 <Ionicons
-                key={index}
-                name={isFullStar ? 'star' : isHalfStar ? 
-                  'star-half' : 'star-outline'}
-                size={20}
-                color={isFullStar || isHalfStar ? 'gold' : 'black'}
-                style={styles.starIcon}
+                  key={index}
+                  name={isFullStar ? 'star' : isHalfStar ?
+                    'star-half' : 'star-outline'}
+                  size={20}
+                  color={isFullStar || isHalfStar ? 'gold' : 'black'}
+                  style={[styles.starIcon, darkMode && styles.starIconDarkTheme]}
                 />
                 );
               })}
@@ -256,9 +589,9 @@ const MapPage = () => {
           </View>
               </View>
 
-          <View style={styles.locationContainer}>
-            <Ionicons name="location-sharp" size={18} color="black" />
-            <Text style={{ marginLeft: 5 }}>
+          <View style={[styles.locationContainer, darkMode && styles.locationContainerDarkTheme]}>
+            <Ionicons name="location-sharp" size={18} color={darkMode ? 'white' : 'black'} />
+            <Text style={{ marginLeft: 5, color: darkMode ? 'white' : 'black'}}>
               {`${selectedMarker && selectedMarker.location.streetName} `+ 
               `${selectedMarker && selectedMarker.location.streetNumber}, ` + 
               `${selectedMarker && selectedMarker.location.postalCode} `+ 
@@ -267,28 +600,33 @@ const MapPage = () => {
             </Text>
           </View>
 
-          <Text style={{ marginTop: 10 }}>
+          <Text style={{ marginTop: 10, color: darkMode ? 'white' : 'black' }}>
             {selectedMarker && selectedMarker.description}
           </Text>
-          <Text style={{ marginTop: 10 }}>
-            Telephone: {selectedMarker && selectedMarker.phoneNumber}
+          <Text style={{ marginTop: 10, color: darkMode ? 'white' : 'black' }}>
+            {t('pages.MapPage.telephone', {phoneNumber: selectedMarker && selectedMarker.phoneNumber})}
           </Text>
-          <Text>Website: {selectedMarker && selectedMarker.website}</Text>
+          <Text style={{color: darkMode ? 'white' : 'black'}}>
+            {t('pages.MapPage.website', {website: selectedMarker && selectedMarker.website})}
+          </Text>
 
           <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
               <Icon name="close" size={30} color="black" />
             </TouchableOpacity>
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={handleMenu} style={styles.menuButton}>
-                <Text style={styles.buttonText}>Menu</Text>
+              <TouchableOpacity 
+                onPress={handleMenu} 
+                style={styles.menuButton}
+              >
+                <Text style={styles.buttonText}>{t('pages.MapPage.menu')}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity 
                 onPress={handleNavigate} 
                 style={styles.navigateButton}
               >
-                <Text style={styles.buttonText}>Navigate</Text>
+                <Text style={styles.buttonText}>{t('pages.MapPage.navigate')}</Text>
               </TouchableOpacity>
             </View>
         </View>
@@ -304,79 +642,135 @@ const MapPage = () => {
       <Modal isVisible={showFilterPopup} style={{ marginTop: 50 }}>
       <ScrollView style={styles.filterPopup}>
         <View style={styles.filterPopup}>
-          <Text style={styles.popupHeading}>Filter Options</Text>
-          
-          <Text style={styles.categoryText}>Rating:</Text>
-          {[0, 1, 2, 3, 4, 5].map((rating) => (
-            <CheckBox
-              key={rating}
-              title={`${rating} Stars`}
-              checked={selectedRating.includes(rating)}
-              onPress={() => {
-                setSelectedRating((prev) =>
-                  prev.includes(rating) ? prev.filter((item) => 
-                    item !== rating) : [...prev, rating]
-                );
-              }}
-            />
-          ))}
+          <Text style={styles.popupHeading}>{t('pages.MapPage.filter')}</Text>
 
-          <Text style={styles.categoryText}>Range:</Text>
+          <Text style={styles.categoryText}>{t('pages.MapPage.rating')}</Text>
+          <View style={styles.ratingContainer}>
+            {[1, 2, 3, 4, 5].map((index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleRatingChange(index)} 
+              >
+                <Ionicons 
+                  name={index <= rating ? 'md-star' : 'md-star-outline'} 
+                  size={30} 
+                  color="#6d071a" 
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text style={styles.categoryText}>{t('pages.MapPage.range')}</Text>
               <Slider
                 thumbStyle={styles.thumb}
-                value={100}
+                value={range}
                 onValueChange={(value) => setRange(value)}
                 minimumValue={0}
-                maximumValue={500}
-                step={10}
-                thumbTintColor="red" 
+                maximumValue={100}
+                step={1}
+                minimumTrackTintColor="#6d071a"
+                maximumTrackTintColor="#e2b0b3"
+                thumbTintColor="#6d071a" 
               />
-              <Text style={{ marginBottom: 10 }}>Selected Range: {range}</Text>
+              <Text style={styles.distanceText}>{t('pages.MapPage.distance', {range: range})}</Text>
 
-          <Text style={styles.categoryText}>Categories:</Text>
+          <Text style={styles.categoryText}>{t('pages.MapPage.categories')}</Text>
 
-          {['Burger', 'Sushi', 'Pizza', 'Salad', 'Pasta'].map((category) => (
-            <CheckBox
-              key={category}
-              title={category}
-              checked={selectedCategories.includes(category)}
-              onPress={() => {
-                setSelectedCategories((prev) =>
-                  prev.includes(category) ? prev.filter((item) => 
-                    item !== category) : [...prev, category]
-                );
-              }}
+          <View style={styles.categoriesContainer}>
+            {categories.map((category, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[styles.categoryBox, 
+                  { backgroundColor: category.selected ? '#e2b0b3' : 'white' }]}
+                onPress={() => handleCategoryToggle(index)}
+              >
+                <Text>{category.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text style={styles.categoryText}>{t('pages.MapPage.allergens')}</Text>
+          <View style={styles.categoriesContainer}>
+            {allergens.map((allergen, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[styles.categoryBox, 
+                  { backgroundColor: allergen.selected ? '#e2b0b3' : 'white' }]}
+                onPress={() => handleAllergenToggle(index)}
+              >
+                <Text>{allergen.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <View>
+            <Text style={styles.categoryText}>{t('pages.MapPage.save-filter')}</Text>
+            <TextInput
+              style={styles.saveInput}
+              placeholder={t('pages.MapPage.enter-filter-name') as string}
+              placeholderTextColor="gray"
+              value={filterName}
+              onChangeText={(text) => setFilterName(text)}
             />
-          ))}
+            {/* Save Filter Status Messages */}
+            {saveFilterStatus.success && (
+              <Text style={styles.successMessage}>
+                {saveFilterStatus.message}
+              </Text>
+            )}
+            {saveFilterStatus.error && (
+              <Text style={styles.errorMessage}>
+                {saveFilterStatus.message}
+              </Text>
+            )}
+            <TouchableOpacity
+              style={styles.filterPopupButton}
+              onPress={handleSaveFilter}
+            >
+              <Text style={styles.buttonTextPopup}>{t('common.save')}</Text>
+            </TouchableOpacity>
+          </View>
 
-          <Text style={styles.categoryText}>Allergens:</Text>
-          {['Milk', 'Peanut', 'Shellfish', 'Eggs'].map((allergen) => (
-            <CheckBox
-              key={allergen}
-              title={allergen}
-              checked={selectedAllergens.includes(allergen)}
-              onPress={() => {
-                setSelectedAllergens((prev) =>
-                  prev.includes(allergen) ? prev.filter((item) => 
-                    item !== allergen) : [...prev, allergen]
-                );
-              }}
-            />
-          ))}
+          {/* Saved Filters Section */}
+          <Text style={styles.categoryText}>{t('pages.MapPage.saved-filters')}</Text>
+          <ScrollView>
+            {savedFilters.map((filter, index) => (
+              <View key={index} style={styles.savedFilterItem}>
+                <View style={styles.filterNameContainer}>
+                  <Text>{filter.filterName}</Text>
+                </View>
+                <View style={styles.saveButtonsContainer}>
+                  <TouchableOpacity
+                    onPress={() => handleLoadFilter(filter.filterName)}
+                    style={styles.loadFilterButton}
+                  >
+                    <Text style={styles.buttonTextPopup}>{t('pages.MapPage.load')}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => handleDeleteFilter(filter.filterName)}
+                    style={styles.deleteFilterButton}
+                  >
+                    <Text style={styles.buttonTextPopup}>{t('common.delete')}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+
 
           <View style={styles.buttonContainerPopup}>
             <TouchableOpacity
               style={styles.clearButton}
               onPress={clearFilters}
             >
-              <Text style={styles.buttonTextPopup}>Clear</Text>
+              <Text style={styles.buttonTextPopup}>{t('common.clear')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.filterPopupButton}
               onPress={handleFilter}
             >
-              <Text style={styles.buttonTextPopup}>Filter</Text>
+              <Text style={styles.buttonTextPopup}>{t('common.apply')}</Text>
             </TouchableOpacity>
           </View>
         </View>

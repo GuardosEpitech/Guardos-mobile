@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert, StatusBar, Image, ScrollView } from 'react-native'; // Import ScrollView
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, TouchableOpacity, Text, Alert, StatusBar, ScrollView } from 'react-native';
+import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
 import styles from './AddRestaurantScreen.styles';
-import MyRestaurantsScreen from "src/pages/MyRestaurantsScreen/MyRestaurantsScreen";
-import Header from '../../components/Header';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { addRestaurant, getAllMenuDesigns } from '../../services/restoCalls';
+import { IMenuDesigns } from 'src/models/menuDesignsInterface';
+import {useTranslation} from "react-i18next";
+
+DropDownPicker.addTranslation("DE", {
+  PLACEHOLDER: "Wählen Sie ein Element aus",
+  SEARCH_PLACEHOLDER: "Suche...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} Elemente ausgewählt",
+  NOTHING_TO_SHOW: "Es gibt nichts zu zeigen!"
+});
+
+DropDownPicker.addTranslation("FR", {
+  PLACEHOLDER: "Sélectionnez un élément",
+  SEARCH_PLACEHOLDER: "Tapez quelque chose...",
+  SELECTED_ITEMS_COUNT_TEXT: "{count} éléments ont été sélectionnés",
+  NOTHING_TO_SHOW: "Il n'y a rien à montrer!"
+});
 
 const AddRestaurantScreen = () => {
   const navigation = useNavigation();
@@ -19,12 +35,31 @@ const AddRestaurantScreen = () => {
   const [description, setDescription] = useState('');
   const [website, setWebsite] = useState('');
   const [imageURL, setImageURL] = useState('');
+  const [menuDesigns, setMenuDesigns] = useState<IMenuDesigns[]>([]);
+  const [selectedMenuDesign, setSelectedMenuDesign] = useState('');
+  const [selectedMenuDesignID, setSelectedMenuDesignID] = useState(0);
+  const [menuDesignOpen, setMenuDesignOpen] = useState(false);
+  const [language, setLanguage] = useState('');
+  const {t, i18n} = useTranslation();
+
+  useEffect(() => {    
+    getAllMenuDesigns()
+      .then((res) => {
+        setMenuDesigns(res);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
+      });
+    setLanguage(i18n.language);
+  }, []);
+
 
   const handleAddRestaurant = async () => {
-    if (!restaurantName || !phoneNumber || !streetName || !streetNumber || !postalCode || !city || !country || !description || !website) {
-      Alert.alert('Error', 'All fields are mandatory.');
+    if (!restaurantName || !streetName || !streetNumber || !postalCode || !city || !country) {
+      Alert.alert(String(t('common.error')), String(t('common.all-fields-mandatory')));
       return;
     }
+    const token = await AsyncStorage.getItem('userToken');
     const restaurantData = {
       name: restaurantName,
       phonenumber: phoneNumber,
@@ -36,13 +71,18 @@ const AddRestaurantScreen = () => {
         postalCode: postalCode,
         city: city,
         country: country,
+        latitude: "0",
+        longitude: "0",
       },
       description: description,
+      menuDesignID: selectedMenuDesignID,
     };
-
+    const data  = {
+      userToken: token,
+      resto: restaurantData,
+    };
     try {
-      const response = await axios.post('http://195.90.210.111:8081/api/restaurants/', restaurantData);
-      console.log('Response from the server:', response.data);
+      const response = addRestaurant(data);
       setRestaurantName('');
       setPhoneNumber('');
       setStreetName('');
@@ -53,10 +93,12 @@ const AddRestaurantScreen = () => {
       setDescription('');
       setWebsite('');
       setImageURL('');
+      setSelectedMenuDesignID(0);
+      setSelectedMenuDesign('');
       navigation.navigate('MyRestaurantsScreen');
     } catch (error) {
       console.error('Error adding restaurant:', error);
-      Alert.alert('Error', 'Failed to add restaurant. Please try again.');
+      Alert.alert(String(t('common.error')), String(t('pages.AddEditRestaurantScreen.add-resto-failed')));
     }
   };
 
@@ -68,33 +110,25 @@ const AddRestaurantScreen = () => {
       quality: 1,
     });
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setImageURL(result.uri);
     }
   };
 
   return (
     <ScrollView style={styles.container}>
-      <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
-        {imageURL ? (
-          <Image source={{ uri: imageURL }} style={styles.image} resizeMode="cover" />
-        ) : (
-          <View style={styles.placeholderContainer}>
-            <Text style={styles.placeholderText}>Tap to Add Picture</Text>
-          </View>
-        )}
-      </TouchableOpacity>
+      <StatusBar barStyle="dark-content" />
       <View style={styles.inputContainer}>
         <View style={styles.inputPair}>
           <TextInput
             style={styles.input}
-            placeholder="Restaurant Name *"
+            placeholder={t('pages.AddEditRestaurantScreen.resto-name-mandatory') as string}
             value={restaurantName}
             onChangeText={setRestaurantName}
           />
           <TextInput
             style={styles.input}
-            placeholder="Phone Number *"
+            placeholder={t('pages.AddEditRestaurantScreen.phone-number') as string}
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -104,13 +138,13 @@ const AddRestaurantScreen = () => {
         <View style={styles.inputPair}>
           <TextInput
             style={styles.input}
-            placeholder="Street Name *"
+            placeholder={t('pages.AddEditRestaurantScreen.street-name-mandatory') as string}
             value={streetName}
             onChangeText={setStreetName}
           />
           <TextInput
             style={styles.input}
-            placeholder="Street Number *"
+            placeholder={t('pages.AddEditRestaurantScreen.street-number-mandatory') as string}
             value={streetNumber}
             onChangeText={setStreetNumber}
           />
@@ -119,13 +153,13 @@ const AddRestaurantScreen = () => {
         <View style={styles.inputPair}>
           <TextInput
             style={styles.input}
-            placeholder="Postal Code *"
+            placeholder={t('pages.AddEditRestaurantScreen.postal-code-mandatory') as string}
             value={postalCode}
             onChangeText={setPostalCode}
           />
           <TextInput
             style={styles.input}
-            placeholder="City *"
+            placeholder={t('pages.AddEditRestaurantScreen.city-mandatory') as string}
             value={city}
             onChangeText={setCity}
           />
@@ -134,28 +168,49 @@ const AddRestaurantScreen = () => {
         <View style={styles.inputPair}>
           <TextInput
             style={styles.input}
-            placeholder="Country *"
+            placeholder={t('pages.AddEditRestaurantScreen.country-mandatory') as string}
             value={country}
             onChangeText={setCountry}
           />
           <TextInput
             style={styles.input}
-            placeholder="Description *"
+            placeholder={t('pages.AddEditRestaurantScreen.description') as string}
             value={description}
             onChangeText={setDescription}
             multiline
           />
         </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Website *"
-          value={website}
-          onChangeText={setWebsite}
-        />
+        <View style={styles.inputPair}>
+          <TextInput
+            style={styles.input}
+            placeholder={t('pages.AddEditRestaurantScreen.website') as string}
+            value={website}
+            onChangeText={setWebsite}
+          />
+        </View>
+        <View style={styles.containerPicker}>
+          <Text style={{ marginBottom: 5 }}>{t('pages.AddEditRestaurantScreen.select-menu-design')}</Text>
+          <DropDownPicker
+            open={menuDesignOpen}
+            language={language.toUpperCase() as LanguageType}
+            items={menuDesigns.map((menuDesign) => ({ label: menuDesign.name, value: menuDesign._id }))}
+            value={selectedMenuDesign}
+            dropDownDirection={'TOP'}
+            setOpen={setMenuDesignOpen}
+            onChangeValue={(item:any) => {
+              if (item === null || item === undefined || item === '' || typeof item === "undefined") {
+                return;
+              }
+              setSelectedMenuDesign(item);
+              setSelectedMenuDesignID(item);
+            }}
+            setValue={setSelectedMenuDesign}
+          />
+        </View>
       </View>
       <TouchableOpacity style={styles.addButton} onPress={handleAddRestaurant}>
-        <Text style={styles.buttonText}>Add Restaurant</Text>
+        <Text style={styles.buttonText}>{t('pages.AddEditRestaurantScreen.add-resto')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

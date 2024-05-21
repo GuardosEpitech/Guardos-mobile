@@ -3,10 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView,
   Modal, FlatList, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { IIngredient, IRestaurantFrontEnd, IProduct } from '../../../../shared/models/restaurantInterfaces';
 import { IProductFE } from '../../../../shared/models/productInterfaces';
-import { getAllResto } from "../../services/restoCalls";
+import { getAllRestaurantsByUser } from "../../services/restoCalls";
 import { addNewProduct, editProduct } from '../../services/productCalls';
 import styles from './ProductForm.styles';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTranslation} from "react-i18next";
 
 interface IDishFormProps {
   productName?: string;
@@ -16,6 +18,7 @@ interface IDishFormProps {
   editable?: boolean;
 }
 
+// TODO: needs to be modified somehow
 const ingredientsSuggestion: IIngredient[] = [
   { name: "Milk" },
   { name: "Wheat" },
@@ -40,11 +43,13 @@ const ProductForm: React.FC<IDishFormProps> = ({
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>(initialProductIngredients || []);
   const [availableIngredientSuggestions, setAvailableIngredientSuggestions] = useState<IIngredient[]>(ingredientsSuggestion);
   const [productIdEdit, setProductId] = useState<number>(productId || 0 );
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const allRestaurants = await getAllResto();
+        const userToken = await AsyncStorage.getItem('userToken');
+        const allRestaurants = await getAllRestaurantsByUser({key: userToken});
         setRestaurants(allRestaurants);
       } catch (error) {
         console.error('Error fetching restaurants:', error);
@@ -93,7 +98,7 @@ const ProductForm: React.FC<IDishFormProps> = ({
       }
 
       if (editable) {
-        const selectedId: number[] = selectedRestaurants.map((id) => restaurants.find((restaurant) => restaurant.name === id).id).filter(Boolean);
+        const selectedId: number[] = selectedRestaurants.map((id) => restaurants.find((restaurant) => restaurant.name === id).uid).filter(Boolean);
         const productFE: IProductFE = {
           name,
           id: productIdEdit,
@@ -137,7 +142,7 @@ const ProductForm: React.FC<IDishFormProps> = ({
         <ScrollView style={styles.container}>
         <TextInput
             style={styles.input}
-            placeholder="Product Name"
+            placeholder={t('components.ProductForm.product-name') as string}
             placeholderTextColor={styles.placeholderText.color}
             value={name}
             onChangeText={(text) => setName(text)}
@@ -148,7 +153,7 @@ const ProductForm: React.FC<IDishFormProps> = ({
           >
             <View style={styles.selectedIngredientsContainer}>
               {selectedIngredients.length === 0 ? (
-                <Text style={styles.placeholderText}>Ingredients</Text>
+                <Text style={styles.placeholderText}>{t('common.ingredients')}</Text>
               ) : (
                 selectedIngredients.map((ingredient) => (
                   <TouchableOpacity
@@ -187,7 +192,7 @@ const ProductForm: React.FC<IDishFormProps> = ({
               />
               <View style={styles.closeModalButtonContainer}>
                 <TouchableOpacity onPress={toggleIngredientSuggestions} style={styles.closeModalButton}>
-                  <Text style={styles.closeModalButtonText}>Select Ingredients</Text>
+                  <Text style={styles.closeModalButtonText}>{t('components.ProductForm.select-ingredients')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -199,7 +204,7 @@ const ProductForm: React.FC<IDishFormProps> = ({
           >
             <View style={styles.selectedIngredientsContainer}>
               {selectedRestaurants.length === 0 ? (
-                <Text style={styles.placeholderText}>Restaurants</Text>
+                <Text style={styles.placeholderText}>{t('common.restos')}</Text>
               ) : (
                 selectedRestaurants.map((restaurant) => (
                   <TouchableOpacity
@@ -238,7 +243,7 @@ const ProductForm: React.FC<IDishFormProps> = ({
               />
               <View style={styles.closeModalButtonContainer}>
                 <TouchableOpacity onPress={toggleRestaurantModal} style={styles.closeModalButton}>
-                  <Text style={styles.closeModalButtonText}>Select Restaurants</Text>
+                  <Text style={styles.closeModalButtonText}>{t('components.ProductForm.select-restos')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -249,9 +254,9 @@ const ProductForm: React.FC<IDishFormProps> = ({
             onPress={handleAddProduct}
           >
             {editable ? (
-              <Text style={styles.buttonText}>Edit Product</Text>
+              <Text style={styles.buttonText}>{t('components.ProductForm.edit-product')}</Text>
             ) : (
-              <Text style={styles.buttonText}>Add Product</Text>
+              <Text style={styles.buttonText}>{t('components.ProductForm.add-product')}</Text>
             )}
           </TouchableOpacity>
         </ScrollView>

@@ -1,0 +1,321 @@
+{
+  "translation": {
+    "common": {
+      "save": "Save",
+      "submit": "Submit",
+      "apply-changes": "Apply Changes",
+      "change": "Change",
+      "confirm": "Confirm",
+      "ok": "OK",
+      "cancel": "Cancel",
+      "close": "Close",
+      "delete": "Delete",
+      "yes": "Yes",
+      "no": "No",
+
+      "english": "English",
+      "german": "German",
+      "french": "French",
+
+      "ingredients": "Ingredients",
+      "my-ingredients": "My Ingredients",
+      "products": "Products",
+      "my-products": "My Products",
+      "dishes": "Dishes",
+      "my-dishes": "My Dishes",
+      "restos": "Restaurants",
+      "my-restos": "My Restaurants",
+      "search-restaurants": "Search for restaurants by name or location",
+      "my-categories": "My Categories",
+
+      "add-picture": "Tap to Add Picture",
+
+      "loading": "Loading...",
+
+      "success": "Success",
+      "error": "Error",
+      "unexpected-error": "An unexpected error occurred",
+      "all-fields-mandatory": "All fields are mandatory.",
+      "need-cam-permissions": "Sorry, we need camera roll permissions to make this work!"
+    },
+    "components": {
+      "DishCard": {
+        "no-name": "No name",
+        "no-description": "No description"
+      },
+      "ErrorBoundary": {
+        "oops": "Oops!",
+        "error": "There's an error",
+        "try-again": "Try again"
+      },
+      "ModalConfirm": {
+        "do-you-want-to-delete-product": "Are you sure you want to delete this product?"
+      },
+      "ProductCard": {
+        "ingredients": "Ingredients: {{ ingredients }}"
+      },
+      "ProductForm": {
+        "product-name": "Product Name",
+        "select-ingredients": "Select Ingredients",
+        "restos": "Restaurants",
+        "select-restos": "Select Restaurants",
+        "edit-product": "Edit Product",
+        "add-product": "Add Product"
+      },
+      "RestaurantCard": {
+        "rating": "Rating: {{ rating }} ({{ ratingCount }} ratings)"
+      },
+      "SubscriptionBox": {
+        "select": "Select",
+        "monthly-price": "Monthly price"
+      }
+    },
+    "pages": {
+      "AddPage": {
+        "add-ingredient": "Add Ingredients"
+      },
+      "AddProductScreen": {
+        "add-product": "Add new Product"
+      },
+      "AddEditRestaurantScreen": {
+        "add-resto-failed": "Failed to add restaurant. Please try again.",
+        "resto-name-mandatory": "Restaurant Name *",
+        "phone-number": "Phone Number",
+        "street-name-mandatory": "Street Name *",
+        "street-number-mandatory": "Street Number *",
+        "postal-code-mandatory": "Postal Code *",
+        "city-mandatory": "City *",
+        "country-mandatory": "Country *",
+        "description": "Description",
+        "website": "Website",
+        "select-menu-design": "Select a menu design:",
+        "add-resto": "Add Restaurant"
+      },
+      "EditDishScreen": {
+        "dish-name": "Dish name",
+        "price": "Price",
+        "description": "description",
+        "add-product": "Add new product",
+        "allergens": "Allergens",
+        "add-allergens": "Add new Allergens",
+        "food-category": "Food Category",
+        "add-category": "Add new Category",
+        "resto": "Restaurant",
+        "add-resto": "Add new Restaurant",
+        "categories": "Categories"
+      },
+      "EditProductPage": {
+        "edit-product": "Edit Product"
+      },
+      "EditRestaurant": {
+        "updated-resto-success": "Restaurant data updated successfully",
+        "updated-resto-failure": "Failed to update restaurant data"
+      },
+      "FeatureRequest": {
+        "name": "Name",
+        "subject": "Subject",
+        "request": "Request"
+      },
+      "MenuPage": {
+        "price": "Price: {{ price }}",
+        "allergens": "Allergens: {{ allergens }}",
+        "confirm-delete-dish": "Are you sure you want to delete this dish?"
+      },
+      "MyDishPage": {
+        "nodish": "No dishes available. Please add your dish. But be sure to add a restaurant first."
+      },
+      "MyProductPage": {
+        "noprod": "No products available. Please add your product. But be sure to add a restaurant first."
+      },
+      "MyRestoPage": {
+        "noresto": "No restaurant available. Please add your restaurant."
+      },
+      "Profile": {
+        "change-pw": "Change Password",
+        "old-pw": "Enter old password",
+        "new-pw": "Enter new password",
+        "wrong-pw-format": "Your Password should contain minimum: 1x Uppercase and Lowercase Letter, 1x Number and minimum 7 Characters",
+        "same-pw": "Your new Password should not be your old password",
+        "confirm-pw": "Confirm new password",
+        "no-match": "Your password does not match",
+        "pw-changed": "Password Changed",
+
+        "username-or-email": "Username or Email",
+        "password": "Password",
+        "invalid-login": "Invalid Login data",
+        "login": "Login",
+        "trouble-logging-in": "Trouble logging in?",
+        "register-prompt": "You don't have an account yet? Register yourself ",
+        "register-here": "here",
+        "or": "or",
+        "default": "Default",
+        "fast-food": "Fast food",
+        "pizzeria": "pizzeria",
+
+        "logout": "Logout",
+        "confirm-logout": "Are you sure you want to logout?",
+        "delete-account": "Delete Account",
+        "confirm-delete-account": "Are you sure you want to delete your account? This action is irreversible.",
+        "delete-account-failure-login": "Failed to delete account. Please log in again.",
+        "delete-account-failure-retry": "Failed to delete account. Please try again.",
+        "profile-page": "My Profile",
+        "add-picture": "Add Picture",
+        "username": "Username",
+        "email": "Email",
+        "feature-request": "Feature request",
+        "subscriptions": "Manage Subscription",
+        "register": "Register",
+        "username-taken-or-invalid": "The desired Username exists already or is invalid",
+        "email-taken-or-invalid": "An account already exists for the specified email or is invalid",
+        "privacy": "Privacy statement"
+      },
+      "QRCodeEngin": {
+        "unknown-product": "Unknown Product",
+        "get-product-info-failed": "Error fetching product information for barcode {{ data }}",
+        "scan-ingredients": "Scan Ingredients",
+        "scan-prompt": "Please scan the barcode of the product you wan’t to add",
+        "select-resto": "Select a restaurant",
+        "search": "Search...",
+        "scan-again": "Scan Again",
+        "scan-result-ask-if-want-to-add": "You just scanned {{ data }} (Product Name: {{ productName }}). Do you want to add it to your list of ingredients?"
+      },
+      "ResetPasswordScreen": {
+        "username-email-no-match": "That username and email ({{ email }}) don't match. Please check its spelling or try another username.",
+        "user-error": "Error checking user. Please try again.",
+        "re-enter-account": "Getting back into your Guardos account",
+        "enter-info": "Tell us some information about your account",
+        "enter-username-prompt": "Next, give us the Guardos username you're having trouble with",
+        "enter-email": "Enter your email address",
+        "email": "Email",
+        "enter-username": "Enter your username",
+        "username": "Username",
+        "email-sent": "E-Mail was sent!",
+        "check-your-emails": "Please check your inbox for an email regarding password recovery, and also review your spam folder. The email contains a link that will remain valid for 15 minutes.",
+        "go-back": "Go back to login",
+        "error": "There was an Error.",
+        "try-again-msg": "Please try again to get a recovery link. If the Error appears one more time, please contact us.",
+        "continue": "Continue",
+        "send-reset-link": "Send My Password Reset Link"
+      },
+      "Router": {
+        "no-internet-error": "No internet connection. Please check your connection and try again.",
+        "scan": "Scan",
+        "my-profile": "My Profile",
+        "login": "Login",
+        "register": "Register"
+      },
+      "SubscriptionPage": {
+        "my-subscription": "My subscription",
+        "free": "Free usage",
+        "free-description": "Use the basic features for free",
+        "basic": "Basic Subscription",
+        "description-low-level-1": "remove ads",
+        "description-low-level-2": "personalized menu",
+        "premium": "Premium Subscription",
+        "description-high-level-1": "prioritize feature requests",
+        "description-high-level-2": "detailed insights"
+      },
+      "Privacy": {
+        "title": "Privacy Statement",
+        "intro": "This Privacy Statement explains how Guardos.eu (\"Guardos,\" \"we,\" \"us,\" or \"our\") collects, uses, and protects your personal information when you interact with our platforms and services. We are committed to ensuring the privacy and security of your personal data in accordance with the General Data Protection Regulation (GDPR) and other applicable data protection laws. ",
+        "controller": "1. Data Controller",
+        "controllertxt": "Guardos.eu, operated by Guardos, is the data controller responsible for the processing of your personal data. If you have any questions or concerns regarding the processing of your personal information or this Privacy Statement, you can contact us using the contact details provided at the end of this statement.",
+        "types": "2. Types of Personal Data We Collect",
+        "typestxt": "We collect and process various types of personal data for different purposes:",
+        "type1": "Profile Information:",
+        "type1txt": "When you create an account on Guardos.eu, we collect your email address, username, and password. Additionally, we may ask for your preferred language, allergens, favorite restaurant, and favorite dishes to personalize your experience on our platform.",
+        "type2": "Contact Information:",
+        "type2txt": "If you fill out a contact form on our website, we may collect your name and email address to respond to your inquiries or comments.",
+        "type3": "Payment Information:",
+        "type3txt": "For payment transactions, we may collect payment details such as credit card information. However, we do not store this information directly on our servers. We utilize third-party payment processors who handle this data securely.",
+        "type4": "Password Handling:",
+        "type4txt": "When you create an account, your password is securely encrypted before transmission and stored in our database. Guardos does not have access to or store plaintext passwords. We employ robust security measures to protect your password and ensure the integrity of your account.",
+        "purpose": "3. Purposes of Data Processing",
+        "purposetxt": "We process your personal data for the following purposes:",
+        "purpose1": "Account Management:",
+        "purpose1txt": "To manage your account and provide personalized services based on your preferences.",
+        "purpose2": "Customer Support:",
+        "purpose2txt": "To respond to your inquiries, provide assistance, and address any issues or concerns you may have.",
+        "purpose3": "Payment Processing:",
+        "purpose3txt": "To facilitate payment transactions for orders placed on Guardos.eu.",
+        "purpose4": "Improving Our Services:",
+        "purpose4txt": "To analyze user behavior and feedback in order to improve our platform, products, and services.",
+        "legal": "4. Legal Basis for Processing",
+        "legaltxt": "The legal bases for processing your personal data may include:",
+        "legal1": "Contractual Necessity:",
+        "legal1txt": "Processing is necessary for the performance of a contract with you (e.g., to provide the services you requested).",
+        "legal2": "Consent:",
+        "legal2txt": "Processing is based on your consent, which you may withdraw at any time.",
+        "legal3": "Legitimate Interests:",
+        "legal3txt": "Processing is necessary for our legitimate interests, such as fraud prevention, security, and improving our services.",
+        "data": "5. Data Security Measures",
+        "datatxt": "Guardos implements appropriate technical and organizational measures to safeguard your personal data against unauthorized access, disclosure, alteration, or destruction. These measures include encryption, access controls, and regular security assessments.",
+        "sharing": "6. Data Sharing",
+        "sharingtxt": "We do not sell or rent your personal information to third parties for marketing purposes. However, we may share your information with trusted third-party service providers who assist us in operating our website, conducting business, or servicing you. These third parties are contractually obligated to use your personal data only as necessary to provide the services requested by Guardos and to protect your information.",
+        "rights": "7. Your Rights",
+        "rightstxt": "You have certain rights regarding your personal data, including:",
+        "right1": "Right to Access:",
+        "right1txt": "You have the right to access the personal data we hold about you.",
+        "right2": "Right to Rectification:",
+        "right2txt": "You have the right to request correction of inaccurate or incomplete personal data.",
+        "right3": "Right to Erasure:",
+        "right3txt": "You have the right to request deletion of your personal data under certain circumstances.",
+        "right4": "Right to Restriction of Processing:",
+        "right4txt": "You have the right to request restriction of processing of your personal data under certain circumstances.",
+        "right5": "Right to Data Portability:",
+        "right5txt": "You have the right to receive your personal data in a structured, commonly used, and machine-readable format.",
+        "right6": "Right to Object:",
+        "right6txt": "You have the right to object to processing of your personal data under certain circumstances, including processing for direct marketing purposes.",
+        "right7": "Right to Withdraw Consent:",
+        "right7txt": " If processing is based on your consent, you have the right to withdraw your consent at any time without affecting the lawfulness of processing based on consent before its withdrawal.",
+        "rightend": "To exercise your rights or for any inquiries regarding your personal data, please contact us using the contact information provided at the end of this statement.",
+        "updates": "8. Policy Updates",
+        "updatestxt": "Guardos may update this Privacy Statement from time to time to reflect changes in our privacy practices or legal requirements. We encourage you to review this statement periodically for the latest information.",
+        "contact": "9. Contact Us",
+        "contacttxt": "If you have any questions, concerns, or requests regarding this Privacy Statement or our privacy practices, please contact us at:",
+        "address": "Address: Fasanenstraße 86, 10623 Berlin, Germany",
+        "email": "Email: guardos-help@outlook.com",
+        "phone": "Phone: +49 211 1234567",
+        "end": "Thank you for entrusting Guardos.eu with your personal information."
+      },
+      "Imprint": {
+        "title": "Imprint",
+        "intro": "Operator of the website Guardos.eu is",
+        "us": "Guardos",
+        "address1": "Fasanenstraße 86,",
+        "address2": "10623 Berlin",
+        "telephone": "Telephone: +49 211 1234567",
+        "email": "Email: guardos-help@outlook.com",
+        "register": "Registry court: ",
+        "registerNr": "Commercial register number: ",
+        "ust": "VAT ID: ",
+        "manager": "Managing Director: ",
+        "legal": "Legal Notice",
+        "introLegal": "The depicted trademarks and logos are registered trademarks of Guardos.",
+        "txtlegal1": "Consumer information according to Regulation (EU) No. 524/2013: ",
+        "txtlegal2": "An online dispute resolution platform of the EU Commission is available at",
+        "txtlegal3": ", within the framework of the regulation on online dispute resolution in consumer matters."
+      },
+      "AddCategory": {
+        "name": "Category:",
+        "id": "Order:",
+        "noresto": "No restaurant available. Please add your restaurant first."
+        "add": "New"
+      },
+      "Intro": {
+        "ScanIntro": "Scan the barcode of a product to add it to your list of ingredients",
+        "ScanInfo": "You can scan the barcode of a product to add it to your list of ingredients. This way, you can easily keep track of the products you use and their ingredients.",
+        "RestoIntro": "Check your added restaurants",
+        "RestoInfo": "You can view the restaurants you have added to Guardos. Add new restaurants or edit existing ones to keep your list up to date.",
+        "CategoriesIntro": "Manage your categories",
+        "CategoriesInfo": "You can manage the categories you have added to Guardos. Add new categories or edit existing ones to keep your list up to date.",
+        "DishesIntro": "Check your added dishes",
+        "DishesInfo": "You can view the dishes you have added to Guardos. Add new dishes or edit existing ones to keep your list up to date.",
+        "ProductsIntro": "Check your added products",
+        "ProductsInfo": "You can view the products you have added to Guardos. Add new products or edit existing ones to keep your list up to date.",
+        "ProfileIntro": "Manage your profile",
+        "ProfileInfo": "You can view and edit your profile information. Change your password, add a profile picture, or delete your account."
+      }
+    }
+  }
+}

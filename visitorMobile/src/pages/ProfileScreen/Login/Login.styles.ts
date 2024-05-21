@@ -15,6 +15,30 @@ const styles = StyleSheet.create({
   form: {
     width: '100%',
   },
+  languageButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    padding: 10,
+    backgroundColor: '#f8f8f8',
+    borderRadius: 5,
+    zIndex: 1,
+  },
+  languageDropdown: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    backgroundColor: '#f8f8f8',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    zIndex: 1,
+  },
+  languageOption: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
   input: {
     height: 40,
     borderColor: 'gray',

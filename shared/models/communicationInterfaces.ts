@@ -11,6 +11,7 @@ export interface IIngredientsCommunication {
 
 export interface IDishesCommunication {
   name?: string;
+  uid: number;
   description?: string;
   price?: number;
   products?: string[];
@@ -25,6 +26,7 @@ export interface IDishesCommunication {
 
 export interface IRestaurantCommunication {
   name: string;
+  uid: number;
   phoneNumber?: string;
   website?: string;
   openingHours?: IOpeningHours[];
@@ -40,6 +42,7 @@ export interface IRestaurantCommunication {
 //Communication object for BE and FE
 //This is the object that is sent to the backend from the frontend
 export interface ISearchCommunication {
+  filterName?: string;
   range?: number;
   rating?: number[]; //2 float rating lowest and highest
   name?: string;

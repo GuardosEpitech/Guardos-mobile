@@ -3,9 +3,14 @@ import axios from "axios";
 import { API_URL } from '@env';
 
 const baseUrl = `${API_URL}login/`;
+const baseUrl1 = `${API_URL}user/`;
+const baseUrlEmail = `${API_URL}sendEmail/`;
 
 export const checkIfTokenIsValid = async (body: any) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios({
       method: "GET",
       url: baseUrl + 'restoWeb/checkIn',
@@ -24,6 +29,9 @@ export const checkIfTokenIsValid = async (body: any) => {
 
 export const loginUser = async (userData: any) => {
   try {
+    if (baseUrl === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios.post(baseUrl + 'restoWeb', userData, {
       headers: {
         'Content-Type': 'application/json',
@@ -36,8 +44,31 @@ export const loginUser = async (userData: any) => {
   }
 };
 
+export const sendRecoveryLinkForRestoUser = async (body: any) => {
+  try {
+    if (baseUrlEmail === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
+    const response = await axios({
+      method: "POST",
+      url: baseUrlEmail + 'userResto/sendPasswordRecovery',
+      data: body,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error while checking visitor user:", error);
+    throw new Error("Error checking visitor user");
+  }
+}
+
 export const registerUser = async (userData: any) => {
   try {
+    if (API_URL === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
     const response = await axios.post(API_URL + "register/restoWeb", userData, {
       headers: {
         'Content-Type': 'application/json',
@@ -49,3 +80,48 @@ export const registerUser = async (userData: any) => {
     throw new Error("Error registering user");
   }
 }
+
+export const checkIfRestoUserExist = async (body: any) => {
+  try {
+    if (baseUrl1 === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
+    const response = await axios({
+      method: "POST",
+      url: baseUrl1 + 'userRestoExist',
+      data: body,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error while checking resto user:", error);
+    throw new Error("Error checking resto user");
+  }
+};
+
+export const deleteRestoAccount = async (token: string) => {
+  try {
+    if (API_URL === undefined) {
+      throw new Error("baseUrl is not defined");
+    }
+    const response = await axios({
+      method: "DELETE",
+      url: `${API_URL}delete/resto`,
+      params: {key: token},
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error deleting the User:", error);
+    throw new Error("Error deleting the User");
+  }
+};
+

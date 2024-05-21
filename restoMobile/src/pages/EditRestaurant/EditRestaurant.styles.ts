@@ -47,6 +47,55 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: 'bold',
     },
+  deleteButton: {
+    padding: 10,
+    backgroundColor: 'red',
+    margin: 5,
+  },
+  changeButton: {
+    padding: 10,
+    backgroundColor: 'lightgrey',
+    margin: 5,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    flexDirection: 'column',
+  },
+  placeholderContainer: {
+    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  placeholderText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#007BFF',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  containerPicker: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width:'100%',
+    padding: 20,
+    paddingTop: 0,
+  },
+  pickerStyles:{
+    width:'100%',
+    backgroundColor:'lightgrey',
+    color:'lightgrey'
+  }
   });
   
 export default styles;

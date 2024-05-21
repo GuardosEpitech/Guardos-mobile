@@ -9,5 +9,17 @@ module.exports = {
       safe: false,
       allowUndefined: true,
     }],
+    [
+      '@babel/plugin-transform-class-properties',
+      { loose: true }, // Ensure 'loose' mode is set to true
+    ],
+    [
+      '@babel/plugin-transform-private-methods',
+      { loose: true }, // Ensure 'loose' mode is set to true
+    ],
+    [
+      '@babel/plugin-transform-private-property-in-object',
+      { loose: true }, // Ensure 'loose' mode is set to true
+    ],
   ],
 };

@@ -143,6 +143,35 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#007BFF',
   },
+  containerDarkTheme: {
+    flexGrow: 1,
+    backgroundColor: '#1B1D1E',
+  },
+  labelDarkTheme: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: "white"
+  },
+  labelCernterdDarkTheme: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    textAlign: 'center',
+    color: "white"
+  },
+  inputDarkTheme: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingLeft: 10,
+    marginBottom: 10,
+    color: "white"
+  },
+  inputDishProductDarkTheme: {
+    height: 20,
+    color: "white"
+  },
 });
 
 export default styles;
