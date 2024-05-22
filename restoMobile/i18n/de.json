@@ -299,7 +299,7 @@
       "AddCategory": {
         "name": "Kategorie:",
         "id": "Reihenfolge:",
-        "noresto": "Kein Restaurant verfügbar. Bitte fügen Sie zuerst Ihr Restaurant hinzu."
+        "noresto": "Kein Restaurant verfügbar. Bitte fügen Sie zuerst Ihr Restaurant hinzu.",
         "add": "Neu"
       },
       "Intro": {

@@ -299,7 +299,7 @@
       "AddCategory": {
         "name": "Category:",
         "id": "Order:",
-        "noresto": "No restaurant available. Please add your restaurant first."
+        "noresto": "No restaurant available. Please add your restaurant first.",
         "add": "New"
       },
       "Intro": {

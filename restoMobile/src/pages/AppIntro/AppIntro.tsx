@@ -105,7 +105,7 @@ const AppIntro = ({ onFinish }) => {
           </View>
         </ScrollView>
         <View>
-          {pageIndex === 5 && (
+          {pageIndex > 4 && (
             <Button title="Finish" onPress={handleIntroFinish} />
           )}
         </View>
