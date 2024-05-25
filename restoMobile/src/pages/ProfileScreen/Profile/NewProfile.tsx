@@ -351,10 +351,11 @@ const ProfilePage: React.FC<ProfileScreenProps &
             />
           </View>
           <View style={styles.buttonContainer}>
-          <Button 
-          title={t('pages.Profile.payBtn') as string}
-          onPress={handlePayment} 
-          color="green" />
+            <Button 
+              title={t('pages.Profile.payBtn') as string}
+              onPress={handlePayment} 
+              color="grey" 
+            />
           </View>
           <View style={styles.buttonContainer}>
           <Button 
