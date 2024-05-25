@@ -7,7 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { getVisitorProfileDetails } from '../../../services/profileCalls';
 import {styles} from "./styles";
 
-const GOOGLE_CLIENT_ID = '251768771069-9iate5ptc3pm51k380d2uamf3segvtf6.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '251768771069-7v10qin71ssbe5au77dt6at41s6cgglg.apps.googleusercontent.com';
+const WEB_CLIENT_ID = '251768771069-9iate5ptc3pm51k380d2uamf3segvtf6.apps.googleusercontent.com';
 
 type GoogleLoginButtonProps = {
   setLoggedInStatus: (status: boolean) => void;
@@ -20,11 +21,12 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ setLoggedInStatus
     useProxy: true});
   console.log(`Generated Redirect URI: ${redirectUri}`);
   const [request, response, promptAsync] = Google.useAuthRequest({
-    webClientId: GOOGLE_CLIENT_ID,
+    webClientId: WEB_CLIENT_ID,
     iosClientId: GOOGLE_CLIENT_ID,
     androidClientId: GOOGLE_CLIENT_ID,
     redirectUri: redirectUri,
   });
+
 
   useEffect(() => {
     if (response?.type === 'success') {
@@ -35,6 +37,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ setLoggedInStatus
 
   const handleGoogleLogin = async (token: string) => {
     try {
+      console.log('Google token:', token);
       const response = await fetch('https://www.googleapis.com/userinfo/v2/me', {
         headers: { Authorization: `Bearer ${token}` },
       });

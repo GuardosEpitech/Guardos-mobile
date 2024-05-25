@@ -7,7 +7,7 @@ import {loginUser} from "../../../services/userCalls";
 import {Ionicons} from "@expo/vector-icons";
 import {useTranslation} from "react-i18next";
 import {getVisitorProfileDetails} from "../../../services/profileCalls";
-import GoogleLoginButton from "../../../components/Login/GoogleLoginButton/GoogleLoginButton";
+import GoogleLoginButton from "../../../components/Login/GoogleLoginButton/GoogleLoginButtonTest";
 
 type LoginScreenProps = {
   navigation: NavigationProp<ParamListBase>;
