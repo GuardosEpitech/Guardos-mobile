@@ -75,7 +75,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ setLoggedInStatus
       <View>
         <GoogleSigninButton
                 style={styles.googleButton}
-                size={GoogleSigninButton.Size.Standard}
+                size={GoogleSigninButton.Size.Icon}
                 color={GoogleSigninButton.Color.Light}
                 onPress={signIn}
             />
