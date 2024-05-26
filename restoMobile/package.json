@@ -24,6 +24,7 @@
     "@react-navigation/bottom-tabs": "^6.5.1",
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.6",
+    "@stripe/stripe-react-native": "^0.37.3",
     "@types/react": "~18.2.79",
     "@types/react-native": "~0.70.6",
     "AsyncStorage": "^0.1.5",

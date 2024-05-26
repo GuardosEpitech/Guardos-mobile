@@ -8,6 +8,7 @@
       "cancel": "Abbrechen",
       "close": "Schließen",
       "delete": "Löschen",
+      "confirm": "Bestätigen",
 
       "loading": "Laden...",
 
@@ -34,6 +35,10 @@
       "SubscriptionBox": {
         "select": "Auswählen",
         "monthly-price": "Monatlicher Preis"
+      },
+      "CreditCard": {
+        "expire": "läuft ab am: ",
+        "msg": "Sind Sie sicher, dass Sie diese Methode löschen möchten?"
       }
     },
     "pages": {
@@ -145,7 +150,9 @@
         "register": "Registrieren",
         "username-taken-or-invalid": "Der gewünschte Benutzername existiert bereits oder ist ungültig",
         "email-taken-or-invalid": "Für die angegebene E-Mail existiert bereits ein Konto oder sie ist ungültig",
-        "privacy": "Datenschutzerklärung"
+        "privacy": "Datenschutzerklärung",
+        "payment": "Zahlungsmethoden",
+        "payBtn": "Zahlungsmethoden verwalten"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "Dieser Benutzername und diese E-Mail ({{ email }}) stimmen nicht überein. Überprüfen Sie bitte die Schreibweise oder versuchen Sie es mit einem anderen Benutzernamen.",
@@ -294,6 +301,14 @@
         "MapInfo": "Im mapScreen können sie alle Restaurants in ihrer Nähe sehen und nach verschiedenen Kriterien filtern.",
         "ProfileIntro": "Verwalten Sie Ihr Profil im Profilbereich",
         "ProfileInfo": "Im Profilbereich können Sie Ihr Passwort und Ihre Profildaten ändern und Ihre Lieblingsrestaurants und -gerichte einsehen. Sie können auch Ihr Konto löschen."
+      },
+      "Payment": {
+        "title": "Zahlungsmethoden",
+        "nopay": "Es liegen keine Zahlungsmethoden vor.",
+        "add": "Hinzufügen",
+        "success": "Erfolg",
+        "msg": "Die Zahlungsmethode wurde erfolgreich hinzugefügt",
+        "error": "Error Code:"
       }
     }
   }
