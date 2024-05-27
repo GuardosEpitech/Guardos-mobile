@@ -68,6 +68,10 @@
       "SubscriptionBox": {
         "select": "Choisir",
         "monthly-price": "Prix mensuel"
+      },
+      "CreditCard": {
+        "expire": "Expire le : ",
+        "msg": "Êtes-vous sûr de vouloir supprimer cette méthode ?"
       }
     },
     "pages": {
@@ -160,6 +164,7 @@
         "delete-account-failure-retry": "Échec de la suppression du compte. Veuillez réessayer.",
         "profile-page": "Mon profil",
         "add-picture": "Ajouter une photo",
+        "delete-picture": "Supprimer l'image",
         "username": "Nom d'utilisateur",
         "email": "Email",
         "feature-request": "Demande de fonctionnalité",
@@ -167,7 +172,9 @@
         "register": "S'inscrire",
         "username-taken-or-invalid": "Le nom d'utilisateur souhaité existe déjà ou est invalide",
         "email-taken-or-invalid": "Un compte existe déjà pour l'e-mail spécifié ou est invalide",
-        "privacy": "Déclaration de Confidentialité"
+        "privacy": "Déclaration de Confidentialité",
+        "payment": "Méthodes de paiement",
+        "payBtn": "Gérer les méthodes de paiement"
       },
       "QRCodeEngin": {
         "unknown-product": "Produit inconnu",
@@ -315,6 +322,14 @@
         "ProductsInfo": "Vous pouvez consulter les produits que vous avez ajoutés à Guardos. Ajoutez de nouveaux produits ou modifiez les produits existants pour tenir votre liste à jour",
         "ProfileIntro": "Gérer votre profil ",
         "ProfileInfo": " Vous pouvez consulter et modifier les informations de votre profil. Changez votre mot de passe, ajoutez une photo de profil ou supprimez votre compte"
+      },
+      "Payment": {
+        "title": "Méthodes de paiement",
+        "nopay": "Aucune méthode de paiement ajoutée.",
+        "add": "Ajouter un paiement",
+        "success": "Succès",
+        "msg": "La méthode de paiement a été ajoutée avec succès",
+        "error": "Code d'erreur :"
       }
     }
   }

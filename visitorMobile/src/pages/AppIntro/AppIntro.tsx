@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StatusBar, Text, View, Dimensions, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import styles from './AppIntro.styles';
 
 const AppIntro = ({ onFinish }) => {
   const [sliderState, setSliderState] = useState({ currentPage: 0 });
   const { width, height } = Dimensions.get('window');
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const setSliderPage = (event) => {
-    const { currentPage } = sliderState;
     const { x } = event.nativeEvent.contentOffset;
-    const indexOfNextScreen = Math.floor(x / width);
-    if (indexOfNextScreen !== currentPage) {
-      setSliderState({
-        ...sliderState,
-        currentPage: indexOfNextScreen,
-      });
-    }
+    const indexOfNextScreen = Math.round(x / width);
+    setSliderState({ currentPage: indexOfNextScreen });
   };
 
   const handleIntroFinish = async () => {
@@ -38,13 +32,11 @@ const AppIntro = ({ onFinish }) => {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView
           style={{ flex: 1 }}
-          horizontal={true}
+          horizontal
           scrollEventThrottle={16}
-          pagingEnabled={true}
+          pagingEnabled
           showsHorizontalScrollIndicator={false}
-          onScroll={(event) => {
-            setSliderPage(event);
-          }}
+          onScroll={setSliderPage}
         >
           <View style={{ width, height }}>
             <Image source={require('../../../assets/RestoIntro.png')} style={styles.imageStyle} />

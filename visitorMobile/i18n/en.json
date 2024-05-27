@@ -4,6 +4,7 @@
       "save": "Save",
       "apply": "Apply",
       "submit": "Submit",
+      "confirm": "Confirm",
       "clear": "Clear",
       "cancel": "Cancel",
       "close": "Close",
@@ -34,6 +35,10 @@
       "SubscriptionBox": {
         "select": "Select",
         "monthly-price": "Monthly price"
+      },
+      "CreditCard": {
+        "expire": "Expires on: ",
+        "msg": "Are you sure you want to delete this method?"
       }
     },
     "pages": {
@@ -129,6 +134,7 @@
         "changed-data-success": "Profile details changed successfully!",
         "changed-data-failure": "Failed to change profile details.",
         "add-picture": "Add Picture",
+        "delete-picture": "Delete Picture",
         "username": "Username",
         "enter-username": "Enter your username",
         "email": "Email",
@@ -145,7 +151,9 @@
         "register": "Register",
         "username-taken-or-invalid": "The desired Username exists already or is invalid",
         "email-taken-or-invalid": "An account already exists for the specified email or is invalid",
-        "privacy": "Privacy statement"
+        "privacy": "Privacy statement",
+        "payment": "Payment methods",
+        "payBtn": "Manage payment methods"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "That username and email ({{ email }}) don't match. Please check its spelling or try another username.",
@@ -294,6 +302,14 @@
         "MapInfo": "In the mapScreen you can look for restaurants near you",
         "ProfileIntro": "Manage your profile in the profile section",
         "ProfileInfo": "In the profile section you can change your password, your profile data and see your favorite restaurants and dishes. You can also delete your account."
+      },
+      "Payment": {
+        "title": "Payment methods",
+        "nopay": "No payment methods added.",
+        "add": "Add payment",
+        "success": "Success",
+        "msg": "The payment method was added successfully",
+        "error": "Error code:"
       }
     }
   }

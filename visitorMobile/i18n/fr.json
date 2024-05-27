@@ -5,6 +5,7 @@
       "apply": "Appliquer",
       "submit": "Soumettre",
       "clear": "Effacer",
+      "confirm": "Confirmer",
       "cancel": "Annuler",
       "close": "Fermer",
       "delete": "Supprimer",
@@ -31,6 +32,10 @@
       "SubscriptionBox": {
         "select": "Choisir",
         "monthly-price": "Prix mensuel"
+      },
+      "CreditCard": {
+        "expire": "Expire le : ",
+        "msg": "Êtes-vous sûr de vouloir supprimer cette méthode ?"
       }
     },
     "pages": {
@@ -126,6 +131,7 @@
         "changed-data-success": "Détails du profil modifiés avec succès !",
         "changed-data-failure": "Échec de la modification des détails du profil.",
         "add-picture": "Ajouter une photo",
+        "delete-picture": "Supprimer l'image",
         "username": "Nom d'utilisateur",
         "enter-username": "Entrez votre nom d'utilisateur",
         "email": "Email",
@@ -142,7 +148,9 @@
         "register": "S'inscrire",
         "username-taken-or-invalid": "Le nom d'utilisateur désiré existe déjà ou est invalide",
         "email-taken-or-invalid": "Un compte existe déjà pour l'email spécifié ou est invalide",
-        "privacy": "Déclaration de Confidentialité"
+        "privacy": "Déclaration de Confidentialité",
+        "payment": "Méthodes de paiement",
+        "payBtn": "Gérer les méthodes de paiement"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "Ce nom d'utilisateur et cet email ({{ email }}) ne correspondent pas. Veuillez vérifier l'orthographe ou essayer un autre nom d'utilisateur.",
@@ -291,6 +299,14 @@
         "MapInfo": "Dans l'écran carte des restaurants, vous pouvez rechercher des restaurants sans avoir à vous déplacer.",
         "ProfileIntro": "Gérez votre profil dans la section profil",
         "ProfileInfo": "Dans la section profil, vous pouvez modifier votre mot de passe, vos données de profil et voir vos restaurants et plats préférés. Vous pouvez également supprimer votre compte."
+      },
+      "Payment": {
+        "title": "Méthodes de paiement",
+        "nopay": "Aucune méthode de paiement ajoutée.",
+        "add": "Ajouter un paiement",
+        "success": "Succès",
+        "msg": "La méthode de paiement a été ajoutée avec succès",
+        "error": "Code d'erreur :"
       }
     }
   }

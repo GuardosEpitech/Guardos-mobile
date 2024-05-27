@@ -129,3 +129,50 @@ export const deleteImageDish = async (imageId: number, restaurantName: string,
     throw new Error("Failed to delete image");
   }
 };
+
+export const addRestoProfileImage = async (userToken: string,
+  imageName: string, contentType: string, size: number, base64: string) => {
+  try {
+    const body = {
+      image: {
+        filename: imageName,
+        contentType: contentType,
+        size: size,
+        base64: base64,
+      },
+    };
+    const response = await axios({
+      url: baseUrl + 'restoProfile',
+      method: "POST",
+      params: {key: userToken},
+      data: body,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    console.error("Error adding image:", error);
+    throw new Error("Failed to add image");
+  }
+};
+
+export const deleteRestoProfileImage = async (imageId: number,
+                                              userToken: string) => {
+  try {
+    const body = {
+      imageId: imageId
+    };
+    const response = await axios({
+      url: baseUrl + 'restoProfile',
+      method: "DELETE",
+      params: {key: userToken},
+      data: body,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    throw new Error("Failed to delete image");
+  }
+};
