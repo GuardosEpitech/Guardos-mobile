@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   profilePicture: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    resizeMode: 'contain',
   },
   defaultProfilePicture: {
     width: 100,
@@ -39,6 +39,9 @@ const styles = StyleSheet.create({
   },
   profilePictureContainer: {
     marginBottom: 20,
+    height: 100,
+    width: 100,
+    resizeMode: "contain"
   },
   input: {
     width: '100%',
@@ -68,6 +71,9 @@ const styles = StyleSheet.create({
   changeLanguageDrop: {
     backgroundColor: 'white',
   },
+  deletePictureButton: {
+    marginBottom: 15
+  },
   dropDown: {
     marginBottom: 20,
   },
@@ -77,7 +83,6 @@ const styles = StyleSheet.create({
     color: 'green',
   },
   deleteAccountSection: {
-    marginTop: 20,
     alignItems: 'center',
   },
   headingDarkTheme: {

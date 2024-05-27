@@ -134,6 +134,7 @@
         "changed-data-success": "Profile details changed successfully!",
         "changed-data-failure": "Failed to change profile details.",
         "add-picture": "Add Picture",
+        "delete-picture": "Delete Picture",
         "username": "Username",
         "enter-username": "Enter your username",
         "email": "Email",

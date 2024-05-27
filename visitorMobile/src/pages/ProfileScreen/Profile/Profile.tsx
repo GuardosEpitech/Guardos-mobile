@@ -13,6 +13,8 @@ import {getDishFavourites, getRestoFavourites} from "../../../services/favourite
 import { CommonActions, useIsFocused } from '@react-navigation/native';
 import i18n from "i18next";
 import {useTranslation} from "react-i18next";
+import {IimageInterface} from "../../../models/imageInterface";
+import {addProfileImage, deleteProfileImage, getImages} from "../../../services/imageCalls";
 
 DropDownPicker.addTranslation("DE", {
   PLACEHOLDER: "Wählen Sie ein Element aus",
@@ -33,13 +35,12 @@ type ProfileScreenProps = {
 };
 
 const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boolean) => void }> = ({ navigation, setLoggedInStatus }) => {
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<number | null>(null);
   const [pictureId, setPictureId] = useState<number>(null);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
   const [allergens, setAllergens] = useState([]);
-  const [watchedRestaurants, setWatchedRestaurants] = useState([]);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [allergensOpen, setAllergensOpen] = useState(false);
   const [language, setLanguage] = useState<string>('en');
@@ -73,6 +74,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [activeTab, setActiveTab] = useState("restaurants");
   const [restoPage, setRestoPage] = useState(1);
   const [dishPage, setDishPage] = useState(1);
+  const [profilePic, setProfilePic] = useState<IimageInterface[]>([]);
   const pageSize = 3; // Number of items per page
   const [refresh, setRefresh] = useState(false);
   const isFocused = useIsFocused();
@@ -92,8 +94,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             setName(res.username);
             setCity(res.city);
             setAllergens(res.allergens);
-            setPictureId(res.profilePicId);
+            setImage(res.profilePicId);
             setLanguage(res.preferredLanguage);
+            loadImages(res.profilePicId).then(r => console.log("Loaded user picture successfully"));
           });
         await fetchFavoriteRestaurants();
         await fetchFavoriteDishes();
@@ -101,8 +104,68 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         console.error('Error fetching user data:', error);
       }
     };
+
     fetchUserData().then(r => console.log("Loaded user data successfully"));
   }, []);
+
+  const loadImages = async (picId) => {
+    if (picId) {
+      try {
+        const answer = await getImages([picId]);
+        //@ts-ignore
+        setProfilePic(answer.map((img) => ({
+          base64: img.base64,
+          contentType: img.contentType,
+          filename: img.filename,
+          size: img.size,
+          uploadDate: img.uploadDate,
+          id: img.id,
+        })));
+      } catch (error) {
+        console.error("Failed to load images", error);
+        setProfilePic([]);
+      }
+    } else {
+      setProfilePic([]);
+    }
+  };
+
+  const handleFileChange = async (assets) => {
+    const file = {
+      name: "profileImage",
+      type: "image/png",
+      size: assets.length,
+      uri: assets[0].uri
+    }
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      return;
+    }
+
+    addProfileImage(userToken, file.name,
+      file.type, file.size, file.uri)
+      .then(r => {
+        setProfilePic([{ base64: file.uri, contentType: file.type,
+          filename: file.name, size: file.size,
+          uploadDate: "0", id: r.message }]);
+        setImage(r.message);
+      });
+  };
+
+  const handleFileDelete = async () => {
+    if (image) {
+      const userToken = await AsyncStorage.getItem('user');
+      if (userToken === null) {
+        return;
+      }
+
+      deleteProfileImage(image, userToken);
+      setProfilePic([]);
+    }
+    else {
+      console.log("No image to delete");
+    }
+  }
 
   const toggleDarkMode = async () => {
     const newDarkMode = !darkMode;
@@ -114,7 +177,6 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       console.error('Error storing dark mode value:', error);
     }
   };
-
 
   const saveDarkModeState = async (value: boolean) => {
     try {
@@ -144,7 +206,6 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       })
     );
   };
- 
 
   const fetchFavoriteRestaurants = async () => {
     const userToken = await AsyncStorage.getItem("user");
@@ -210,7 +271,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       }
 
       if (uri) {
-        setImage(uri);
+        await handleFileChange(result.assets);
       }
     }
   };
@@ -369,14 +430,21 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           onPress={selectImage}
           style={styles.profilePictureContainer}
         >
-          {image ? (
-            <Image source={{uri: image}} style={styles.profilePicture}/>
+          {profilePic.length > 0 ? (
+            <Image source={{uri: profilePic[0].base64}} style={styles.profilePicture}/>
           ) : (
             <View style={styles.defaultProfilePicture}>
               <Text style={styles.defaultProfilePictureText}>{t('pages.Profile.add-picture')}</Text>
             </View>
           )}
         </TouchableOpacity>
+        <View style={[styles.deleteAccountSection, styles.deletePictureButton]}>
+          <Button
+            title={t('pages.Profile.delete-picture') as string}
+            onPress={handleFileDelete}
+            color="#6d071a"
+          />
+        </View>
         <View>
           <Text  style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.username')}</Text>
           <TextInput

@@ -19,7 +19,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   profilePicture: {
-    marginBottom: 15,
+    height: 100,
+    width: 100,
+    resizeMode: "contain"
   },
   profileImage: {
     width: 100,
@@ -103,11 +105,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'gray',
   },
+  deletePictureButton: {
+    marginBottom: 15
+  },
   dropDown: {
     marginBottom: 20,
   },
   deleteAccountSection: {
-    marginTop: 20,
     alignItems: 'center',
   },
   tabs: {

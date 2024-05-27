@@ -22,6 +22,8 @@ import {editProfileDetails, getProfileDetails} from "../../../services/profileCa
 import {deleteRestoAccount} from "../../../services/userCalls";
 import { CommonActions, useIsFocused } from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
+import {IimageInterface} from "../../../models/imageInterface";
+import {addRestoProfileImage, deleteRestoProfileImage, getImages} from "../../../services/imagesCalls";
 
 DropDownPicker.addTranslation("DE", {
   PLACEHOLDER: "Wählen Sie ein Element aus",
@@ -45,8 +47,9 @@ type ProfileScreenProps = {
 const ProfilePage: React.FC<ProfileScreenProps &
   { setLoggedInStatus: (status: boolean) => void }> =
   ({navigation, route, setLoggedInStatus}) => {
-    const [image, setImage] = useState<string | null>(null);
+    const [image, setImage] = useState<number | null>(null);
     const [pictureId, setPictureId] = useState<number>(null);
+    const [profilePic, setProfilePic] = useState<IimageInterface[]>([]);
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [menuDesign, setMenuDesign] = useState<string>('default');
@@ -124,14 +127,77 @@ const ProfilePage: React.FC<ProfileScreenProps &
           .then((res) => {
             setEmail(res.email);
             setUsername(res.username);
-            setPictureId(res.profilePicId);
+            setImage(res.profilePicId[res.profilePicId.length - 1]);
             setMenuDesign(res.defaultMenuDesign);
             setLanguage(res.preferredLanguage || i18n.language);
+            loadImages(res.profilePicId).then(r => console.log("Loaded user picture successfully"));
           });
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
+
+    const loadImages = async (picId) => {
+      if (picId) {
+        try {
+          const answer = await getImages([picId]);
+          //@ts-ignore
+          setProfilePic(answer.map((img) => ({
+            base64: img.base64,
+            contentType: img.contentType,
+            filename: img.filename,
+            size: img.size,
+            uploadDate: img.uploadDate,
+            id: img.id,
+          })));
+        } catch (error) {
+          console.error("Failed to load images", error);
+          setProfilePic([]);
+        }
+      } else {
+        setProfilePic([]);
+      }
+    };
+
+    const handleFileChange = async (assets) => {
+      const file = {
+        name: "profileImage",
+        type: "image/png",
+        size: assets.length,
+        uri: assets[0].uri
+      }
+      const userToken = await AsyncStorage.getItem('user');
+      if (userToken === null) {
+        return;
+      }
+
+      addRestoProfileImage(userToken, file.name,
+        file.type, file.size, file.uri)
+        .then(r => {
+          setProfilePic([{ base64: file.uri, contentType: file.type,
+            filename: file.name, size: file.size,
+            uploadDate: "0", id: r.message }]);
+          if (image) {
+            deleteRestoProfileImage(image, userToken);
+          }
+          setImage(r.message);
+        });
+    };
+
+    const handleFileDelete = async () => {
+      if (image) {
+        const userToken = await AsyncStorage.getItem('user');
+        if (userToken === null) {
+          return;
+        }
+
+        deleteRestoProfileImage(image, userToken);
+        setProfilePic([]);
+      }
+      else {
+        console.log("No image to delete");
+      }
+    }
 
     const selectImage = async () => {
       const permissionResult = await ImagePicker
@@ -157,7 +223,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
         }
 
         if (uri) {
-          setImage(uri);
+          await handleFileChange(result.assets);
         }
       }
     };
@@ -289,14 +355,21 @@ const ProfilePage: React.FC<ProfileScreenProps &
             onPress={selectImage}
             style={styles.profilePictureContainer}
           >
-            {image ? (
-              <Image source={{uri: image}} style={styles.profilePicture}/>
+            {profilePic.length > 0 ? (
+              <Image source={{uri: profilePic[profilePic.length - 1].base64}} style={styles.profilePicture}/>
             ) : (
               <View style={styles.defaultProfilePicture}>
                 <Text style={styles.defaultProfilePictureText}>{t('pages.Profile.add-picture')}</Text>
               </View>
             )}
           </TouchableOpacity>
+          <View style={[styles.deleteAccountSection, styles.deletePictureButton]}>
+            <Button
+              title={t('pages.Profile.delete-picture') as string}
+              onPress={handleFileDelete}
+              color="#6d071a"
+            />
+          </View>
           <TextInput
             style={[styles.input, darkMode && styles.inputDarkTheme]}
             placeholder={t('pages.Profile.username') as string}

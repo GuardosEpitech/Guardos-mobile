@@ -164,6 +164,7 @@
         "delete-account-failure-retry": "Échec de la suppression du compte. Veuillez réessayer.",
         "profile-page": "Mon profil",
         "add-picture": "Ajouter une photo",
+        "delete-picture": "Supprimer l'image",
         "username": "Nom d'utilisateur",
         "email": "Email",
         "feature-request": "Demande de fonctionnalité",

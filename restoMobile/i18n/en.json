@@ -164,6 +164,7 @@
         "delete-account-failure-retry": "Failed to delete account. Please try again.",
         "profile-page": "My Profile",
         "add-picture": "Add Picture",
+        "delete-picture": "Delete Picture",
         "username": "Username",
         "email": "Email",
         "feature-request": "Feature request",
