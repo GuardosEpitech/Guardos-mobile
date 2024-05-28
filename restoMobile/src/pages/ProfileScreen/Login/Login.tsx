@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import styles from './Login.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -119,16 +119,6 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
           </Text>
           .
         </Text>
-        <View style={styles.containerDivider}>
-          <View style={styles.divider}></View>
-          <Text>{t('pages.Profile.or')}</Text>
-          <View style={styles.divider}></View>
-        </View>
-        <View style={styles.containerFlex}>
-          <Image source={require('../../../assets/Facebook.png')} style={styles.flexItem} />
-          <View style={styles.dividerLogos}></View>
-          <Image source={require('../../../assets/Google.png')} style={styles.flexItemGoogle} />
-        </View>
       </View>
     </View>
   );
