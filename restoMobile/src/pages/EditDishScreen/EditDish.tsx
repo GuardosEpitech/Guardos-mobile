@@ -508,7 +508,7 @@ const EditDish = ({ route }) => {
         }}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View style={[styles.modalView, darkMode && styles.modalViewDark]}>
             <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{modalContentType}</Text>
             <View style={styles.flexContainer}>
               {modalContentType === t('common.products') &&
