@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_URL } from '@env';
 
 const baseUrl =
-  `${API_URL}profile/resto/`;
+  `${process.env.API_URL}profile/resto/`;
 
 export const getProfileDetails = async (token: string) => {
   try {

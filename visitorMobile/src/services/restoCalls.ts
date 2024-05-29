@@ -3,8 +3,8 @@ import { IRestaurantFrontEnd } from '../../../shared/models/restaurantInterfaces
 // @ts-ignore
 import { API_URL } from '@env';
 
-const baseUrl = `${API_URL}filter/`;
-const baseUrlResto = `${API_URL}restaurants/`;
+const baseUrl = `http://195.90.210.111:8081/api/filter/`;
+const baseUrlResto = `http://195.90.210.111:8081/api/restaurants/`;
 
 const selectedURL = `${baseUrl}filteredlist`;
 

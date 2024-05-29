@@ -2,7 +2,7 @@ import axios from "axios";
 // @ts-ignore
 import { API_URL } from "@env";
 
-const baseUrl = API_URL + "images/";
+const baseUrl = "http://195.90.210.111:8081/api/" + "images/";
 
 
 export const getImages = async (imageIds: number[]) => {

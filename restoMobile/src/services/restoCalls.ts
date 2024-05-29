@@ -2,7 +2,7 @@ import axios from 'axios';
 // @ts-ignore
 import { API_URL } from '@env';
 
-const baseURL = API_URL;
+const baseURL = "http://195.90.210.111:8081/api/";
 
 export const getAllResto = async () => {
   try {

@@ -3,6 +3,8 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import MyTabs from './Router';
 import ErrorBoundary from './src/components/ErrorBoundary/ErrorBoundary';
+import 'react-native-reanimated'
+import 'react-native-gesture-handler'
 
 interface ErrorScreenProps {
   errorMessage: string;

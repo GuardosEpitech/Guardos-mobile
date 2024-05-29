@@ -2,7 +2,7 @@ import axios from 'axios';
 // @ts-ignore
 import { API_URL } from '@env';
 import { IDishFE } from "../../../shared/models/dishInterfaces";
-const baseURL = API_URL + "dishes/";
+const baseURL = "http://195.90.210.111:8081/api/" + "dishes/";
 
 
 export const getAllDishes = async () => {

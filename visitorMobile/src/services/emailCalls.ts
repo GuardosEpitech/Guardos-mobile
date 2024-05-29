@@ -3,7 +3,7 @@ import { IContactForm } from '../models/emailInterfaces';
 // @ts-ignore
 import { API_URL } from '@env';
 
-const baseUrl = `${API_URL}sendEmail/`;
+const baseUrl = `http://195.90.210.111:8081/api/sendEmail/`;
 
 export const sendEmail = async (fromData: IContactForm) => {
     try {

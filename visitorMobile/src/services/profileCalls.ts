@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_URL } from '@env';
 
 const baseUrl =
-  `${API_URL}profile/`;
+  `http://195.90.210.111:8081/api/profile/`;
 
 export const getVisitorProfileDetails = async (token: string) => {
   try {

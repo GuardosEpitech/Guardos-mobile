@@ -9,6 +9,7 @@ import AddRestaurantScreen from '../AddRestaurantScreen/AddRestaurantScreen';
 import {getAllRestaurantsByUser, deleteRestaurantByName} from "../../services/restoCalls";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IRestaurantFrontEnd } from 'src/models/restaurantsInterfaces';
+import { MotiView } from 'moti';
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -56,6 +57,7 @@ const MyRestaurantsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <MotiView from={{ opacity: 0 }} animate={{ opacity: 1 }} />
       <FlatList
         data={restoData}
         renderItem={({ item }) => (
@@ -63,7 +65,7 @@ const MyRestaurantsScreen = () => {
             <Card info={item} onDelete={onDelete} />
           </TouchableOpacity>
         )}
-        keyExtractor={(restaurant) => restaurant.id.toString()}
+        keyExtractor={(restaurant, index) => (restaurant.id !== undefined ? restaurant.id.toString() : index.toString())}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

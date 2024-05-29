@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { View, FlatList, TouchableOpacity, Text, RefreshControl, ScrollView} from 'react-native';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { View, FlatList, TouchableOpacity, Text, RefreshControl, ScrollView, Animated } from 'react-native';
 import { Slider } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import styles from './RestaurantScreen.styles'
-import { getAllResto , getFilteredRestos} from '../../services/restoCalls';
+import { getAllResto , getFilteredRestos } from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IRestaurantFrontEnd, ICommunication } from '../../models/restaurantsInterfaces';
@@ -46,8 +46,16 @@ const MyRestaurantsScreen = () => {
     allergens: [],
   });
 
+  const buttonAnimation = useRef(new Animated.Value(1)).current;
+  const cardAnimation = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
     updateRestoData();
+    Animated.timing(cardAnimation, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
   }, []);
 
   const updateRestoData = async () => {
@@ -132,6 +140,20 @@ const MyRestaurantsScreen = () => {
     updateFilterSelections(); 
   };
 
+  const handleButtonPress = () => {
+    Animated.sequence([
+      Animated.timing(buttonAnimation, {
+        toValue: 1.2,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(buttonAnimation, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start(() => setIsTabVisible(!isTabVisible));
+  };
 
   return (
     <View style={styles.container}>
@@ -140,18 +162,23 @@ const MyRestaurantsScreen = () => {
         <FlatList
           data={restoData}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigateToMenu(item.id, item.name)}>
-              <Card info={item} />
-            </TouchableOpacity>
+            <Animated.View style={{ opacity: cardAnimation }}>
+              <TouchableOpacity onPress={() => navigateToMenu(item.id, item.name)}>
+                <Card info={item} />
+              </TouchableOpacity>
+            </Animated.View>
           )}
-          keyExtractor={(restaurant, index) => restaurant.id ? restaurant.id.toString() : index.toString()}          showsVerticalScrollIndicator={false}
+          keyExtractor={(restaurant, index) => (restaurant.id !== undefined ? restaurant.id.toString() : index.toString())}
+          showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         />
-        <TouchableOpacity style={styles.roundButton} onPress={() => setIsTabVisible(!isTabVisible)}>
-          <Ionicons name="md-filter" size={30} color="white" />
-        </TouchableOpacity>
+        <Animated.View style={{ transform: [{ scale: buttonAnimation }] }}>
+          <TouchableOpacity style={styles.roundButton} onPress={handleButtonPress}>
+            <Ionicons name="md-filter" size={30} color="white" />
+          </TouchableOpacity>
+        </Animated.View>
         {isTabVisible && (
           <ScrollView style={styles.scrollView}>
             <View style={styles.tabContainer}>

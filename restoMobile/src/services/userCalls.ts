@@ -2,9 +2,9 @@ import axios from "axios";
 // @ts-ignore
 import { API_URL } from '@env';
 
-const baseUrl = `${API_URL}login/`;
-const baseUrl1 = `${API_URL}user/`;
-const baseUrlEmail = `${API_URL}sendEmail/`;
+const baseUrl = `http://195.90.210.111:8081/api/login/`;
+const baseUrl1 = `http://195.90.210.111:8081/api/user/`;
+const baseUrlEmail = `http://195.90.210.111:8081/api/sendEmail/`;
 
 export const checkIfTokenIsValid = async (body: any) => {
   try {

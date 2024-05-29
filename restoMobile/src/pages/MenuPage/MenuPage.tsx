@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, Modal, Button } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Modal, Button, Linking } from 'react-native';
 import styles from './MenuPage.styles';
 import { getDishesByResto, deleteDishByName } from '../../services/dishCalls';
 import { Dish } from 'src/models/dishesInterfaces';
@@ -8,6 +8,10 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { getImages } from "../../services/imagesCalls";
 import { defaultDishImage } from "../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
+import { getQRCodeByName } from '../../services/QRcodeCalls';
+// @ts-ignore
+import { API_URL2 } from '@env';
+import { MotiView } from 'moti'
 
 export interface DishData {
   _id: number;
@@ -26,6 +30,19 @@ const MenuPage: React.FC = ({ route }) => {
   useEffect(() => {
     fetchData();
   }, []);
+  const [URL, setURL] = useState(null);
+
+  useState(() => {
+    getQRCodeByName(restaurantName)
+      .then(res => setURL(res));
+  });
+
+  const handlePress = () => {
+    const url = `https://guardos.eu/api/qrcode/base64/${restaurantName}`;
+    Linking.openURL(url);
+  };
+
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -111,6 +128,7 @@ const MenuPage: React.FC = ({ route }) => {
                 </View>
               </React.Fragment>
             ))}
+            <Button title="Get My Menu QRCode" onPress={handlePress} />
           </ScrollView>
           <Modal visible={showConfirmation} transparent animationType="slide">
             <View style={styles.modalContainer}>
