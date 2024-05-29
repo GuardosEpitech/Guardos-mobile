@@ -172,6 +172,9 @@ const styles = StyleSheet.create({
     height: 20,
     color: "white"
   },
+  modalViewDark: {
+    backgroundColor: 'black'
+  }
 });
 
 export default styles;

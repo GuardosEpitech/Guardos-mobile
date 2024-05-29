@@ -67,7 +67,6 @@ const MyDishesScreen: React.FC = () => {
   };
 
   const navigateToChangeDish = ( restaurantName: string, dish: IDishFE) => {
-    console.log('clicked on dish:')
     navigation.navigate('EditDish', { restaurantName, dish });
   };
 

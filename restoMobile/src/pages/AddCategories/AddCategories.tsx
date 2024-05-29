@@ -126,6 +126,8 @@ const AddCategoryPage = () => {
 
         updatedCategories.sort((a, b) => a.hitRate - b.hitRate);
         const updatedResto = await updateRestoCategories(userToken, activeRestaurant, updatedCategories);
+        const restaurants = await getAllRestaurantsByUser({ key: userToken });
+        setRestoData(restaurants);
         setNewCategories(updatedCategories);
         setNewCategoryName('');
         setNewCategoryHitRate('');
