@@ -15,7 +15,7 @@ import Header from "../../components/Header";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { getAllProducts } from "../../services/productCalls";
+import { getProductsByUser } from "../../services/productCalls";
 import { getAllRestaurantsByUser, getRestaurantByName } from "../../services/restoCalls";
 import * as ImagePicker from 'expo-image-picker';
 import { addDish, changeDishByName } from "../../services/dishCalls";
@@ -90,7 +90,8 @@ const EditDish = ({ route }) => {
   }
 
   const onAddProduct = async () => {
-    const allProducts = await getAllProducts();
+    const userToken = await AsyncStorage.getItem('userToken');
+    const allProducts = await getProductsByUser(userToken);
     //@ts-ignore
     const newProducts = allProducts.filter(prod => !products.includes(prod.name)).map(prod => prod.name);
     setProducts([...products, ...newProducts]);
@@ -116,19 +117,23 @@ const EditDish = ({ route }) => {
 
 
   const onAddCategory = async () => {
-    let categories;
-
+    let categories: string[] = [];
     if (restaurantName.length === 0) {
-      // TODO: handle with i18n
-      categories = [{name: 'Appetizers'}, {name: 'Main Dishes'}, {name: 'Desserts'}, {name: 'Drinks'}];
+      for (const restaurantName of selectedRestaurants) {
+        const restaurant = await getRestaurantByName(restaurantName);
+        if (restaurant && restaurant.categories) {
+          categories = [...categories, ...restaurant.categories];
+        }
+      }
     } else {
       const restaurant = await getRestaurantByName(restaurantName);
       categories = restaurant.categories;
     }
-
+    
     //@ts-ignore
-    const newCategories = categories.filter(cat => !category.includes(cat.name)).map(cat => cat.name);
-    setCategory([...category, ...newCategories]);
+    const newCategories = categories.filter(cat => !categories.includes(cat.name)).map(cat => cat.name);
+    const uniqueCategories = Array.from(new Set(newCategories));
+    setCategory(uniqueCategories);
 
     setModalContentType(t('pages.EditDishScreen.categories') as string);
     setModalVisible(true);
@@ -317,7 +322,7 @@ const EditDish = ({ route }) => {
         console.log('Dish saved');
       }
       if (dish == null) {
-        const userToken = await AsyncStorage.getItem('user');
+        const userToken = await AsyncStorage.getItem('userToken');
         const newAddDish = await addDish({
           dish: dishToSave,
           resto: selectedRestaurants[i],
@@ -447,29 +452,6 @@ const EditDish = ({ route }) => {
         </TouchableOpacity>
       </View>
 
-
-      <View style={styles.contentProducsDishes}>
-        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.food-category')}</Text>
-        <View style={styles.containerAllergens}>
-          {selectedCategories.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.button}
-              onPress={() => onCategoryPress(item)}
-            >
-              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <TouchableOpacity
-          key={"ADDNEWCATEGORY"}
-          style={styles.button}
-          onPress={() => onAddCategory()}>
-          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-category')}</Text>
-        </TouchableOpacity>
-      </View>
-
-
       <View style={styles.contentProducsDishes}>
         <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.resto')}</Text>
         <View style={styles.containerAllergens}>
@@ -491,6 +473,27 @@ const EditDish = ({ route }) => {
         </TouchableOpacity>
       </View>
 
+
+      <View style={styles.contentProducsDishes}>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.food-category')}</Text>
+        <View style={styles.containerAllergens}>
+          {selectedCategories.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.button}
+              onPress={() => onCategoryPress(item)}
+            >
+              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <TouchableOpacity
+          key={"ADDNEWCATEGORY"}
+          style={styles.button}
+          onPress={() => onAddCategory()}>
+          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-category')}</Text>
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.buttonText}>{t('common.save')}</Text>
