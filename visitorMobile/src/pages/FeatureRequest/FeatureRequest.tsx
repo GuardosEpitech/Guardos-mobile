@@ -6,6 +6,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { sendFeatureRequest } from '../../services/emailCalls';
 import {useTranslation} from "react-i18next";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getVisitorUserPermission } from '../../services/permissionsCalls';
 
 type FeatureRequestScreenProps = {
     navigation: NavigationProp<ParamListBase>;
@@ -15,6 +16,7 @@ const initialRequestState = {
   name: '',
   subject: '',
   request: '',
+  isPremium: 'false',
 }
 
 const FeatureRequest: React.FC<FeatureRequestScreenProps> = ({navigation}) => {
@@ -22,17 +24,40 @@ const FeatureRequest: React.FC<FeatureRequestScreenProps> = ({navigation}) => {
     const {t} = useTranslation();
     const [darkMode, setDarkMode] = useState<boolean>(false);
 
-    useEffect(() => {
-      fetchDarkMode();  
-    })
-
-
     const handleInputChange = (field: keyof IRequestUser, text: string) => {
       setRequest(prevState => ({
         ...prevState,
       [field]: text,
       }));
     };
+
+    const getPremium = async () => {
+      try {
+        const userToken = await AsyncStorage.getItem('user');
+        const permissions = await getVisitorUserPermission(userToken);
+        const isPremiumUser = permissions.includes('premiumUser');
+        if (isPremiumUser) {
+          handleInputChange('isPremium', 'true');
+        } else {
+          handleInputChange('isPremium', 'false');
+        }
+      } catch (error) {
+        console.error("Error getting permissions: ", error);
+      }
+    }
+
+    useEffect(() => {
+      try {
+        getPremium();
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    }, []);
+
+    useEffect(() => {
+      fetchDarkMode();  
+    })
+
   
     const handleButtonPress = () => {
       sendFeatureRequest(request)
