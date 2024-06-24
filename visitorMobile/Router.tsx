@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform, NativeModules, View, Text, StyleSheet } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
@@ -30,6 +31,7 @@ import i18n from "i18next";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const ErrorScreen: React.FC<{ errorMessage: string }> = ({ errorMessage }) => (
     <View style={styles.container}>
@@ -186,12 +188,9 @@ const Router: React.FC = () => {
           ) : (
               <Stack.Navigator>
                 {!loggedIn ? (
-                    <>
-                      <Stack.Screen name="Login" options={{ headerShown: false }}>
-                        {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedIn} />}
-                      </Stack.Screen>
-                      <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-                    </>
+                    <Stack.Screen name="Auth" options={{ headerShown: false }}>
+                      {(props) => <AuthTabs {...props} setLoggedInStatus={setLoggedIn} />}
+                    </Stack.Screen>
                 ) : (
                     <Stack.Screen name="Main" options={{ headerShown: false }}>
                       {(props) => <MainDrawer {...props} setLoggedInStatus={setLoggedIn} />}
@@ -204,6 +203,45 @@ const Router: React.FC = () => {
   };
 
   return renderContent();
+};
+
+const AuthTabs = ({ setLoggedInStatus }) => {
+  const { t } = useTranslation();
+
+  return (
+      <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let icon;
+
+              if (route.name === 'Login') {
+                icon = focused ? 'log-in' : 'log-in-outline';
+              } else if (route.name === 'Register') {
+                icon = focused ? 'person-add' : 'person-add-outline';
+              }
+
+              return <Ionicons name={icon} size={size} color={focused ? 'black' : color} />;
+            },
+            tabBarActiveTintColor: 'black',
+            tabBarInactiveTintColor: 'black',
+            tabBarStyle: {
+              backgroundColor: '#6d071a',
+            },
+          })}
+      >
+        <Tab.Screen
+            name="Login"
+            options={{ tabBarLabel: t('pages.Router.login') as string }}
+        >
+          {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+        </Tab.Screen>
+        <Tab.Screen
+            name="Register"
+            component={Register}
+            options={{ tabBarLabel: t('pages.Router.register') as string }}
+        />
+      </Tab.Navigator>
+  );
 };
 
 interface ProfileStackProps {
