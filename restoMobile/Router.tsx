@@ -36,7 +36,6 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
@@ -187,7 +186,9 @@ const Router: React.FC = () => {
         ) : (
             <Stack.Navigator>
               {!loggedIn ? (
-                  <Stack.Screen name="Auth" component={AuthTabs} options={{ headerShown: false }} />
+                  <Stack.Screen name="Auth" options={{ headerShown: false }}>
+                    {(props) => <AuthTabs {...props} setLoggedInStatus={setLoggedIn} />}
+                  </Stack.Screen>
               ) : (
                   <Stack.Screen name="Main" options={{ headerShown: false }}>
                     {(props) => <MainDrawer {...props} setLoggedInStatus={setLoggedIn} />}
@@ -199,7 +200,8 @@ const Router: React.FC = () => {
   );
 };
 
-const AuthTabs = () => {
+// @ts-ignore
+const AuthTabs = ({ setLoggedInStatus }) => {
   const { t } = useTranslation();
 
   return (
@@ -226,9 +228,10 @@ const AuthTabs = () => {
       >
         <Tab.Screen
             name="Login"
-            component={LoginStackScreen}
             options={{ tabBarLabel: t('pages.Router.login') as string }}
-        />
+        >
+          {(props) => <LoginStackScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+        </Tab.Screen>
         <Tab.Screen
             name="Register"
             component={Register}
@@ -348,7 +351,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
               tabBarLabel: t('pages.Router.my-profile') as string,
               title: t('pages.Router.my-profile') as string,
               headerStyle: { backgroundColor: '#6d071a' },
-              headerShown: true,
+              headerShown: false,
             }}
         >
           {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}
@@ -376,7 +379,6 @@ const LoginStackScreen: React.FC<LoginStackProps> = ({ setLoggedInStatus }) => {
             name="Login"
             options={{
               title: t('pages.Router.login') as string,
-              headerShown: true,
             }}
         >
           {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
