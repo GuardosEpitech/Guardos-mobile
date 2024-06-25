@@ -334,6 +334,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
       );
     };
 
+    const handleTerms = () => {
+      navigation.navigate('Terms and Conditions', {});
+    };
+
     const handlePrivacy = () => {
       navigation.navigate('Privacy', {});
     };
@@ -458,6 +462,13 @@ const ProfilePage: React.FC<ProfileScreenProps &
               color="#6d071a"
             />
           </View>
+          </View>
+          <View style={[styles.deleteAccountSection, darkMode && styles.deleteAccountSectionDarkTheme]}>
+            <Button
+              title={t('pages.Profile.terms') as string}
+              onPress={handleTerms}
+              color="#6d071a"
+            />
           </View>
           <View style={[styles.deleteAccountSection, darkMode && styles.deleteAccountSectionDarkTheme]}>
             <Button
