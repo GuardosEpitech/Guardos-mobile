@@ -74,6 +74,12 @@
         "subject": "Betreff",
         "request": "Anfrage"
       },
+      "UserSupport": {
+        "UserSupport": "Benutzerunterstützung",
+        "name": "Name",
+        "subject": "Betreff",
+        "Issue": "Problem"
+      },
       "MapPage": {
         "save-filter-error": "Fehler beim Speichern des Filters. Bitte versuchen Sie es erneut.",
         "save-filter-success": "Filter erfolgreich gespeichert.",
@@ -153,7 +159,8 @@
         "email-taken-or-invalid": "Für die angegebene E-Mail existiert bereits ein Konto oder sie ist ungültig",
         "privacy": "Datenschutzerklärung",
         "payment": "Zahlungsmethoden",
-        "payBtn": "Zahlungsmethoden verwalten"
+        "payBtn": "Zahlungsmethoden verwalten",
+        "UserSupport": "Benutzerunterstützung"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "Dieser Benutzername und diese E-Mail ({{ email }}) stimmen nicht überein. Überprüfen Sie bitte die Schreibweise oder versuchen Sie es mit einem anderen Benutzernamen.",

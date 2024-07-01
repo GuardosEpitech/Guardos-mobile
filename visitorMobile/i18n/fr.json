@@ -71,6 +71,12 @@
         "subject": "Sujet",
         "request": "Demande"
       },
+      "UserSupport": {
+        "UserSupport": "Support utilisateur",
+        "name": "Nom",
+        "subject": "Sujet",
+        "Issue": "Problème"
+      },
       "MapPage": {
         "save-filter-error": "Erreur lors de l'enregistrement du filtre. Veuillez réessayer.",
         "save-filter-success": "Filtre enregistré avec succès.",
@@ -168,7 +174,8 @@
         "error": "Une erreur s'est produite.",
         "try-again-msg": "Veuillez réessayer pour obtenir un lien de récupération. Si l'erreur se produit à nouveau, veuillez nous contacter.",
         "continue": "Continuer",
-        "send-reset-link": "Envoyer mon lien de réinitialisation de mot de passe"
+        "send-reset-link": "Envoyer mon lien de réinitialisation de mot de passe",
+        "UserSupport": "Support utilisateur"
       },
       "RestaurantScreen": {
         "save-filter-error": "Erreur lors de l'enregistrement du filtre. Veuillez réessayer.",

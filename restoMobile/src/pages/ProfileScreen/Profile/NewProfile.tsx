@@ -232,6 +232,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
       navigation.navigate('FeatureRequest', {});
     };
 
+    const handleSupportRequest = () => {
+      navigation.navigate('UserSupport', {});
+    }
+
     const handleRedirectSubscriptions = () => {
       navigation.navigate('Subscriptions', {});
     };
@@ -434,6 +438,12 @@ const ProfilePage: React.FC<ProfileScreenProps &
           <Button 
           title={t('pages.Profile.feature-request') as string}
           onPress={handleFeatureRequest} 
+          color="grey" />
+          </View>
+          <View style={styles.buttonContainer}>
+          <Button 
+          title={t('pages.UserSupport.UserSupport') as string}
+          onPress={handleSupportRequest} 
           color="grey" />
           </View>
           <View style={styles.buttonContainer}>

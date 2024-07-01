@@ -396,6 +396,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('FeatureRequest', {});
   };
 
+  const handleSupportRequest = () => {
+    navigation.navigate('UserSupport', {});
+  }
+
   const handleRedirectSubscriptions = () => {
     navigation.navigate('Subscriptions', {});
   };
@@ -599,6 +603,12 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         <Button
           title={t('pages.Profile.feature-request') as string}
           onPress={handleFeatureRequest}
+          color={darkMode ? "white" :  "#6d071a"} />
+      </View>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
+        <Button
+          title={t('pages.Profile.UserSupport') as string}
+          onPress={handleSupportRequest}
           color={darkMode ? "white" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
