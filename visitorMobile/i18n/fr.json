@@ -75,7 +75,8 @@
         "UserSupport": "Support utilisateur",
         "name": "Nom",
         "subject": "Sujet",
-        "Issue": "Problème"
+        "issue": "Problème",
+        "emailSent": "E-mail envoyé avec succès !"
       },
       "MapPage": {
         "save-filter-error": "Erreur lors de l'enregistrement du filtre. Veuillez réessayer.",

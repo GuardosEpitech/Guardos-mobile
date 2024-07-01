@@ -180,7 +180,8 @@
         "UserSupport": "Support utilisateur",
         "name": "Nom",
         "subject": "Sujet",
-        "Issue": "Problème"
+        "issue": "Problème",
+        "emailSent": "E-mail envoyé avec succès !"
       },
       "QRCodeEngin": {
         "unknown-product": "Produit inconnu",

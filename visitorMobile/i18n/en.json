@@ -78,7 +78,8 @@
         "UserSupport": "User Support",
         "name": "Name",
         "subject": "Subject",
-        "Issue": "Issue"
+        "issue": "Issue",
+        "emailSent": "Email sent successfully!"
       },
       "MapPage": {
         "save-filter-error": "Error saving filter. Please try again.",

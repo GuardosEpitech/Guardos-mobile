@@ -75,10 +75,12 @@
         "request": "Anfrage"
       },
       "UserSupport": {
-        "UserSupport": "Benutzerunterstützung",
+        "UserSupport": "Kundensupport",
         "name": "Name",
         "subject": "Betreff",
-        "Issue": "Problem"
+        "issue": "Problem",
+        "emailSent": "E-Mail erfolgreich gesendet!"
+
       },
       "MapPage": {
         "save-filter-error": "Fehler beim Speichern des Filters. Bitte versuchen Sie es erneut.",
@@ -160,7 +162,7 @@
         "privacy": "Datenschutzerklärung",
         "payment": "Zahlungsmethoden",
         "payBtn": "Zahlungsmethoden verwalten",
-        "UserSupport": "Benutzerunterstützung"
+        "UserSupport": "Kundensupport"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "Dieser Benutzername und diese E-Mail ({{ email }}) stimmen nicht überein. Überprüfen Sie bitte die Schreibweise oder versuchen Sie es mit einem anderen Benutzernamen.",

@@ -177,10 +177,11 @@
         "payBtn": "Zahlungsmethoden verwalten"
       },
       "UserSupport": {
-        "UserSupport": "Benutzerunterstützung",
+        "UserSupport": "Kundensupport",
         "name": "Name",
         "subject": "Betreff",
-        "Issue": "Problem"
+        "issue": "Problem",
+        "emailSent": "E-Mail erfolgreich gesendet!"
       },
       "QRCodeEngin": {
         "unknown-product": "Unbekanntes Produkt",
