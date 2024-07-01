@@ -74,6 +74,12 @@
         "subject": "Subject",
         "request": "Request"
       },
+      "UserSupport": {
+        "UserSupport": "User Support",
+        "name": "Name",
+        "subject": "Subject",
+        "Issue": "Issue"
+      },
       "MapPage": {
         "save-filter-error": "Error saving filter. Please try again.",
         "save-filter-success": "Filter saved successfully.",
@@ -153,7 +159,8 @@
         "email-taken-or-invalid": "An account already exists for the specified email or is invalid",
         "privacy": "Privacy statement",
         "payment": "Payment methods",
-        "payBtn": "Manage payment methods"
+        "payBtn": "Manage payment methods",
+        "UserSupport": "User Support"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "That username and email ({{ email }}) don't match. Please check its spelling or try another username.",
