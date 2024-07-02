@@ -17,8 +17,6 @@ import ContactUsScreen from './src/pages/ContactUs/ContactUs';
 import MapPage from './src/pages/MapPage/MapPage';
 import Register from "./src/pages/ProfileScreen/Register/Register";
 import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
-import MenuPage from './src/pages/MenuPage/MenuPage';
-import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
 import ChangePasswordScreen from "./src/pages/ProfileScreen/ChangePassword/ChangePassword";
 import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import FeatureRequest from './src/pages/FeatureRequest/FeatureRequest';
@@ -65,7 +63,7 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                   iconName = focused ? 'person' : 'person-outline';
                   break;
                 default:
-                  iconName = 'alert-circle-outline'; // Default icon for unrecognized routes
+                  iconName = 'alert-circle-outline';
                   break;
               }
 
@@ -192,9 +190,12 @@ const Router: React.FC = () => {
                       {(props) => <AuthTabs {...props} setLoggedInStatus={setLoggedIn} />}
                     </Stack.Screen>
                 ) : (
-                    <Stack.Screen name="Main" options={{ headerShown: false }}>
-                      {(props) => <MainDrawer {...props} setLoggedInStatus={setLoggedIn} />}
-                    </Stack.Screen>
+                    <>
+                      <Stack.Screen name="Main" options={{ headerShown: false }}>
+                        {(props) => <MainDrawer {...props} setLoggedInStatus={setLoggedIn} />}
+                      </Stack.Screen>
+                      <Stack.Screen name="RestaurantScreen" component={RestaurantScreen} options={{ headerShown: false }} />
+                    </>
                 )}
               </Stack.Navigator>
           )}
@@ -272,22 +273,6 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
   );
 };
 
-const RestauStack = () => {
-  return (
-      <Stack.Navigator>
-        <Stack.Screen
-            name="RestaurantScreen"
-            component={RestaurantScreen}
-            options={{ headerShown: false }}
-        />
-        <Stack.Screen
-            name="MenuPage"
-            component={MenuPage}
-            options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {
