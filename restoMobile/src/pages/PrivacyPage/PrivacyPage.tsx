@@ -63,6 +63,29 @@ const PrivacyPage = () => {
                 </Text>
               </View>
             </View>
+            <Text style={[styles.title, darkMode && styles.titleDarkTheme]}>{t('pages.Privacy.purpose')}</Text>
+            <View style={[styles.line, darkMode && styles.lineDarkTheme]} />
+            <View style={[styles.text, darkMode && styles.textDarkTheme]}>
+              <Text style={[styles.text, darkMode && styles.textDarkTheme]}>{t('pages.Privacy.purposetxt')}</Text>
+              <View style={styles.indentedList}>
+                <Text>
+                  <Text style={[styles.bold, darkMode && styles.boldDarkTheme]}>{t('pages.Privacy.purpose1')}</Text> 
+                  <Text  style={[styles.text, darkMode && styles.textDarkTheme]}> {t('pages.Privacy.purpose1txt')} </Text>
+                </Text>
+                <Text>
+                  <Text style={[styles.bold, darkMode && styles.boldDarkTheme]}>{t('pages.Privacy.purpose2')}</Text>
+                  <Text  style={[styles.text, darkMode && styles.textDarkTheme]}> {t('pages.Privacy.purpose2txt')} </Text>
+                </Text>
+                <Text>
+                  <Text style={[styles.bold, darkMode && styles.boldDarkTheme]}>{t('pages.Privacy.purpose3')}</Text> 
+                  <Text  style={[styles.text, darkMode && styles.textDarkTheme]}>{t('pages.Privacy.purpose3txt')} </Text>
+                </Text>
+                <Text>
+                  <Text style={[styles.bold, darkMode && styles.boldDarkTheme]}>{t('pages.Privacy.purpose4')}</Text> 
+                  <Text  style={[styles.text, darkMode && styles.textDarkTheme]}>{t('pages.Privacy.purpose4txt')} </Text>
+                </Text>
+              </View>
+            </View>
             <Text style={[styles.title, darkMode && styles.titleDarkTheme]}>{t('pages.Privacy.legal')}</Text>
             <View style={[styles.line, darkMode && styles.lineDarkTheme]} />
             <View style={[styles.text, darkMode && styles.textDarkTheme]}>
@@ -127,6 +150,11 @@ const PrivacyPage = () => {
                 </Text>
               </View>
               <Text style={[styles.text, darkMode && styles.textDarkTheme]}>{t('pages.Privacy.rightend')}</Text>
+            </View>
+            <Text style={[styles.title, darkMode && styles.titleDarkTheme]}>{t('pages.Privacy.updates')}</Text>
+            <View style={[styles.line, darkMode && styles.lineDarkTheme]}/>
+            <View style={[styles.text, darkMode && styles.textDarkTheme]}>
+              <Text style={[styles.text, darkMode && styles.textDarkTheme]}>{t('pages.Privacy.updatestxt')}</Text>
             </View>
             <Text style={[styles.title, darkMode && styles.titleDarkTheme]}>{t('pages.Privacy.contact')}</Text>
             <View style={[styles.line, darkMode && styles.lineDarkTheme]} />

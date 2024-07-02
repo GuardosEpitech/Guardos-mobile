@@ -531,7 +531,7 @@ const MyRestaurantsScreen = () => {
                     onPress={() => handleRatingChange(index)} 
                   >
                     <Ionicons 
-                      name={index <= rating ? 'md-star' : 'md-star-outline'} 
+                      name={index <= rating ? 'star' : 'star-outline'} 
                       size={30} 
                       color="#6d071a" 
                     />
