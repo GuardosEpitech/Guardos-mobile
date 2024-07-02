@@ -515,7 +515,7 @@ const MyRestaurantsScreen = () => {
           style={styles.roundButton} 
           onPress={() => setIsTabVisible(!isTabVisible)}
         >
-          <Ionicons name="filter" size={30} color="white" />
+          <Ionicons name="filter-outline" size={30} color="white" />
         </TouchableOpacity>
 
         <Modal isVisible={isTabVisible} style={{ marginTop: 50 }}>

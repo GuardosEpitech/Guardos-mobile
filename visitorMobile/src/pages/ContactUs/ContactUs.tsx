@@ -84,17 +84,17 @@ const ContactUs: React.FC = () => {
         <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>{t('pages.ContactUs.get-in-touch')}</Text>
         <View style={styles.contactInfo}>
           <View style={styles.contactDetail}>
-            <Ionicons name="md-call" size={24} color="black" />
+            <Ionicons name="call" size={24} color="black" />
             <Text style={[styles.contactText, darkMode && styles.contactTextDarkTheme]}>030 1234567</Text>
           </View>
 
           <View style={styles.contactDetail}>
-            <Ionicons name="md-mail" size={24} color="black" />
+            <Ionicons name="mail" size={24} color="black" />
             <Text style={[styles.contactText, darkMode && styles.contactTextDarkTheme]}>guardos-help@outlook.com</Text>
           </View>
 
           <View style={styles.contactDetail}>
-            <Ionicons name="md-pin" size={24} color="black" />
+            <Ionicons name="pin" size={24} color="black" />
             <Text style={[styles.contactText, darkMode && styles.contactTextDarkTheme]}>{t('pages.ContactUs.address')}</Text>
           </View>
         </View>
