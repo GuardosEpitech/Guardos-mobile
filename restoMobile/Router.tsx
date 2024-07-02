@@ -7,7 +7,6 @@ import { LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from "react-i18next";
 
-// Import your screens and components
 import MyRestaurantsScreen from './src/pages/MyRestaurantsScreen/MyRestaurantsScreen';
 import MyDishesScreen from './src/pages/MyDishesScreen/MyDishesScreen';
 import MyProductsScreen from './src/pages/MyProductsScreen/MyProductsScreen';
@@ -32,6 +31,7 @@ import SubscriptionPage from "./src/pages/SubscriptionPage/SubscriptionPage";
 import PaymentPage from './src/pages/Payment/PaymentPage';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import TermsPage from "./src/pages/TermsPage/TermsPage";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -359,6 +359,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
         <Stack.Screen name="FeatureRequest" component={FeatureRequest} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="Subscriptions" component={SubscriptionPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
+        <Stack.Screen name="Terms and Conditions" component={TermsPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
         <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="Imprint" component={ImprintPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="Payment methods" component={PaymentPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />

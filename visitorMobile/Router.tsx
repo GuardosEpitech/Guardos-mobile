@@ -10,7 +10,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useTranslation } from "react-i18next";
 import './i18n/i18n';
 
-// Import your screens and components
 import RestaurantScreen from './src/pages/RestaurantScreen/RestaurantScreen';
 import AboutUsScreen from './src/pages/AboutUs/AboutUs';
 import ContactUsScreen from './src/pages/ContactUs/ContactUs';
@@ -25,6 +24,7 @@ import ImprintPage from './src/pages/ImprintPage/ImprintPage';
 import AppIntro from './src/pages/AppIntro/AppIntro';
 import SubscriptionPage from "./src/pages/SubscriptionPage/SubscriptionPage";
 import PaymentPage from './src/pages/Payment/PaymentPage';
+import TermsPage from "./src/pages/TermsPage/TermsPage";
 import i18n from "i18next";
 
 const Drawer = createDrawerNavigator();
@@ -266,6 +266,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
         <Stack.Screen name="FeatureRequest" component={FeatureRequest} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="Subscriptions" component={SubscriptionPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
+        <Stack.Screen name="Terms and Conditions" component={TermsPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
         <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="Imprint" component={ImprintPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="Payment methods" component={PaymentPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
@@ -274,6 +275,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
 };
 
 
+// @ts-ignore
 const styles = StyleSheet.create({
   container: {
     flex: 1,
