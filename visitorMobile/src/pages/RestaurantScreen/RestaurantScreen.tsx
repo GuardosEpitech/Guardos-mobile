@@ -515,7 +515,7 @@ const MyRestaurantsScreen = () => {
           style={styles.roundButton} 
           onPress={() => setIsTabVisible(!isTabVisible)}
         >
-          <Ionicons name="md-filter" size={30} color="white" />
+          <Ionicons name="filter" size={30} color="white" />
         </TouchableOpacity>
 
         <Modal isVisible={isTabVisible} style={{ marginTop: 50 }}>
@@ -531,7 +531,7 @@ const MyRestaurantsScreen = () => {
                     onPress={() => handleRatingChange(index)} 
                   >
                     <Ionicons 
-                      name={index <= rating ? 'md-star' : 'md-star-outline'} 
+                      name={index <= rating ? 'star' : 'star-outline'} 
                       size={30} 
                       color="#6d071a" 
                     />

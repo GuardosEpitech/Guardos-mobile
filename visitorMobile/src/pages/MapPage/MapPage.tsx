@@ -636,7 +636,7 @@ const MapPage = () => {
         style={styles.filterButton}
         onPress={() => setShowFilterPopup(true)}
       >
-        <Ionicons name="md-funnel" size={24} color="white" />
+        <Ionicons name="filter" size={24} color="white" />
       </TouchableOpacity>
 
       <Modal isVisible={showFilterPopup} style={{ marginTop: 50 }}>
@@ -652,7 +652,7 @@ const MapPage = () => {
                 onPress={() => handleRatingChange(index)} 
               >
                 <Ionicons 
-                  name={index <= rating ? 'md-star' : 'md-star-outline'} 
+                  name={index <= rating ? 'star' : 'star-outline'} 
                   size={30} 
                   color="#6d071a" 
                 />
