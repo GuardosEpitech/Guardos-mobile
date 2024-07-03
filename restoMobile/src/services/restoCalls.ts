@@ -100,13 +100,14 @@ export const addRestaurant = async(restaurantData: any) => {
   }
 }
 
-export const deleteRestaurantByName = async (restaurantName: string) => {
+export const deleteRestaurantByName = async (restaurantName: string, token: string) => {
   try {
     if (baseURL === undefined) {
       throw new Error("baseUrl is not defined");
     }
     await axios({
       method: 'DELETE',
+      params: {key: token},
       url: baseURL +'restaurants/' + restaurantName,
     });
   } catch (error) {
@@ -115,14 +116,15 @@ export const deleteRestaurantByName = async (restaurantName: string) => {
   }
 };
 
-export const getAllMenuDesigns = async () => {
+export const getAllMenuDesigns = async (token: string) => {
   try {
     if (menuDesignUrl === undefined) {
       throw new Error("baseUrl is not defined");
     }
     const response = await axios({
       method: "GET",
-      url: menuDesignUrl
+      url: menuDesignUrl,
+      params: {key: token}
     });
     return response.data;
   } catch (error) {
@@ -131,7 +133,7 @@ export const getAllMenuDesigns = async () => {
   }
 };
 
-export const editResto = async (restoName: string, body: any) => {
+export const editResto = async (restoName: string, body: any, token: string) => {
   try {
     if (baseURL === undefined) {
       throw new Error("baseUrl is not defined");
@@ -139,6 +141,7 @@ export const editResto = async (restoName: string, body: any) => {
     const response = await axios({
       url: baseURL + 'restaurants/' + restoName,
       method: "PUT",
+      params: {key: token},
       data: JSON.stringify(body),
       headers: {
         "content-type": "application/json",

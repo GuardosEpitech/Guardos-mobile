@@ -5,25 +5,6 @@ import { API_URL } from '@env';
 const baseUrl = `${API_URL}login/`;
 const baseUrl1 = `${API_URL}user/`;
 const baseUrlEmail = `${API_URL}sendEmail/`;
-const baseUrlProfile = `${API_URL}profile/`;
-
-export const checkIfTokenIsValid = async (body: any) => {
-  try {
-    const response = await axios({
-      method: "GET",
-      url: baseUrl + 'checkIn',
-      params: body,
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching the Users:", error);
-    throw new Error("Error fetching the Users");
-  }
-};
-
 
 export const loginUser = async (userData: any) => {
   try {

@@ -58,7 +58,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
 
   const handleDeleteProduct = async () => {
     try {
-      await deleteProduct(product);
+      const userToken = await AsyncStorage.getItem('userToken');
+      if (userToken === null) {
+        return;
+      }
+
+      await deleteProduct(product, userToken);
       onDelete(product.name);
     } catch (error) {
       console.error(error);
