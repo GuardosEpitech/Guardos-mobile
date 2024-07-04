@@ -42,17 +42,24 @@ const AddRestaurantScreen = () => {
   const [language, setLanguage] = useState('');
   const {t, i18n} = useTranslation();
 
-  useEffect(() => {    
-    getAllMenuDesigns()
+  useEffect(() => {
+    catchAllMenuDesigns();
+    setLanguage(i18n.language);
+  }, []);
+
+  const catchAllMenuDesigns = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken === null) {
+      return;
+    }
+    getAllMenuDesigns(userToken)
       .then((res) => {
         setMenuDesigns(res);
       })
       .catch((error) => {
         console.error('Error updating restaurant data:', error);
       });
-    setLanguage(i18n.language);
-  }, []);
-
+  }
 
   const handleAddRestaurant = async () => {
     if (!restaurantName || !streetName || !streetNumber || !postalCode || !city || !country) {

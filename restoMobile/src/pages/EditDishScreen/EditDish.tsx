@@ -301,6 +301,11 @@ const EditDish = ({ route }) => {
       Alert.alert(String(t('common.error')),  String(t('common.all-fields-mandatory')));
       return;
     }
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken === null) {
+      return;
+    }
+
     for (let i = 0; i < selectedRestaurants.length; i++) {
       const dishCategory = route.params.dish && route.params.dish.category ? route.params.dish.category : { menuGroup: '', foodGroup: '', extraGroup: [] };
       const dishToSave: IDishFE = {
@@ -317,7 +322,7 @@ const EditDish = ({ route }) => {
         },
         resto: selectedRestaurants[i]
       }
-      const dish = await changeDishByName(dishToSave, selectedRestaurants[i]);
+      const dish = await changeDishByName(dishToSave, selectedRestaurants[i], userToken);
       if (dish && dish.name) {
         console.log('Dish saved');
       }
@@ -326,8 +331,7 @@ const EditDish = ({ route }) => {
         const newAddDish = await addDish({
           dish: dishToSave,
           resto: selectedRestaurants[i],
-          userToken: userToken,
-        }, selectedRestaurants[i]);
+        }, selectedRestaurants[i], userToken);
         if (newAddDish && newAddDish.name) {
           console.log('Dish saved');
         }

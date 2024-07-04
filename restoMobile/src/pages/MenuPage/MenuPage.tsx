@@ -94,7 +94,12 @@ const MenuPage: React.FC = ({ route }) => {
 
   const confirmDelete = async () => {
     if (selectedDish) {
-      await deleteDishByName(restaurantName, selectedDish.name);
+      const userToken = await AsyncStorage.getItem('userToken');
+      if (userToken === null) {
+        return;
+      }
+
+      await deleteDishByName(restaurantName, selectedDish.name, userToken);
       setShowConfirmation(false);
       fetchData();
     }
