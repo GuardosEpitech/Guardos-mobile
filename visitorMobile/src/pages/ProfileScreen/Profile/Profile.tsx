@@ -404,6 +404,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('Subscriptions', {});
   };
 
+  const handleTerms = () => {
+    navigation.navigate('Terms and Conditions', {});
+  };
+
   const handlePrivacy = () => {
     navigation.navigate('Privacy', {});
   };
@@ -628,6 +632,13 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           title={t('pages.Profile.delete-account') as string}
           onPress={handleDeleteAccount}
           color={darkMode ? "white" :  "#6d071a"} 
+        />
+      </View>
+      <View style={styles.deleteAccountSection}>
+        <Button
+          title={t('pages.Profile.terms') as string}
+          onPress={handleTerms}
+          color="#6d071a"
         />
       </View>
       <View style={styles.deleteAccountSection}>

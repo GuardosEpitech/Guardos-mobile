@@ -44,7 +44,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
         await AsyncStorage.setItem('user', response);
         setLoggedInStatus(true);
-        navigation.navigate('RestaurantScreen');
+        navigation.navigate('Main');
       }
     } catch (error) {
       console.error(`Error in Post Route: ${error}`);
