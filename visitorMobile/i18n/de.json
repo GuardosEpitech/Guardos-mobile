@@ -17,7 +17,8 @@
       "french": "Französisch",
 
       "error": "Fehler",
-      "need-cam-permissions": "Zugriff auf die Kamerarolle ist erforderlich!"
+      "need-cam-permissions": "Zugriff auf die Kamerarolle ist erforderlich!",
+      "success": "Geschafft"
     },
     "components": {
       "DishCard": {

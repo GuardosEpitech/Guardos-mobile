@@ -14,7 +14,9 @@
       "german": "Allemand",
       "french": "Français",
       "error": "Erreur",
-      "need-cam-permissions": "L'autorisation d'accéder à la galerie photo est requise !"
+      "need-cam-permissions": "L'autorisation d'accéder à la galerie photo est requise !",
+      "success": "Succès"
+
     },
     "components": {
       "DishCard": {

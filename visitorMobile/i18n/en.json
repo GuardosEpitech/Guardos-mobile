@@ -17,7 +17,8 @@
       "french": "French",
 
       "error": "Error",
-      "need-cam-permissions": "Permission to access camera roll is required!"
+      "need-cam-permissions": "Permission to access camera roll is required!",
+      "success": "Success"
     },
     "components": {
       "DishCard": {
