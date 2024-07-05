@@ -48,7 +48,12 @@ const MyDishesScreen: React.FC = () => {
 
   const onDelete = async (dishName: string, restaurant: string) => {
     try {
-      await deleteDishByName(restaurant, dishName);
+      const userToken = await AsyncStorage.getItem('userToken');
+      if (userToken === null) {
+        return;
+      }
+
+      await deleteDishByName(restaurant, dishName, userToken);
       fetchDishes();
     } catch (error) {
       console.error('Error deleting dish:', error);

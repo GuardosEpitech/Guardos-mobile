@@ -43,7 +43,12 @@ const MyRestaurantsScreen = () => {
 
   const onDelete = async (restaurantName: string) => {
     try {
-      await deleteRestaurantByName(restaurantName);
+      const userToken = await AsyncStorage.getItem('userToken');
+      if (userToken === null) {
+        return;
+      }
+
+      await deleteRestaurantByName(restaurantName, userToken);
       updateRestoData(filter);
     } catch (error) {
       console.error('Error deleting restaurant:', error);

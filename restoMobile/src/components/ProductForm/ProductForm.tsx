@@ -90,10 +90,14 @@ const ProductForm: React.FC<IDishFormProps> = ({
         allergens: [],
         ingredients: selectedIngredients,
       };
+      const userToken = await AsyncStorage.getItem('userToken');
+      if (userToken === null) {
+        return;
+      }
 
       if (!editable) {
         for (const selectedRestoName of selectedRestaurants) {
-          await addNewProduct(product, selectedRestoName);
+          await addNewProduct(product, selectedRestoName, userToken);
         }
       }
 
@@ -106,7 +110,7 @@ const ProductForm: React.FC<IDishFormProps> = ({
           ingredients: selectedIngredients,
           restaurantId: selectedId,
         }
-        await editProduct(productFE, initialProductName);
+        await editProduct(productFE, initialProductName, userToken);
       }
 
       navigation.navigate('MyProductsScreen');

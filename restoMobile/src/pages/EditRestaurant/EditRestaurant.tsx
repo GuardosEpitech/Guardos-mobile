@@ -11,6 +11,7 @@ import { addImageResto, deleteImageRestaurant, getImages } from "../../services/
 import { editResto, getAllMenuDesigns, getRestoByName } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 DropDownPicker.addTranslation("DE", {
   PLACEHOLDER: "Wählen Sie ein Element aus",
@@ -71,16 +72,9 @@ const EditRestaurant = ({ route }) => {
     };
 
     fetchRestaurantData();
-
+    catchMenuDesigns();
     setLanguage(i18n.language);
 
-    getAllMenuDesigns()
-      .then((res) => {
-        setMenuDesigns(res);
-      })
-      .catch((error) => {
-        console.error('Error updating restaurant data:', error);
-      });
   }, [restaurantId]);
 
   useEffect(() => {
@@ -122,6 +116,20 @@ const EditRestaurant = ({ route }) => {
 
     loadImages();
   }, [picturesId]);
+
+  const catchMenuDesigns = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken === null) {
+      return;
+    }
+    getAllMenuDesigns(userToken)
+      .then((res) => {
+        setMenuDesigns(res);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
+      });
+  }
 
   const removePicture = (pictureUrl: string) => {
     if (picturesId.length > 0) {
@@ -188,7 +196,12 @@ const EditRestaurant = ({ route }) => {
         menuDesignID: selectedMenuDesignID,
       };
 
-      const response = await editResto(name, updatedData);
+      const userToken = await AsyncStorage.getItem('userToken');
+      if (userToken === null) {
+        return;
+      }
+
+      const response = await editResto(name, updatedData, userToken);
 
       if (response) {
         Alert.alert(String(t('common.success')), String(t('pages.EditRestaurant.updated-resto-success')), [
