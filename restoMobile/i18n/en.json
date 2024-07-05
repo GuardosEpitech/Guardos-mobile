@@ -177,6 +177,13 @@
         "payBtn": "Manage payment methods",
         "terms": "Terms and Conditions"
       },
+      "UserSupport": {
+        "UserSupport": "User Support",
+        "name": "Name",
+        "subject": "Subject",
+        "issue": "Issue",
+        "emailSent": "Email sent successfully!"
+      },
       "QRCodeEngin": {
         "unknown-product": "Unknown Product",
         "get-product-info-failed": "Error fetching product information for barcode {{ data }}",

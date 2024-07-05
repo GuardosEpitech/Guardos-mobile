@@ -177,6 +177,13 @@
         "payBtn": "Zahlungsmethoden verwalten",
         "terms": "Geschäftsbedingungen"
       },
+      "UserSupport": {
+        "UserSupport": "Kundensupport",
+        "name": "Name",
+        "subject": "Betreff",
+        "issue": "Problem",
+        "emailSent": "E-Mail erfolgreich gesendet!"
+      },
       "QRCodeEngin": {
         "unknown-product": "Unbekanntes Produkt",
         "get-product-info-failed": "Fehler beim Abrufen von Produktinformationen für Barcode {{ data }}",

@@ -177,6 +177,13 @@
         "payBtn": "Gérer les méthodes de paiement",
         "terms": "Conditions Générales d'Utilisation" 
       },
+      "UserSupport": {
+        "UserSupport": "Support utilisateur",
+        "name": "Nom",
+        "subject": "Sujet",
+        "issue": "Problème",
+        "emailSent": "E-mail envoyé avec succès !"
+      },
       "QRCodeEngin": {
         "unknown-product": "Produit inconnu",
         "get-product-info-failed": "Erreur lors de la récupération des informations sur le produit pour le code-barres {{ data }}",

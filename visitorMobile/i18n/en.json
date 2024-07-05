@@ -17,7 +17,8 @@
       "french": "French",
 
       "error": "Error",
-      "need-cam-permissions": "Permission to access camera roll is required!"
+      "need-cam-permissions": "Permission to access camera roll is required!",
+      "success": "Success"
     },
     "components": {
       "DishCard": {
@@ -73,6 +74,13 @@
         "name": "Name",
         "subject": "Subject",
         "request": "Request"
+      },
+      "UserSupport": {
+        "UserSupport": "User Support",
+        "name": "Name",
+        "subject": "Subject",
+        "issue": "Issue",
+        "emailSent": "Email sent successfully!"
       },
       "MapPage": {
         "save-filter-error": "Error saving filter. Please try again.",
@@ -154,6 +162,7 @@
         "privacy": "Privacy statement",
         "payment": "Payment methods",
         "payBtn": "Manage payment methods",
+        "UserSupport": "User Support",
         "terms": "Terms and Conditions"
       },
       "ResetPasswordScreen": {

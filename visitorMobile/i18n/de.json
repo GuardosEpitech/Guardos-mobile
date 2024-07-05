@@ -17,7 +17,8 @@
       "french": "Französisch",
 
       "error": "Fehler",
-      "need-cam-permissions": "Zugriff auf die Kamerarolle ist erforderlich!"
+      "need-cam-permissions": "Zugriff auf die Kamerarolle ist erforderlich!",
+      "success": "Geschafft"
     },
     "components": {
       "DishCard": {
@@ -73,6 +74,14 @@
         "name": "Name",
         "subject": "Betreff",
         "request": "Anfrage"
+      },
+      "UserSupport": {
+        "UserSupport": "Kundensupport",
+        "name": "Name",
+        "subject": "Betreff",
+        "issue": "Problem",
+        "emailSent": "E-Mail erfolgreich gesendet!"
+
       },
       "MapPage": {
         "save-filter-error": "Fehler beim Speichern des Filters. Bitte versuchen Sie es erneut.",
@@ -154,6 +163,7 @@
         "privacy": "Datenschutzerklärung",
         "payment": "Zahlungsmethoden",
         "payBtn": "Zahlungsmethoden verwalten",
+        "UserSupport": "Kundensupport",
         "terms": "Geschäftsbedingungen"
       },
       "ResetPasswordScreen": {

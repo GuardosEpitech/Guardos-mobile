@@ -14,7 +14,9 @@
       "german": "Allemand",
       "french": "Français",
       "error": "Erreur",
-      "need-cam-permissions": "L'autorisation d'accéder à la galerie photo est requise !"
+      "need-cam-permissions": "L'autorisation d'accéder à la galerie photo est requise !",
+      "success": "Succès"
+
     },
     "components": {
       "DishCard": {
@@ -70,6 +72,13 @@
         "name": "Nom",
         "subject": "Sujet",
         "request": "Demande"
+      },
+      "UserSupport": {
+        "UserSupport": "Support utilisateur",
+        "name": "Nom",
+        "subject": "Sujet",
+        "issue": "Problème",
+        "emailSent": "E-mail envoyé avec succès !"
       },
       "MapPage": {
         "save-filter-error": "Erreur lors de l'enregistrement du filtre. Veuillez réessayer.",
@@ -169,7 +178,8 @@
         "error": "Une erreur s'est produite.",
         "try-again-msg": "Veuillez réessayer pour obtenir un lien de récupération. Si l'erreur se produit à nouveau, veuillez nous contacter.",
         "continue": "Continuer",
-        "send-reset-link": "Envoyer mon lien de réinitialisation de mot de passe"
+        "send-reset-link": "Envoyer mon lien de réinitialisation de mot de passe",
+        "UserSupport": "Support utilisateur"
       },
       "RestaurantScreen": {
         "save-filter-error": "Erreur lors de l'enregistrement du filtre. Veuillez réessayer.",
