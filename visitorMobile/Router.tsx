@@ -24,8 +24,8 @@ import ImprintPage from './src/pages/ImprintPage/ImprintPage';
 import AppIntro from './src/pages/AppIntro/AppIntro';
 import SubscriptionPage from "./src/pages/SubscriptionPage/SubscriptionPage";
 import PaymentPage from './src/pages/Payment/PaymentPage';
-import UserSupport from './src/pages/UserSupport/UserSupport';
 import TermsPage from "./src/pages/TermsPage/TermsPage";
+import UserSupport from "./src/pages/UserSupport/UserSupport";
 import i18n from "i18next";
 
 const Drawer = createDrawerNavigator();
@@ -250,32 +250,32 @@ interface ProfileStackProps {
   setLoggedInStatus: (status: boolean) => void;
 }
 
-const ProfileStackScreen: React.FC<ProfileStackProps> = ({setLoggedInStatus}) => {
-  const {t} = useTranslation();
+const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) => {
+  const { t } = useTranslation();
 
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Profile"
-        options={{
-          tabBarLabel: t('pages.Router.my-profile') as string,
-          title: t('pages.Router.my-profile') as string,
-          headerShown: false,
-        }}
-      >
-        {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus}/>}
-      </Stack.Screen>
-      <Stack.Screen name="FeatureRequest" component={FeatureRequest}  options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
-      <Stack.Screen name="Subscriptions" component={SubscriptionPage}  options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
-      <Stack.Screen name="UserSupport" component={UserSupport}  options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
-      <Stack.Screen name="Terms and Conditions" component={TermsPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
-      <Stack.Screen name="Change Password" component={ChangePasswordScreen}/>
-      <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
-      <Stack.Screen name="Imprint" component={ImprintPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
-      <Stack.Screen name="Payment methods" component={PaymentPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
-    </Stack.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen
+            name="Profile"
+            options={{
+              title: t('pages.Router.my-profile') as string,
+              headerShown: false,
+            }}
+        >
+          {(props) => <Profile {...props} setLoggedInStatus={setLoggedInStatus} />}
+        </Stack.Screen>
+        <Stack.Screen name="FeatureRequest" component={FeatureRequest} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
+        <Stack.Screen name="UserSupport" component={UserSupport} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}} />
+        <Stack.Screen name="Subscriptions" component={SubscriptionPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
+        <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
+        <Stack.Screen name="Terms and Conditions" component={TermsPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
+        <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
+        <Stack.Screen name="Imprint" component={ImprintPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
+        <Stack.Screen name="Payment methods" component={PaymentPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
+      </Stack.Navigator>
   );
-}
+};
+
 
 // @ts-ignore
 const styles = StyleSheet.create({
