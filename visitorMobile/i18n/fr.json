@@ -83,6 +83,8 @@
       "MapPage": {
         "save-filter-error": "Erreur lors de l'enregistrement du filtre. Veuillez réessayer.",
         "save-filter-success": "Filtre enregistré avec succès.",
+        "saved-filters-overview": "{{used}} / {{limit}} filtres enregistrés",
+        "save-filter-limit-reached": "Vous avez atteint la limite des filtres enregistrés",
         "delete-filter-error": "Erreur lors de la suppression du filtre. Veuillez réessayer.",
         "delete-filter-success": "Filtre supprimé avec succès",
         "enter-resto-name": "Entrez le nom du restaurant",
@@ -220,7 +222,9 @@
         "description-low-level-2": "Recherche en groupe - sauvegardez plusieurs profils alimentaires",
         "premium": "Abonnement Premium",
         "description-high-level-1": "Les demandes de fonctionnalités sont prioritaires",
-        "description-high-level-2": "Faire des réservations"
+        "description-high-level-2": "Faire des réservations",
+        "save-filter": "Enregistrer un filtre",
+        "save-filters": "Enregistrer jusqu'à {{filterNumber}} filtres"
       },
       "Privacy": {
         "title": "Déclaration de Confidentialité",

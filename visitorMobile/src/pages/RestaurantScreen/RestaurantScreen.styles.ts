@@ -258,6 +258,11 @@ const styles = StyleSheet.create({
   },
   darkModeTxt: {
     color: 'white'
+  },
+  filterLimit: {
+    color: '#666',
+    fontSize: 15,
+    marginLeft: 2,
   }
 });
 

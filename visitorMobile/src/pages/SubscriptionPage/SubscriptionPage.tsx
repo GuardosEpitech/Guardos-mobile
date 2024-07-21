@@ -84,7 +84,10 @@ const SubscriptionPage = () => {
       <View style={styles.subscriptionContainer}>
         <SubscriptionBox
           title={t('pages.SubscriptionPage.free')}
-          description={[t('pages.SubscriptionPage.free-description')]}
+          description={[
+            t('pages.SubscriptionPage.free-description'),
+            t('pages.SubscriptionPage.save-filter')
+          ]}
           price="0.00 €"
           onClick={handleSwitchPermissions}
           isActive={userPermissions.includes('default') || userPermissions.length === 0}
@@ -96,6 +99,7 @@ const SubscriptionPage = () => {
           description={[
             t('pages.SubscriptionPage.description-low-level-1'),
             t('pages.SubscriptionPage.description-low-level-2'),
+            t('pages.SubscriptionPage.save-filters', { filterNumber: 2})
           ]}
           price="2.99 €"
           onClick={handleSwitchPermissions}
@@ -111,6 +115,7 @@ const SubscriptionPage = () => {
             t('pages.SubscriptionPage.description-low-level-2'),
             t('pages.SubscriptionPage.description-high-level-1'),
             t('pages.SubscriptionPage.description-high-level-2'),
+            t('pages.SubscriptionPage.save-filters', { filterNumber: 3})
           ]}
           price="5.99 €"
           onClick={handleSwitchPermissions}

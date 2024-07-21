@@ -21,7 +21,9 @@ import { IRestaurantFrontEnd } from '../../models/restaurantsInterfaces';
 import {
   addSavedFilter, 
   deleteSavedFilter, 
-  getSavedFilters} from "../../services/profileCalls";
+  getSavedFilters,
+  getSavedFilterLimit
+} from "../../services/profileCalls";
 import { 
   ISearchCommunication 
 } from '../../../../shared/models/communicationInterfaces';
@@ -68,6 +70,7 @@ const MyRestaurantsScreen = () => {
     error: false,
     message: '',
   });
+  const [filterLimit, setFilterLimit] = useState<number | null>(null);
   const [nameFilter, setNameFilter] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -203,6 +206,11 @@ const MyRestaurantsScreen = () => {
     getSavedFilters(userToken).then((res) => {
       setSavedFilters(res);
     })
+
+    getSavedFilterLimit(userToken)
+      .then((res) => {
+        setFilterLimit((res && res.filterLimit) ? res.filterLimit : 0);
+      });
   }
 
   const handleSearch = async () => {
@@ -317,7 +325,7 @@ const MyRestaurantsScreen = () => {
 
   const handleSaveFilter = async () => {
     const userToken = await AsyncStorage.getItem('user');
-    if (userToken === null) {
+    if (userToken === null || !filterName) {
       setSaveFilterStatus({
         success: false,
         error: true,
@@ -349,8 +357,25 @@ const MyRestaurantsScreen = () => {
       categories: selectedCategories,
       allergenList: selectedAllergens
     }
+
+    setFilterName('');
     addSavedFilter(userToken, filter).then((res) => {
       if (res !== null) {
+        if (res.status == 203) {
+          setSaveFilterStatus({
+            success: false,
+            error: true,
+            message: t('pages.RestaurantScreen.save-filter-limit-reached') as string,
+          });
+          console.error('Error saving filter: reached limit');
+          setTimeout(() => {
+            setSaveFilterStatus({
+              success: false,
+              error: false,
+              message: '',
+            });
+          }, 5000);
+        }
         const savedFiltersCopy = savedFilters;
         savedFiltersCopy.push(filter);
         setSavedFilters(savedFiltersCopy);
@@ -586,6 +611,9 @@ const MyRestaurantsScreen = () => {
 
               <View>
             <Text style={styles.categoryText}>{t('pages.RestaurantScreen.save-filter')}</Text>
+            <Text style={styles.filterLimit}>
+              {t('pages.MapPage.saved-filters-overview', { used: savedFilters.length, limit: filterLimit })}
+            </Text>
             <TextInput
               style={styles.saveInput}
               placeholder={t('pages.RestaurantScreen.enter-filter-name') as string}

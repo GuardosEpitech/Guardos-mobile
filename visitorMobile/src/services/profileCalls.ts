@@ -96,6 +96,26 @@ export const getSavedFilters = async (token: string) => {
   }
 };
 
+export const getSavedFilterLimit = async (token: string) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: baseUrl + 'filterLimit',
+      params: {key: token},
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error saving filter:", error);
+  }
+};
+
 export const getSavedFilter = async (token: string, filterName: string) => {
   try {
     const response = await axios({
@@ -129,11 +149,7 @@ export const addSavedFilter = async (token: string, body: any) => {
         "content-type": "application/json",
       },
     });
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      return null;
-    }
+    return response;
   } catch (error) {
     console.error("Error saving filter:", error);
     throw new Error("Error saving filter");

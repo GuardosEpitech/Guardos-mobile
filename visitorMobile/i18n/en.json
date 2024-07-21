@@ -85,6 +85,8 @@
       "MapPage": {
         "save-filter-error": "Error saving filter. Please try again.",
         "save-filter-success": "Filter saved successfully.",
+        "saved-filters-overview": "{{used}} / {{limit}} filters saved",
+        "save-filter-limit-reached": "You reached the limit of saved filters",
         "delete-filter-error": "Error deleting filter. Please try again.",
         "delete-filter-success": "Filter deleted successfully",
         "enter-resto-name": "Enter restaurant name",
@@ -222,7 +224,9 @@
         "description-low-level-2": "Group search - save multiple dietary profiles",
         "premium": "Premium Subscription",
         "description-high-level-1": "Feature requests are prioritized",
-        "description-high-level-2": "Make reservations"
+        "description-high-level-2": "Make reservations",
+        "save-filter": "Save one filter",
+        "save-filters": "Save up to {{filterNumber}} filters"
       },
       "Privacy": {
         "title": "Privacy Statement",

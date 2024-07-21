@@ -86,6 +86,8 @@
       "MapPage": {
         "save-filter-error": "Fehler beim Speichern des Filters. Bitte versuchen Sie es erneut.",
         "save-filter-success": "Filter erfolgreich gespeichert.",
+        "saved-filters-overview": "{{used}} / {{limit}} Filtern gespeichert",
+        "save-filter-limit-reached": "Sie haben das Limit für gespeicherte Filter erreicht",
         "delete-filter-error": "Fehler beim Löschen des Filters. Bitte versuchen Sie es erneut.",
         "delete-filter-success": "Filter erfolgreich gelöscht",
         "enter-resto-name": "Restaurantname eingeben",
@@ -223,7 +225,9 @@
         "description-low-level-2": "Gruppensuche - speichere mehrere Ernährungsprofile",
         "premium": "Premium-Abonnement",
         "description-high-level-1": "Feature-Anfragen werden priorisiert",
-        "description-high-level-2": "Reservierungen vornehmen"
+        "description-high-level-2": "Reservierungen vornehmen",
+        "save-filter": "Einen Filter speichern",
+        "save-filters": "Bis zu {{filterNumber}} Filter speichern"
       },
       "Privacy": {
         "title": "Datenschutzerklärung",
