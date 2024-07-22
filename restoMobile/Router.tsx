@@ -325,7 +325,7 @@ const MyDishStack = () => {
         <Stack.Screen
             name="Manage Discount"
             component={DishDiscountPage}
-            options={{ headerShown: false }}
+            options={{ headerShown: true }}
         />
       </Stack.Navigator>
   );

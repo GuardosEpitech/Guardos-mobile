@@ -119,9 +119,13 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount }) => {
             {dish.description} {/* Add a description field or similar*/}
           </Text>
           {dish.discount !== undefined && dish.discount !== -1 ? (
-            <Text>Discount available: {dish.discount}%</Text>
+            <View style={styles.discountContainer}>
+              <Text style={styles.discount}>{t('components.DishCard.price')}{dish.price.toFixed(2)}€</Text>
+              <Text>{t('components.DishCard.discount')}{dish.discount.toFixed(2)} €</Text>
+              <Text>{t('components.DishCard.valid')}{dish.validTill}</Text>
+            </View>
           ) : (
-            <Text>No discount available</Text>
+            <Text>{t('components.DishCard.price')}{dish.price.toFixed(2)}€</Text>
           )}
         </View>
         <View style={styles.iconContainer}>

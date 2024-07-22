@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Switch, Button, Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import styles from './DishDiscountPage.styles';
 import { addDiscount, removeDiscount } from '../../services/dishCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IDishFE } from '../../../../shared/models/dishInterfaces';
+import { useTranslation } from "react-i18next";
+
+// Define the type for the route params
+type RootStackParamList = {
+  'Manage Discount': { dish: IDishFE };
+};
+
+type DishDiscountPageRouteProp = RouteProp<RootStackParamList, 'Manage Discount'>;
 
 const formatDate = (date: Date): string => {
   const day = date.getDate().toString().padStart(2, '0');
@@ -14,12 +22,15 @@ const formatDate = (date: Date): string => {
   return `${day}/${month}/${year}`;
 };
 
-interface IDishDiscountProps {
-  dish: IDishFE;
-}
+const parseDate = (dateString: string): Date => {
+  const [day, month, year] = dateString.split('/').map(Number);
+  return new Date(year, month - 1, day);
+};
 
-const DishDiscountPage: React.FC<IDishDiscountProps> = ({ dish }) => {
+const DishDiscountPage: React.FC = () => {
   const navigation = useNavigation();
+  const route = useRoute<DishDiscountPageRouteProp>();
+  const { dish } = route.params;
 
   const [mode, setMode] = useState<'percentage' | 'price'>('percentage');
   const [discountValue, setDiscountValue] = useState<string>('');
@@ -27,6 +38,20 @@ const DishDiscountPage: React.FC<IDishDiscountProps> = ({ dish }) => {
   const [expiryDate, setExpiryDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [originalPrice] = useState(dish.price);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    if (dish.discount !== undefined && dish.discount !== -1 && dish.validTill) {
+      const discount = dish.discount;
+      if (mode === 'percentage') {
+        const discountPercentage = ((discount / originalPrice) * 100).toFixed(2);
+        setDiscountValue(discountPercentage);
+      } else {
+        setDiscountValue(discount.toFixed(2));
+      }
+      setExpiryDate(parseDate(dish.validTill));
+    }
+  }, [dish, mode, originalPrice]);
 
   const handleModeSwitch = () => {
     setMode(prevMode => {
@@ -57,20 +82,19 @@ const DishDiscountPage: React.FC<IDishDiscountProps> = ({ dish }) => {
     if (mode === 'percentage') {
       const percentage = parseFloat(discountValue);
       if (isNaN(percentage) || percentage < 0 || percentage > 100) {
-        setError('Percentage should be between 0 and 100.');
+        setError(t('pages.DiscountDishPage.errorPercent'));
         return;
       }
     } else {
       const price = parseFloat(discountValue);
       if (isNaN(price) || price < 0 || price > originalPrice) {
-        setError('Price should be between 0 and the original price.');
+        setError(t('pages.DiscountDishPage.errorPrice'));
         return;
       }
-      
     }
 
     if (!expiryDate) {
-      setError('Please select an expiry date.');
+      setError(t('pages.DiscountDishPage.errorDate'));
       return;
     }
 
@@ -78,12 +102,12 @@ const DishDiscountPage: React.FC<IDishDiscountProps> = ({ dish }) => {
     const discountAsNumber = mode === 'percentage'
       ? parseFloat(discountValue) / 100 * originalPrice
       : parseFloat(discountValue);
-    
+
     dish.discount = discountAsNumber;
     dish.validTill = formattedDate;
-    
+
     await addDiscount({ restoName: dish.resto, dish }, userToken);
-    Alert.alert('Success', 'Discount saved successfully.');
+    Alert.alert(t('common.success'), t('pages.DiscountDishPage.successAdd'));
     navigation.goBack();
   };
 
@@ -93,40 +117,49 @@ const DishDiscountPage: React.FC<IDishDiscountProps> = ({ dish }) => {
     dish.discount = -1;
     dish.validTill = "";
     await removeDiscount({ restoName: dish.resto, dish }, userToken);
-    Alert.alert('Success', 'Discount removed successfully.');
+    Alert.alert(t('common.success'), t('pages.DiscountDishPage.successDelete'));
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Manage discount of {dish.name}</Text>
+      <View>
+        <Text style={styles.heading}>{t('pages.DiscountDishPage.title')}{dish.name}</Text>
 
-      <View style={styles.switchContainer}>
-        <Text>Percentage</Text>
-        <Switch
-          value={mode === 'price'}
-          onValueChange={handleModeSwitch}
+        <View style={styles.switchContainer}>
+          <Text>{t('pages.DiscountDishPage.switchPercent')}</Text>
+          <Switch
+            value={mode === 'price'}
+            onValueChange={handleModeSwitch}
+          />
+          <Text>{t('pages.DiscountDishPage.switchPrice')}</Text>
+        </View>
+
+        <TextInput
+          style={styles.input}
+          keyboardType='numeric'
+          placeholder={mode === 'price' ? t('pages.DiscountDishPage.price') : t('pages.DiscountDishPage.percent')}
+          value={discountValue}
+          onChangeText={setDiscountValue}
         />
-        <Text>Price</Text>
+
+        {error && <Text style={styles.errorText}>{error}</Text>}
+
+        {expiryDate && (
+          <Text style={styles.expiryDateText}>
+            {t('pages.DiscountDishPage.valid')} {expiryDate.toDateString()}
+          </Text>
+        )}
       </View>
 
-      <TextInput
-        style={styles.input}
-        keyboardType='numeric'
-        placeholder={`Enter ${mode}`}
-        value={discountValue}
-        onChangeText={setDiscountValue}
-      />
+      <View style={styles.buttonContainer}>
+        <Button
+          style={styles.button}
+          title={t('pages.DiscountDishPage.btnDate')}
+          onPress={() => setShowDatePicker(true)}
+        />
 
-      {error && <Text style={styles.errorText}>{error}</Text>}
-
-      <Button
-        title="Select Expiry Date"
-        onPress={() => setShowDatePicker(true)}
-      />
-
-      {showDatePicker && (
-        <DatePicker
+        {/* <DatePicker
           modal
           mode="date"
           open={showDatePicker}
@@ -137,20 +170,22 @@ const DishDiscountPage: React.FC<IDishDiscountProps> = ({ dish }) => {
             setExpiryDate(date);
           }}
           onCancel={() => setShowDatePicker(false)}
-        />
-      )}
+        /> */}
 
-      <Button
-        title="Save Discount"
-        onPress={handleSave}
-      />
-
-      {discountValue && (
         <Button
-          title="Remove Discount"
-          onPress={handleRemoveDiscount}
+          style={styles.button}
+          title={t('pages.DiscountDishPage.btnSave')}
+          onPress={handleSave}
         />
-      )}
+
+        {dish.discount && (
+          <Button
+            style={styles.button}
+            title={t('pages.DiscountDishPage.btnRemove')}
+            onPress={handleRemoveDiscount}
+          />
+        )}
+      </View>
     </View>
   );
 };

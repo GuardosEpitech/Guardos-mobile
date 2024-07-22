@@ -41,7 +41,10 @@
     "components": {
       "DishCard": {
         "no-name": "Kein Name",
-        "no-description": "Keine Beschreibung"
+        "no-description": "Keine Beschreibung",
+        "discount": "Reduzierter Preis: ",
+        "valid": "Gültig bis ",
+        "price": "Preis: "
       },
       "ErrorBoundary": {
         "oops": "Hoppla!",
@@ -408,6 +411,22 @@
         "deviceTxt": "Die App kann den Zugriff auf bestimmte Funktionen Ihres Geräts anfordern (z.B. Standortdienste, Kamera), um den Service bereitzustellen. Sie können diese Berechtigungen über die Geräteeinstellungen verwalten.",
         "update": "11. Änderungen der Geschäftsbedingungen",
         "updateTxt": "Guardos behält sich das Recht vor, diese Bedingungen jederzeit ohne Vorankündigung zu aktualisieren oder zu ändern. Ihre fortgesetzte Nutzung des Service nach Änderungen stellt Ihre Zustimmung zu den neuen Bedingungen dar. Es liegt in Ihrer Verantwortung, diese Bedingungen regelmäßig auf Updates oder Änderungen zu überprüfen."
+      },
+      "DiscountDishPage": {
+        "title": "Rabatt verwalten für ",
+        "valid": "Gültig bis:",
+        "percent": "Prozentsatz eingeben",
+        "price": "Preis eingeben",
+        "switchPrice": "Preis",
+        "switchPercent": "Prozentsatz",
+        "btnDate": "Ablaufdatum auswählen",
+        "btnSave": "Rabatt speichern",
+        "btnRemove": "Rabatt entfernen",
+        "errorPrice": "Der Rabattpreis muss größer als 0 und kleiner als der ursprüngliche Preis sein",
+        "errorPercent": "Der Prozentsatz muss größer als 0 und kleiner als 100 sein",
+        "successAdd": "Rabatt erfolgreich gespeichert",
+        "successDelete": "Rabatt erfolgreich entfernt",
+        "errorDate": "Bitte wählen Sie ein Ablaufdatum aus."
       }
     }
   }
