@@ -33,6 +33,7 @@ import UserSupport from 'src/pages/UserSupport/UserSupport';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import TermsPage from "./src/pages/TermsPage/TermsPage";
+import DishDiscountPage from './src/pages/DishDiscountPage/DishDiscountPage';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -319,6 +320,11 @@ const MyDishStack = () => {
         <Stack.Screen
             name="AddCategory"
             component={AddCategoryPage}
+            options={{ headerShown: false }}
+        />
+        <Stack.Screen
+            name="Manage Discount"
+            component={DishDiscountPage}
             options={{ headerShown: false }}
         />
       </Stack.Navigator>
