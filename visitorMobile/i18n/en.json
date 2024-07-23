@@ -23,7 +23,9 @@
     "components": {
       "DishCard": {
         "price": "Price: {{ price }}",
-        "allergens": "Allergens: {{ allergens }}"
+        "allergens": "Allergens: {{ allergens }}",
+        "discount": "Discounted price: ",
+        "valid": "Valid until "
       },
       "ErrorBoundary": {
         "oops": "Oops!",

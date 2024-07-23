@@ -41,7 +41,10 @@
     "components": {
       "DishCard": {
         "no-name": "Pas de nom",
-        "no-description": "Pas de description"
+        "no-description": "Pas de description",
+        "discount": "Prix réduit : ",
+        "valid": "Valide jusqu'au ",
+        "price": "Prix : "
       },
       "ErrorBoundary": {
         "oops": "Oups !",
@@ -408,6 +411,22 @@
         "deviceTxt": "L'application peut demander l'accès à certaines fonctionnalités de votre appareil (par exemple, services de localisation, caméra) pour fournir le Service. Vous pouvez gérer ces autorisations via les paramètres de votre appareil.",
         "update": "11. Modifications des Conditions Générales d'Utilisation",
         "updateTxt": "Guardos se réserve le droit de mettre à jour ou de modifier ces Conditions à tout moment sans préavis. Votre utilisation continue du Service après toute modification constitue votre acceptation des nouvelles Conditions. Il est de votre responsabilité de consulter périodiquement ces Conditions pour vérifier les mises à jour ou les modifications."
+      },
+      "DiscountDishPage": {
+        "title": "Gérer la remise de ",
+        "valid": "Valide jusqu'au :",
+        "percent": "Entrez le pourcentage",
+        "price": "Entrez le prix",
+        "switchPrice": "Prix",
+        "switchPercent": "Pourcentage",
+        "btnDate": "Sélectionner la date d'expiration",
+        "btnSave": "Enregistrer la remise",
+        "btnRemove": "Supprimer la remise",
+        "errorPrice": "Le prix de la remise doit être supérieur à 0 et inférieur au prix d'origine",
+        "errorPercent": "Le pourcentage doit être supérieur à 0 et inférieur à 100",
+        "successAdd": "Remise enregistrée avec succès",
+        "successDelete": "Remise supprimée avec succès",
+        "errorDate": "Veuillez sélectionner une date d'expiration."
       }
     }
   }

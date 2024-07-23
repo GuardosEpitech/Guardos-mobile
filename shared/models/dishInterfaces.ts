@@ -24,6 +24,8 @@ export interface IDishFE {
   resto: string;
   products: string[];
   fitsPreference?: boolean;
+  discount: number;
+  validTill: string;
 }
 
 export interface IAddDish {

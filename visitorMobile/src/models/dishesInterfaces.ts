@@ -32,4 +32,6 @@ export interface IDishFE {
   category: ICategoryFE;
   resto: string;
   products: string[];
+  discount: number;
+  validTill: string;
 }

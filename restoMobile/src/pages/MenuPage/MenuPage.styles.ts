@@ -14,11 +14,12 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: 'center',
+    paddingBottom: 150,
   },
   card: {
     backgroundColor: '#FFFFFF',
     marginHorizontal: 20,
-    marginBottom: 20,
+    marginBottom: 25,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
@@ -113,6 +114,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: "white"
   },
+  discount: {
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+  },
+  discountContainer: {
+    marginBottom: 10,
+  }
 });
 
 export default styles;
