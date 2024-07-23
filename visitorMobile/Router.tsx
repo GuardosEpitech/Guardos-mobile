@@ -26,6 +26,7 @@ import SubscriptionPage from "./src/pages/SubscriptionPage/SubscriptionPage";
 import PaymentPage from './src/pages/Payment/PaymentPage';
 import TermsPage from "./src/pages/TermsPage/TermsPage";
 import UserSupport from "./src/pages/UserSupport/UserSupport";
+import MenuPage from './src/pages/MenuPage/MenuPage';
 import i18n from "i18next";
 
 const Drawer = createDrawerNavigator();
@@ -75,14 +76,14 @@ const MainDrawer = ({ setLoggedInStatus }) => {
           })}
       >
         <Drawer.Screen
-            name="RestaurantScreen"
+            name="Restaurant Screen"
             options={{
               drawerLabel: t('pages.Router.resto-screen') as string,
               title: t('pages.Router.resto-screen') as string,
               headerShown: true,
               headerStyle: { backgroundColor: '#6d071a' },
             }}
-            component={RestaurantScreen}
+            component={MyStack}
         />
         <Drawer.Screen
             name="MapScreen"
@@ -243,6 +244,23 @@ const AuthTabs = ({ setLoggedInStatus }) => {
             options={{ tabBarLabel: t('pages.Router.register') as string }}
         />
       </Tab.Navigator>
+  );
+};
+
+const MyStack = () => {
+  return (
+      <Stack.Navigator>
+        <Stack.Screen
+            name="RestaurantScreen"
+            component={RestaurantScreen}
+            options={{ headerShown: false }}
+        />
+        <Stack.Screen
+            name="MenuPage"
+            component={MenuPage}
+            options={{ headerShown: true }}
+        />
+      </Stack.Navigator>
   );
 };
 
