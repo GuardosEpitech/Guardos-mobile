@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Switch, Button, Alert } from 'react-native';
-import DatePicker from 'react-native-date-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import styles from './DishDiscountPage.styles';
 import { addDiscount, removeDiscount } from '../../services/dishCalls';
@@ -8,7 +9,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IDishFE } from '../../../../shared/models/dishInterfaces';
 import { useTranslation } from "react-i18next";
 
-// Define the type for the route params
 type RootStackParamList = {
   'Manage Discount': { dish: IDishFE };
 };
@@ -159,18 +159,15 @@ const DishDiscountPage: React.FC = () => {
           onPress={() => setShowDatePicker(true)}
         />
 
-        {/* <DatePicker
-          modal
+        <DateTimePickerModal
+          isVisible={showDatePicker}
           mode="date"
-          open={showDatePicker}
-          date={expiryDate || new Date()}
-          minimumDate={new Date()}
           onConfirm={(date) => {
             setShowDatePicker(false);
             setExpiryDate(date);
           }}
           onCancel={() => setShowDatePicker(false)}
-        /> */}
+        />
 
         <Button
           style={styles.button}

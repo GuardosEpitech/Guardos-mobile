@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    justifyContent: 'space-between', // Distribute space between title and buttons
+    justifyContent: 'space-between', 
   },
   heading: {
     fontSize: 24,
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
     justifyContent: 'center',
-    gap: 10, // Adjust gap between elements in the switch container
+    gap: 10, 
   },
   input: {
     height: 40,
@@ -25,9 +25,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingHorizontal: 8,
-    width: '80%', // Adjust width to center on X-axis
+    width: '80%', 
     maxWidth: 300,
-    alignSelf: 'center', // Center input field horizontally
+    alignSelf: 'center', 
   },
   errorText: {
     color: 'red',
@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   button: {
-    marginVertical: 6,   // Adjusted margin to reduce distance between buttons
-    width: '80%',         // Adjust width for better appearance
+    marginVertical: 6,   
+    width: '80%',         
   },
 });
 
