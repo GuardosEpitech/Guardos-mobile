@@ -141,6 +141,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 60, 
   },
+  customIngredientContainer: {
+    width: '100%', // Ensures it spans the full width of the parent container
+    marginBottom: 16,
+  },
+  customIngredientInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginBottom: 8, // Space between input and button
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  addCustomIngredientButton: {
+    backgroundColor: '#6d071a',
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addCustomIngredientButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

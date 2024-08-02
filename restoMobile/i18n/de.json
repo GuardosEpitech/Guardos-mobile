@@ -60,7 +60,9 @@
         "restos": "Restaurants",
         "select-restos": "Restaurants auswählen",
         "edit-product": "Produkt bearbeiten",
-        "add-product": "Produkt hinzufügen"
+        "add-product": "Produkt hinzufügen",
+        "add-ingredient": "Zutat hinzufügen",
+        "custom-ingredient": "Benutzerdefinierte Zutat"
       },
       "RestaurantCard": {
         "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"

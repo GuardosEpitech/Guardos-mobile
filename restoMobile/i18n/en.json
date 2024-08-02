@@ -60,7 +60,9 @@
         "restos": "Restaurants",
         "select-restos": "Select Restaurants",
         "edit-product": "Edit Product",
-        "add-product": "Add Product"
+        "add-product": "Add Product",
+        "add-ingredient": "Add Ingredient",
+        "custom-ingredient": "Custom Ingredient"
       },
       "RestaurantCard": {
         "rating": "Rating: {{ rating }} ({{ ratingCount }} ratings)"

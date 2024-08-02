@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, 
-  Modal, FlatList, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Modal, FlatList, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { IIngredient, IRestaurantFrontEnd, IProduct } from '../../../../shared/models/restaurantInterfaces';
 import { IProductFE } from '../../../../shared/models/productInterfaces';
 import { getAllRestaurantsByUser } from "../../services/restoCalls";
@@ -9,6 +8,7 @@ import styles from './ProductForm.styles';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTranslation} from "react-i18next";
+import { getAllIngredients, addIngredient } from '../../services/ingredientsCalls';
 
 interface IDishFormProps {
   productName?: string;
@@ -27,6 +27,9 @@ const ingredientsSuggestion: IIngredient[] = [
   { name: "Salt" },
 ];
 
+const allIngredients = [...ingredientsSuggestion];    
+
+
 const ProductForm: React.FC<IDishFormProps> = ({
   productName: initialProductName = '',
   productIngredients: initialProductIngredients = [],
@@ -42,7 +45,11 @@ const ProductForm: React.FC<IDishFormProps> = ({
   const [ingredientSuggestionsVisible, setIngredientSuggestionsVisible] = useState<boolean>(false);
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>(initialProductIngredients || []);
   const [availableIngredientSuggestions, setAvailableIngredientSuggestions] = useState<IIngredient[]>(ingredientsSuggestion);
+  const [apiIngredients, setApiIngredients] = useState<IIngredient[]>([]);
+  const [productIngredients, setProductIngredients] = useState<string[]>(initialProductIngredients);
   const [productIdEdit, setProductId] = useState<number>(productId || 0 );
+  const [isInputEmpty, setIsInputEmpty] = useState(false);
+  const [customIngredient, setCustomIngredient] = useState<string>(''); // New state for custom ingredient
   const {t} = useTranslation();
 
   useEffect(() => {
@@ -57,7 +64,15 @@ const ProductForm: React.FC<IDishFormProps> = ({
     };
 
     fetchRestaurants();
-    setAvailableIngredientSuggestions(ingredientsSuggestion);
+    getAllIngredients()
+    .then((ingredientsFromAPI) => {
+      setApiIngredients(ingredientsFromAPI || []);
+    })
+    .catch((error) => {
+      console.error("Error fetching ingredients:", error);
+    });
+    const allIngredients = [...ingredientsSuggestion, ...apiIngredients];    
+    setAvailableIngredientSuggestions(allIngredients);
   }, []);
 
   const toggleRestaurantModal = () => {
@@ -137,6 +152,37 @@ const ProductForm: React.FC<IDishFormProps> = ({
     setIngredientSuggestionsVisible(!ingredientSuggestionsVisible);
   };
 
+  const handleIngredientChange = async (value: string[]) => {
+    try {
+      setProductIngredients(value);
+      setIsInputEmpty(value.length === 0);
+
+      for (let ingredient of value) {
+        if (!allIngredients.some((ingredient: { name: any; }) => ingredient.name === ingredient)) {
+          const response = await addIngredient(ingredient);
+          if (response.ok) {
+            console.log((`Ingredient ${ingredient} has been added to the database.`));
+            const updatedIngredients = await getAllIngredients();
+            setApiIngredients(updatedIngredients || []);
+          } else {
+            throw new Error(`Failed to add ingredient ${ingredient}`);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error handling ingredient change:", error);
+      console.log((`Error: ${error.message}`));
+    }
+  };
+
+  const handleAddCustomIngredient = () => {
+    if (customIngredient.trim()) {
+      setSelectedIngredients((prevIngredients) => [...prevIngredients, customIngredient.trim()]);
+      setCustomIngredient('');
+      handleIngredientChange([...selectedIngredients, customIngredient.trim()]);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -171,6 +217,22 @@ const ProductForm: React.FC<IDishFormProps> = ({
               )}
             </View>
           </TouchableOpacity>
+
+          <View style={styles.customIngredientContainer}>
+            <TextInput
+              style={styles.customIngredientInput}
+              placeholder={t('components.ProductForm.custom-ingredient') as string}
+              placeholderTextColor={styles.placeholderText.color}
+              value={customIngredient}
+              onChangeText={setCustomIngredient}
+            />
+            <TouchableOpacity
+              style={styles.addCustomIngredientButton}
+              onPress={handleAddCustomIngredient}
+            >
+              <Text style={styles.addCustomIngredientButtonText}>{t('components.ProductForm.add-ingredient')}</Text>
+            </TouchableOpacity>
+          </View>
 
           <Modal
             animationType="slide"
