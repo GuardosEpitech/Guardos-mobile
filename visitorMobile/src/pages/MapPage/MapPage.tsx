@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { 
   View, 
   Text, 
@@ -9,10 +9,11 @@ import {
   TouchableOpacity, 
   Platform, 
   Keyboard, 
-  TouchableWithoutFeedback 
+  TouchableWithoutFeedback,
+  Alert 
 } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Circle } from 'react-native-maps';
 import Modal from 'react-native-modal';
 import { 
   IRestaurantFrontEnd
@@ -39,6 +40,7 @@ import { defaultRestoImage } from "../../../assets/placeholderImagesBase64";
 import { getImages } from "../../services/imageCalls";
 import { FilterContext } from '../../models/filterContext';
 import {useTranslation} from "react-i18next";
+import * as Location from 'expo-location';
 
 const Epitech = [13.328820, 52.508540];// long,lat
 
@@ -93,12 +95,39 @@ const MapPage = () => {
   const isFocused = useIsFocused();
   const [darkMode, setDarkMode] = useState(false);
   const {t} = useTranslation();
+  const mapRef = useRef(null);
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
     if (isFocused) {
       loadSavedFilters(); // Trigger loadSavedFilters when the screen is focused
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          "Location Permission Required",
+          "Please enable location services in settings.",
+          [{ text: "OK", onPress: () => Linking.openSettings() }]
+        );
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setUserLocation(location.coords);
+      if (mapRef.current) {
+        mapRef.current.animateToRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }, 1000);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     if (filter) {
@@ -524,14 +553,23 @@ const MapPage = () => {
       </View>
 
       <MapView
+        ref={mapRef}
         style={styles.map}
         initialRegion={{
-          latitude: Epitech[1],
-          longitude: Epitech[0],
+          latitude: userLocation ? userLocation.latitude : Epitech[1],
+          longitude: userLocation ? userLocation.longitude : Epitech[0],
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
       >
+        {userLocation && (
+          <Circle
+            center={userLocation}
+            radius={250}
+            strokeColor="rgba(0, 0, 255, 0.5)"
+            fillColor="rgba(0, 0, 255, 0.3)"
+          />
+        )}
         {filteredMarkers.map((marker) => (
           <Marker
             key={marker.uid}
@@ -542,6 +580,21 @@ const MapPage = () => {
           />
         ))}
       </MapView>
+      <TouchableOpacity
+        style={styles.centerButton}
+        onPress={() => {
+          if (mapRef.current && userLocation) {
+            mapRef.current.animateToRegion({
+              latitude: userLocation.latitude,
+              longitude: userLocation.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }, 1000);
+          }
+        }}
+      >
+        <Ionicons name="locate" size={24} color="white" />
+      </TouchableOpacity>
 
       <Modal isVisible={isModalVisible} style={{ margin: 0}}>
         <View style={[styles.modalContent, darkMode && styles.modalContentDarkTheme]}>
@@ -636,7 +689,7 @@ const MapPage = () => {
         style={styles.filterButton}
         onPress={() => setShowFilterPopup(true)}
       >
-        <Ionicons name="md-funnel" size={24} color="white" />
+        <Ionicons name="filter-outline" size={24} color="white" />
       </TouchableOpacity>
 
       <Modal isVisible={showFilterPopup} style={{ marginTop: 50 }}>
@@ -652,7 +705,7 @@ const MapPage = () => {
                 onPress={() => handleRatingChange(index)} 
               >
                 <Ionicons 
-                  name={index <= rating ? 'md-star' : 'md-star-outline'} 
+                  name={index <= rating ? 'star' : 'star-outline'} 
                   size={30} 
                   color="#6d071a" 
                 />

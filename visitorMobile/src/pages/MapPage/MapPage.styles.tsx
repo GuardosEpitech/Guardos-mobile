@@ -311,6 +311,14 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     color: 'white',
   },
+  centerButton: {
+    position: "absolute",
+    bottom: 25,
+    right: 25,
+    backgroundColor: "#6d071a",
+    borderRadius: 25,
+    padding: 10,
+  },
 });
 
 export default styles;
