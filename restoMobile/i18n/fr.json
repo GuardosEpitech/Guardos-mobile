@@ -39,6 +39,11 @@
       "need-cam-permissions": "Désolé, nous avons besoin des autorisations de la galerie photo pour que cela fonctionne !"
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Profitez de réductions allant jusqu'à 50% sur une sélection de produits Amazon.",
+        "link": "Voir les offres"
+      },
       "DishCard": {
         "no-name": "Pas de nom",
         "no-description": "Pas de description"

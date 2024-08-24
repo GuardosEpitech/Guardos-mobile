@@ -39,6 +39,11 @@
       "need-cam-permissions": "Wir benötigen zusätzliche Berechtigungen für die Kamera!"
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Bis zu 50% Rabatt auf Elektronik, Kleidung und mehr",
+        "link": "Jetzt einkaufen"
+      },
       "DishCard": {
         "no-name": "Kein Name",
         "no-description": "Keine Beschreibung"

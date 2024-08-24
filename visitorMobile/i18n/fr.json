@@ -19,6 +19,11 @@
 
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Profitez de réductions allant jusqu'à 50% sur une sélection de produits Amazon.",
+        "link": "Voir les offres"
+      },
       "DishCard": {
         "price": "Prix : {{ price }}",
         "allergens": "Allergènes : {{ allergens }}"
