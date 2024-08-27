@@ -43,6 +43,12 @@
         "no-name": "Kein Name",
         "no-description": "Keine Beschreibung"
       },
+      "TwoFactor": {
+        "enter-code": "Geben Sie den 8-stelligen Code ein",
+        "enter-code-error": "Bitte geben Sie den 8-stelligen Code ein",
+        "incorrect-code": "Der Code, den Sie eingegeben haben, ist falsch. Bitte versuchen Sie es erneut.",
+        "code-error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+      },
       "ErrorBoundary": {
         "oops": "Hoppla!",
         "error": "Es liegt ein Fehler vor",
@@ -143,7 +149,6 @@
         "confirm-pw": "Neues Passwort bestätigen",
         "no-match": "Ihr Passwort stimmt nicht überein",
         "pw-changed": "Passwort geändert",
-
         "username-or-email": "Benutzername oder E-Mail",
         "password": "Passwort",
         "invalid-login": "Ungültige Anmeldedaten",
@@ -155,7 +160,6 @@
         "default": "Standard",
         "fast-food": "Fast-Food",
         "pizzeria": "Pizzeria",
-
         "logout": "Abmelden",
         "confirm-logout": "Möchten Sie sich wirklich abmelden?",
         "delete-account": "Konto löschen",
@@ -175,7 +179,9 @@
         "privacy": "Datenschutzerklärung",
         "payment": "Zahlungsmethoden",
         "payBtn": "Zahlungsmethoden verwalten",
-        "terms": "Geschäftsbedingungen"
+        "terms": "Geschäftsbedingungen",
+        "two-factor-activate": "Zweifaktorauthenifizierung aktivieren",
+        "two-factor-deactivate": "Zweifaktorauthenifizierung deaktivieren"
       },
       "UserSupport": {
         "UserSupport": "Kundensupport",

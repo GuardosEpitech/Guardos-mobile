@@ -256,3 +256,25 @@ export const getStripeKey = async () => {
     throw new Error("Error fetching stripe key");
   }
 };
+
+export const verfyTwoFactorAndLogin =
+    async (userId: number, code: string, user: any) => {
+      try {
+        return await axios({
+          method: 'POST',
+          url: baseUrl + 'restoWeb/TwoFactor',
+          data: JSON.stringify({
+            id: userId,
+            code: code,
+            username: user.username,
+            password: user.password
+          }),
+          headers: {
+            "content-type": "application/json",
+          },
+        });
+      } catch (error) {
+        console.error("Error verifying two factor code:", error);
+        return error;
+      }
+    };

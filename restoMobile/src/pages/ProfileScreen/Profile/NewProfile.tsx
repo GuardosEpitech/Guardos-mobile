@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView
+  ScrollView, Switch
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
@@ -18,7 +18,7 @@ import styles from './NewProfile.styles';
 import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 // @ts-ignore
 import {API_URL} from '@env';
-import {editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
+import {changeTwoFactor, editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
 import {deleteRestoAccount} from "../../../services/userCalls";
 import { CommonActions, useIsFocused } from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
@@ -59,6 +59,8 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [twoFactor, setTwoFactor] = useState<boolean>(false);
+
 
     const toggleDarkMode = async () => {
       const newDarkMode = !darkMode;
@@ -130,6 +132,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
             setImage(res.profilePicId[res.profilePicId.length - 1]);
             setMenuDesign(res.defaultMenuDesign);
             setLanguage(res.preferredLanguage || i18n.language);
+            setTwoFactor(res.twoFactor === "true");
             loadImages(res.profilePicId).then(r => console.log("Loaded user picture successfully"));
           });
       } catch (error) {
@@ -239,6 +242,15 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const handleRedirectSubscriptions = () => {
       navigation.navigate('Subscriptions', {});
     };
+
+    async function toggleTwoFactor() {
+      const userToken = await AsyncStorage.getItem('userToken')
+      changeTwoFactor(userToken, twoFactor
+          ? "false" : "true")
+          .then(r => {
+            setTwoFactor(!twoFactor);
+          });
+    }
 
     const handleLogout = () => {
       Alert.alert(
@@ -397,6 +409,20 @@ const ProfilePage: React.FC<ProfileScreenProps &
               onPress={handleNavigateToChangePassword}
             />
           </View>
+
+          <View style={styles.twoFactorContainer}>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>
+              {twoFactor ? t('pages.Profile.two-factor-deactivate')
+                  : t('pages.Profile.two-factor-activate')}
+            </Text>
+            <Switch
+                value={twoFactor}
+                onValueChange={toggleTwoFactor}
+                thumbColor={twoFactor ? "#f5dd4b" : "#f4f3f4"}
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+            />
+          </View>
+
           <DropDownPicker
             dropDownDirection={'TOP'}
             language={language.toUpperCase() as LanguageType}

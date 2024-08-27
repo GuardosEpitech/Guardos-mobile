@@ -3,10 +3,11 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import styles from './Login.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {loginUser} from "../../../services/userCalls";
+import {loginUser, verfyTwoFactorAndLogin} from "../../../services/userCalls";
 import {Ionicons} from "@expo/vector-icons";
 import {useTranslation} from "react-i18next";
 import {getProfileDetails} from "../../../services/profileCalls";
+import VerificationCodeInput from "../../../components/TwoFactorAuth/TwoFactorAuthentification";
 
 type LoginScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -18,6 +19,10 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
   const [errorForm, setErrorForm] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const {t, i18n} = useTranslation();
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
+  const [verificationError, setVerificationError] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
+
 
   const handleSubmit = async () => {
     try {
@@ -32,20 +37,43 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         setErrorForm(true);
         AsyncStorage.removeItem('userToken');
       } else {
-        setErrorForm(false);
-        getProfileDetails(response)
-          .then((res) => {
-            if (res.preferredLanguage) {
-              i18n.changeLanguage(res.preferredLanguage);
-            }
-          });
-        AsyncStorage.setItem('userToken', response);
-        setLoggedInStatus(true);
-        navigation.navigate('Scanning');
+        if (response.twoFactor) {
+          setShowTwoFactor(true);
+          setUserId(response.userId);
+        } else {
+          setErrorForm(false);
+          getProfileDetails(response)
+              .then((res) => {
+                if (res.preferredLanguage) {
+                  i18n.changeLanguage(res.preferredLanguage);
+                }
+              });
+          AsyncStorage.setItem('userToken', response);
+          setLoggedInStatus(true);
+          navigation.navigate('Scanning');
+        }
       }
     } catch (error) {
       console.error(`Error in Post Route: ${error}`);
       throw error;
+    }
+  };
+
+  const handleTwoFactorSubmit = async (code: string) => {
+    try {
+      const response = await verfyTwoFactorAndLogin(userId, code, { username, password });
+      console.log(response);
+      if (response && response.status === 200) {
+        AsyncStorage.setItem('userToken', response.data);
+        setErrorForm(false);
+        setLoggedInStatus(true);
+        navigation.navigate('Scanning');
+      } else {
+        setVerificationError(t('components.TwoFactor.incorrect-code'));
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      setVerificationError(t('components.TwoFactor.code-error'));
     }
   };
 
@@ -90,35 +118,33 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
       )}
 
       <View style={styles.form}>
-        <TextInput
-          style={styles.input}
-          placeholder={t('pages.Profile.username-or-email') as string}
-          value={username}
-          onChangeText={text => setUsername(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={t('pages.Profile.password') as string}
-          secureTextEntry
-          value={password}
-          onChangeText={text => setPassword(text)}
-        />
-        {errorForm && <Text style={styles.errorText}>{t('pages.Profile.invalid-login')}</Text>}
-        <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-          <Text style={styles.loginText}>{t('pages.Profile.login')}</Text>
-        </TouchableOpacity>
-        <Text style={styles.registerInfo}>
-          <Text style={styles.registerLink} onPress={() => navigation.navigate('Account Recovery')}>
-            {t('pages.Profile.trouble-logging-in')}
-          </Text>
-        </Text>
-        <Text style={styles.registerInfo}>
-          {t('pages.Profile.register-prompt')}
-          <Text style={styles.registerLink} onPress={() => navigation.navigate('Register')}>
-            {t('pages.Profile.register-here')}
-          </Text>
-          .
-        </Text>
+        {!showTwoFactor ? (
+            <>
+              <TextInput
+                  style={styles.input}
+                  placeholder={t('pages.Profile.username-or-email') as string}
+                  value={username}
+                  onChangeText={text => setUsername(text)}
+              />
+              <TextInput
+                  style={styles.input}
+                  placeholder={t('pages.Profile.password') as string}
+                  secureTextEntry
+                  value={password}
+                  onChangeText={text => setPassword(text)}
+              />
+              {errorForm && <Text style={styles.errorText}>{t('pages.Profile.invalid-login')}</Text>}
+              <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+                <Text style={styles.loginText}>{t('pages.Profile.login')}</Text>
+              </TouchableOpacity>
+              {/* Additional links for account recovery and registration */}
+            </>
+        ) : (
+            <VerificationCodeInput
+                onSubmit={handleTwoFactorSubmit}
+                errorMessage={verificationError}
+            />
+        )}
       </View>
     </View>
   );

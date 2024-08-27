@@ -123,6 +123,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#1B1D1E',
   },
+  twoFactorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  label: {
+    fontSize: 16,
+    color: 'black',
+  },
+  labelDarkTheme: {
+    color: 'white',
+  },
 });
 
 export default styles;
