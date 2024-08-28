@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';;
+import { faPercentage } from '@fortawesome/free-solid-svg-icons';
 import ModalConfirm from '../ModalConfirm/ModalConfirm';
 import { useNavigation } from '@react-navigation/native';
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
@@ -16,11 +17,12 @@ import { useTranslation } from "react-i18next";
 interface DishCardProps {
   dish: IDishFE;
   onDelete: any;
+  onDiscount: any;
 }
 
 const whatToDelete = "dish";
 
-const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
+const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount }) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
@@ -122,8 +124,20 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
           <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
             {dish.description} {/* Add a description field or similar*/}
           </Text>
+          {dish.discount !== undefined && dish.discount !== -1 ? (
+            <View style={styles.discountContainer}>
+              <Text style={styles.discount}>{t('components.DishCard.price')}{dish.price.toFixed(2)}€</Text>
+              <Text>{t('components.DishCard.discount')}{dish.discount.toFixed(2)} €</Text>
+              <Text>{t('components.DishCard.valid')}{dish.validTill}</Text>
+            </View>
+          ) : (
+            <Text>{t('components.DishCard.price')}{dish.price.toFixed(2)}€</Text>
+          )}
         </View>
         <View style={styles.iconContainer}>
+        <TouchableOpacity onPress={onDiscount} style={styles.iconButton}>
+            <FontAwesomeIcon icon={faPercentage} size={15} color="gray" />
+          </TouchableOpacity>
           <TouchableOpacity onPress={toggleModal} style={styles.iconButton}>
             <FontAwesomeIcon icon={faTrash} size={15} color="gray" />
           </TouchableOpacity>

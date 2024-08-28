@@ -41,7 +41,10 @@
     "components": {
       "DishCard": {
         "no-name": "No name",
-        "no-description": "No description"
+        "no-description": "No description",
+        "discount": "Discounted price: ",
+        "valid": "Valid until ",
+        "price": "Price: "
       },
       "ErrorBoundary": {
         "oops": "Oops!",
@@ -408,6 +411,22 @@
         "deviceTxt": "The app may request access to certain features on your device (e.g., location services, camera) to provide the Service. You can manage these permissions through your device settings.",
         "update": "11. Changes to Terms and Conditions",
         "updateTxt": "Guardos reserves the right to update or modify these Terms at any time without prior notice. Your continued use of the Service after any changes constitutes your acceptance of the new Terms. It is your responsibility to review these Terms periodically for any updates or changes."
+      },
+      "DiscountDishPage": {
+        "title": "Manage discount of ",
+        "valid": "Valid until:",
+        "percent": "Enter percentage",
+        "price": "Enter price",
+        "switchPrice": "Price",
+        "switchPercent": "Percentage",
+        "btnDate": "Select Expiry Date",
+        "btnSave": "Save Discount",
+        "btnRemove": "Remove Discount",
+        "errorPrice": "Discount price must be greater than 0 and less than the original price",
+        "errorPercent": "Percentage must be greater than 0 and less than 100",
+        "successAdd": "Discount saved successfully",
+        "successDelete": "Discount removed successfully",
+        "errorDate": "Please select an expiry date."
       },
       "DishComboPage": {
         "title": "Manage combinations for ",

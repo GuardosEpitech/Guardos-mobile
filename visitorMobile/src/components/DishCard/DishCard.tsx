@@ -72,7 +72,15 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
             </TouchableOpacity>
           </View>
           <Text style= {[darkMode && styles.descriptionDarkTheme]} numberOfLines={2} ellipsizeMode="tail">{dish.description}</Text>
-          <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.price', {price: dish.price})}</Text>
+          {dish.discount !== undefined && dish.discount !== -1 ? (
+            <View>
+              <Text style={styles.discount}>{t('components.DishCard.price', {price: dish.price})}€</Text>
+              <Text style={[darkMode && styles.priceDarkTheme]}>{t('components.DishCard.discount')}{dish.discount.toFixed(2)}€</Text>
+              <Text style={[darkMode && styles.priceDarkTheme]}>{t('components.DishCard.valid')}{dish.validTill}</Text>
+            </View>
+          ) : (
+            <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.price', {price: dish.price})}€</Text>
+          )}
           <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.allergens', {allergens: dish.allergens.join(', ')})}</Text>
         </View>
       </View>

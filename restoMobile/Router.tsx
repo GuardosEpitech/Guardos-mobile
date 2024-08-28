@@ -33,6 +33,7 @@ import UserSupport from 'src/pages/UserSupport/UserSupport';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import TermsPage from "./src/pages/TermsPage/TermsPage";
+import DishDiscountPage from './src/pages/DishDiscountPage/DishDiscountPage';
 import DishComboPage from 'src/pages/DishComboPage/DishComboPage';
 
 const Drawer = createDrawerNavigator();
@@ -271,7 +272,7 @@ const MyStack = () => {
         <Stack.Screen
             name="MenuPage"
             component={MenuPage}
-            options={{ headerShown: false }}
+            options={{ headerShown: true }}
         />
         <Stack.Screen
             name="EditRestaurant"
@@ -327,6 +328,11 @@ const MyDishStack = () => {
           component={DishComboPage} 
           options={{ title: 'Dish Combination' }} 
       />
+        <Stack.Screen
+            name="Manage Discount"
+            component={DishDiscountPage}
+            options={{ headerShown: true }}
+        />
       </Stack.Navigator>
   );
 };
