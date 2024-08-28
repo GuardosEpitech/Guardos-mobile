@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
+import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ModalConfirm from '../ModalConfirm/ModalConfirm';
 import { useNavigation } from '@react-navigation/native';
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
@@ -56,6 +57,11 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  const navigateCombo = () => {
+    console.log("dish: ", dish);
+    navigation.navigate('MyDishCombination', { dish });
+  }
 
   const handleDeleteDish = async () => {
     try {
@@ -120,6 +126,9 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete }) => {
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={toggleModal} style={styles.iconButton}>
             <FontAwesomeIcon icon={faTrash} size={15} color="gray" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={navigateCombo} style={styles.iconButton}>
+            <FontAwesomeIcon icon={faPlus} size={15} color="gray" />
           </TouchableOpacity>
           <ModalConfirm
             whatToDelete={whatToDelete}

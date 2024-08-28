@@ -90,3 +90,69 @@ export const getDishesByResto = async (restaurantName: string) => {
     }
     return(await fetch(`${baseURL}${restaurantName}`));
 };
+
+export const getDishesByResto2 = async (name: string) => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: baseURL + name,
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching dishes by resto:", error);
+    }
+  }
+  
+  export const addCombo = async (token: string, body: any) => {
+    try {
+      const response = await axios({
+        url: baseURL + 'addCombo',
+        method: "POST",
+        params: {key: token},
+        data: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching dishes by resto:", error);
+    }
+  }
+  
+  export const removeCombo = async (token: string, body: any) => {
+    try {
+      const response = await axios({
+        url: baseURL + 'removeCombo',
+        method: "POST",
+        params: {key: token},
+        data: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching dishes by resto:", error);
+    }
+  }
+  
+  export const getDishesByID = async(restoName: string, body: any) => {
+    try {
+      const response = await axios({
+        url: baseURL + 'dishIDs',
+        method: "POST",
+        params: {key: restoName},
+        data: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching dishes by id:", error);
+    }
+  }
