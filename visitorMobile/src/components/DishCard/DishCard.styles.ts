@@ -133,7 +133,11 @@ const styles = StyleSheet.create({
   },
   allergensDarkTheme:{
     color: "white"
-  }
+  },
+  discount: {
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+  },
 });
 
 export default styles;

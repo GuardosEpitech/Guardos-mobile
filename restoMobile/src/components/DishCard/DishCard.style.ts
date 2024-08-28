@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: deviceWidth - offset,
     backgroundColor: '#FFFFFF',
-    height: 230,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
   cardContainerDarkTheme: {
     width: deviceWidth - offset,
     backgroundColor: '#181A1B',
-    height: 230,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
@@ -97,6 +95,13 @@ const styles = StyleSheet.create({
     position: 'relative',
     color: 'white'
   },
+  discount: {
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+  },
+  discountContainer: {
+    marginBottom: 10,
+  }
 });
 
 export default styles;

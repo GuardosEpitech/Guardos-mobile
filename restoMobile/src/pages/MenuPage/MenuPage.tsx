@@ -9,7 +9,7 @@ import { getImages } from "../../services/imagesCalls";
 import { defaultDishImage } from "../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 export interface DishData {
   _id: number;
@@ -26,7 +26,7 @@ const MenuPage: React.FC = ({ route }) => {
   const [picturesId, setPicturesId] = useState<number[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchDarkMode();
@@ -78,7 +78,6 @@ const MenuPage: React.FC = ({ route }) => {
     }
   };
 
-  // TODO: adjust for i18n
   const menuGroupOrder = ['Appetizer', 'Maindish', 'Dessert'];
 
   const sortedDishes = dishesData[0]?.dishes.sort((a, b) => {
@@ -105,20 +104,19 @@ const MenuPage: React.FC = ({ route }) => {
     }
   };
 
-  // @ts-ignore
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {loading ? (
         <Text>{t('common.loading')}</Text>
       ) : (
         <>
-          <ScrollView contentContainerStyle={styles.scrollView} horizontal={false} scrollEnabled={true}>
+          <ScrollView contentContainerStyle={styles.scrollView}>
             {sortedDishes.map((dish, index) => (
-              <React.Fragment key={dish.name+index}>
+              <React.Fragment key={dish.name + index}>
                 {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (
                   <Text style={[styles.groupTitle, darkMode && styles.groupTitleDarkTheme]}>{dish.category.menuGroup}</Text>
                 )}
-                <View style={[styles.card && darkMode && styles.cardDarkTheme]}>
+                <View style={[styles.card, darkMode && styles.cardDarkTheme]}>
                   <Image
                     source={{ uri: pictures[dish.picturesId[0]]?.base64 || defaultDishImage }}
                     style={styles.cardImage}
@@ -126,8 +124,16 @@ const MenuPage: React.FC = ({ route }) => {
                   <View style={styles.cardContent}>
                     <Text style={[styles.cardTitle, darkMode && styles.cardTitleDarkTheme]}>{dish.name}</Text>
                     <Text>{dish.description}</Text>
-                    <Text>{t('pages.MenuPage.price', {price: dish.price})}</Text>
-                    <Text>{t('pages.MenuPage.allergens', {allergens: dish.allergens.join(', ')})}</Text>
+                    {dish.discount !== undefined && dish.discount !== -1 ? (
+                      <View style={styles.discountContainer}>
+                        <Text style={styles.discount}>{t('pages.MenuPage.price', { price: dish.price.toFixed(2) })}€</Text>
+                        <Text>{t('components.DishCard.discount')}{dish.discount.toFixed(2)} €</Text>
+                        <Text>{t('components.DishCard.valid')}{dish.validTill}</Text>
+                      </View>
+                    ) : (
+                      <Text>{t('pages.MenuPage.price', { price: dish.price.toFixed(2) })}€</Text>
+                    )}
+                    <Text>{t('pages.MenuPage.allergens', { allergens: dish.allergens.join(', ') })}</Text>
                     <TouchableOpacity onPress={() => handleDelete(dish)} style={styles.deleteButton}>
                       <FontAwesomeIcon icon={faTrash} />
                     </TouchableOpacity>

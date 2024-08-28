@@ -33,6 +33,7 @@ import UserSupport from 'src/pages/UserSupport/UserSupport';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import TermsPage from "./src/pages/TermsPage/TermsPage";
+import DishDiscountPage from './src/pages/DishDiscountPage/DishDiscountPage';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -270,7 +271,7 @@ const MyStack = () => {
         <Stack.Screen
             name="MenuPage"
             component={MenuPage}
-            options={{ headerShown: false }}
+            options={{ headerShown: true }}
         />
         <Stack.Screen
             name="EditRestaurant"
@@ -320,6 +321,11 @@ const MyDishStack = () => {
             name="AddCategory"
             component={AddCategoryPage}
             options={{ headerShown: false }}
+        />
+        <Stack.Screen
+            name="Manage Discount"
+            component={DishDiscountPage}
+            options={{ headerShown: true }}
         />
       </Stack.Navigator>
   );

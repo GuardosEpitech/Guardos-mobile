@@ -90,3 +90,37 @@ export const getDishesByResto = async (restaurantName: string) => {
     }
     return(await fetch(`${baseURL}${restaurantName}`));
 };
+
+export const addDiscount = async (body: any, token: string) => {
+    try {
+      const response = await axios({
+        url: baseURL + 'addDiscount',
+        method: "POST",
+        params: {key: token},
+        data: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error adding dish discount:", error);
+    }
+  };
+  
+  export const removeDiscount = async (body: any, token: string) => {
+    try {
+      const response = await axios({
+        url: baseURL + 'removeDiscount',
+        method: "POST",
+        params: {key: token},
+        data: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting dish discount:", error);
+    }
+  };
