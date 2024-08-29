@@ -68,16 +68,22 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   );
 
   const fetchMenu = async () => {
-    // const filter = JSON.parse(await AsyncStorage.getItem('filter') || '{}');
-    // const allergenList = filter.allergenList;
+    const filter = JSON.parse(await AsyncStorage.getItem('filter') || '{}');
+    const allergenList = filter.allergenList;
     const userToken = await AsyncStorage.getItem('user');
     if (userToken === null) {
       return;
     }
 
-    const userAllergens = await getUserAllergens(userToken);
-    const restosMenu = await getRestosMenu(restaurantId, userAllergens);
-    setRestoMenu(restosMenu);
+    let restosMenu = [];
+    if (allergenList.size > 0) {
+      restosMenu = await getRestosMenu(restaurantId, allergenList);
+      setRestoMenu(restosMenu);
+    } else {
+      const userAllergens = await getUserAllergens(userToken);
+      restosMenu = await getRestosMenu(restaurantId, userAllergens);
+      setRestoMenu(restosMenu);
+    }
     return restosMenu;
   }
 
