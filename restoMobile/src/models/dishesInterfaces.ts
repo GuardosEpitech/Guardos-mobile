@@ -14,4 +14,5 @@ export interface Dish {
     allergens: string[];
     discount: number;
     validTill: string;
+    combo: number[];
   }

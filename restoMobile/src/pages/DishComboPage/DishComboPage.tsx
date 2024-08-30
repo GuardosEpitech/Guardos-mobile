@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
-  Image,
   Modal,
   ScrollView,
-  StatusBar,
   Text,
-  TextInput,
   TouchableOpacity,
   View
 } from "react-native";
@@ -17,12 +14,7 @@ import { IDishFE } from "../../../../shared/models/dishInterfaces";
 import styles from "./DishComboPage.style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRoute } from "@react-navigation/native";
-import { useNavigation } from '@react-navigation/native';
-
-
-interface IDishComboPageProps {
-  dish: IDishFE;
-}
+import { useNavigation } from "@react-navigation/native";
 
 const DishComboPage: React.FC = () => {
   const route = useRoute();
@@ -35,9 +27,7 @@ const DishComboPage: React.FC = () => {
   const [modalContentType, setModalContentType] = useState('');
   const navigation = useNavigation();
 
-
   useEffect(() => {
-    console.log(dish);
     const fetchDishes = async () => {
       const allDishes = await getDishesByResto2(dish.resto);
       const cleanedDishes = allDishes[0].dishes.filter(
@@ -122,39 +112,63 @@ const DishComboPage: React.FC = () => {
   };
 
   return (
-    <ScrollView>
-    <View style={styles.container}>
-      <Text style={styles.title}>{t('pages.DishComboPage.title')} {dish.name}</Text>
+    <ScrollView style={[styles.container, darkMode && styles.containerDark]}
+                contentContainerStyle={styles.scrollViewContentContainer}>
+      <View style={[styles.container, darkMode && styles.containerDark]}>
+        <Text style={[styles.title, darkMode && styles.titleDark]}>
+          {t('pages.DishComboPage.title')} {dish.name}
+        </Text>
 
-      <Text style={styles.label}>{t('pages.DishComboPage.recommendedCombinations')}</Text>
+        <Text style={[styles.label, darkMode && styles.labelDark]}>
+          {t('pages.DishComboPage.recommendedCombinations')}
+        </Text>
 
-      <View style={styles.contentProducsDishes}>
-        <View style={styles.containerAllergens}>
-          {selectedDishes.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.button}
-              onPress={() => handleSelectDish(item)}
-            >
-              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item.name}</Text>
-            </TouchableOpacity>
-          ))}
+        <View style={styles.contentProducsDishes}>
+          <View style={styles.containerAllergens}>
+            {selectedDishes.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[styles.button, darkMode && styles.buttonDark]}
+                onPress={() => handleSelectDish(item)}
+              >
+                <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <TouchableOpacity
+            key={"ADDNEW"}
+            style={[styles.button, darkMode && styles.buttonDark]}
+            onPress={() => onAddDish()}>
+            <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>
+              {t('pages.DishComboPage.add')}
+            </Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          key={"ADDNEW"}
-          style={styles.button}
-          onPress={() => onAddDish()}>
-          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.DishComboPage.close')}</Text>
-        </TouchableOpacity>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.saveButton, darkMode && styles.saveButtonDark]}
+            onPress={handleSave}
+          >
+            <Text style={[styles.saveButtonText, darkMode && styles.saveButtonTextDark]}>
+              {t('pages.DishComboPage.save')}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.clearButton, darkMode && styles.clearButtonDark]}
+            onPress={handleClear}
+          >
+            <Text style={[styles.clearButtonText, darkMode && styles.clearButtonTextDark]}>
+              {t('pages.DishComboPage.clearAll')}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <View style={styles.buttonContainer}>
-        <Button title={t('pages.DishComboPage.save')} onPress={handleSave} />
-        <Button title={t('pages.DishComboPage.clearAll')} onPress={handleClear} />
-      </View>
-    </View>
-
-    <Modal
+      {/* Modal Section */}
+      <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -164,34 +178,40 @@ const DishComboPage: React.FC = () => {
       >
         <View style={styles.centeredView}>
           <View style={[styles.modalView, darkMode && styles.modalViewDark]}>
-            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{modalContentType}</Text>
+            <Text style={[styles.label, darkMode && styles.labelDark]}>
+              {modalContentType}
+            </Text>
             <View style={styles.flexContainer}>
-
-
               {modalContentType === t('pages.DishComboPage.name') &&
                 dishes.map((item, index) => (
                   <TouchableOpacity
                     key={index}
-                    style={[styles.button, selectedDishes.includes(item) ? styles.selectedButton : null]}
+                    style={[
+                      styles.button,
+                      selectedDishes.includes(item)
+                        ? styles.selectedButton
+                        : null,
+                      darkMode && styles.buttonDark,
+                      darkMode && selectedDishes.includes(item) && styles.selectedButtonDark
+                    ]}
                     onPress={() => toggleDishesSelection(item)}
                   >
-                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item.name}</Text>
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>
+                      {item.name}
+                    </Text>
                   </TouchableOpacity>
-                ))
-              }
-
-
+                ))}
             </View>
             <Button
               title={t('common.close') as string}
               onPress={() => {
                 setModalVisible(false);
               }}
+              color={darkMode ? '#fff' : '#000'} // Button text color depending on the mode
             />
           </View>
         </View>
       </Modal>
-
     </ScrollView>
   );
 };

@@ -88,7 +88,7 @@ const MyDishesScreen: React.FC = () => {
         data={dishList}
         renderItem={({ item, index }) => (
           <TouchableOpacity onPress={() => navigateToChangeDish(item.resto, item)}>
-          <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} key={key} onDiscount={() => navigateToDishDiscount(item)} />
+          <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} key={key} onDiscount={() => navigateToDishDiscount(item)} isFirstLevel={true} />
           </TouchableOpacity>
         )}
         keyExtractor={(_, index) => index.toString()}
