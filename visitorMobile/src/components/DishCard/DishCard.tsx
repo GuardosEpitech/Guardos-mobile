@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
 import styles from './DishCard.styles';
 import { defaultDishImage } from "../../../assets/placeholderImagesBase64";
 import { IimageInterface } from "../../models/imageInterface";
@@ -8,22 +8,35 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {addDishAsFavourite, deleteDishFromFavourites} from "../../services/favourites";
 import {useTranslation} from "react-i18next";
+import { getDishesByID } from '../../services/menuCalls';
 
 interface DishCardProps {
   restoID: number;
   dish: IDishFE;
   isFavourite: boolean;
   pictures: IimageInterface[];
+  isSmallerCard?: boolean;
+  isFirstLevel: boolean;
 }
 
-const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, pictures, isSmallerCard }) => {
+const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, pictures, isSmallerCard, isFirstLevel }) => {
   const [isDishFavorite, setIsDishFavorite] = useState(isFavourite);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [isAccordionOpen, setAccordionOpen] = useState<boolean>(false);
+  const [comboDishes, setComboDishes] = useState<IDishFE[]>([]);
   const {t} = useTranslation();
 
   useEffect(() => {
+    const fetchDishesByID = async () => {
+      const dishes = await getDishesByID(dish.resto, { ids: dish.combo });
+      setComboDishes(dishes);
+    }
     setIsDishFavorite(isFavourite);
     fetchDarkMode();  
+    if (dish.combo && dish.combo.length > 0 && isFirstLevel) {
+      console.log("get combo dishes, ", isFirstLevel);
+      fetchDishesByID();
+    }
   }, [isFavourite]);
 
   const fetchDarkMode = async () => {
@@ -51,6 +64,10 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
     } else {
       await deleteDishFromFavourites(userToken, restoID, dish.uid);
     }
+  };
+
+  const handleAccordionToggle = () => {
+    setAccordionOpen(!isAccordionOpen);
   };
 
   return (
@@ -83,6 +100,30 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
           )}
           <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.allergens', {allergens: dish.allergens.join(', ')})}</Text>
         </View>
+        
+        {dish.combo && dish.combo.length > 0 && isFirstLevel && (
+          <View style={styles.accordionContainer}>
+            <TouchableOpacity onPress={handleAccordionToggle} style={styles.accordionHeader}>
+              <Text style={styles.accordionHeaderText}>
+                {isAccordionOpen ? t('components.DishCard.hide') : t('components.DishCard.show')}
+              </Text>
+            </TouchableOpacity>
+            {isAccordionOpen && (
+              <View style={styles.comboContainer}>
+                {comboDishes.map((comboDish) => (
+                  <DishCard
+                  key={comboDish.name + comboDish.uid + "-fit"}
+                  restoID={restoID}
+                  dish={dish}
+                  isFavourite={false}
+                  pictures={pictures}
+                  isFirstLevel={true}
+                />
+                ))}
+              </View>
+            )}
+          </View>
+        )}
       </View>
     </React.Fragment>
   );
