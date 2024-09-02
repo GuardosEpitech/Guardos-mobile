@@ -137,7 +137,18 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
               <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
                 <Text style={styles.loginText}>{t('pages.Profile.login')}</Text>
               </TouchableOpacity>
-              {/* Additional links for account recovery and registration */}
+              <Text style={styles.registerInfo}>
+                <Text style={styles.registerLink} onPress={() => navigation.navigate('Account Recovery')}>
+                  {t('pages.Profile.trouble-logging-in')}
+                </Text>
+              </Text>
+              <Text style={styles.registerInfo}>
+                {t('pages.Profile.register-prompt')}
+                <Text style={styles.registerLink} onPress={() => navigation.navigate('Register')}>
+                  {t('pages.Profile.register-here')}
+                </Text>
+                .
+              </Text>
             </>
         ) : (
             <VerificationCodeInput
