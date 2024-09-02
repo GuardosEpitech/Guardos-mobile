@@ -12,6 +12,7 @@ import {
 import { Slider } from 'react-native-elements';
 import {useFocusEffect, useNavigation, useIsFocused} from '@react-navigation/native';
 import Card from '../../components/RestaurantCard/RestaurantCard';
+import AdCard from '../../components/AdCard/AdCard';
 import styles from './RestaurantScreen.styles'
 import { getAllResto , getFilteredRestosNew} from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -77,6 +78,11 @@ const MyRestaurantsScreen = () => {
   const [isFavouriteRestos, setIsFavouriteRestos] = React.useState<Array<number>>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const {t} = useTranslation();
+  const adFrequency = 5;
+  const dataWithAds = [...selectedRestoData];
+  for (let i = adFrequency - 1; i < dataWithAds.length; i += adFrequency) {
+    dataWithAds.splice(i, 0, { isAd: true });
+  }
 
   useEffect(() => {
     if (isFocused) {
@@ -498,17 +504,23 @@ const MyRestaurantsScreen = () => {
           <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.RestaurantScreen.noresto')}</Text>
         ) : (
           <FlatList
-            data={selectedRestoData}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
-                <Card info={item} isFavouriteResto={item.isFavouriteResto} isSmallerCard={false}/>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(restaurant, index) => restaurant.uid ? restaurant.uid.toString() : index.toString()}
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          data={dataWithAds}
+          renderItem={({ item, index }) => {
+            if (item.isAd) {
+              return <AdCard />;
+            } else {
+              return (
+                <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
+                  <Card info={item} isFavouriteResto={item.isFavouriteResto} isSmallerCard={false}/>
+                </TouchableOpacity>
+              );
             }
+          }}
+          keyExtractor={(item, index) => item.uid ? item.uid.toString() : `ad-${index}`}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           />
         )}
         <TouchableOpacity 

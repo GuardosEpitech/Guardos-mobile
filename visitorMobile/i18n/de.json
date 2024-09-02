@@ -21,6 +21,11 @@
       "success": "Geschafft"
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Bis zu 50% Rabatt auf Elektronik, Kleidung und mehr",
+        "link": "Jetzt einkaufen"
+      },
       "DishCard": {
         "price": "Preis: {{ price }}",
         "allergens": "Allergene: {{ allergens }}",

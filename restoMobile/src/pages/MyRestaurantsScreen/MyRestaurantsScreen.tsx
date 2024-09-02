@@ -1,16 +1,15 @@
-import React, { useEffect, useState , useCallback} from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
-import styles from '../MyRestaurantsScreen/MyRestaurantsScreen.styles';
-import {useTranslation} from 'react-i18next';
-import MenuPage from '../MenuPage/MenuPage';
-import AddRestaurantScreen from '../AddRestaurantScreen/AddRestaurantScreen';
+import AdCard from '../../components/AdCard/AdCard';
+import styles from './MyRestaurantsScreen.styles';
+import { useTranslation } from 'react-i18next';
 import {
   deleteRestaurantByName,
-  getAllRestaurantsByUserAndFilter
+  getAllRestaurantsByUserAndFilter,
 } from '../../services/restoCalls';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IRestaurantFrontEnd } from 'src/models/restaurantsInterfaces';
 
 const MyRestaurantsScreen = () => {
@@ -20,7 +19,8 @@ const MyRestaurantsScreen = () => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [key, setKey] = useState(0);
   const [filter, setFilter] = useState('');
-  const {t} = useTranslation();
+  const [adIndex, setAdIndex] = useState<number | null>(null);
+  const { t } = useTranslation();
 
   const fetchDarkMode = async () => {
     try {
@@ -39,8 +39,6 @@ const MyRestaurantsScreen = () => {
     fetchDarkMode();
   }, [filter]);
 
-
-
   const onDelete = async (restaurantName: string) => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
@@ -54,24 +52,26 @@ const MyRestaurantsScreen = () => {
       console.error('Error deleting restaurant:', error);
     }
   };
-  
+
   const updateRestoData = async (filter: string) => {
     const userToken = await AsyncStorage.getItem('userToken');
-    getAllRestaurantsByUserAndFilter(userToken, filter)
-      .then((res) => {
-        setRestoData(res);
-      })
-      .catch((error) => {
-        console.error('Error updating restaurant data:', error);
-      });
+    if (!userToken) return;
+
+    try {
+      const res = await getAllRestaurantsByUserAndFilter(userToken, filter);
+      setRestoData(res);
+      setAdIndex(Math.floor(Math.random() * (res.length + 1)));
+    } catch (error) {
+      console.error('Error updating restaurant data:', error);
+    }
   };
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     updateRestoData(filter);
-    fetchDarkMode()
+    fetchDarkMode();
     setRefreshing(false);
-    setKey(prevKey => prevKey + 1);
+    setKey((prevKey) => prevKey + 1);
   }, [filter]);
 
   const navigateToAddRestaurant = () => {
@@ -82,33 +82,42 @@ const MyRestaurantsScreen = () => {
     navigation.navigate('MenuPage', { restaurantId, restaurantName });
   };
 
+  const renderItem = ({ item, index }: { item: IRestaurantFrontEnd; index: number }) => (
+    <View>
+      {index === adIndex && <AdCard />}
+      <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
+        <Card info={item} onDelete={onDelete} key={key} />
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {restoData.length === 0 ? (
-        <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyRestoPage.noresto')}</Text>
+        <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>
+          {t('pages.MyRestoPage.noresto')}
+        </Text>
       ) : (
         <>
-        <TextInput
-        style={styles.searchInput}
-        placeholder={t('common.search-restaurants')}
-        value={filter}
-        onChangeText={setFilter}
-        autoCapitalize="none"
-      />
-      <FlatList
-        data={restoData}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
-            <Card info={item} onDelete={onDelete} key={key} />
-          </TouchableOpacity>
-        )}
-        keyExtractor={(restaurant) => (restaurant.uid ? restaurant.uid.toString() : '0')}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
-      </>
+          <TextInput
+            style={styles.searchInput}
+            placeholder={t('common.search-restaurants')}
+            value={filter}
+            onChangeText={setFilter}
+            autoCapitalize="none"
+          />
+          <FlatList
+            data={restoData}
+            renderItem={renderItem}
+            keyExtractor={(restaurant) =>
+              restaurant.uid ? restaurant.uid.toString() : '0'
+            }
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        </>
       )}
       <TouchableOpacity
         style={styles.roundButton}

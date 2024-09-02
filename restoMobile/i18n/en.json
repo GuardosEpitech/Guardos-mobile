@@ -39,6 +39,11 @@
       "need-cam-permissions": "Sorry, we need camera roll permissions to make this work!"
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Get up to 50% off on electronics, fashion, and more!",
+        "link": "Shop Now"
+      },
       "DishCard": {
         "no-name": "No name",
         "no-description": "No description",
