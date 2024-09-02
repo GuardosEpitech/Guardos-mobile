@@ -9,6 +9,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {addDishAsFavourite, deleteDishFromFavourites} from "../../services/favourites";
 import {useTranslation} from "react-i18next";
 import { getDishesByID } from '../../services/menuCalls';
+import { getDishFavourites } from '../../services/favourites';
+import { getImages } from '../../services/imageCalls';
+import { faSlash } from '@fortawesome/free-solid-svg-icons';
 
 interface DishCardProps {
   restoID: number;
@@ -24,20 +27,58 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [isAccordionOpen, setAccordionOpen] = useState<boolean>(false);
   const [comboDishes, setComboDishes] = useState<IDishFE[]>([]);
+  const [isFavouriteDishs, setIsFavouriteDishs] = React.useState<Array<{ restoID: number, dish: IDishFE }>>([]);
+  const [comboPicture, setPictures] = useState<IimageInterface[]>([]);
+  const [isComboPic, setCombPicBool] = useState<boolean>(false);
   const {t} = useTranslation();
+
+  let picturesId = dish.picturesId;
 
   useEffect(() => {
     const fetchDishesByID = async () => {
       const dishes = await getDishesByID(dish.resto, { ids: dish.combo });
       setComboDishes(dishes);
     }
+
+    async function fetchImages() {
+      if (picturesId.length > 0) {
+        const fetchedImages = await getImages(picturesId);
+        setPictures(fetchedImages);
+      } else {
+        setPictures([{
+          base64: defaultDishImage,
+          contentType: "image/png",
+          filename: "placeholderResto.png",
+          size: 0,
+          uploadDate: "0",
+          id: 0,
+        }]);
+      }
+    }
+
     setIsDishFavorite(isFavourite);
     fetchDarkMode();  
     if (dish.combo && dish.combo.length > 0 && isFirstLevel) {
-      console.log("get combo dishes, ", isFirstLevel);
       fetchDishesByID();
+      fetchFavourites();
     }
-  }, [isFavourite]);
+    if (dish.combo && dish.combo.length > 0 && !isFirstLevel) {
+      fetchImages();
+      setCombPicBool(true);
+    }
+  }, [isFavourite, picturesId]);
+
+  const fetchFavourites = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) { return; }
+
+    try {
+      const favouriteDishIds = await getDishFavourites(userToken);
+      setIsFavouriteDishs(favouriteDishIds);
+    } catch (error) {
+      console.error("Error fetching user favourites:", error);
+    }
+  };
 
   const fetchDarkMode = async () => {
     try {
@@ -73,10 +114,17 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
   return (
     <React.Fragment>
       <View style={isSmallerCard ? (darkMode ? styles.cardSmallDarkTheme : styles.cardSmall) : (darkMode ? styles.cardDarkTheme : styles.card)}>
-        <Image
-          source={{ uri: pictures[dish.picturesId[0]]?.base64 || defaultDishImage }}
-          style={isSmallerCard ? styles.cardImageSmall : styles.cardImage}
-        />
+        {isComboPic ? (
+          <Image
+            source={{ uri: comboPicture[0]?.base64 || defaultDishImage }}
+            style={isSmallerCard ? styles.cardImageSmall : styles.cardImage}
+          />
+        ) : (
+          <Image
+            source={{ uri: pictures[dish.picturesId[0]]?.base64 || defaultDishImage }}
+            style={isSmallerCard ? styles.cardImageSmall : styles.cardImage}
+          />
+        )}
         <View style={styles.cardContent}>
           <View style={[styles.titleContainer, darkMode && styles.titleContainerDarkTheme]}>
             <Text style={[styles.cardTitle, darkMode && styles.cardTitleDarkTheme]}>{dish.name}</Text>
@@ -110,16 +158,23 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
             </TouchableOpacity>
             {isAccordionOpen && (
               <View style={styles.comboContainer}>
-                {comboDishes.map((comboDish) => (
-                  <DishCard
-                  key={comboDish.name + comboDish.uid + "-fit"}
-                  restoID={restoID}
-                  dish={dish}
-                  isFavourite={false}
-                  pictures={pictures}
-                  isFirstLevel={true}
-                />
-                ))}
+                {comboDishes.map((comboDish, index) => {
+                  const isFavourite = isFavouriteDishs.some(
+                    fav => fav.restoID === restoID && fav.dish.uid === comboDish.uid
+                  );
+
+                  return (
+                    <DishCard
+                      key={comboDish.name + comboDish.uid + "-no-fit"}
+                      restoID={restoID}
+                      dish={comboDish}
+                      isFavourite={isFavourite}
+                      isSmallerCard={true}
+                      pictures={[]}
+                      isFirstLevel={false}
+                    />
+                  );
+                })}
               </View>
             )}
           </View>

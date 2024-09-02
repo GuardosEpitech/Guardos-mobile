@@ -25,7 +25,9 @@
         "price": "Preis: {{ price }}",
         "allergens": "Allergene: {{ allergens }}",
         "discount": "Reduzierter Preis: ",
-        "valid": "Gültig bis "
+        "valid": "Gültig bis ",
+        "show": "Vorgeschlagene Kombination anzeigen",
+        "hide": "Vorgeschlagene Kombination ausblenden"
       },
       "ErrorBoundary": {
         "oops": "Hoppla!",

@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
   card: {
     width: deviceWidth - offset,
     backgroundColor: '#FFFFFF',
-    height: 230,
     margin: 20,
     borderRadius: radius,
     shadowColor: '#000',
@@ -27,7 +26,6 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     backgroundColor: '#FFFFFF',
-    height: 230,
     margin: 10,
     borderRadius: radius,
     shadowColor: '#000',
@@ -144,6 +142,7 @@ const styles = StyleSheet.create({
     borderRadius: radius,
     zIndex: 1, 
     marginHorizontal: 10, 
+    marginBottom: 10
   },
   accordionHeader: {
     padding: 10,
@@ -163,6 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F1F1F1',
     zIndex: 1,
     paddingHorizontal: 5, 
+    marginBottom: 10
   }
 });
 
