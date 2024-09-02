@@ -16,13 +16,12 @@ import { getDishesByID } from 'src/services/dishCalls';
 interface DishCardProps {
   dish: IDishFE;
   onDelete: any;
-  onDiscount: any;
   isFirstLevel: boolean;
 }
 
 const whatToDelete = "dish";
 
-const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount, isFirstLevel }) => {
+const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
@@ -70,8 +69,11 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount, isFirst
   };
 
   const navigateCombo = () => {
-    console.log("dish: ", dish);
     navigation.navigate('MyDishCombination', { dish });
+  }
+
+  const navigateDiscount = () => {
+    navigation.navigate('Manage Discount', { dish });
   }
 
   const handleDeleteDish = async () => {
@@ -140,7 +142,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount, isFirst
         </View>
         {isFirstLevel && (
         <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={onDiscount} style={styles.iconButton}>
+          <TouchableOpacity onPress={navigateDiscount} style={styles.iconButton}>
             <FontAwesomeIcon icon={faPercentage} size={15} color="gray" />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleModal} style={styles.iconButton}>
@@ -172,7 +174,6 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount, isFirst
                     key={comboDish.uid}
                     dish={comboDish}
                     onDelete={onDelete}
-                    onDiscount={onDiscount}
                     isFirstLevel={false}
                   />
                 ))}
