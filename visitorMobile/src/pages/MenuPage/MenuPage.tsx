@@ -145,6 +145,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
                         return fav.restoID === restaurantId && fav.dish.uid === dish.uid;
                       })}
                       pictures={pictures}
+                      isFirstLevel={true}
                     />
                   ))
                 }
@@ -161,6 +162,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
                         })}
                         isSmallerCard={true}
                         pictures={pictures}
+                        isFirstLevel={true}
                       />
                     ))
                   }

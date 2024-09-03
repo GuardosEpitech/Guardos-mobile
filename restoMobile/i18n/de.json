@@ -49,7 +49,9 @@
         "no-description": "Keine Beschreibung",
         "discount": "Reduzierter Preis: ",
         "valid": "Gültig bis ",
-        "price": "Preis: "
+        "price": "Preis: ",
+        "show": "Vorgeschlagene Kombination anzeigen",
+        "hide": "Vorgeschlagene Kombination ausblenden"
       },
       "ErrorBoundary": {
         "oops": "Hoppla!",
@@ -432,6 +434,17 @@
         "successAdd": "Rabatt erfolgreich gespeichert",
         "successDelete": "Rabatt erfolgreich entfernt",
         "errorDate": "Bitte wählen Sie ein Ablaufdatum aus."
+      },
+      "DishComboPage": {
+        "title": "Kombinationen verwalten für",
+        "recommendedCombinations": "Empfohlene Kombinationen:",
+        "selectDish": "Ausgewählte Artikel",
+        "save": "Speichern",
+        "clearAll": "Alles löschen",
+        "successAdd": "Kombinationen erfolgreich hinzugefügt",
+        "successRemove": "Alle Kombinationen entfernt",
+        "add": "Hinzufügen",
+        "name": "Vorschläge für Gerichtskombinationen"
       }
     }
   }

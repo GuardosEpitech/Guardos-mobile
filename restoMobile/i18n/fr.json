@@ -49,7 +49,9 @@
         "no-description": "Pas de description",
         "discount": "Prix réduit : ",
         "valid": "Valide jusqu'au ",
-        "price": "Prix : "
+        "price": "Prix : ",
+        "show": "Afficher la combinaison suggérée",
+        "hide": "Masquer la combinaison suggérée"
       },
       "ErrorBoundary": {
         "oops": "Oups !",
@@ -432,6 +434,17 @@
         "successAdd": "Remise enregistrée avec succès",
         "successDelete": "Remise supprimée avec succès",
         "errorDate": "Veuillez sélectionner une date d'expiration."
+      },
+      "DishComboPage": {
+        "title": "Gérer les combinaisons pour",
+        "recommendedCombinations": "Combinaisons recommandées :",
+        "selectDish": "Éléments sélectionnés",
+        "save": "Enregistrer",
+        "clearAll": "Tout effacer",
+        "successAdd": "Combinaisons ajoutées avec succès",
+        "successRemove": "Toutes les combinaisons supprimées",
+        "add": "Ajouter",
+        "name": "Suggestions de combinaisons de plats"
       }
     }
   }

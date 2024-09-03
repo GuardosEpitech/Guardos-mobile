@@ -49,7 +49,9 @@
         "no-description": "No description",
         "discount": "Discounted price: ",
         "valid": "Valid until ",
-        "price": "Price: "
+        "price": "Price: ",
+        "show": "Show suggested combination",
+        "hide": "Hide suggested combination"
       },
       "ErrorBoundary": {
         "oops": "Oops!",
@@ -432,6 +434,17 @@
         "successAdd": "Discount saved successfully",
         "successDelete": "Discount removed successfully",
         "errorDate": "Please select an expiry date."
+      },
+      "DishComboPage": {
+        "title": "Manage combinations for",
+        "recommendedCombinations": "Recommended combinations:",
+        "selectDish": "Selected items",
+        "save": "Save",
+        "clearAll": "Clear all",
+        "successAdd": "Combinations successfully added",
+        "successRemove": "All combinations removed",
+        "add": "Add",
+        "name": "Dish combination suggestions"
       }
     }
   }

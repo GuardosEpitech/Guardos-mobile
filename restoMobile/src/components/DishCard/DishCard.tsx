@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash';
-import { faPercentage } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlus, faPercentage } from '@fortawesome/free-solid-svg-icons';
 import ModalConfirm from '../ModalConfirm/ModalConfirm';
 import { useNavigation } from '@react-navigation/native';
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
@@ -12,24 +11,34 @@ import { defaultDishImage, defaultRestoImage } from "../../assets/placeholderIma
 import { IimageInterface } from "../../models/imageInterface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
+import { getDishesByID } from 'src/services/dishCalls';
 
 interface DishCardProps {
   dish: IDishFE;
   onDelete: any;
-  onDiscount: any;
+  isFirstLevel: boolean;
 }
 
 const whatToDelete = "dish";
 
-const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount }) => {
+const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [isAccordionOpen, setAccordionOpen] = useState<boolean>(false);
+  const [comboDishes, setComboDishes] = useState<IDishFE[]>([]);
   const { t } = useTranslation();
 
   useEffect(() => {
+    const fetchDishesByID = async () => {
+      const dishes = await getDishesByID(dish.resto, { ids: dish.combo });
+      setComboDishes(dishes);
+    }
     fetchDarkMode();
+    if (dish.combo && dish.combo.length > 0 && isFirstLevel) {
+      fetchDishesByID();
+    }
   }, []);
 
   const fetchDarkMode = async () => {
@@ -52,12 +61,20 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount }) => {
     dish.name = t('components.DishCard.no-name') as string;
   }
   if (dish.description.length === 0) {
-    dish.description = t('components.DishCard.no-desciption') as string;
+    dish.description = t('components.DishCard.no-description') as string;
   }
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  const navigateCombo = () => {
+    navigation.navigate('MyDishCombination', { dish });
+  }
+
+  const navigateDiscount = () => {
+    navigation.navigate('Manage Discount', { dish });
+  }
 
   const handleDeleteDish = async () => {
     try {
@@ -90,18 +107,13 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount }) => {
     fetchImages();
   }, [picturesId]);
 
-//  const handleEdit = () => {
-//    const names: string[] = product.restaurantId.map((id) => restaurants.find((restaurant) => restaurant.id === id)?.name).filter(Boolean);
-//    navigation.navigate('EditProductPage', {
-//      productID: product.id,
-//      productName: product.name,
-//      productIngredients: product.ingredients,
-//      productRestoNames: names,
-//    });
-//  };
+  const handleAccordionToggle = () => {
+    setAccordionOpen(!isAccordionOpen);
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={[styles.cardContainer, darkMode && styles.cardContainerDarkTheme]}>
+    <View style={isFirstLevel ? styles.container : styles.comboContainer}>
+      <View style={isFirstLevel ? (darkMode ? styles.cardContainerDarkTheme : styles.cardContainer) : (darkMode ? styles.comboCardContainerDarkTheme : styles.comboCardContainer)}>
         <Image
           style={styles.imageStyle}
           resizeMode="contain"
@@ -116,7 +128,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount }) => {
             {dish.name}
           </Text>
           <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
-            {dish.description} {/* Add a description field or similar*/}
+            {dish.description} 
           </Text>
           {dish.discount !== undefined && dish.discount !== -1 ? (
             <View style={styles.discountContainer}>
@@ -128,12 +140,16 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount }) => {
             <Text>{t('components.DishCard.price')}{dish.price.toFixed(2)}€</Text>
           )}
         </View>
+        {isFirstLevel && (
         <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={onDiscount} style={styles.iconButton}>
+          <TouchableOpacity onPress={navigateDiscount} style={styles.iconButton}>
             <FontAwesomeIcon icon={faPercentage} size={15} color="gray" />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleModal} style={styles.iconButton}>
             <FontAwesomeIcon icon={faTrash} size={15} color="gray" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={navigateCombo} style={styles.iconButton}>
+            <FontAwesomeIcon icon={faPlus} size={15} color="gray" />
           </TouchableOpacity>
           <ModalConfirm
             whatToDelete={whatToDelete}
@@ -142,8 +158,32 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, onDiscount }) => {
             onCancel={toggleModal}
           />
         </View>
+        )}
+
+        {dish.combo && dish.combo.length > 0 && isFirstLevel && (
+          <View style={styles.accordionContainer}>
+            <TouchableOpacity onPress={handleAccordionToggle} style={styles.accordionHeader}>
+              <Text style={styles.accordionHeaderText}>
+                {isAccordionOpen ? t('components.DishCard.hide') : t('components.DishCard.show')}
+              </Text>
+            </TouchableOpacity>
+            {isAccordionOpen && (
+              <View style={styles.comboContainer}>
+                {comboDishes.map((comboDish) => (
+                  <DishCard
+                    key={comboDish.uid}
+                    dish={comboDish}
+                    onDelete={onDelete}
+                    isFirstLevel={false}
+                  />
+                ))}
+              </View>
+            )}
+          </View>
+        )}
       </View>
     </View>
   );
 };
+
 export default DishCard;
