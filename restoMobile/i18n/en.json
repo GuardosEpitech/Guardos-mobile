@@ -53,6 +53,12 @@
         "show": "Show suggested combination",
         "hide": "Hide suggested combination"
       },
+      "TwoFactor": {
+        "enter-code": "Enter 8-digit code",
+        "enter-code-error": "Please enter an 8-digit code",
+        "incorrect-code": "The code you entered is incorrect. Please try again.",
+        "code-error": "An error occurred while verifying the code. Please try again."
+      },
       "ErrorBoundary": {
         "oops": "Oops!",
         "error": "There's an error",
@@ -165,7 +171,6 @@
         "default": "Default",
         "fast-food": "Fast food",
         "pizzeria": "pizzeria",
-
         "logout": "Logout",
         "confirm-logout": "Are you sure you want to logout?",
         "delete-account": "Delete Account",
@@ -185,7 +190,9 @@
         "privacy": "Privacy statement",
         "payment": "Payment methods",
         "payBtn": "Manage payment methods",
-        "terms": "Terms and Conditions"
+        "terms": "Terms and Conditions",
+        "two-factor-activate": "Enable two-factor authentication",
+        "two-factor-deactivate": "Disable two-factor authentication"
       },
       "UserSupport": {
         "UserSupport": "User Support",

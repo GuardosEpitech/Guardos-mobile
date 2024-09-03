@@ -53,6 +53,12 @@
         "show": "Afficher la combinaison suggérée",
         "hide": "Masquer la combinaison suggérée"
       },
+      "TwoFactor": {
+        "enter-code": "Veuillez entrer le code à 8 chiffres",
+        "enter-code-error": "Veuillez entrer le code à 8 chiffres",
+        "incorrect-code": "Le code que vous avez saisi est incorrect. Veuillez réessayer.",
+        "code-error": "Une erreur s'est produite. Veuillez réessayer."
+      },
       "ErrorBoundary": {
         "oops": "Oups !",
         "error": "Une erreur s'est produite",
@@ -165,7 +171,6 @@
         "default": "Défaut",
         "fast-food": "Restauration rapide",
         "pizzeria": "Pizzeria",
-
         "logout": "Déconnexion",
         "confirm-logout": "Êtes-vous sûr de vouloir vous déconnecter ?",
         "delete-account": "Supprimer le compte",
@@ -185,7 +190,9 @@
         "privacy": "Déclaration de Confidentialité",
         "payment": "Méthodes de paiement",
         "payBtn": "Gérer les méthodes de paiement",
-        "terms": "Conditions Générales d'Utilisation" 
+        "terms": "Conditions Générales d'Utilisation",
+        "two-factor-activate": "Activer l'authentification à deux facteurs",
+        "two-factor-deactivate": "Désactiver l'authentification à deux facteurs"
       },
       "UserSupport": {
         "UserSupport": "Support utilisateur",
