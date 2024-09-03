@@ -12,7 +12,8 @@
       "delete": "Delete",
       "yes": "Yes",
       "no": "No",
-
+      "insights": "Insights",
+      "my-analytics": "My Analytics",
       "english": "English",
       "german": "German",
       "french": "French",
@@ -452,6 +453,16 @@
         "successRemove": "All combinations removed",
         "add": "Add",
         "name": "Dish combination suggestions"
+      },
+      "userInsights": {
+        "select-restaurant": "Select a restaurant",
+        "total-clicks": "Total clicks on this restaurant",
+        "clicks-this-month": "Clicks this month",
+        "clicks-this-week": "Clicks this week",
+        "update-month": "Data refers to the following month",
+        "update-week": "Data refers to the following week",
+        "user-allergens": "Users with these allergenic preferences visited this restaurant",
+        "user-disliked-ingredients": "Users who dislike these ingredients visited this restaurant"
       }
     }
   }

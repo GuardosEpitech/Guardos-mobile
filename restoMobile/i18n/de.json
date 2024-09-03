@@ -12,7 +12,8 @@
       "delete": "Löschen",
       "yes": "Ja",
       "no": "Nein",
-
+      "insights": "Analyse",
+      "my-analytics": "Meine Analyse",
       "english": "Englisch",
       "german": "Deutsch",
       "french": "Französisch",
@@ -451,6 +452,16 @@
         "successRemove": "Alle Kombinationen entfernt",
         "add": "Hinzufügen",
         "name": "Vorschläge für Gerichtskombinationen"
+      },
+      "userInsights": {
+        "select-restaurant": "Wählen Sie ein Restaurant",
+        "total-clicks": "Gesamtklicks auf dieses Restaurant",
+        "clicks-this-month": "Klicks in diesem Monat",
+        "clicks-this-week": "Klicks in dieser Woche",
+        "update-month": "Daten beziehen sich auf folgenden Monat",
+        "update-week": "Daten beziehen sich auf folgende Woche",
+        "user-allergens": "Benutzer mit diesen allergenen Präferenzen haben dieses Restaurant besucht",
+        "user-disliked-ingredients": "Benutzer, die diese Zutaten nicht mögen, haben dieses Restaurant besucht"
       }
     }
   }

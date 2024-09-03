@@ -198,3 +198,19 @@ export const updateRestoCategories = async (userToken: string, uid: number, newC
     throw new Error('Failed to update user categories');
   }
 };
+
+export const getRestoStatistics = async (token: string) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: baseURL + 'statistics/restaurant',
+      params: {key: token},
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching the Users:", error);
+  }
+};
