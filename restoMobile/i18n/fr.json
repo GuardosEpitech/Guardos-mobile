@@ -12,7 +12,8 @@
       "delete": "Supprimer",
       "yes": "Oui",
       "no": "Non",
-
+      "insights": "Aperçus",
+      "my-analytics": "Mes Analyses",
       "english": "Anglais",
       "german": "Allemand",
       "french": "Français",
@@ -452,6 +453,16 @@
         "successRemove": "Toutes les combinaisons supprimées",
         "add": "Ajouter",
         "name": "Suggestions de combinaisons de plats"
+      },
+      "userInsights": {
+        "select-restaurant": "Sélectionnez un restaurant",
+        "total-clicks": "Total des clics sur ce restaurant",
+        "clicks-this-month": "Clics ce mois-ci",
+        "clicks-this-week": "Clics cette semaine",
+        "update-month": "Les données se réfèrent au mois suivant",
+        "update-week": "Les données se réfèrent à la semaine suivante",
+        "user-allergens": "Les utilisateurs avec ces préférences allergènes ont visité ce restaurant",
+        "user-disliked-ingredients": "Les utilisateurs qui n'aiment pas ces ingrédients ont visité ce restaurant"
       }
     }
   }
