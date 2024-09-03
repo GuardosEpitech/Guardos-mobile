@@ -30,6 +30,7 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
   const [isFavouriteDishs, setIsFavouriteDishs] = React.useState<Array<{ restoID: number, dish: IDishFE }>>([]);
   const [comboPicture, setPictures] = useState<IimageInterface[]>([]);
   const [isComboPic, setCombPicBool] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(true);
   const {t} = useTranslation();
 
   let picturesId = dish.picturesId;
@@ -61,10 +62,12 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
     if (dish.combo && dish.combo.length > 0 && isFirstLevel) {
       fetchDishesByID();
       fetchFavourites();
+      setLoading(false);
     }
     if (dish.combo && dish.combo.length > 0 && !isFirstLevel) {
       fetchImages();
       setCombPicBool(true);
+      setLoading(false);
     }
   }, [isFavourite, picturesId]);
 
@@ -149,7 +152,7 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
           <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.allergens', {allergens: dish.allergens.join(', ')})}</Text>
         </View>
         
-        {dish.combo && dish.combo.length > 0 && isFirstLevel && (
+        {dish.combo && dish.combo.length > 0 && isFirstLevel && !isLoading && (
           <View style={styles.accordionContainer}>
             <TouchableOpacity onPress={handleAccordionToggle} style={styles.accordionHeader}>
               <Text style={styles.accordionHeaderText}>
