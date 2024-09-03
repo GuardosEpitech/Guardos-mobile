@@ -75,10 +75,6 @@ const MyDishesScreen: React.FC = () => {
     navigation.navigate('EditDish', { restaurantName, dish });
   };
 
-  const navigateToDishDiscount = ( dish: IDishFE) => {
-    navigation.navigate('Manage Discount', { dish });
-  };
-
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {dishList.length === 0 ? (
@@ -88,7 +84,7 @@ const MyDishesScreen: React.FC = () => {
         data={dishList}
         renderItem={({ item, index }) => (
           <TouchableOpacity onPress={() => navigateToChangeDish(item.resto, item)}>
-          <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} key={key} onDiscount={() => navigateToDishDiscount(item)} isFirstLevel={true} />
+          <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} key={key} isFirstLevel={true} />
           </TouchableOpacity>
         )}
         keyExtractor={(_, index) => index.toString()}
