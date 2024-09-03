@@ -364,7 +364,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
           tabBarLabel: t('pages.Router.my-profile') as string,
           title: t('pages.Router.my-profile') as string,
           headerStyle: {backgroundColor: '#6d071a'},
-          headerShown: true, 
+          headerShown: false,
         }}
       >
         {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}
