@@ -35,6 +35,7 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import TermsPage from "./src/pages/TermsPage/TermsPage";
 import DishDiscountPage from './src/pages/DishDiscountPage/DishDiscountPage';
 import DishComboPage from 'src/pages/DishComboPage/DishComboPage';
+import UserInsights from "./src/pages/UserInsights/UserInsinghts";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -68,6 +69,9 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                 case 'QRCodeEngin':
                   iconName = focused ? 'qr-code' : 'qr-code-outline';
                   break;
+                  case 'Insights':
+                    iconName = focused ? 'analytics' : 'analytics-outline';
+                    break;
                 default:
                   iconName = 'alert-circle-outline'; // Default icon for unrecognized routes
                   break;
@@ -130,6 +134,16 @@ const MainDrawer = ({ setLoggedInStatus }) => {
         >
           {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus} />}
         </Drawer.Screen>
+        <Drawer.Screen
+            name="Insights"
+            component={UserInsights}
+            options={{
+              title: t('common.my-analytics') as string,
+              drawerLabel: t('common.my-analytics') as string,
+              headerShown: true,
+              headerStyle: { backgroundColor: '#6d071a' },
+            }}
+        />
       </Drawer.Navigator>
   );
 };

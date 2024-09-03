@@ -289,7 +289,6 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
       if (res) {
         await AsyncStorage.setItem('user', res);
-        console.log('User data updated successfully');
       } else {
         console.error('Error updating user data:');
       }
