@@ -40,12 +40,30 @@ import UserInsights from "./src/pages/UserInsights/UserInsinghts";
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
 // @ts-ignore
 const MainDrawer = ({ setLoggedInStatus }) => {
   const { t } = useTranslation();
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchDarkMode = async () => {
+      try {
+        const darkModeValue = await AsyncStorage.getItem('DarkMode');
+        if (darkModeValue !== null) {
+          const isDarkMode = darkModeValue === 'true';
+          setDarkMode(isDarkMode);
+        }
+      } catch (error) {
+        console.error('Error fetching dark mode value:', error);
+      }
+    };
+
+    fetchDarkMode();
+  }, []);
 
   return (
       <Drawer.Navigator
@@ -75,12 +93,14 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                 default:
                   iconName = 'alert-circle-outline'; // Default icon for unrecognized routes
                   break;
-              }
-
-              return <Ionicons name={iconName} size={size} color={focused ? 'black' : color} />;
+              }              
+              return <Ionicons name={iconName} size={size} color={focused ? (darkMode ? 'white' : 'black') : color} />;
             },
-            drawerActiveTintColor: 'black',
-            drawerInactiveTintColor: 'black',
+            drawerStyle: {
+              backgroundColor: darkMode ? '#121212' : '#fff',
+            },
+            drawerActiveTintColor: darkMode ? 'white' : 'black',
+            drawerInactiveTintColor: darkMode ? '#b0b0b0' : 'black',
           })}
       >
         <Drawer.Screen

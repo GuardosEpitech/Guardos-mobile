@@ -41,6 +41,33 @@ const styles = StyleSheet.create({
       fontSize: 14,
       textDecorationLine: 'underline',
     },
+    adContainerDark: {
+      width: deviceWidth - offset,
+      backgroundColor: '#343a40',
+      padding: 20,
+      margin: 10,
+      height: 230,
+      borderRadius: radius,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.75,
+      shadowRadius: 4,
+      elevation: 9,
+      position: 'relative',
+    },
+    adDescriptionDark: {
+      color: '#f8f9fa',
+      fontSize: 16,
+      marginBottom: 5,
+    },
+    adLinkDark: {
+      color: '#007bff',
+      fontSize: 14,
+      textDecorationLine: 'underline',
+    },
   });
 
   export default styles;

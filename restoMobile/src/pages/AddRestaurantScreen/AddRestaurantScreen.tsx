@@ -40,12 +40,26 @@ const AddRestaurantScreen = () => {
   const [selectedMenuDesignID, setSelectedMenuDesignID] = useState(0);
   const [menuDesignOpen, setMenuDesignOpen] = useState(false);
   const [language, setLanguage] = useState('');
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const {t, i18n} = useTranslation();
 
   useEffect(() => {
     catchAllMenuDesigns();
     setLanguage(i18n.language);
+    fetchDarkMode();
   }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const catchAllMenuDesigns = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -123,19 +137,21 @@ const AddRestaurantScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+    <ScrollView style={[styles.container, darkMode ? styles.darkContainer : styles.lightContainer]}>
+      <StatusBar barStyle={darkMode ? "light-content" : "dark-content"} />
       <View style={styles.inputContainer}>
         <View style={styles.inputPair}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode ? styles.darkInput : styles.lightInput]}
             placeholder={t('pages.AddEditRestaurantScreen.resto-name-mandatory') as string}
+            placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={restaurantName}
             onChangeText={setRestaurantName}
           />
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode ? styles.darkInput : styles.lightInput]}
             placeholder={t('pages.AddEditRestaurantScreen.phone-number') as string}
+            placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -144,14 +160,16 @@ const AddRestaurantScreen = () => {
 
         <View style={styles.inputPair}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode ? styles.darkInput : styles.lightInput]}
             placeholder={t('pages.AddEditRestaurantScreen.street-name-mandatory') as string}
+            placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={streetName}
             onChangeText={setStreetName}
           />
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode ? styles.darkInput : styles.lightInput]}
             placeholder={t('pages.AddEditRestaurantScreen.street-number-mandatory') as string}
+            placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={streetNumber}
             onChangeText={setStreetNumber}
           />
@@ -159,14 +177,16 @@ const AddRestaurantScreen = () => {
 
         <View style={styles.inputPair}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode ? styles.darkInput : styles.lightInput]}
             placeholder={t('pages.AddEditRestaurantScreen.postal-code-mandatory') as string}
+            placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={postalCode}
             onChangeText={setPostalCode}
           />
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode ? styles.darkInput : styles.lightInput]}
             placeholder={t('pages.AddEditRestaurantScreen.city-mandatory') as string}
+            placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={city}
             onChangeText={setCity}
           />
@@ -174,14 +194,16 @@ const AddRestaurantScreen = () => {
 
         <View style={styles.inputPair}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode ? styles.darkInput : styles.lightInput]}
             placeholder={t('pages.AddEditRestaurantScreen.country-mandatory') as string}
+            placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={country}
             onChangeText={setCountry}
           />
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode ? styles.darkInput : styles.lightInput]}
             placeholder={t('pages.AddEditRestaurantScreen.description') as string}
+            placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={description}
             onChangeText={setDescription}
             multiline
@@ -190,8 +212,9 @@ const AddRestaurantScreen = () => {
 
         <View style={styles.inputPair}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, darkMode ? styles.darkInput : styles.lightInput]}
             placeholder={t('pages.AddEditRestaurantScreen.website') as string}
+            placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={website}
             onChangeText={setWebsite}
           />
@@ -205,18 +228,23 @@ const AddRestaurantScreen = () => {
             value={selectedMenuDesign}
             dropDownDirection={'TOP'}
             setOpen={setMenuDesignOpen}
-            onChangeValue={(item:any) => {
-              if (item === null || item === undefined || item === '' || typeof item === "undefined") {
-                return;
-              }
-              setSelectedMenuDesign(item);
-              setSelectedMenuDesignID(item);
+            onChangeValue={(item: any) => {
+            if (item === null || item === undefined || item === '' || typeof item === "undefined") {
+              return;
+            }
+            setSelectedMenuDesign(item);
+            setSelectedMenuDesignID(item);
             }}
             setValue={setSelectedMenuDesign}
+            style={darkMode ? styles.darkDropdown : styles.lightDropdown} // Dropdown container style
+            dropDownContainerStyle={darkMode ? styles.darkDropDownContainer : styles.lightDropDownContainer} // Dropdown menu style
+            textStyle={darkMode ? styles.darkDropdownText : styles.lightDropdownText} // Text style in dropdown
+            placeholderStyle={darkMode ? styles.darkPlaceholder : styles.lightPlaceholder} // Placeholder style
+            labelStyle={darkMode ? styles.darkLabel : styles.lightLabel} // Label text style
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.addButton} onPress={handleAddRestaurant}>
+      <TouchableOpacity style={[styles.addButton, darkMode ? styles.darkAddButton : styles.lightAddButton]} onPress={handleAddRestaurant}>
         <Text style={styles.buttonText}>{t('pages.AddEditRestaurantScreen.add-resto')}</Text>
       </TouchableOpacity>
     </ScrollView>
