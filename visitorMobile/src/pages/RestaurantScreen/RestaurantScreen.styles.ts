@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     color: '#fff', 
     fontSize: 16,
   },
-  containerDarkTheme: {
+  containerDark: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

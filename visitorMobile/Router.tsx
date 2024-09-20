@@ -41,6 +41,24 @@ const ErrorScreen: React.FC<{ errorMessage: string }> = ({ errorMessage }) => (
 
 const MainDrawer = ({ setLoggedInStatus }) => {
   const { t } = useTranslation();
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchDarkMode = async () => {
+      try {
+        const darkModeValue = await AsyncStorage.getItem('DarkMode');
+        if (darkModeValue !== null) {
+          const isDarkMode = darkModeValue === 'true';
+          setDarkMode(isDarkMode);
+        }
+      } catch (error) {
+        console.error('Error fetching dark mode value:', error);
+      }
+    };
+
+    fetchDarkMode();
+  }, []);
+
 
   return (
       <Drawer.Navigator
@@ -71,8 +89,11 @@ const MainDrawer = ({ setLoggedInStatus }) => {
 
               return <Ionicons name={iconName} size={size} color={focused ? 'black' : color} />;
             },
-            drawerActiveTintColor: 'black',
-            drawerInactiveTintColor: 'black',
+            drawerStyle: {
+              backgroundColor: darkMode ? '#121212' : '#fff',
+            },
+            drawerActiveTintColor: darkMode ? 'white' : 'black',
+            drawerInactiveTintColor: darkMode ? '#b0b0b0' : 'black',
           })}
       >
         <Drawer.Screen
@@ -258,7 +279,7 @@ const MyStack = () => {
         <Stack.Screen
             name="MenuPage"
             component={MenuPage}
-            options={{ headerShown: true }}
+            options={{ headerShown: false }}
         />
       </Stack.Navigator>
   );
