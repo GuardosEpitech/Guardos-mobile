@@ -17,3 +17,8 @@ export interface ICategoryBE {
   foodGroup: string,
   extraGroup: string[]
 }
+
+export interface ICategory {
+  name: string;
+  hitRate: number;
+}
