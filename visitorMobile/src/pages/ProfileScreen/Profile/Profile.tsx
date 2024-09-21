@@ -617,6 +617,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
                   pictures={[]}
                   isSmallerCard={true}
                   isFavourite={true}
+                  isFirstLevel={false}
                 />)
               }
 

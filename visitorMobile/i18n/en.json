@@ -21,8 +21,18 @@
       "success": "Success"
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Get up to 50% off on electronics, fashion, and more!",
+        "link": "Shop Now"
+      },
       "DishCard": {
         "price": "Price: {{ price }}",
+        "allergens": "Allergens: {{ allergens }}",
+        "discount": "Discounted price: ",
+        "valid": "Valid until ",
+        "show": "Show suggested combination",
+        "hide": "Hide suggested combination",
         "allergens": "Allergens: {{ allergens }}",
         "disliked-ingredients": "Hidden due to disliked ingredients: "
       },
@@ -150,10 +160,6 @@
         "enter-email": "Enter your email",
         "city": "City",
         "enter-city": "Enter your city",
-        "disliked-ingredients": "avoid the following ingredients",
-        "ingredient-not-found": "Ingredient not found? Add new one here",
-        "add-new-ingredient": "Add new ingredient to selection",
-        "enter-ingredient": "Enter ingredient",
         "apply-changes": "Apply Changes",
         "fav-restos": "Favourite Restaurants",
         "fav-dishes": "Favourite Dishes",

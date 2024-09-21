@@ -12,7 +12,8 @@
       "delete": "Delete",
       "yes": "Yes",
       "no": "No",
-
+      "insights": "Insights",
+      "my-analytics": "My Analytics",
       "english": "English",
       "german": "German",
       "french": "French",
@@ -39,9 +40,25 @@
       "need-cam-permissions": "Sorry, we need camera roll permissions to make this work!"
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Get up to 50% off on electronics, fashion, and more!",
+        "link": "Shop Now"
+      },
       "DishCard": {
         "no-name": "No name",
-        "no-description": "No description"
+        "no-description": "No description",
+        "discount": "Discounted price: ",
+        "valid": "Valid until ",
+        "price": "Price: ",
+        "show": "Show suggested combination",
+        "hide": "Hide suggested combination"
+      },
+      "TwoFactor": {
+        "enter-code": "Enter 8-digit code",
+        "enter-code-error": "Please enter an 8-digit code",
+        "incorrect-code": "The code you entered is incorrect. Please try again.",
+        "code-error": "An error occurred while verifying the code. Please try again."
       },
       "ErrorBoundary": {
         "oops": "Oops!",
@@ -155,7 +172,6 @@
         "default": "Default",
         "fast-food": "Fast food",
         "pizzeria": "pizzeria",
-
         "logout": "Logout",
         "confirm-logout": "Are you sure you want to logout?",
         "delete-account": "Delete Account",
@@ -175,7 +191,9 @@
         "privacy": "Privacy statement",
         "payment": "Payment methods",
         "payBtn": "Manage payment methods",
-        "terms": "Terms and Conditions"
+        "terms": "Terms and Conditions",
+        "two-factor-activate": "Enable two-factor authentication",
+        "two-factor-deactivate": "Disable two-factor authentication"
       },
       "UserSupport": {
         "UserSupport": "User Support",
@@ -408,6 +426,43 @@
         "deviceTxt": "The app may request access to certain features on your device (e.g., location services, camera) to provide the Service. You can manage these permissions through your device settings.",
         "update": "11. Changes to Terms and Conditions",
         "updateTxt": "Guardos reserves the right to update or modify these Terms at any time without prior notice. Your continued use of the Service after any changes constitutes your acceptance of the new Terms. It is your responsibility to review these Terms periodically for any updates or changes."
+      },
+      "DiscountDishPage": {
+        "title": "Manage discount of ",
+        "valid": "Valid until:",
+        "percent": "Enter percentage",
+        "price": "Enter price",
+        "switchPrice": "Price",
+        "switchPercent": "Percentage",
+        "btnDate": "Select Expiry Date",
+        "btnSave": "Save Discount",
+        "btnRemove": "Remove Discount",
+        "errorPrice": "Discount price must be greater than 0 and less than the original price",
+        "errorPercent": "Percentage must be greater than 0 and less than 100",
+        "successAdd": "Discount saved successfully",
+        "successDelete": "Discount removed successfully",
+        "errorDate": "Please select an expiry date."
+      },
+      "DishComboPage": {
+        "title": "Manage combinations for",
+        "recommendedCombinations": "Recommended combinations:",
+        "selectDish": "Selected items",
+        "save": "Save",
+        "clearAll": "Clear all",
+        "successAdd": "Combinations successfully added",
+        "successRemove": "All combinations removed",
+        "add": "Add",
+        "name": "Dish combination suggestions"
+      },
+      "userInsights": {
+        "select-restaurant": "Select a restaurant",
+        "total-clicks": "Total clicks on this restaurant",
+        "clicks-this-month": "Clicks this month",
+        "clicks-this-week": "Clicks this week",
+        "update-month": "Data refers to the following month",
+        "update-week": "Data refers to the following week",
+        "user-allergens": "Users with these allergenic preferences visited this restaurant",
+        "user-disliked-ingredients": "Users who dislike these ingredients visited this restaurant"
       }
     }
   }

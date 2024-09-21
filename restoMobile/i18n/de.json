@@ -12,7 +12,8 @@
       "delete": "Löschen",
       "yes": "Ja",
       "no": "Nein",
-
+      "insights": "Analyse",
+      "my-analytics": "Meine Analyse",
       "english": "Englisch",
       "german": "Deutsch",
       "french": "Französisch",
@@ -39,9 +40,25 @@
       "need-cam-permissions": "Wir benötigen zusätzliche Berechtigungen für die Kamera!"
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Bis zu 50% Rabatt auf Elektronik, Kleidung und mehr",
+        "link": "Jetzt einkaufen"
+      },
       "DishCard": {
         "no-name": "Kein Name",
-        "no-description": "Keine Beschreibung"
+        "no-description": "Keine Beschreibung",
+        "discount": "Reduzierter Preis: ",
+        "valid": "Gültig bis ",
+        "price": "Preis: ",
+        "show": "Vorgeschlagene Kombination anzeigen",
+        "hide": "Vorgeschlagene Kombination ausblenden"
+      },
+      "TwoFactor": {
+        "enter-code": "Geben Sie den 8-stelligen Code ein",
+        "enter-code-error": "Bitte geben Sie den 8-stelligen Code ein",
+        "incorrect-code": "Der Code, den Sie eingegeben haben, ist falsch. Bitte versuchen Sie es erneut.",
+        "code-error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
       },
       "ErrorBoundary": {
         "oops": "Hoppla!",
@@ -143,7 +160,6 @@
         "confirm-pw": "Neues Passwort bestätigen",
         "no-match": "Ihr Passwort stimmt nicht überein",
         "pw-changed": "Passwort geändert",
-
         "username-or-email": "Benutzername oder E-Mail",
         "password": "Passwort",
         "invalid-login": "Ungültige Anmeldedaten",
@@ -155,7 +171,6 @@
         "default": "Standard",
         "fast-food": "Fast-Food",
         "pizzeria": "Pizzeria",
-
         "logout": "Abmelden",
         "confirm-logout": "Möchten Sie sich wirklich abmelden?",
         "delete-account": "Konto löschen",
@@ -175,7 +190,9 @@
         "privacy": "Datenschutzerklärung",
         "payment": "Zahlungsmethoden",
         "payBtn": "Zahlungsmethoden verwalten",
-        "terms": "Geschäftsbedingungen"
+        "terms": "Geschäftsbedingungen",
+        "two-factor-activate": "Zweifaktorauthenifizierung aktivieren",
+        "two-factor-deactivate": "Zweifaktorauthenifizierung deaktivieren"
       },
       "UserSupport": {
         "UserSupport": "Kundensupport",
@@ -408,6 +425,43 @@
         "deviceTxt": "Die App kann den Zugriff auf bestimmte Funktionen Ihres Geräts anfordern (z.B. Standortdienste, Kamera), um den Service bereitzustellen. Sie können diese Berechtigungen über die Geräteeinstellungen verwalten.",
         "update": "11. Änderungen der Geschäftsbedingungen",
         "updateTxt": "Guardos behält sich das Recht vor, diese Bedingungen jederzeit ohne Vorankündigung zu aktualisieren oder zu ändern. Ihre fortgesetzte Nutzung des Service nach Änderungen stellt Ihre Zustimmung zu den neuen Bedingungen dar. Es liegt in Ihrer Verantwortung, diese Bedingungen regelmäßig auf Updates oder Änderungen zu überprüfen."
+      },
+      "DiscountDishPage": {
+        "title": "Rabatt verwalten für ",
+        "valid": "Gültig bis:",
+        "percent": "Prozentsatz eingeben",
+        "price": "Preis eingeben",
+        "switchPrice": "Preis",
+        "switchPercent": "Prozentsatz",
+        "btnDate": "Ablaufdatum auswählen",
+        "btnSave": "Rabatt speichern",
+        "btnRemove": "Rabatt entfernen",
+        "errorPrice": "Der Rabattpreis muss größer als 0 und kleiner als der ursprüngliche Preis sein",
+        "errorPercent": "Der Prozentsatz muss größer als 0 und kleiner als 100 sein",
+        "successAdd": "Rabatt erfolgreich gespeichert",
+        "successDelete": "Rabatt erfolgreich entfernt",
+        "errorDate": "Bitte wählen Sie ein Ablaufdatum aus."
+      },
+      "DishComboPage": {
+        "title": "Kombinationen verwalten für",
+        "recommendedCombinations": "Empfohlene Kombinationen:",
+        "selectDish": "Ausgewählte Artikel",
+        "save": "Speichern",
+        "clearAll": "Alles löschen",
+        "successAdd": "Kombinationen erfolgreich hinzugefügt",
+        "successRemove": "Alle Kombinationen entfernt",
+        "add": "Hinzufügen",
+        "name": "Vorschläge für Gerichtskombinationen"
+      },
+      "userInsights": {
+        "select-restaurant": "Wählen Sie ein Restaurant",
+        "total-clicks": "Gesamtklicks auf dieses Restaurant",
+        "clicks-this-month": "Klicks in diesem Monat",
+        "clicks-this-week": "Klicks in dieser Woche",
+        "update-month": "Daten beziehen sich auf folgenden Monat",
+        "update-week": "Daten beziehen sich auf folgende Woche",
+        "user-allergens": "Benutzer mit diesen allergenen Präferenzen haben dieses Restaurant besucht",
+        "user-disliked-ingredients": "Benutzer, die diese Zutaten nicht mögen, haben dieses Restaurant besucht"
       }
     }
   }

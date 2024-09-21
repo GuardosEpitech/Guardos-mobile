@@ -33,6 +33,9 @@ import UserSupport from 'src/pages/UserSupport/UserSupport';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import TermsPage from "./src/pages/TermsPage/TermsPage";
+import DishDiscountPage from './src/pages/DishDiscountPage/DishDiscountPage';
+import DishComboPage from 'src/pages/DishComboPage/DishComboPage';
+import UserInsights from "./src/pages/UserInsights/UserInsinghts";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -66,6 +69,9 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                 case 'QRCodeEngin':
                   iconName = focused ? 'qr-code' : 'qr-code-outline';
                   break;
+                  case 'Insights':
+                    iconName = focused ? 'analytics' : 'analytics-outline';
+                    break;
                 default:
                   iconName = 'alert-circle-outline'; // Default icon for unrecognized routes
                   break;
@@ -128,6 +134,16 @@ const MainDrawer = ({ setLoggedInStatus }) => {
         >
           {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus} />}
         </Drawer.Screen>
+        <Drawer.Screen
+            name="Insights"
+            component={UserInsights}
+            options={{
+              title: t('common.my-analytics') as string,
+              drawerLabel: t('common.my-analytics') as string,
+              headerShown: true,
+              headerStyle: { backgroundColor: '#6d071a' },
+            }}
+        />
       </Drawer.Navigator>
   );
 };
@@ -270,7 +286,7 @@ const MyStack = () => {
         <Stack.Screen
             name="MenuPage"
             component={MenuPage}
-            options={{ headerShown: false }}
+            options={{ headerShown: true }}
         />
         <Stack.Screen
             name="EditRestaurant"
@@ -321,6 +337,16 @@ const MyDishStack = () => {
             component={AddCategoryPage}
             options={{ headerShown: false }}
         />
+        <Stack.Screen 
+          name="MyDishCombination" 
+          component={DishComboPage} 
+          options={{ title: 'Dish Combination' }} 
+      />
+        <Stack.Screen
+            name="Manage Discount"
+            component={DishDiscountPage}
+            options={{ headerShown: true }}
+        />
       </Stack.Navigator>
   );
 };
@@ -352,7 +378,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
           tabBarLabel: t('pages.Router.my-profile') as string,
           title: t('pages.Router.my-profile') as string,
           headerStyle: {backgroundColor: '#6d071a'},
-          headerShown: true, 
+          headerShown: false,
         }}
       >
         {(props) => <ProfilePage {...props} setLoggedInStatus={setLoggedInStatus} />}

@@ -12,7 +12,8 @@
       "delete": "Supprimer",
       "yes": "Oui",
       "no": "Non",
-
+      "insights": "Aperçus",
+      "my-analytics": "Mes Analyses",
       "english": "Anglais",
       "german": "Allemand",
       "french": "Français",
@@ -39,9 +40,25 @@
       "need-cam-permissions": "Désolé, nous avons besoin des autorisations de la galerie photo pour que cela fonctionne !"
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Profitez de réductions allant jusqu'à 50% sur une sélection de produits Amazon.",
+        "link": "Voir les offres"
+      },
       "DishCard": {
         "no-name": "Pas de nom",
-        "no-description": "Pas de description"
+        "no-description": "Pas de description",
+        "discount": "Prix réduit : ",
+        "valid": "Valide jusqu'au ",
+        "price": "Prix : ",
+        "show": "Afficher la combinaison suggérée",
+        "hide": "Masquer la combinaison suggérée"
+      },
+      "TwoFactor": {
+        "enter-code": "Veuillez entrer le code à 8 chiffres",
+        "enter-code-error": "Veuillez entrer le code à 8 chiffres",
+        "incorrect-code": "Le code que vous avez saisi est incorrect. Veuillez réessayer.",
+        "code-error": "Une erreur s'est produite. Veuillez réessayer."
       },
       "ErrorBoundary": {
         "oops": "Oups !",
@@ -155,7 +172,6 @@
         "default": "Défaut",
         "fast-food": "Restauration rapide",
         "pizzeria": "Pizzeria",
-
         "logout": "Déconnexion",
         "confirm-logout": "Êtes-vous sûr de vouloir vous déconnecter ?",
         "delete-account": "Supprimer le compte",
@@ -175,7 +191,9 @@
         "privacy": "Déclaration de Confidentialité",
         "payment": "Méthodes de paiement",
         "payBtn": "Gérer les méthodes de paiement",
-        "terms": "Conditions Générales d'Utilisation" 
+        "terms": "Conditions Générales d'Utilisation",
+        "two-factor-activate": "Activer l'authentification à deux facteurs",
+        "two-factor-deactivate": "Désactiver l'authentification à deux facteurs"
       },
       "UserSupport": {
         "UserSupport": "Support utilisateur",
@@ -408,6 +426,43 @@
         "deviceTxt": "L'application peut demander l'accès à certaines fonctionnalités de votre appareil (par exemple, services de localisation, caméra) pour fournir le Service. Vous pouvez gérer ces autorisations via les paramètres de votre appareil.",
         "update": "11. Modifications des Conditions Générales d'Utilisation",
         "updateTxt": "Guardos se réserve le droit de mettre à jour ou de modifier ces Conditions à tout moment sans préavis. Votre utilisation continue du Service après toute modification constitue votre acceptation des nouvelles Conditions. Il est de votre responsabilité de consulter périodiquement ces Conditions pour vérifier les mises à jour ou les modifications."
+      },
+      "DiscountDishPage": {
+        "title": "Gérer la remise de ",
+        "valid": "Valide jusqu'au :",
+        "percent": "Entrez le pourcentage",
+        "price": "Entrez le prix",
+        "switchPrice": "Prix",
+        "switchPercent": "Pourcentage",
+        "btnDate": "Sélectionner la date d'expiration",
+        "btnSave": "Enregistrer la remise",
+        "btnRemove": "Supprimer la remise",
+        "errorPrice": "Le prix de la remise doit être supérieur à 0 et inférieur au prix d'origine",
+        "errorPercent": "Le pourcentage doit être supérieur à 0 et inférieur à 100",
+        "successAdd": "Remise enregistrée avec succès",
+        "successDelete": "Remise supprimée avec succès",
+        "errorDate": "Veuillez sélectionner une date d'expiration."
+      },
+      "DishComboPage": {
+        "title": "Gérer les combinaisons pour",
+        "recommendedCombinations": "Combinaisons recommandées :",
+        "selectDish": "Éléments sélectionnés",
+        "save": "Enregistrer",
+        "clearAll": "Tout effacer",
+        "successAdd": "Combinaisons ajoutées avec succès",
+        "successRemove": "Toutes les combinaisons supprimées",
+        "add": "Ajouter",
+        "name": "Suggestions de combinaisons de plats"
+      },
+      "userInsights": {
+        "select-restaurant": "Sélectionnez un restaurant",
+        "total-clicks": "Total des clics sur ce restaurant",
+        "clicks-this-month": "Clics ce mois-ci",
+        "clicks-this-week": "Clics cette semaine",
+        "update-month": "Les données se réfèrent au mois suivant",
+        "update-week": "Les données se réfèrent à la semaine suivante",
+        "user-allergens": "Les utilisateurs avec ces préférences allergènes ont visité ce restaurant",
+        "user-disliked-ingredients": "Les utilisateurs qui n'aiment pas ces ingrédients ont visité ce restaurant"
       }
     }
   }

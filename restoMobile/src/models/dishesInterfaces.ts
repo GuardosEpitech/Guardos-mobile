@@ -12,4 +12,7 @@ export interface Dish {
     pictures: string[];
     price: number;
     allergens: string[];
+    discount: number;
+    validTill: string;
+    combo: number[];
   }

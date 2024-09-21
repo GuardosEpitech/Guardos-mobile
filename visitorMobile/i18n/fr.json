@@ -19,8 +19,18 @@
 
     },
     "components": {
+      "AdCard": {
+        "title": "Amazon Summer Sale",
+        "description": "Profitez de réductions allant jusqu'à 50% sur une sélection de produits Amazon.",
+        "link": "Voir les offres"
+      },
       "DishCard": {
         "price": "Prix : {{ price }}",
+        "allergens": "Allergènes : {{ allergens }}",
+        "discount": "Prix réduit : ",
+        "valid": "Valide jusqu'au ",
+        "show": "Afficher la combinaison suggérée",
+        "hide": "Masquer la combinaison suggérée",
         "allergens": "Allergènes : {{ allergens }}",
         "disliked-ingredients": "Caché en raison des ingrédients indésirables: "
       },
@@ -148,10 +158,6 @@
         "enter-email": "Entrez votre email",
         "city": "Ville",
         "enter-city": "Entrez votre ville",
-        "disliked-ingredients": "évitez les ingrédients suivants",
-        "ingredient-not-found": "Ingrédient introuvable? Ajoutez-en un nouveau ici",
-        "add-new-ingredient": "Ajouter un nouvel ingrédient à la sélection",
-        "enter-ingredient": "Entrez un ingrédient",
         "apply-changes": "Appliquer les modifications",
         "fav-restos": "Restaurants favoris",
         "fav-dishes": "Plats favoris",
