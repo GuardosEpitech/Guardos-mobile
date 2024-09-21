@@ -7,7 +7,9 @@ import {
   TouchableOpacity, 
   Text, 
   RefreshControl, 
-  ScrollView
+  ScrollView,
+  Alert,
+  Linking
 } from 'react-native';
 import { Slider } from 'react-native-elements';
 import {useFocusEffect, useNavigation, useIsFocused} from '@react-navigation/native';
@@ -29,6 +31,7 @@ import {
 import { FilterContext } from '../../models/filterContext';
 import {getRestoFavourites} from "../../services/favourites";
 import {useTranslation} from "react-i18next";
+import * as Location from 'expo-location';
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -80,6 +83,25 @@ const MyRestaurantsScreen = () => {
   const {t} = useTranslation();
   const adFrequency = 5;
   const dataWithAds = [...selectedRestoData];
+  const [userPosition, setUserPosition] = React.useState<{ lat: number; lng: number } | null>(null); 
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          "Location Permission Required",
+          "Please enable location services in settings.",
+          [{ text: "OK", onPress: () => Linking.openSettings() }]
+        );
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setUserPosition({lat: location.coords.latitude, lng: location.coords.longitude});
+    })();
+  }, []);
+
   for (let i = adFrequency - 1; i < dataWithAds.length; i += adFrequency) {
     dataWithAds.splice(i, 0, { isAd: true });
   }
@@ -227,7 +249,8 @@ const MyRestaurantsScreen = () => {
         name: nameFilter,
         location: locationFilter,
         categories: selectedCategories,
-        allergenList: selectedAllergens
+        allergenList: selectedAllergens,
+        userLoc: userPosition
       }
       await setFilteredRestos(inter);
       setFilter(inter);
@@ -277,7 +300,8 @@ const MyRestaurantsScreen = () => {
       name: nameFilter,
       location: locationFilter,
       categories: selectedCategories,
-      allergenList: selectedAllergens
+      allergenList: selectedAllergens,
+      userLoc: userPosition
     }
     await setFilteredRestos(inter);
     setFilter(inter);
@@ -353,7 +377,8 @@ const MyRestaurantsScreen = () => {
       name: '',
       location: '',
       categories: selectedCategories,
-      allergenList: selectedAllergens
+      allergenList: selectedAllergens,
+      userLoc: userPosition
     }
     addSavedFilter(userToken, filter).then((res) => {
       if (res !== null) {
@@ -531,11 +556,11 @@ const MyRestaurantsScreen = () => {
         </TouchableOpacity>
 
         <Modal isVisible={isTabVisible} style={{ marginTop: 50 }}>
-          <ScrollView style={styles.filterPopup}>
-            <View style={styles.filterPopup}>
-              <Text style={styles.popupHeading}>{t('pages.RestaurantScreen.filter')}</Text>
+          <ScrollView style={darkMode ? styles.filterPopupDark : styles.filterPopup}>
+            <View style={darkMode ? styles.filterPopupDark : styles.filterPopup}>
+              <Text style={[darkMode && styles.darkModeTxt, styles.popupHeading]}>{t('pages.RestaurantScreen.filter')}</Text>
 
-              <Text style={styles.categoryText}>{t('pages.RestaurantScreen.rating')}</Text>
+              <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.RestaurantScreen.rating')}</Text>
               <View style={styles.ratingContainer}>
                 {[1, 2, 3, 4, 5].map((index) => (
                   <TouchableOpacity
@@ -543,7 +568,7 @@ const MyRestaurantsScreen = () => {
                     onPress={() => handleRatingChange(index)} 
                   >
                     <Ionicons 
-                      name={index <= rating ? 'md-star' : 'md-star-outline'} 
+                      name={index <= rating ? 'star' : 'star-outline'} 
                       size={30} 
                       color="#6d071a" 
                     />
@@ -551,7 +576,7 @@ const MyRestaurantsScreen = () => {
                 ))}
               </View>
 
-              <Text style={styles.categoryText}>{t('pages.RestaurantScreen.distance')}</Text>
+              <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.RestaurantScreen.distance')}</Text>
               <Slider
                 style={styles.slider}
                 minimumValue={0}
@@ -564,9 +589,9 @@ const MyRestaurantsScreen = () => {
                 thumbStyle={styles.thumbStyle}
                 onValueChange={(value) => handleDistanceChange(value)}
               /> 
-              <Text style={styles.distanceText}>{t('pages.RestaurantScreen.distance-details', {distance: distance})}</Text>
+              <Text style={[darkMode && styles.darkModeTxt, styles.distanceText]}>{t('pages.RestaurantScreen.distance-details', {distance: distance})}</Text>
 
-              <Text style={styles.categoryText}>{t('pages.RestaurantScreen.categories')}</Text>
+              <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.RestaurantScreen.categories')}</Text>
               <View style={styles.categoriesContainer}>
                 {categories.map((category, index) => (
                   <TouchableOpacity
@@ -581,7 +606,7 @@ const MyRestaurantsScreen = () => {
                 ))}
               </View>
 
-              <Text style={styles.categoryText}>{t('pages.RestaurantScreen.allergens')}</Text>
+              <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.RestaurantScreen.allergens')}</Text>
               <View style={styles.categoriesContainer}>
                 {allergens.map((allergen, index) => (
                   <TouchableOpacity
@@ -597,7 +622,7 @@ const MyRestaurantsScreen = () => {
               </View>
 
               <View>
-            <Text style={styles.categoryText}>{t('pages.RestaurantScreen.save-filter')}</Text>
+            <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.RestaurantScreen.save-filter')}</Text>
             <TextInput
               style={styles.saveInput}
               placeholder={t('pages.RestaurantScreen.enter-filter-name') as string}
@@ -625,7 +650,7 @@ const MyRestaurantsScreen = () => {
           </View>
 
           {/* Saved Filters Section */}
-          <Text style={styles.categoryText}>{t('pages.RestaurantScreen.saved-filters')}</Text>
+          <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.RestaurantScreen.saved-filters')}</Text>
           <ScrollView>
             {savedFilters.map((filter, index) => (
               <View key={index} style={styles.savedFilterItem}>
