@@ -447,7 +447,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   };
 
   const handleAddIngredient = async () => {
-    await addIngredient(newIngredient);
+    addIngredient(newIngredient).then(r => console.log("Added ingredient: ", r));
     setDBIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
     setNewIngredient('');
     handleAddIngredientPopupClose();

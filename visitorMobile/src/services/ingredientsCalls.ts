@@ -18,7 +18,7 @@ export const getAllIngredients = async () => {
 
 export const addIngredient = async (ingredient: string) => {
   try {
-    const response = await axios({
+    await axios({
       url: baseUrl,
       method: 'POST',
       headers: {
@@ -28,7 +28,7 @@ export const addIngredient = async (ingredient: string) => {
         name: ingredient
       }),
     });
-    return response.data;
+    return true;
   } catch (error) {
     console.error("Error adding ingredient:", error);
   }

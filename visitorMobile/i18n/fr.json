@@ -31,7 +31,6 @@
         "valid": "Valide jusqu'au ",
         "show": "Afficher la combinaison suggérée",
         "hide": "Masquer la combinaison suggérée",
-        "allergens": "Allergènes : {{ allergens }}",
         "disliked-ingredients": "Caché en raison des ingrédients indésirables: "
       },
       "ErrorBoundary": {
@@ -159,6 +158,10 @@
         "city": "Ville",
         "enter-city": "Entrez votre ville",
         "apply-changes": "Appliquer les modifications",
+        "disliked-ingredients": "évitez les ingrédients suivants",
+        "ingredient-not-found": "Ingrédient introuvable? Ajoutez-en un nouveau ici",
+        "add-new-ingredient": "Ajouter un nouvel ingrédient à la sélection",
+        "enter-ingredient": "Entrez un ingrédient",
         "fav-restos": "Restaurants favoris",
         "fav-dishes": "Plats favoris",
         "previous": "Précédent",
