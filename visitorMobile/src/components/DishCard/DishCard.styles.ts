@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   card: {
     width: deviceWidth - offset,
     backgroundColor: '#FFFFFF',
-    height: 230,
+    height: 250,
     margin: 20,
     borderRadius: radius,
     shadowColor: '#000',
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     backgroundColor: '#FFFFFF',
-    height: 230,
+    height: 250,
     margin: 10,
     borderRadius: radius,
     shadowColor: '#000',
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   cardDarkTheme: {
     width: deviceWidth - offset,
     backgroundColor: '#181A1B',
-    height: 230,
+    height: 250,
     margin: 20,
     borderRadius: radius,
     shadowColor: '#000',
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   cardSmallDarkTheme: {
     width: deviceWidth - offset - decreaseSizeOffset,
     backgroundColor: '#181A1B',
-    height: 230,
+    height: 250,
     margin: 10,
     borderRadius: radius,
     shadowColor: '#000',
@@ -130,6 +130,15 @@ const styles = StyleSheet.create({
   },
   priceDarkTheme:{
     color: "white"
+  },
+  smallTitle:{
+    fontWeight: 'bold',
+  },
+  normalText:{
+    fontWeight: "normal",
+  },
+  row: {
+    flexDirection: "row",
   },
   allergensDarkTheme:{
     color: "white"

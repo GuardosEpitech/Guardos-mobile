@@ -27,6 +27,7 @@ import PaymentPage from './src/pages/Payment/PaymentPage';
 import TermsPage from "./src/pages/TermsPage/TermsPage";
 import UserSupport from "./src/pages/UserSupport/UserSupport";
 import i18n from "i18next";
+import MenuPage from "./src/pages/MenuPage/MenuPage";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -64,7 +65,7 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                   iconName = focused ? 'person' : 'person-outline';
                   break;
                 default:
-                  iconName = 'alert-circle-outline';
+                  iconName = '';
                   break;
               }
 
@@ -120,6 +121,14 @@ const MainDrawer = ({ setLoggedInStatus }) => {
         >
           {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus} />}
         </Drawer.Screen>
+        <Drawer.Screen
+          name="MenuPage"
+          component={MenuPage}
+          options={{
+            title: '',
+            headerShown: false,
+          }}
+        />
       </Drawer.Navigator>
   );
 };

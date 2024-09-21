@@ -14,9 +14,11 @@ interface DishCardProps {
   dish: IDishFE;
   isFavourite: boolean;
   pictures: IimageInterface[];
+  dislikedIngredients?: string[];
+  isSmallerCard?: boolean;
 }
 
-const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, pictures, isSmallerCard }) => {
+const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, pictures, dislikedIngredients, isSmallerCard }) => {
   const [isDishFavorite, setIsDishFavorite] = useState(isFavourite);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const {t} = useTranslation();
@@ -72,6 +74,14 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
             </TouchableOpacity>
           </View>
           <Text style= {[darkMode && styles.descriptionDarkTheme]} numberOfLines={2} ellipsizeMode="tail">{dish.description}</Text>
+          {dislikedIngredients && dislikedIngredients.length !== 0 && (
+            <View style={styles.row}>
+              <Text style={[darkMode && styles.priceDarkTheme, styles.smallTitle]}>
+                {t('components.DishCard.disliked-ingredients')}
+                <Text style={[darkMode && styles.priceDarkTheme, styles.normalText]}>{dislikedIngredients.join(', ')}</Text>
+              </Text>
+            </View>
+          )}
           <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.price', {price: dish.price})}</Text>
           <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.allergens', {allergens: dish.allergens.join(', ')})}</Text>
         </View>

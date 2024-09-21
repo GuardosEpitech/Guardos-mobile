@@ -23,7 +23,8 @@
     "components": {
       "DishCard": {
         "price": "Preis: {{ price }}",
-        "allergens": "Allergene: {{ allergens }}"
+        "allergens": "Allergene: {{ allergens }}",
+        "disliked-ingredients": "Versteckt wegen nicht gemochter Zutaten: "
       },
       "ErrorBoundary": {
         "oops": "Hoppla!",
@@ -151,6 +152,10 @@
         "city": "Stadt",
         "enter-city": "Geben Sie Ihre Stadt ein",
         "apply-changes": "Änderungen übernehmen",
+        "disliked-ingredients": "Vermeide folgende Zutaten",
+        "ingredient-not-found": "Zutat nicht gefunden? Hier neue hinzufügen",
+        "add-new-ingredient": "Neues Zutat zur Auswahl hinzufügen",
+        "enter-ingredient": "Zutat eingeben",
         "fav-restos": "Lieblingsrestaurants",
         "fav-dishes": "Lieblingsgerichte",
         "previous": "Vorherige",
