@@ -32,3 +32,22 @@ export interface ICommunication {
     dishes: IDishFE[];
     isFavouriteResto?: boolean;
   }
+
+export type color =
+  | "primary"
+  | "secondary"
+  | "default"
+  | "error"
+  | "info"
+  | "success"
+  | "warning";
+
+export interface Allergen {
+  name: string;
+  selected: boolean;
+}
+
+export interface AllergenProfile {
+  name: string;
+  allergens: Allergen[];
+}

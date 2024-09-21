@@ -28,6 +28,7 @@ import TermsPage from "./src/pages/TermsPage/TermsPage";
 import UserSupport from "./src/pages/UserSupport/UserSupport";
 import MenuPage from './src/pages/MenuPage/MenuPage';
 import i18n from "i18next";
+import GuidesPage from "./src/pages/Guides/GuidesPage";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -54,6 +55,9 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                   break;
                 case 'MapScreen':
                   iconName = focused ? 'map' : 'map-outline';
+                  break;
+                case 'Guides':
+                  iconName = focused ? 'book' : 'book-outline';
                   break;
                 case 'AboutUs':
                   iconName = focused ? 'information-circle' : 'information-circle-outline';
@@ -94,6 +98,16 @@ const MainDrawer = ({ setLoggedInStatus }) => {
               headerShown: true,
               headerStyle: { backgroundColor: '#6d071a' },
             }}
+        />
+        <Drawer.Screen
+          name="Guides"
+          component={GuidesPage}
+          options={{
+            drawerLabel: t('pages.Router.guides') as string,
+            title: t('pages.Router.guides') as string,
+            headerShown: true,
+            headerStyle: { backgroundColor: '#6d071a' },
+          }}
         />
         <Drawer.Screen
             name="AboutUs"

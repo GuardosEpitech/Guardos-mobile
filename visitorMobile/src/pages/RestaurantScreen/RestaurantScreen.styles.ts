@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  filterLimit: {
+    color: '#666',
+    fontSize: 15,
+    marginLeft: 2,
+  },
   roundButton: {
     position: 'absolute',
     bottom: 20,

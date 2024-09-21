@@ -235,7 +235,97 @@
         "scan": "Scanner",
         "my-profile": "Mon Profil",
         "login": "Connexion",
-        "register": "S'inscrire"
+        "register": "S'inscrire",
+        "guides": "Guides"
+      },
+      "GuidePage": {
+        "title": "Guide de gestion des allergènes pour les restaurants",
+        "description": "Conseils essentiels, guides et informations sur la façon dont les restaurants peuvent gérer les allergènes, prévenir la contamination croisée et offrir des options de restauration sûres pour les clients souffrant d'allergies alimentaires.",
+        "tipsTitle": "Conseils de gestion des allergènes",
+        "loadingTips": "Chargement des conseils...",
+        "tips": [
+          {
+            "title": "Former le personnel à la sensibilisation aux allergènes",
+            "content": "Assurez-vous que tous les membres du personnel sont formés pour reconnaître et gérer les allergènes alimentaires. Sensibilisez-les aux allergènes courants, à la vérification des étiquettes des ingrédients et à l'importance de prévenir la contamination croisée."
+          },
+          {
+            "title": "Communication claire avec les clients",
+            "content": "Encouragez les clients à informer votre personnel de leurs allergies. Assurez-vous que votre équipe pose des questions de suivi et fournisse des informations précises sur les ingrédients utilisés dans chaque plat."
+          },
+          {
+            "title": "Créer un menu adapté aux allergènes",
+            "content": "Proposez un menu séparé adapté aux allergènes ou marquez clairement les plats qui ne contiennent pas d'allergènes courants tels que le gluten, les noix ou les produits laitiers. Cela facilite la tâche des clients souffrant d'allergies pour trouver des options sûres."
+          },
+          {
+            "title": "Éviter la contamination croisée en cuisine",
+            "content": "Délimitez des zones, des ustensiles et des équipements séparés pour la préparation des repas sans allergènes. Assurez-vous que les surfaces sont soigneusement nettoyées avant de préparer des plats sans allergènes pour éviter tout contact croisé."
+          },
+          {
+            "title": "Étiqueter clairement les ingrédients",
+            "content": "Assurez-vous que tous les aliments et ingrédients dans votre cuisine sont correctement étiquetés avec les allergènes potentiels. Cela aide le personnel de cuisine à éviter les erreurs et garantit que les allergènes sont correctement identifiés."
+          }
+        ],
+        "preventionTitle": "Prévention & Bonnes Pratiques",
+        "preventionDescription": "Apprenez comment prévenir l'exposition aux allergènes et créer un environnement de restauration sûr pour les clients souffrant d'allergies alimentaires.",
+        "prevention": [
+          {
+            "title": "Utiliser un équipement dédié pour les plats sans allergènes",
+            "content": "Disposez de planches à découper, d'ustensiles et de matériel de cuisine séparés pour la préparation des repas sans allergènes. Cela réduit le risque de contamination croisée."
+          },
+          {
+            "title": "Zones de préparation sans allergènes",
+            "content": "Désignez des zones spécifiques dans la cuisine pour la préparation des repas sans allergènes. Assurez-vous que ces zones sont nettoyées régulièrement et utilisées exclusivement pour la préparation sans allergènes."
+          },
+          {
+            "title": "Procédures de nettoyage appropriées",
+            "content": "Désinfectez régulièrement toutes les surfaces de travail, les ustensiles et les équipements de cuisson. Utilisez des outils de couleurs différentes pour distinguer la préparation des repas sans allergènes de la préparation des repas standards."
+          },
+          {
+            "title": "Formation régulière du personnel",
+            "content": "Organisez des formations régulières pour les membres du personnel sur la gestion des allergènes, la réponse aux questions des clients sur les allergènes et la prévention de la contamination croisée."
+          },
+          {
+            "title": "Informations précises sur les allergènes pour les clients",
+            "content": "Assurez-vous que le menu est mis à jour régulièrement avec des informations précises sur les allergènes. Informez les clients de tout changement d'ingrédient pouvant affecter la présence d'allergènes."
+          }
+        ],
+        "learnMore": "En savoir plus",
+        "faqTitle": "Questions fréquentes",
+        "faq": [
+          {
+            "title": "Quels sont les allergènes les plus courants dont les restaurants doivent être conscients ?",
+            "content": "Les allergènes alimentaires les plus courants incluent le lait, les œufs, les arachides, les fruits à coque, le poisson, les crustacés, le soja, le blé et le sésame. Assurez-vous que ces allergènes sont clairement indiqués sur votre menu."
+          },
+          {
+            "title": "Comment pouvons-nous prévenir la contamination croisée en cuisine ?",
+            "content": "Pour prévenir la contamination croisée, utilisez des ustensiles, du matériel de cuisson et des zones de préparation séparés pour les repas sans allergènes. Nettoyez soigneusement toutes les surfaces et assurez-vous que le personnel se lave les mains entre la manipulation des différents aliments."
+          },
+          {
+            "title": "Comment devons-nous communiquer les informations sur les allergènes aux clients ?",
+            "content": "Assurez-vous que les informations sur les allergènes sont clairement indiquées sur le menu ou sur un menu séparé dédié aux allergènes. Formez le personnel à poser des questions aux clients sur leurs allergies alimentaires et à fournir des informations claires et précises sur les ingrédients et les méthodes de préparation."
+          },
+          {
+            "title": "Quelles mesures doivent être prises si un client a une réaction allergique au restaurant ?",
+            "content": "Assurez-vous que tout le personnel sait comment reconnaître les signes d'une réaction allergique et est formé aux procédures d'urgence. Appelez immédiatement les services d'urgence si un client présente une réaction grave, telle qu'une anaphylaxie."
+          },
+          {
+            "title": "Comment rester à jour avec les informations sur les allergènes ?",
+            "content": "Mettez régulièrement à jour votre menu et vos listes d'ingrédients pour refléter tout changement concernant les allergènes. Travaillez en étroite collaboration avec vos fournisseurs pour vous assurer d'avoir des informations précises et à jour sur les ingrédients que vous utilisez."
+          },
+          {
+            "title": "Quelles sont les obligations légales en matière d'étiquetage des allergènes dans les restaurants ?",
+            "content": "Dans de nombreux pays, les restaurants sont légalement tenus de fournir des informations sur les allergènes aux clients. Assurez-vous de respecter toutes les réglementations pertinentes et de bien indiquer les allergènes sur votre menu."
+          },
+          {
+            "title": "À quelle fréquence le personnel doit-il recevoir une formation sur les allergènes ?",
+            "content": "Le personnel doit recevoir une formation sur les allergènes au moins une fois par an, ou chaque fois qu'il y a des changements importants dans le menu ou les méthodes de préparation des aliments. Des formations de remise à niveau sont également recommandées pour maintenir une sensibilisation continue."
+          },
+          {
+            "title": "Que doit-on faire si le statut allergène d'un ingrédient change ?",
+            "content": "Si le statut allergène d'un ingrédient change, mettez immédiatement à jour votre menu et informez votre personnel. Communiquez clairement ce changement aux clients, en particulier à ceux qui ont déjà commandé le plat auparavant."
+          }
+        ],
+        "noresto": "Aucun restaurant trouvé"
       },
       "SubscriptionPage": {
         "my-subscription": "Mon abonnement",
