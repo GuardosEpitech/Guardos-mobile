@@ -65,7 +65,7 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                   iconName = focused ? 'person' : 'person-outline';
                   break;
                 default:
-                  iconName = '';
+                  iconName = 'alert-circle-outline';
                   break;
               }
 
