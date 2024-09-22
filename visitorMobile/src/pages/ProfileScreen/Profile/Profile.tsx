@@ -539,6 +539,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             onPress={handleNavigateToChangePassword}
           />
         </View>
+        <View>
         <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.allergens')}</Text>
         <DropDownPicker
           itemKey={"languagePicker"}
@@ -556,7 +557,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           setValue={setAllergens}
           style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
-        <View>
+        
           <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.disliked-ingredients-title')}</Text>
           <DropDownPicker
             itemKey={"dislikedIngredientPicker"}
