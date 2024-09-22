@@ -7,3 +7,8 @@ export interface ILocation {
   latitude: string;
   longitude: string;
 }
+
+export interface ICoordinates {
+  lat: number;
+  lng: number;
+}

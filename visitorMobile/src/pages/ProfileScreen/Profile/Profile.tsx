@@ -420,6 +420,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('Payment methods');
   };
 
+  const navigateToMenu = (restaurantId: number, restaurantName: string) => {
+    navigation.navigate('MenuPage', { restaurantId, restaurantName });
+  };
+
   return (
     <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
       <View style={[styles.profileSection, darkMode && styles.profileSectionDarkTheme]}>
@@ -542,13 +546,15 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           {activeTab === 'restaurants' && (
             <View>
               {favoriteRestaurants.slice((restoPage - 1) * pageSize, restoPage * pageSize).map((restaurant) => (
-                <RestaurantCard
-                  key={restaurant.uid}
-                  info={restaurant}
-                  isFavouriteResto={true}
-                  isSmallerCard={true}
-                  dataIndex={0}
-                />
+                <TouchableOpacity onPress={() => navigateToMenu(restaurant.uid, restaurant.name)}>
+                  <RestaurantCard
+                    key={restaurant.uid}
+                    info={restaurant}
+                    isFavouriteResto={true}
+                    isSmallerCard={true}
+                    dataIndex={0}
+                  />
+                </TouchableOpacity>
               ))}
             </View>
           )}
