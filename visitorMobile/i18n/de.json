@@ -33,7 +33,8 @@
         "discount": "Reduzierter Preis: ",
         "valid": "Gültig bis ",
         "show": "Vorgeschlagene Kombination anzeigen",
-        "hide": "Vorgeschlagene Kombination ausblenden"
+        "hide": "Vorgeschlagene Kombination ausblenden",
+        "disliked-ingredients": "Versteckt wegen nicht gemochter Zutaten: "
       },
       "ErrorBoundary": {
         "oops": "Hoppla!",
@@ -161,8 +162,15 @@
         "email": "E-Mail",
         "enter-email": "Geben Sie Ihre E-Mail ein",
         "city": "Stadt",
+        "allergens": "Allergene",
+        "disliked-ingredients-title": "Vermeide Zutaten",
+        "language": "Sprache",
         "enter-city": "Geben Sie Ihre Stadt ein",
         "apply-changes": "Änderungen übernehmen",
+        "disliked-ingredients": "Vermeide folgende Zutaten",
+        "ingredient-not-found": "Zutat nicht gefunden? Hier neue hinzufügen",
+        "add-new-ingredient": "Neues Zutat zur Auswahl hinzufügen",
+        "enter-ingredient": "Zutat eingeben",
         "fav-restos": "Lieblingsrestaurants",
         "fav-dishes": "Lieblingsgerichte",
         "previous": "Vorherige",

@@ -15,6 +15,8 @@ import i18n from "i18next";
 import {useTranslation} from "react-i18next";
 import {IimageInterface} from "../../../models/imageInterface";
 import {addProfileImage, deleteProfileImage, getImages} from "../../../services/imageCalls";
+import {addIngredient, getAllIngredients} from "../../../services/ingredientsCalls";
+import {Dialog} from "react-native-elements";
 
 DropDownPicker.addTranslation("DE", {
   PLACEHOLDER: "Wählen Sie ein Element aus",
@@ -43,6 +45,11 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [allergens, setAllergens] = useState([]);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [allergensOpen, setAllergensOpen] = useState(false);
+  const [selectedDislikedIngredients, setSelectedDislikedIngredients] = useState([]);
+  const [dbIngredients, setDBIngredients] = useState([]);
+  const [openIngredientPopup, setOpenIngredientPopup] = useState(false);
+  const [openAddIngredientPopup, setOpenAddIngredientPopup] = useState(false);
+  const [newIngredient, setNewIngredient] = useState('');
   const [language, setLanguage] = useState<string>('en');
   const {t} = useTranslation();
   const [darkMode, setDarkMode] = useState(false);
@@ -88,12 +95,18 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         if (userToken === null) {
           return;
         }
+        const res = await getAllIngredients();
+        if (res) {
+          const tmp = Array.from(new Set(res.map((ingredient: any) => ingredient.name)));
+          setDBIngredients(tmp);
+        }
         getVisitorProfileDetails(userToken)
           .then((res) => {
             setEmail(res.email);
             setName(res.username);
             setCity(res.city);
             setAllergens(res.allergens);
+            setSelectedDislikedIngredients(res.dislikedIngredients);
             setImage(res.profilePicId);
             setLanguage(res.preferredLanguage);
             loadImages(res.profilePicId).then(r => console.log("Loaded user picture successfully"));
@@ -364,7 +377,8 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       email: email,
       city: city,
       allergens: allergens,
-      preferredLanguage: language
+      preferredLanguage: language,
+      dislikedIngredients: selectedDislikedIngredients
     });
     i18n.changeLanguage(language);
 
@@ -418,6 +432,33 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
 
   const handlePayment = () => {
     navigation.navigate('Payment methods');
+  };
+
+  const closeAllPopups = () => {
+    setOpenIngredientPopup(false);
+    setOpenAddIngredientPopup(false);
+    setAllergensOpen(false);
+    setLanguageOpen(false);
+  }
+
+  const handleAddIngredientPopupOpen = () => {
+    closeAllPopups();
+    setOpenAddIngredientPopup(true);
+  };
+
+  const handleAddIngredientPopupClose = () => {
+    setOpenAddIngredientPopup(false);
+  };
+
+  const handleNewIngredientChange = (event: any) => {
+    setNewIngredient(event);
+  };
+
+  const handleAddIngredient = async () => {
+    addIngredient(newIngredient).then(r => console.log("Added ingredient: ", r));
+    setDBIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+    setNewIngredient('');
+    handleAddIngredientPopupClose();
   };
 
   const navigateToMenu = (restaurantId: number, restaurantName: string) => {
@@ -498,7 +539,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             onPress={handleNavigateToChangePassword}
           />
         </View>
+        <View>
+        <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.allergens')}</Text>
         <DropDownPicker
+          itemKey={"languagePicker"}
           dropDownDirection={'TOP'}
           language={language.toUpperCase()}
           multiple
@@ -506,10 +550,38 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           value={allergens}
           textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
           items={allergensOptions}
-          setOpen={setAllergensOpen}
+          setOpen={() => {
+            closeAllPopups();
+            return setAllergensOpen(!allergensOpen)
+          }}
           setValue={setAllergens}
           style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
+        
+          <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.disliked-ingredients-title')}</Text>
+          <DropDownPicker
+            itemKey={"dislikedIngredientPicker"}
+            dropDownDirection={'TOP'}
+            language={language.toUpperCase()}
+            multiple
+            open={openIngredientPopup}
+            value={selectedDislikedIngredients}
+            textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
+            items={dbIngredients.map((item) => {
+              return {label: item, value: item};
+            })}
+            setOpen={() => {
+              closeAllPopups();
+              return setOpenIngredientPopup(!openIngredientPopup)
+            }}
+            setValue={setSelectedDislikedIngredients}
+            style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
+          />
+        </View>
+        <View>
+          <Button title={t('pages.Profile.ingredient-not-found')} onPress={handleAddIngredientPopupOpen}/>
+        </View>
+        <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.language')}</Text>
         <DropDownPicker
           dropDownDirection={'TOP'}
           language={language.toUpperCase()}
@@ -517,7 +589,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           value={language}
           textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
           items={languageOptions}
-          setOpen={setLanguageOpen}
+          setOpen={() => {
+            closeAllPopups();
+            return setLanguageOpen(!languageOpen)
+          }}
           setValue={setLanguage}
           style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
@@ -602,43 +677,43 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         <Button 
           title={t('pages.Profile.subscriptions') as string}
           onPress={handleRedirectSubscriptions}
-          color={darkMode ? "white" :  "#6d071a"} />
+          color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button 
           title={t('pages.Profile.payBtn') as string}
           onPress={handlePayment} 
-          color={darkMode ? "white" :  "#6d071a"} />
+          color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
           title={t('pages.Profile.feature-request') as string}
           onPress={handleFeatureRequest}
-          color={darkMode ? "white" :  "#6d071a"} />
+          color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
           title={t('pages.Profile.UserSupport') as string}
           onPress={handleSupportRequest}
-          color={darkMode ? "white" :  "#6d071a"} />
+          color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
       <Button 
           title={darkMode ? "Light Mode" : "Dark Mode"}
           onPress={toggleDarkMode}
-          color={darkMode ? "white" :  "#6d071a"}  />
+          color={darkMode ? "#6d071a" :  "#6d071a"}  />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button  
           title={t('pages.Profile.logout') as string}
           onPress={handleLogout} 
-          color={darkMode ? "white" :  "#6d071a"}  />
+          color={darkMode ? "#6d071a" :  "#6d071a"}  />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
           title={t('pages.Profile.delete-account') as string}
           onPress={handleDeleteAccount}
-          color={darkMode ? "white" :  "#6d071a"} 
+          color={darkMode ? "#6d071a" :  "#6d071a"}
         />
       </View>
       <View style={styles.deleteAccountSection}>
@@ -662,6 +737,20 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           color="#6d071a"
         />
       </View>
+      <Dialog isVisible={openAddIngredientPopup} onDismiss={handleAddIngredientPopupClose}>
+        <Dialog.Title title={t('pages.Profile.add-new-ingredient')}></Dialog.Title>
+          <TextInput
+            key={'addIngredientDialogText'}
+            autoFocus
+            placeholder={t('pages.Profile.enter-ingredient')}
+            value={newIngredient}
+            onChangeText={handleNewIngredientChange}
+          />
+        <Dialog.Actions>
+          <Dialog.Button title={t('common.cancel')} onPress={handleAddIngredientPopupClose}/>
+          <Dialog.Button title={t('common.save')} onPress={handleAddIngredient}/>
+        </Dialog.Actions>
+      </Dialog>
     </ScrollView>
   );
 };
