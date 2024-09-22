@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, Button, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
-import { ICategories } from '../../../../shared/models/categoryInterfaces';
+import { View, Text, TextInput, Button, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, Alert} from 'react-native';
+import { ICategories, ICategory } from '../../../../shared/models/categoryInterfaces';
 import { IRestaurantFrontEnd } from '../../../../shared/models/restaurantInterfaces';
 import { getAllRestaurantsByUser, updateRestoCategories } from '../../services/restoCalls';
 import { useTranslation } from 'react-i18next';
 import styles from './AddCategories.styles';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+
 
 const AddCategoryPage = () => {
     const [restoData, setRestoData] = useState<IRestaurantFrontEnd[]>([]);
@@ -21,6 +24,7 @@ const AddCategoryPage = () => {
     const { t } = useTranslation();
     const scrollViewRef = useRef<ScrollView>(null);
     const [darkMode, setDarkMode] = useState<boolean>(false);
+    const [categoryToEdit, setCategoryToEdit] = useState<ICategory | undefined>(undefined);
 
     useEffect(() => {
         async function fetchRestaurants() {
@@ -105,20 +109,38 @@ const AddCategoryPage = () => {
         }
 
         const existingCategory = newCategories.find(category => category.name.toLowerCase() === newCategoryName.toLowerCase());
-        if (existingCategory) {
+        if (existingCategory && !categoryToEdit) {
             return;
-        }
+          }
 
         let updatedCategories = [...newCategories];
+        if (categoryToEdit) {
+            updatedCategories = updatedCategories.filter(
+                category => !(category.name === categoryToEdit.name && category.hitRate === categoryToEdit.hitRate)
+            );
+          }
 
         const existingSortIdIndex = updatedCategories.findIndex(category => category.hitRate === Number(newCategoryHitRate));
-        if (existingSortIdIndex !== -1) {
+        if (existingSortIdIndex !== -1 && !categoryToEdit) {
             updatedCategories = updatedCategories.map(category => {
-                if (category.hitRate >= Number(newCategoryHitRate)) {
-                    return { ...category, hitRate: category.hitRate + 1 };
-                }
-                return category;
+              if (category.hitRate >= Number(newCategoryHitRate)) {
+                return { ...category, hitRate: category.hitRate + 1 };
+              }
+              return category;
             });
+          }
+
+        const newHitRate = Number(newCategoryHitRate);
+
+        if (categoryToEdit) {
+          updatedCategories = updatedCategories.map(category => {
+              if (category.hitRate > categoryToEdit.hitRate && category.hitRate <= newHitRate) {
+                  return { ...category, hitRate: category.hitRate - 1 };
+              } else if (category.hitRate < categoryToEdit.hitRate && category.hitRate >= newHitRate) {
+                  return { ...category, hitRate: category.hitRate + 1 };
+              }
+              return category;
+          });
         }
 
         const newCategory = { name: newCategoryName, hitRate: Number(newCategoryHitRate) };
@@ -132,7 +154,67 @@ const AddCategoryPage = () => {
         setNewCategoryName('');
         setNewCategoryHitRate('');
         setShowNewCategoryInput(false);
+        setCategoryToEdit(undefined);
     };
+
+    const handleCancel = () => {
+        setNewCategoryName('');
+        setNewCategoryHitRate('');
+        setCategoryToEdit(undefined);
+        setShowNewCategoryInput(false);
+    }
+
+    const handleDeleteConfirmation = (category: ICategory) => {
+        Alert.alert(
+            t('pages.AddCategory.deleteTitle'),
+            `${t('pages.AddCategory.deleteMessage')} ${category.name}?`,
+            [
+                {
+                    text: t('common.cancel'),
+                    onPress: () => console.log("Deleted category"),
+                    style: 'cancel',
+                },
+                {
+                    text: t('common.confirm'),
+                    onPress: () => {handleConfirmDelete(category)},
+                    style: 'destructive',
+                },
+            ],
+            { cancelable: true }
+        );
+    };
+    
+      const handleConfirmDelete = async (categoryDelete: ICategory) => {
+        const userToken = await AsyncStorage.getItem('userToken');
+        if (userToken === null) {
+            console.log("Error getting user ID");
+            return;
+        }
+
+        let updatedCategories = [...newCategories];
+        if (categoryDelete) {
+            updatedCategories = updatedCategories.filter(
+                category => !(category.name === categoryDelete.name && category.hitRate === categoryDelete.hitRate)
+            );
+        }
+        updatedCategories = updatedCategories.map(category => {
+            if (category.hitRate > categoryDelete?.hitRate) {
+                return { ...category, hitRate: category.hitRate - 1 };
+            }
+            return category;
+        });
+
+        updatedCategories.sort((a, b) => a.hitRate - b.hitRate);
+        const updatedResto = await updateRestoCategories(userToken, activeRestaurant, updatedCategories);
+        setNewCategories(updatedCategories);
+    };
+
+      const handleEditCategory = (category: ICategory) => {
+        setCategoryToEdit(category);
+        setNewCategoryName(category.name);
+        setNewCategoryHitRate(category.hitRate);
+        setShowNewCategoryInput(true);
+      };
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
@@ -167,6 +249,12 @@ const AddCategoryPage = () => {
                                 <View key={index} style={[styles.categoryItemContainer, darkMode && styles.categoryItemContainerDarkTheme]}>
                                     <Text style={[styles.categoryName, darkMode && styles.categoryNameDarkTheme]}>{t('pages.AddCategory.name')} {category.name}</Text>
                                     <Text style={[styles.categoryHitRate, darkMode && styles.categoryHitRateDarkTheme]}>{t('pages.AddCategory.id')} {category.hitRate}</Text>
+                                    <TouchableOpacity onPress={() => {handleEditCategory(category)}} style={styles.iconButton}>
+                                        <FontAwesomeIcon icon={faPen} size={15} color="gray" />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => {handleDeleteConfirmation(category)}} style={styles.iconButton}>
+                                        <FontAwesomeIcon icon={faTrash} size={15} color="gray" />
+                                    </TouchableOpacity>
                                 </View>
                             ))}
                             {showNewCategoryInput && (
@@ -184,16 +272,26 @@ const AddCategoryPage = () => {
                                         placeholder={t('pages.AddCategory.id')}
                                         value={newCategoryHitRate.toString()}
                                         onChangeText={(text) => {
-                                            const numericValue = parseInt(text);
-                                            if (!isNaN(numericValue) && numericValue > 0) {
-                                                setNewCategoryHitRate(numericValue);
+                                            if (text === '') {
+                                                setNewCategoryHitRate('');  // Allow clearing the input
+                                                setNewCategoryHitRateError(false);  // No error if input is empty
+                                            } else {
+                                                const numericValue = parseInt(text);
+                                                if (!isNaN(numericValue) && numericValue > 0) {
+                                                    setNewCategoryHitRate(numericValue);
+                                                    setNewCategoryHitRateError(false);  // Clear error for valid input
+                                                } else {
+                                                    setNewCategoryHitRateError(true);  // Set error for invalid input
+                                                }
                                             }
-                                            setNewCategoryHitRateError(isNaN(numericValue) || numericValue <= 0);
                                         }}
                                         keyboardType="numeric"
                                         style={[styles.input, { borderColor: newCategoryHitRateError ? 'red' : 'black' }]}
                                     />
-                                    <Button title={t('common.save')} onPress={handleSaveCategory} />
+                                    <View style={styles.buttonContainer}>
+                                        <Button title={t('common.save')} onPress={handleSaveCategory} />
+                                        <Button title={t('common.cancel')} onPress={handleCancel} />
+                                    </View>
                                 </View>
                             )}
                         </View>

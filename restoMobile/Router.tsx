@@ -58,6 +58,9 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                 case 'MyRestaurantsScreen':
                   iconName = focused ? 'restaurant' : 'restaurant-outline';
                   break;
+                case 'MyCategoriesScreen':
+                    iconName = focused ? 'menu' : 'menu-outline';
+                    break;
                 case 'MyDishesScreen':
                   iconName = focused ? 'pizza' : 'pizza-outline';
                   break;
@@ -93,6 +96,16 @@ const MainDrawer = ({ setLoggedInStatus }) => {
             options={{
               drawerLabel: t('common.my-restos') as string,
               title: t('common.my-restos') as string,
+              headerShown: true,
+              headerStyle: { backgroundColor: '#6d071a' },
+            }}
+        />
+        <Drawer.Screen
+            name="MyCategoriesScreen"
+            component={MyCategoryStack}
+            options={{
+              drawerLabel: t('common.my-categories') as string,
+              title: t('common.my-categories') as string,
               headerShown: true,
               headerStyle: { backgroundColor: '#6d071a' },
             }}
