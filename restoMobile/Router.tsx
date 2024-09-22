@@ -36,6 +36,7 @@ import TermsPage from "./src/pages/TermsPage/TermsPage";
 import DishDiscountPage from './src/pages/DishDiscountPage/DishDiscountPage';
 import DishComboPage from 'src/pages/DishComboPage/DishComboPage';
 import UserInsights from "./src/pages/UserInsights/UserInsinghts";
+import GuidesPage from "./src/pages/Guides/GuidesPage";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -69,9 +70,12 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                 case 'QRCodeEngin':
                   iconName = focused ? 'qr-code' : 'qr-code-outline';
                   break;
-                  case 'Insights':
-                    iconName = focused ? 'analytics' : 'analytics-outline';
-                    break;
+                case 'Guides':
+                  iconName = focused ?  'book' : 'book-outline';
+                  break;
+                case 'Insights':
+                  iconName = focused ? 'analytics' : 'analytics-outline';
+                  break;
                 default:
                   iconName = 'alert-circle-outline'; // Default icon for unrecognized routes
                   break;
@@ -134,6 +138,16 @@ const MainDrawer = ({ setLoggedInStatus }) => {
         >
           {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus} />}
         </Drawer.Screen>
+        <Drawer.Screen
+          name="Guides"
+          component={GuidesPage}
+          options={{
+            drawerLabel: t('pages.Router.guides') as string,
+            title: t('pages.Router.guides') as string,
+            headerShown: true,
+            headerStyle: { backgroundColor: '#6d071a' },
+          }}
+        />
         <Drawer.Screen
             name="Insights"
             component={UserInsights}

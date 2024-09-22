@@ -1,17 +1,18 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react';
-import { 
-  View, 
-  FlatList, 
-  TextInput, 
-  Keyboard, 
-  TouchableOpacity, 
-  Text, 
-  RefreshControl, 
+import {
+  View,
+  FlatList,
+  TextInput,
+  Keyboard,
+  TouchableOpacity,
+  Text,
+  RefreshControl,
   ScrollView,
+  Button,
   Alert,
   Linking
 } from 'react-native';
-import { Slider } from 'react-native-elements';
+import {Chip, Slider} from 'react-native-elements';
 import {useFocusEffect, useNavigation, useIsFocused} from '@react-navigation/native';
 import Card from '../../components/RestaurantCard/RestaurantCard';
 import AdCard from '../../components/AdCard/AdCard';
@@ -20,17 +21,19 @@ import { getAllResto , getFilteredRestosNew} from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
-import { IRestaurantFrontEnd } from '../../models/restaurantsInterfaces';
+import {Allergen, AllergenProfile, IRestaurantFrontEnd} from '../../models/restaurantsInterfaces';
 import {
-  addSavedFilter, 
-  deleteSavedFilter, 
-  getSavedFilters} from "../../services/profileCalls";
+  addSavedFilter,
+  deleteSavedFilter, getSavedFilterLimit,
+  getSavedFilters
+} from "../../services/profileCalls";
 import { 
   ISearchCommunication 
 } from '../../../../shared/models/communicationInterfaces';
 import { FilterContext } from '../../models/filterContext';
 import {getRestoFavourites} from "../../services/favourites";
 import {useTranslation} from "react-i18next";
+import Icon from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';
 
 const MyRestaurantsScreen = () => {
@@ -83,7 +86,7 @@ const MyRestaurantsScreen = () => {
   const {t} = useTranslation();
   const adFrequency = 5;
   const dataWithAds = [...selectedRestoData];
-  const [userPosition, setUserPosition] = React.useState<{ lat: number; lng: number } | null>(null); 
+  const [userPosition, setUserPosition] = React.useState<{ lat: number; lng: number } | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -105,13 +108,23 @@ const MyRestaurantsScreen = () => {
   for (let i = adFrequency - 1; i < dataWithAds.length; i += adFrequency) {
     dataWithAds.splice(i, 0, { isAd: true });
   }
+  const [filterLimit, setFilterLimit] = useState<number | null>(null);
+  const userProfileName: string = t('common.me') as string;
+  const [groupProfiles, setGroupProfiles] = useState<AllergenProfile[]>([]);
+  const [selectedProfileIndex, setSelectedProfileIndex] = useState(0);
+  const [openProfileDialog, setOpenProfileDialog] = useState(false);
+  const [newProfileName, setNewProfileName] = useState('');
 
   useEffect(() => {
     if (isFocused) {
       loadSavedFilters();
     }
     fetchFavourites().then(r => console.log("Loaded favourite resto list"));
-    fetchDarkMode();  
+    fetchDarkMode();
+    setGroupProfiles([{
+      name: userProfileName,
+      allergens: allergens.map(allergen => ({ ...allergen, value: false, colorButton: "primary" })),
+    }]);
   }, [isFocused]);
 
   useFocusEffect(
@@ -131,8 +144,6 @@ const MyRestaurantsScreen = () => {
       console.error('Error fetching dark mode value:', error);
     }
   };
-  
-
 
   const updateFavRestoData = async (filter, favRestoIds) => {
     getFilteredRestosNew(filter)
@@ -231,6 +242,11 @@ const MyRestaurantsScreen = () => {
     getSavedFilters(userToken).then((res) => {
       setSavedFilters(res);
     })
+
+    getSavedFilterLimit(userToken)
+      .then((res) => {
+        setFilterLimit((res && res.filterLimit) ? res.filterLimit : 0);
+      });
   }
 
   const handleSearch = async () => {
@@ -325,11 +341,21 @@ const MyRestaurantsScreen = () => {
   };
 
   const handleAllergenToggle = (index: number) => {
-    const updatedAllergens = [...allergens];
+    const updatedAllergens = [...getSelectedProfileAllergens()];
     updatedAllergens[index].selected = !updatedAllergens[index].selected;
-    setAllergens(updatedAllergens);
-    setSelectedAllergens(allergens
-      .filter(allergen => allergen.selected).map(allergen => allergen.name));
+    const groupProfilesCopy = groupProfiles;
+    groupProfilesCopy[selectedProfileIndex].allergens = updatedAllergens;
+    setGroupProfiles(groupProfilesCopy);
+    AsyncStorage.setItem('groupProfiles', JSON.stringify(groupProfiles));
+    const allergenListSelected: string[] = [];
+    for (let i = 0; i < groupProfiles.length; i++) {
+      for (let j = 0; j < groupProfiles[i].allergens.length; j++) {
+        if (groupProfiles[i].allergens[j].selected) {
+          allergenListSelected.push(groupProfiles[i].allergens[j].name);
+        }
+      }
+    }
+    setSelectedAllergens(allergenListSelected);
   };
 
   const resetFilters = () => {
@@ -347,7 +373,7 @@ const MyRestaurantsScreen = () => {
 
   const handleSaveFilter = async () => {
     const userToken = await AsyncStorage.getItem('user');
-    if (userToken === null) {
+    if (userToken === null || !filterName) {
       setSaveFilterStatus({
         success: false,
         error: true,
@@ -380,8 +406,25 @@ const MyRestaurantsScreen = () => {
       allergenList: selectedAllergens,
       userLoc: userPosition
     }
+
+      setFilterName('');
     addSavedFilter(userToken, filter).then((res) => {
       if (res !== null) {
+        if (res.status == 203) {
+          setSaveFilterStatus({
+            success: false,
+            error: true,
+            message: t('pages.RestaurantScreen.save-filter-limit-reached') as string,
+          });
+          console.error('Error saving filter: reached limit');
+          setTimeout(() => {
+            setSaveFilterStatus({
+              success: false,
+              error: false,
+              message: '',
+            });
+          }, 5000);
+        }
         const savedFiltersCopy = savedFilters;
         savedFiltersCopy.push(filter);
         setSavedFilters(savedFiltersCopy);
@@ -504,6 +547,58 @@ const MyRestaurantsScreen = () => {
       }
     })
   };
+
+  const handleRemoveProfile = (index: number) => {
+    const remainingProfiles = groupProfiles.filter((_, i) => i !== index);
+    const allergenListChanged: string[] = [];
+    setGroupProfiles(remainingProfiles);
+    if (Number(selectedProfileIndex) === index && groupProfiles.length > 1) {
+      setSelectedProfileIndex(index === 0 ? 0 : index - 1);
+    }
+
+    for (let i = 0; i < remainingProfiles.length; i++) {
+      const allergens = remainingProfiles[i].allergens;
+      for (let j = 0; j < allergens.length; j++) {
+        if (allergens[j].selected && !allergenListChanged.includes(allergens[j].name)) {
+          allergenListChanged.push(allergens[j].name);
+        }
+      }
+    }
+    AsyncStorage.setItem('groupProfiles', JSON.stringify(remainingProfiles));
+  };
+
+  const handleProfileChange = (event) => {
+    setSelectedProfileIndex(event);
+  };
+
+  const handleAddProfile = () => {
+    setOpenProfileDialog(true);
+  };
+
+  const handleProfileSave = () => {
+    if (newProfileName && !groupProfiles.some(profile => profile.name === newProfileName)) {
+      setGroupProfiles([
+        ...groupProfiles,
+        { name: newProfileName, allergens: allergens.map(allergen => ({ ...allergen, value: false, colorButton: "primary" })) }
+      ]);
+      setSelectedProfileIndex(groupProfiles.length);
+    }
+    setNewProfileName('');
+    setOpenProfileDialog(false);
+  };
+
+  const handleProfileCancel = () => {
+    setNewProfileName('');
+    setOpenProfileDialog(false);
+  };
+
+  const getSelectedProfileAllergens = () : Allergen[] => {
+    if (!groupProfiles || groupProfiles.length <= selectedProfileIndex) {
+      return [];
+    }
+    return groupProfiles[selectedProfileIndex].allergens;
+  }
+
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {isTabVisible && <View style={styles.overlay} />}
@@ -568,7 +663,7 @@ const MyRestaurantsScreen = () => {
                     onPress={() => handleRatingChange(index)} 
                   >
                     <Ionicons 
-                      name={index <= rating ? 'star' : 'star-outline'} 
+                      name={index <= rating ? 'star' : 'star-outline'}
                       size={30} 
                       color="#6d071a" 
                     />
@@ -607,22 +702,66 @@ const MyRestaurantsScreen = () => {
               </View>
 
               <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.RestaurantScreen.allergens')}</Text>
-              <View style={styles.categoriesContainer}>
-                {allergens.map((allergen, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[styles.categoryBox, 
-                      { backgroundColor: allergen.selected ? 
-                        '#e2b0b3' : 'white' }]}
-                    onPress={() => handleAllergenToggle(index)}
-                  >
-                    <Text>{allergen.name}</Text>
+              <View>
+                {/* Scrollable list of allergen profiles */}
+                <ScrollView horizontal>
+                  {groupProfiles.map((profile, index) => (
+                    <>
+                      <TouchableOpacity key={index} onPress={() => handleProfileChange(String(index))}>
+                        <Text style={{ margin: 10, padding: 5, backgroundColor: index === Number(selectedProfileIndex) ? 'lightgray' : 'white' }}>
+                          {profile.name}
+                          {index > 0 && (
+                            <TouchableOpacity onPress={() => handleRemoveProfile(index)}>
+                              <Icon name="trash" size={12} />
+                            </TouchableOpacity>
+                          )}
+                        </Text>
+                      </TouchableOpacity>
+                    </>
+                  ))}
+                  <TouchableOpacity onPress={handleAddProfile}>
+                    <Icon name="add" size={24} />
                   </TouchableOpacity>
-                ))}
+                </ScrollView>
+
+                {/* Dialog for adding a new profile */}
+                {openProfileDialog && (
+                  <View style={{ padding: 20, backgroundColor: 'white', borderRadius: 5 }}>
+                    <Text style={{ fontSize: 20 }}>Add New Profile</Text>
+                    <TextInput
+                      style={{ borderBottomWidth: 1, marginVertical: 10 }}
+                      placeholder={t('pages.RestaurantScreen.enter-name')}
+                      value={newProfileName}
+                      onChangeText={setNewProfileName}
+                    />
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Button title={t('common.cancel')} onPress={handleProfileCancel} />
+                      <Button title={t('common.save')} onPress={handleProfileSave} />
+                    </View>
+                  </View>
+                )}
+
+                {/* Display selected allergen profile */}
+                <View style={styles.categoriesContainer}>
+                  { getSelectedProfileAllergens().map((allergen, allergenIndex) => (
+                    <TouchableOpacity
+                      key={allergenIndex}
+                      style={[styles.categoryBox,
+                        { backgroundColor: allergen.selected ?
+                            '#e2b0b3' : 'white' }]}
+                      onPress={() => handleAllergenToggle(allergenIndex)}
+                    >
+                      <Text>{allergen.name}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
 
               <View>
             <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.RestaurantScreen.save-filter')}</Text>
+            <Text style={styles.filterLimit}>
+              {t('pages.MapPage.saved-filters-overview', { used: savedFilters.length, limit: filterLimit })}
+            </Text>
             <TextInput
               style={styles.saveInput}
               placeholder={t('pages.RestaurantScreen.enter-filter-name') as string}

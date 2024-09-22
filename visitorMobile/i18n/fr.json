@@ -15,8 +15,8 @@
       "french": "Français",
       "error": "Erreur",
       "need-cam-permissions": "L'autorisation d'accéder à la galerie photo est requise !",
-      "success": "Succès"
-
+      "success": "Succès",
+      "me": "Moi"
     },
     "components": {
       "AdCard": {
@@ -92,6 +92,8 @@
       "MapPage": {
         "save-filter-error": "Erreur lors de l'enregistrement du filtre. Veuillez réessayer.",
         "save-filter-success": "Filtre enregistré avec succès.",
+        "saved-filters-overview": "{{used}} / {{limit}} filtres enregistrés",
+        "save-filter-limit-reached": "Vous avez atteint la limite des filtres enregistrés",
         "delete-filter-error": "Erreur lors de la suppression du filtre. Veuillez réessayer.",
         "delete-filter-success": "Filtre supprimé avec succès",
         "enter-resto-name": "Entrez le nom du restaurant",
@@ -197,6 +199,8 @@
         "delete-filter-success": "Filtre supprimé avec succès",
         "enter-resto-name": "Entrez le nom du restaurant",
         "enter-city": "Entrez le nom de la ville",
+        "enter-name": "Entrez le nom de la profil",
+        "add-profile": "Ajouter un nouveau profil",
         "search": "Rechercher",
         "filter": "Filtre",
         "rating": "Note : ",
@@ -218,7 +222,101 @@
         "contact-us": "Contactez-nous",
         "my-profile": "Mon profil",
         "login": "Connexion",
-        "register": "S'inscrire"
+        "register": "S'inscrire",
+        "guides": "Guides"
+      },
+      "GuidePage": {
+        "title": "Guide des allergènes et conseils",
+        "description": "Conseils utiles, guides et informations sur les allergènes, la prévention et les alternatives.",
+        "tipsTitle": "Conseils sur les allergènes",
+        "loadingTips": "Chargement des conseils...",
+        "tips": [
+          {
+            "title": "Comment éviter les allergènes alimentaires courants",
+            "content": "Lisez attentivement les étiquettes, évitez la contamination croisée et demandez au personnel du restaurant des informations sur les ingrédients lorsque vous mangez à l'extérieur."
+          },
+          {
+            "title": "Éviter le gluten en voyage",
+            "content": "Lorsque vous voyagez, apportez vos propres collations sans allergènes et recherchez des restaurants sans allergènes à l'avance en fonction de votre profil alimentaire."
+          },
+          {
+            "title": "Gérer les allergies alimentaires lors des fêtes",
+            "content": "Informez l'hôte de vos allergies, apportez votre propre plat et évitez de partager les ustensiles ou les assiettes."
+          },
+          {
+            "title": "Conseils pour manger au restaurant avec des allergies",
+            "content": "Appelez à l'avance pour vous renseigner sur les options sans allergènes, soyez clair sur votre régime spécifique et évitez les buffets."
+          },
+          {
+            "title": "Éviter la contamination croisée",
+            "content": "Lorsque vous préparez des aliments à la maison, assurez-vous que les ustensiles, les planches à découper et les surfaces sont bien nettoyés pour éviter le contact croisé avec des allergènes."
+          }
+        ],
+        "preventionTitle": "Prévention & Alternatives",
+        "preventionDescription": "Apprenez à éviter les allergènes et à trouver des alternatives adaptées.",
+        "prevention": [
+          {
+            "title": "Comment éviter le gluten dans les aliments",
+            "content": "Le gluten se trouve dans de nombreux grains tels que le blé, l'orge et le seigle. Recherchez des étiquettes sans gluten sur les produits. Optez pour des alternatives comme le riz, le quinoa et le maïs pour préparer vos repas."
+          },
+          {
+            "title": "Alternatives aux produits laitiers",
+            "content": "Pour ceux qui sont intolérants au lactose ou allergiques aux produits laitiers, vous pouvez remplacer le lait par du lait d'amande, de soja, d'avoine ou de coco. Il existe également des options de fromage et de yaourt sans produits laitiers. Aujourd'hui, de nombreuses alternatives végétales aux produits laitiers existent."
+          },
+          {
+            "title": "Remplacer les produits laitiers dans les recettes",
+            "content": "Utilisez du lait d'amande, de soja ou d'avoine comme substitut des produits laitiers. La levure nutritionnelle est excellente pour un goût fromager."
+          },
+          {
+            "title": "Collations sans allergènes pour enfants",
+            "content": "Essayez des tranches de pomme avec du beurre de graines de tournesol ou des barres de céréales maison avec de l'avoine, des fruits secs et du miel."
+          },
+          {
+            "title": "Remplacements d'œufs pour la pâtisserie",
+            "content": "Vous pouvez remplacer les œufs dans les recettes en utilisant des bananes écrasées, de la compote de pommes ou des graines de lin mélangées à de l'eau."
+          }
+        ],
+        "learnMore": "En savoir plus",
+        "faqTitle": "Questions fréquentes",
+        "faq": [
+          {
+            "title": "Qu'est-ce qu'un allergène ?",
+            "content": "C'est une substance qui peut provoquer des réactions allergiques. Dans le contexte de Guardos, nous parlons des allergènes contenus dans les aliments ou les boissons."
+          },
+          {
+            "title": "Que dois-je faire si je consomme accidentellement un allergène ?",
+            "content": "En fonction de la gravité de vos symptômes, les réactions varient. Si vous avez des symptômes légers dus à une intolérance, vous pouvez simplement attendre que les symptômes passent. Cependant, en cas de symptômes graves (très important avec les allergies alimentaires), un médicament peut être nécessaire et il est recommandé de consulter immédiatement un médecin. Vous devez discuter avec votre médecin de la marche à suivre en cas d'urgence."
+          },
+          {
+            "title": "Comment identifier les allergènes alimentaires dans les restaurants ?",
+            "content": "Demandez toujours au personnel du restaurant des informations sur les ingrédients et la préparation des aliments. Certains restaurants proposent des menus d'allergènes. Avec Guardos, vous pouvez filtrer les restaurants par allergènes et il vous présente les plats qui vous conviennent."
+          },
+          {
+            "title": "Qu'est-ce que la contamination croisée ?",
+            "content": "La contamination croisée se produit lorsque des allergènes sont transférés d'un aliment à un autre, souvent par des surfaces ou des ustensiles partagés."
+          },
+          {
+            "title": "Comment puis-je éviter la contamination croisée à la maison ?",
+            "content": "Utilisez des planches à découper, des ustensiles et des ustensiles de cuisine séparés pour les repas sans allergènes. Nettoyez bien les surfaces et lavez-vous les mains avant de préparer des aliments."
+          },
+          {
+            "title": "Les allergies alimentaires peuvent-elles se développer plus tard dans la vie ?",
+            "content": "Oui, les allergies alimentaires peuvent se développer à tout âge, bien qu'elles soient plus fréquentes pendant l'enfance. Certaines personnes peuvent développer une allergie à un aliment qu'elles avaient consommé sans problème auparavant."
+          },
+          {
+            "title": "Les allergies alimentaires peuvent-elles disparaître avec le temps ?",
+            "content": "Certaines allergies alimentaires peuvent disparaître, surtout chez les enfants. Cependant, il est important de consulter un professionnel de santé pour un diagnostic et des conseils appropriés."
+          },
+          {
+            "title": "Quelle est la différence entre une allergie alimentaire et une intolérance alimentaire ?",
+            "content": "Une allergie alimentaire déclenche une réaction du système immunitaire, qui peut être grave et potentiellement mortelle, tandis qu'une intolérance alimentaire provoque généralement des problèmes digestifs et est moins dangereuse."
+          },
+          {
+            "title": "Qu'est-ce que l'anaphylaxie ?",
+            "content": "L'anaphylaxie est une réaction allergique grave, potentiellement mortelle, qui peut survenir en quelques minutes après l'exposition à un allergène. Les symptômes peuvent inclure des difficultés respiratoires, un gonflement, de l'urticaire et une baisse de la pression artérielle. Une attention médicale immédiate et l'utilisation d'un auto-injecteur d'épinéphrine sont essentielles."
+          }
+        ],
+        "noresto": "Aucun restaurant trouvé"
       },
       "SubscriptionPage": {
         "my-subscription": "Mon Abonnement",
