@@ -434,7 +434,15 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('Payment methods');
   };
 
+  const closeAllPopups = () => {
+    setOpenIngredientPopup(false);
+    setOpenAddIngredientPopup(false);
+    setAllergensOpen(false);
+    setLanguageOpen(false);
+  }
+
   const handleAddIngredientPopupOpen = () => {
+    closeAllPopups();
     setOpenAddIngredientPopup(true);
   };
 
@@ -536,7 +544,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           value={allergens}
           textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
           items={allergensOptions}
-          setOpen={setAllergensOpen}
+          setOpen={() => {
+            closeAllPopups();
+            return setAllergensOpen(!allergensOpen)
+          }}
           setValue={setAllergens}
           style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
@@ -552,7 +563,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             items={dbIngredients.map((item) => {
               return {label: item, value: item};
             })}
-            setOpen={setOpenIngredientPopup}
+            setOpen={() => {
+              closeAllPopups();
+              return setOpenIngredientPopup(!openIngredientPopup)
+            }}
             setValue={setSelectedDislikedIngredients}
             style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
           />
@@ -567,7 +581,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           value={language}
           textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
           items={languageOptions}
-          setOpen={setLanguageOpen}
+          setOpen={() => {
+            closeAllPopups();
+            return setLanguageOpen(!languageOpen)
+          }}
           setValue={setLanguage}
           style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
@@ -650,43 +667,43 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         <Button 
           title={t('pages.Profile.subscriptions') as string}
           onPress={handleRedirectSubscriptions}
-          color={darkMode ? "white" :  "#6d071a"} />
+          color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button 
           title={t('pages.Profile.payBtn') as string}
           onPress={handlePayment} 
-          color={darkMode ? "white" :  "#6d071a"} />
+          color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
           title={t('pages.Profile.feature-request') as string}
           onPress={handleFeatureRequest}
-          color={darkMode ? "white" :  "#6d071a"} />
+          color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
           title={t('pages.Profile.UserSupport') as string}
           onPress={handleSupportRequest}
-          color={darkMode ? "white" :  "#6d071a"} />
+          color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
       <Button 
           title={darkMode ? "Light Mode" : "Dark Mode"}
           onPress={toggleDarkMode}
-          color={darkMode ? "white" :  "#6d071a"}  />
+          color={darkMode ? "#6d071a" :  "#6d071a"}  />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button  
           title={t('pages.Profile.logout') as string}
           onPress={handleLogout} 
-          color={darkMode ? "white" :  "#6d071a"}  />
+          color={darkMode ? "#6d071a" :  "#6d071a"}  />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
           title={t('pages.Profile.delete-account') as string}
           onPress={handleDeleteAccount}
-          color={darkMode ? "white" :  "#6d071a"} 
+          color={darkMode ? "#6d071a" :  "#6d071a"}
         />
       </View>
       <View style={styles.deleteAccountSection}>
