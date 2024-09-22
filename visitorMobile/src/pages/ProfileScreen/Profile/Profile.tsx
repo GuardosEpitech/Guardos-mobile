@@ -377,7 +377,8 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       email: email,
       city: city,
       allergens: allergens,
-      preferredLanguage: language
+      preferredLanguage: language,
+      dislikedIngredients: selectedDislikedIngredients
     });
     i18n.changeLanguage(language);
 
@@ -538,6 +539,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             onPress={handleNavigateToChangePassword}
           />
         </View>
+        <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.allergens')}</Text>
         <DropDownPicker
           itemKey={"languagePicker"}
           dropDownDirection={'TOP'}
@@ -555,6 +557,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
         />
         <View>
+          <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.disliked-ingredients-title')}</Text>
           <DropDownPicker
             itemKey={"dislikedIngredientPicker"}
             dropDownDirection={'TOP'}
@@ -577,6 +580,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         <View>
           <Button title={t('pages.Profile.ingredient-not-found')} onPress={handleAddIngredientPopupOpen}/>
         </View>
+        <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.language')}</Text>
         <DropDownPicker
           dropDownDirection={'TOP'}
           language={language.toUpperCase()}
