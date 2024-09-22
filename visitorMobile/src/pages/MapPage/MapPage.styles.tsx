@@ -319,6 +319,14 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 10,
   },
+  filterPopupDark: {
+    backgroundColor: '#181A1B',
+    padding: 20,
+    borderRadius: 10,
+  },
+  darkModeTxt: {
+    color: 'white'
+  }
 });
 
 export default styles;

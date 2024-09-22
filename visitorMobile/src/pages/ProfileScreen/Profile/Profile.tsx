@@ -377,7 +377,6 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       email: email,
       city: city,
       allergens: allergens,
-      dislikedIngredients: selectedDislikedIngredients,
       preferredLanguage: language
     });
     i18n.changeLanguage(language);
@@ -459,6 +458,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     setDBIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
     setNewIngredient('');
     handleAddIngredientPopupClose();
+  };
+
+  const navigateToMenu = (restaurantId: number, restaurantName: string) => {
+    navigation.navigate('MenuPage', { restaurantId, restaurantName });
   };
 
   return (
@@ -613,13 +616,15 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           {activeTab === 'restaurants' && (
             <View>
               {favoriteRestaurants.slice((restoPage - 1) * pageSize, restoPage * pageSize).map((restaurant) => (
-                <RestaurantCard
-                  key={restaurant.uid}
-                  info={restaurant}
-                  isFavouriteResto={true}
-                  isSmallerCard={true}
-                  dataIndex={0}
-                />
+                <TouchableOpacity onPress={() => navigateToMenu(restaurant.uid, restaurant.name)}>
+                  <RestaurantCard
+                    key={restaurant.uid}
+                    info={restaurant}
+                    isFavouriteResto={true}
+                    isSmallerCard={true}
+                    dataIndex={0}
+                  />
+                </TouchableOpacity>
               ))}
             </View>
           )}
