@@ -149,7 +149,6 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
               </Text>
             </View>
           )}
-          <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.price', {price: dish.price})}</Text>
           {dish.discount !== undefined && dish.discount !== -1 ? (
             <View>
               <Text style={styles.discount}>{t('components.DishCard.price', {price: dish.price})}€</Text>
