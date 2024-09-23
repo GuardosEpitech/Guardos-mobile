@@ -4,6 +4,10 @@ const styles = StyleSheet.create({
     container: {
       flexGrow: 1,
     },
+    containerDark: {
+      flexGrow: 1,
+      backgroundColor: '#333',
+    },
     imageContainer: {
       alignItems: 'center',
     },
@@ -16,6 +20,12 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       padding: 20,
+    },
+    contentContainerDark: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      padding: 20,
+      backgroundColor: '#333',
     },
     column: {
       flex: 1,
@@ -30,6 +40,15 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       paddingLeft: 10,
       marginBottom: 10,
+    },
+    inputDark: {
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      paddingLeft: 10,
+      marginBottom: 10,
+      backgroundColor: '#333',
+      color: '#fff',
     },
     multilineInput: {
       height: 100,
@@ -91,11 +110,31 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 0,
   },
+  containerPickerDark: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width:'100%',
+    padding: 20,
+    paddingTop: 0,
+    backgroundColor: '#333',
+  },
   pickerStyles:{
     width:'100%',
     backgroundColor:'lightgrey',
     color:'lightgrey'
-  }
+  },
+  pickerStylesDark:{
+    width:'100%',
+    backgroundColor:'#333',
+    color:'#fff'
+  },
+  dropDownText:{
+    color:'#000'
+  },
+  darkDropDownText:{
+    color:'#fff'
+  },
   });
   
 export default styles;

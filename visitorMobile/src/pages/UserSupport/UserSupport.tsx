@@ -21,7 +21,20 @@ const initialRequestState: IRequestUser = {
 
 const UserSupport: React.FC<FeatureRequestScreenProps> = ({ navigation }) => {
   const [request, setRequest] = useState<IRequestUser>(initialRequestState);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const { t } = useTranslation();
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const handleInputChange = (field: keyof IRequestUser, text: string) => {
     setRequest((prevState) => ({
@@ -43,6 +56,7 @@ const UserSupport: React.FC<FeatureRequestScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     getPremium();
+    fetchDarkMode();
   }, []);
 
   const handleButtonPress = async () => {
@@ -64,28 +78,32 @@ const UserSupport: React.FC<FeatureRequestScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={darkMode ? styles.containerDark : styles.container}>
       <TextInput
-        style={styles.smallInput}
+        style={darkMode ? styles.smallInputDark : styles.smallInput}
         placeholder={t('pages.UserSupport.name') as string}
+        placeholderTextColor={darkMode ? 'white' : 'black'}
         onChangeText={(text) => handleInputChange('name', text)}
         value={request.name}
       />
       <TextInput
-        style={styles.smallInput}
+        style={darkMode ? styles.smallInputDark : styles.smallInput}
         placeholder={t('pages.UserSupport.subject') as string}
+        placeholderTextColor={darkMode ? 'white' : 'black'}
         onChangeText={(text) => handleInputChange('subject', text)}
         value={request.subject}
       />
       <TextInput
-        style={styles.mainInput}
+        style={darkMode ? styles.mainInputDark : styles.mainInput}
         placeholder={t('pages.UserSupport.issue') as string}
+        placeholderTextColor={darkMode ? 'white' : 'black'}
         onChangeText={(text) => handleInputChange('request', text)}
         value={request.request}
       />
       <Button
         title={t('common.submit') as string}
         onPress={handleButtonPress}
+        color={darkMode ? 'white' : 'black'}
       />
     </View>
   );

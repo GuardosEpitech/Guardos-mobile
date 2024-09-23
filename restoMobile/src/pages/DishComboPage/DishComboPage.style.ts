@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   containerDark: {
-    backgroundColor: '#000',
+    backgroundColor: '#333',
   },
   scrollViewContentContainer: {
     alignItems: 'center', // Center children horizontally

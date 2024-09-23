@@ -97,7 +97,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{ name: 'Scanning' }],
+          routes: [{ name: 'Main' }],
         })
       );
     };

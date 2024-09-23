@@ -21,6 +21,7 @@ const initialRequestState = {
 
 const FeatureRequest: React.FC<FeatureRequestScreenProps> = () => {
   const [request, setRequest] = useState<IRequestUser>(initialRequestState);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const {t} = useTranslation();
 
     const handleInputChange = (field: keyof IRequestUser, text: string) => {
@@ -45,12 +46,25 @@ const FeatureRequest: React.FC<FeatureRequestScreenProps> = () => {
       }
     }
 
+    const fetchDarkMode = async () => {
+      try {
+        const darkModeValue = await AsyncStorage.getItem('DarkMode');
+        if (darkModeValue !== null) {
+          const isDarkMode = darkModeValue === 'true';
+          setDarkMode(isDarkMode);
+        }
+      } catch (error) {
+        console.error('Error fetching dark mode value:', error);
+      }
+    };
+
     useEffect(() => {
       try {
         getPremium();
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
+      fetchDarkMode();
     }, []);
   
     const handleButtonPress = () => {
@@ -58,22 +72,25 @@ const FeatureRequest: React.FC<FeatureRequestScreenProps> = () => {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={darkMode ? styles.containerDark : styles.container}>
         <TextInput
-          style={styles.smallInput}
+          style={darkMode ? styles.smallInputDark : styles.smallInput}
           placeholder={t('pages.FeatureRequest.name') as string}
+          placeholderTextColor={darkMode ? 'white' : 'black'}
           onChangeText={(text) => handleInputChange('name', text)}
           value={request.name}
         />
         <TextInput
-          style={styles.smallInput}
+          style={darkMode ? styles.smallInputDark : styles.smallInput}
           placeholder={t('pages.FeatureRequest.subject') as string}
+          placeholderTextColor={darkMode ? 'white' : 'black'}
           onChangeText={(text) => handleInputChange('subject', text)}
           value={request.subject}
         />
         <TextInput
-          style={styles.mainInput}
+          style={darkMode ? styles.mainInputDark : styles.mainInput}
           placeholder={t('pages.FeatureRequest.request') as string}
+          placeholderTextColor={darkMode ? 'white' : 'black'}
           onChangeText={(text) => handleInputChange('request', text)}
           value={request.request}
         />

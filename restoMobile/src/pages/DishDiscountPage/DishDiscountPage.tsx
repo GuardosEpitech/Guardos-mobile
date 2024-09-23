@@ -38,6 +38,7 @@ const DishDiscountPage: React.FC = () => {
   const [expiryDate, setExpiryDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [originalPrice] = useState(dish.price);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -51,7 +52,20 @@ const DishDiscountPage: React.FC = () => {
       }
       setExpiryDate(parseDate(dish.validTill));
     }
+    fetchDarkMode();
   }, [dish, mode, originalPrice]);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const handleModeSwitch = () => {
     setMode(prevMode => {
@@ -123,23 +137,26 @@ const DishDiscountPage: React.FC = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.container}>
+     <View style={darkMode ? styles.containerDark : styles.container}>
       <View>
-        <Text style={styles.heading}>{t('pages.DiscountDishPage.title')}{dish.name}</Text>
-
+        <Text style={darkMode ? styles.headingDark : styles.heading}>
+          {t('pages.DiscountDishPage.title')}{dish.name}</Text>
         <View style={styles.switchContainer}>
-          <Text>{t('pages.DiscountDishPage.switchPercent')}</Text>
+          <Text style={darkMode ? styles.switchTextDark : styles.switchText}>
+            {t('pages.DiscountDishPage.switchPercent')}</Text>
           <Switch
             value={mode === 'price'}
             onValueChange={handleModeSwitch}
           />
-          <Text>{t('pages.DiscountDishPage.switchPrice')}</Text>
+          <Text style={darkMode ? styles.switchTextDark : styles.switchText}>
+            {t('pages.DiscountDishPage.switchPrice')}</Text>
         </View>
 
         <TextInput
           style={styles.input}
           keyboardType='numeric'
           placeholder={mode === 'price' ? t('pages.DiscountDishPage.price') : t('pages.DiscountDishPage.percent')}
+          placeholderTextColor={darkMode ? 'white' : 'black'}
           value={discountValue}
           onChangeText={setDiscountValue}
         />

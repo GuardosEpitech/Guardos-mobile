@@ -99,6 +99,13 @@ const styles = StyleSheet.create({
     zIndex: 1, 
     marginHorizontal: 10, 
   },
+  accordionContainerDark: {
+    marginTop: 20, 
+    backgroundColor: '#181A1B',
+    borderRadius: radius,
+    zIndex: 1, 
+    marginHorizontal: 10,
+  },
   accordionHeader: {
     padding: 10,
     backgroundColor: '#E0E0E0',
@@ -107,9 +114,22 @@ const styles = StyleSheet.create({
     borderBottomColor: '#CCCCCC',
     zIndex: 1,
   },
+  accordionHeaderDark: {
+    padding: 10,
+    backgroundColor: '#181A1B',
+    borderRadius: radius,
+    borderBottomWidth: 1,
+    borderBottomColor: '#181A1B',
+    zIndex: 1,
+  },
   accordionHeaderText: {
     fontSize: 16,
     fontWeight: '600',
+  },
+  accordionHeaderTextDark: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'white',
   },
   comboContainer: {
     marginHorizontal: 0,  
@@ -118,9 +138,21 @@ const styles = StyleSheet.create({
     zIndex: 1,
     paddingHorizontal: 5, 
   },
+  comboContainerDark: {
+    marginHorizontal: 0,  
+    borderRadius: radius,
+    backgroundColor: '#181A1B',
+    zIndex: 1,
+    paddingHorizontal: 5, 
+  },
   discount: {
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
+  },
+  discountDark: {
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+    color: 'white',
   },
   discountContainer: {
     marginBottom: 10,
@@ -138,6 +170,12 @@ const styles = StyleSheet.create({
     borderRadius: radius,
     elevation: 0,
     marginVertical: 5, 
+  },
+  price: {
+    color: 'black',
+  },
+  priceDark: {
+    color: 'white',
   },
 });
 

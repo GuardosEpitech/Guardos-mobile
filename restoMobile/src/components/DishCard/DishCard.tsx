@@ -132,12 +132,16 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
           </Text>
           {dish.discount !== undefined && dish.discount !== -1 ? (
             <View style={styles.discountContainer}>
-              <Text style={styles.discount}>{t('components.DishCard.price')}{dish.price.toFixed(2)}€</Text>
-              <Text>{t('components.DishCard.discount')}{dish.discount.toFixed(2)} €</Text>
-              <Text>{t('components.DishCard.valid')}{dish.validTill}</Text>
+              <Text style={darkMode? styles.discountDark : styles.discount}>
+                {t('components.DishCard.price')}{dish.price.toFixed(2)}€</Text>
+              <Text style={darkMode ? styles.priceDark : styles.price}>
+                {t('components.DishCard.discount')}{dish.discount.toFixed(2)} €</Text>
+              <Text style={darkMode ? styles.priceDark : styles.price}>
+                {t('components.DishCard.valid')}{dish.validTill}</Text>
             </View>
           ) : (
-            <Text>{t('components.DishCard.price')}{dish.price.toFixed(2)}€</Text>
+            <Text style={darkMode ? styles.priceDark : styles.price}>
+              {t('components.DishCard.price')}{dish.price.toFixed(2)}€</Text>
           )}
         </View>
         {isFirstLevel && (
@@ -161,14 +165,15 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
         )}
 
         {dish.combo && dish.combo.length > 0 && isFirstLevel && (
-          <View style={styles.accordionContainer}>
-            <TouchableOpacity onPress={handleAccordionToggle} style={styles.accordionHeader}>
-              <Text style={styles.accordionHeaderText}>
+          <View style={darkMode ? styles.accordionContainerDark : styles.accordionContainer}>
+            <TouchableOpacity onPress={handleAccordionToggle} 
+              style={darkMode ? styles.accordionHeaderDark : styles.accordionHeader}>
+              <Text style={darkMode ? styles.accordionHeaderTextDark : styles.accordionHeaderText}>
                 {isAccordionOpen ? t('components.DishCard.hide') : t('components.DishCard.show')}
               </Text>
             </TouchableOpacity>
             {isAccordionOpen && (
-              <View style={styles.comboContainer}>
+              <View style={darkMode ? styles.comboContainerDark : styles.comboContainer}>
                 {comboDishes.map((comboDish) => (
                   <DishCard
                     key={comboDish.uid}

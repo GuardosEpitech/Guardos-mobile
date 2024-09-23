@@ -100,8 +100,9 @@ const MyRestaurantsScreen = () => {
       ) : (
         <>
           <TextInput
-            style={styles.searchInput}
+            style={darkMode ? styles.searchInputDark : styles.searchInput}
             placeholder={t('common.search-restaurants')}
+            placeholderTextColor={darkMode ? '#fff' : '#000'}
             value={filter}
             onChangeText={setFilter}
             autoCapitalize="none"

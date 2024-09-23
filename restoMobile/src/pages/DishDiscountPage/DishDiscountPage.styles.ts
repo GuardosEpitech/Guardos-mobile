@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 10, 
   },
+  switchText: {
+    fontSize: 14,
+  },
   input: {
     height: 40,
     borderColor: 'gray',
@@ -47,6 +50,23 @@ const styles = StyleSheet.create({
   button: {
     marginVertical: 6,   
     width: '80%',         
+  },
+  containerDark: {
+    flex: 1,
+    padding: 16,
+    justifyContent: 'space-between', 
+    backgroundColor: '#333',
+  },
+  headingDark: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    textAlign: 'center',
+    color: 'white',
+  },
+  switchTextDark: {
+    fontSize: 14,
+    color: 'white',
   },
 });
 

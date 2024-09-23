@@ -600,7 +600,7 @@ const MyRestaurantsScreen = () => {
   }
 
   return (
-    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+    <View style={[darkMode ? styles.containerDark : styles.container]}>
       {isTabVisible && <View style={styles.overlay} />}
       <View style={[styles.searchContainer, darkMode && styles.searchContainerDarkTheme]}>
         <TextInput

@@ -42,6 +42,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 
+  searchInputDark: {
+    fontSize: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderWidth: 2,
+    borderColor: '#6d071a',
+    borderRadius: 80,
+    width: screenWidth - 40,
+    marginTop: 5,
+    backgroundColor: '#333',
+    alignSelf: 'center',
+  },
+
   ErrorMsg: {
     fontSize: 28,
     textAlign: "center",

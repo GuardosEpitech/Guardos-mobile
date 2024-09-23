@@ -9,7 +9,7 @@ import {
 import { Card, Chip, Title, Paragraph } from 'react-native-paper';
 import { useTranslation } from "react-i18next";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import  {styles, pickerSelectStyles} from "./UserInsinghts.styles";
+import  {styles, pickerSelectStyles, pickerSelectStylesDark} from "./UserInsinghts.styles";
 import { getAllRestaurantsByUser, getRestoStatistics } from "../../services/restoCalls";
 import RNPickerSelect from "react-native-picker-select";
 
@@ -17,6 +17,7 @@ const UserInsights = () => {
   const { t } = useTranslation();
   const [userStatistics, setUserStatistics] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState("");
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   const getStatistics = async () => {
     try {
@@ -37,7 +38,20 @@ const UserInsights = () => {
 
   useEffect(() => {
     getStatistics();
+    fetchDarkMode();
   }, []);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const handleRestaurantChange = (itemValue: any) => {
     setSelectedRestaurant(itemValue);
@@ -76,47 +90,61 @@ const UserInsights = () => {
 
     return (
         <View>
-          <Card style={styles.card}>
+          <Card style={darkMode ? styles.darkCard : styles.card}>
             <Card.Content>
-              <Title>{t("pages.userInsights.total-clicks")}</Title>
-              <Paragraph>{selectedStats.totalClicks}</Paragraph>
+              <Title style={darkMode ? styles.darkText : styles.lightText}>
+              {t("pages.userInsights.total-clicks")}
+              </Title>
+              <Paragraph style={darkMode ? styles.darkText : styles.lightText}>
+               {selectedStats.totalClicks}
+              </Paragraph>
             </Card.Content>
           </Card>
-          <Card style={styles.card}>
+          <Card style={darkMode ? styles.darkCard : styles.card}>
             <Card.Content>
-              <Title>{t("pages.userInsights.clicks-this-month")}</Title>
-              <Paragraph>{selectedStats.clicksThisMonth}</Paragraph>
+              <Title style={darkMode ? styles.darkText : styles.lightText}>
+                {t("pages.userInsights.clicks-this-month")}</Title>
+              <Paragraph  style={darkMode ? styles.darkText : styles.lightText}>
+                {selectedStats.clicksThisMonth}</Paragraph>
             </Card.Content>
           </Card>
-          <Card style={styles.card}>
+          <Card style={darkMode ? styles.darkCard : styles.card}>
             <Card.Content>
-              <Title>{t("pages.userInsights.clicks-this-week")}</Title>
-              <Paragraph>{selectedStats.clicksThisWeek}</Paragraph>
+              <Title  style={darkMode ? styles.darkText : styles.lightText}>
+                {t("pages.userInsights.clicks-this-week")}</Title>
+              <Paragraph  style={darkMode ? styles.darkText : styles.lightText}>
+                {selectedStats.clicksThisWeek}</Paragraph>
             </Card.Content>
           </Card>
-          <Card style={styles.card}>
+          <Card style={darkMode ? styles.darkCard : styles.card}>
             <Card.Content>
-              <Title>{t("pages.userInsights.update-month")}</Title>
-              <Paragraph>{selectedStats.updateMonth}</Paragraph>
+              <Title  style={darkMode ? styles.darkText : styles.lightText}>
+                {t("pages.userInsights.update-month")}</Title>
+              <Paragraph  style={darkMode ? styles.darkText : styles.lightText}>
+                {selectedStats.updateMonth}</Paragraph>
             </Card.Content>
           </Card>
-          <Card style={styles.card}>
+          <Card style={darkMode ? styles.darkCard : styles.card}>
             <Card.Content>
-              <Title>{t("pages.userInsights.update-week")}</Title>
-              <Paragraph>{selectedStats.updateWeek}</Paragraph>
+              <Title  style={darkMode ? styles.darkText : styles.lightText}>
+                {t("pages.userInsights.update-week")}</Title>
+              <Paragraph  style={darkMode ? styles.darkText : styles.lightText}>
+                {selectedStats.updateWeek}</Paragraph>
             </Card.Content>
           </Card>
-          <Card style={styles.card}>
+          <Card style={darkMode ? styles.darkCard : styles.card}>
             <Card.Content>
-              <Title>{t("pages.userInsights.user-allergens")}</Title>
+              <Title style={darkMode ? styles.darkText : styles.lightText}>
+                {t("pages.userInsights.user-allergens")}</Title>
               <View style={styles.chipContainer}>
                 {renderAllergens(selectedStats.userAllergens)}
               </View>
             </Card.Content>
           </Card>
-          <Card style={styles.card}>
+          <Card style={darkMode ? styles.darkCard : styles.card}>
             <Card.Content>
-              <Title>{t("pages.userInsights.user-disliked-ingredients")}</Title>
+              <Title  style={darkMode ? styles.darkText : styles.lightText}>
+                {t("pages.userInsights.user-disliked-ingredients")}</Title>
               <View style={styles.chipContainer}>
                 {renderDislikedIngredients(selectedStats.userDislikedIngredients)}
               </View>
@@ -127,8 +155,8 @@ const UserInsights = () => {
   };
 
   return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <Card style={styles.card}>
+      <ScrollView contentContainerStyle={darkMode ? styles.darkContainer : styles.container}>
+        <Card style={darkMode ? styles.darkCard : styles.card}>
           <Card.Content>
             <RNPickerSelect
                 onValueChange={handleRestaurantChange}
@@ -136,7 +164,7 @@ const UserInsights = () => {
                   label: stats.restoId,
                   value: stats.restoId,
                 }))}
-                style={pickerSelectStyles}
+                style={darkMode ? pickerSelectStylesDark : pickerSelectStyles}
                 value={selectedRestaurant}
                 placeholder={{
                   label: t("pages.userInsights.select-restaurant"),

@@ -45,6 +45,7 @@ const EditRestaurant = ({ route }) => {
   const [selectedMenuDesignID, setSelectedMenuDesignID] = useState(0);
   const [menuDesignOpen, setMenuDesignOpen] = useState(false);
   const [language, setLanguage] = useState('');
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const navigation = useNavigation();
   const {t, i18n} = useTranslation();
 
@@ -74,7 +75,7 @@ const EditRestaurant = ({ route }) => {
     fetchRestaurantData();
     catchMenuDesigns();
     setLanguage(i18n.language);
-
+    fetchDarkMode();
   }, [restaurantId]);
 
   useEffect(() => {
@@ -116,6 +117,18 @@ const EditRestaurant = ({ route }) => {
 
     loadImages();
   }, [picturesId]);
+
+  const fetchDarkMode = async () => {
+    try {
+      const darkModeValue = await AsyncStorage.getItem('DarkMode');
+      if (darkModeValue !== null) {
+        const isDarkMode = darkModeValue === 'true';
+        setDarkMode(isDarkMode);
+      }
+    } catch (error) {
+      console.error('Error fetching dark mode value:', error);
+    }
+  };
 
   const catchMenuDesigns = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -222,7 +235,7 @@ const EditRestaurant = ({ route }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={darkMode ? styles.containerDark : styles.container}>
       <Header label="Guardos" leftIcon={<Ionicons name="arrow-back" size={24} color="black" onPress={() => navigation.goBack()} />} />
       <StatusBar barStyle="dark-content" />
 
@@ -255,17 +268,17 @@ const EditRestaurant = ({ route }) => {
 
 
 
-      <View style={styles.contentContainer}>
+      <View style={darkMode ? styles.contentContainerDark : styles.contentContainer}>
         <View style={styles.column}>
           <View style={styles.inputPair}>
             <TextInput
-              style={styles.input}
+              style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.resto-name-mandatory') as string}
               value={name}
               onChangeText={(text) => setName(text)}
             />
             <TextInput
-              style={styles.input}
+              style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.phone-number') as string}
               value={phoneNumber}
               onChangeText={(text) => setPhoneNumber(text)}
@@ -273,13 +286,13 @@ const EditRestaurant = ({ route }) => {
           </View>
           <View style={styles.inputPair}>
             <TextInput
-              style={styles.input}
+              style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.website') as string}
               value={website}
               onChangeText={(text) => setWebsite(text)}
             />
             <TextInput
-              style={[styles.input, styles.multilineInput]}
+              style={[darkMode ? styles.inputDark : styles.input, styles.multilineInput]}
               placeholder={t('pages.AddEditRestaurantScreen.description') as string}
               value={description}
               onChangeText={(text) => setDescription(text)}
@@ -290,13 +303,13 @@ const EditRestaurant = ({ route }) => {
         <View style={styles.column}>
           <View style={styles.inputPair}>
             <TextInput
-              style={styles.input}
+              style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.street-name-mandatory') as string}
               value={streetName}
               onChangeText={(text) => setStreetName(text)}
             />
             <TextInput
-              style={styles.input}
+              style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.street-number-mandatory') as string}
               value={streetNumber}
               onChangeText={(text) => setStreetNumber(text)}
@@ -304,13 +317,13 @@ const EditRestaurant = ({ route }) => {
           </View>
           <View style={styles.inputPair}>
             <TextInput
-              style={styles.input}
+              style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.postal-code-mandatory') as string}
               value={postalCode}
               onChangeText={(text) => setPostalCode(text)}
             />
             <TextInput
-              style={styles.input}
+              style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.city-mandatory') as string}
               value={city}
               onChangeText={(text) => setCity(text)}
@@ -318,7 +331,7 @@ const EditRestaurant = ({ route }) => {
           </View>
           <View style={styles.inputPair}>
             <TextInput
-              style={styles.input}
+              style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.country-mandatory') as string}
               value={country}
               onChangeText={(text) => setCountry(text)}
@@ -326,7 +339,7 @@ const EditRestaurant = ({ route }) => {
           </View>
         </View>
       </View>
-      <View style={styles.containerPicker}>
+      <View style={darkMode ? styles.containerPickerDark : styles.containerPicker}>
         <DropDownPicker
           open={menuDesignOpen}
           language={language.toUpperCase() as LanguageType}
@@ -342,6 +355,8 @@ const EditRestaurant = ({ route }) => {
             setSelectedMenuDesignID(item);
           }}
           setValue={setSelectedMenuDesign}
+          style={darkMode ? styles.pickerStylesDark : styles.pickerStyles}
+          textStyle={darkMode ? styles.darkDropDownText : styles.dropDownText}
         />
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
