@@ -202,7 +202,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: 'Restaurant Screen' }],
+        routes: [{ name: 'Main' }],
       })
     );
   };
