@@ -306,7 +306,7 @@ const MyStack = () => {
         <Stack.Screen
             name="MenuPage"
             component={MenuPage}
-            options={{ headerShown: true }}
+            options={{ headerShown: false }}
         />
         <Stack.Screen
             name="EditRestaurant"
