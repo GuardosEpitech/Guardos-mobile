@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   cardDarkTheme: {
     width: deviceWidth - offset,
     backgroundColor: '#181A1B',
-    height: 230,
+    height: 250,
     margin: 20,
     borderRadius: radius,
     shadowColor: '#000',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   cardSmallDarkTheme: {
     width: deviceWidth - offset - decreaseSizeOffset,
     backgroundColor: '#181A1B',
-    height: 230,
+    height: 250,
     margin: 10,
     borderRadius: radius,
     shadowColor: '#000',
@@ -129,6 +129,15 @@ const styles = StyleSheet.create({
   priceDarkTheme:{
     color: "white"
   },
+  smallTitle:{
+    fontWeight: 'bold',
+  },
+  normalText:{
+    fontWeight: "normal",
+  },
+  row: {
+    flexDirection: "row",
+  },
   allergensDarkTheme:{
     color: "white"
   },
@@ -137,11 +146,11 @@ const styles = StyleSheet.create({
     textDecorationStyle: 'solid',
   },
   accordionContainer: {
-    marginTop: 20, 
+    marginTop: 20,
     backgroundColor: '#F9F9F9',
     borderRadius: radius,
-    zIndex: 1, 
-    marginHorizontal: 10, 
+    zIndex: 1,
+    marginHorizontal: 10,
     marginBottom: 10
   },
   accordionHeader: {
@@ -157,11 +166,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   comboContainer: {
-    marginHorizontal: 0,  
+    marginHorizontal: 0,
     borderRadius: radius,
     backgroundColor: '#F1F1F1',
     zIndex: 1,
-    paddingHorizontal: 5, 
+    paddingHorizontal: 5,
     marginBottom: 10
   }
 });

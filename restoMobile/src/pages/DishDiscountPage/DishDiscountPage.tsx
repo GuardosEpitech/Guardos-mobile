@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Switch, Button, Alert } from 'react-native';
+import { View, Text, TextInput, Switch, Button, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
@@ -136,7 +136,8 @@ const DishDiscountPage: React.FC = () => {
   };
 
   return (
-    <View style={darkMode ? styles.containerDark : styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+     <View style={darkMode ? styles.containerDark : styles.container}>
       <View>
         <Text style={darkMode ? styles.headingDark : styles.heading}>
           {t('pages.DiscountDishPage.title')}{dish.name}</Text>
@@ -171,7 +172,7 @@ const DishDiscountPage: React.FC = () => {
 
       <View style={styles.buttonContainer}>
         <Button
-          style={styles.button}
+          // style={styles.button}
           title={t('pages.DiscountDishPage.btnDate')}
           onPress={() => setShowDatePicker(true)}
         />
@@ -184,23 +185,25 @@ const DishDiscountPage: React.FC = () => {
             setExpiryDate(date);
           }}
           onCancel={() => setShowDatePicker(false)}
+          themeVariant="light"
         />
 
         <Button
-          style={styles.button}
+          // style={styles.button}
           title={t('pages.DiscountDishPage.btnSave')}
           onPress={handleSave}
         />
 
         {dish.discount && (
           <Button
-            style={styles.button}
+            // style={styles.button}
             title={t('pages.DiscountDishPage.btnRemove')}
             onPress={handleRemoveDiscount}
           />
         )}
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 

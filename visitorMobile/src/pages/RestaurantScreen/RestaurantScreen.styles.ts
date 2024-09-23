@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  filterLimit: {
+    color: '#666',
+    fontSize: 15,
+    marginLeft: 2,
+  },
   roundButton: {
     position: 'absolute',
     bottom: 20,
@@ -122,10 +127,21 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
   },
+  filterPopupDark: {
+    backgroundColor: '#181A1B',
+    padding: 20,
+    borderRadius: 10,
+  },
   distanceText: {
     marginBottom: 15,
     fontSize: 18,
-  },filterOptionsContainer: {
+  },
+  distanceTextDark: {
+    color: 'white',
+    marginBottom: 15,
+    fontSize: 18,
+  },
+  filterOptionsContainer: {
     flex: 1,
     backgroundColor: 'white',
   },

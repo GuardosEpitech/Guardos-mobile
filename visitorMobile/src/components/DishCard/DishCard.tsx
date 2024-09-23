@@ -18,11 +18,12 @@ interface DishCardProps {
   dish: IDishFE;
   isFavourite: boolean;
   pictures: IimageInterface[];
+  dislikedIngredients?: string[];
   isSmallerCard?: boolean;
   isFirstLevel: boolean;
 }
 
-const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, pictures, isSmallerCard, isFirstLevel }) => {
+const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, pictures, dislikedIngredients, isSmallerCard, isFirstLevel }) => {
   const [isDishFavorite, setIsDishFavorite] = useState(isFavourite);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [isAccordionOpen, setAccordionOpen] = useState<boolean>(false);
@@ -140,6 +141,14 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
             </TouchableOpacity>
           </View>
           <Text style= {[darkMode && styles.descriptionDarkTheme]} numberOfLines={2} ellipsizeMode="tail">{dish.description}</Text>
+          {dislikedIngredients && dislikedIngredients.length !== 0 && (
+            <View style={styles.row}>
+              <Text style={[darkMode && styles.priceDarkTheme, styles.smallTitle]}>
+                {t('components.DishCard.disliked-ingredients')}
+                <Text style={[darkMode && styles.priceDarkTheme, styles.normalText]}>{dislikedIngredients.join(', ')}</Text>
+              </Text>
+            </View>
+          )}
           {dish.discount !== undefined && dish.discount !== -1 ? (
             <View>
               <Text style={styles.discount}>{t('components.DishCard.price', {price: dish.price})}€</Text>
@@ -151,7 +160,7 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
           )}
           <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.allergens', {allergens: dish.allergens.join(', ')})}</Text>
         </View>
-        
+
         {dish.combo && dish.combo.length > 0 && isFirstLevel && !isLoading && (
           <View style={styles.accordionContainer}>
             <TouchableOpacity onPress={handleAccordionToggle} style={styles.accordionHeader}>

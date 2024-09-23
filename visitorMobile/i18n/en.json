@@ -18,7 +18,8 @@
 
       "error": "Error",
       "need-cam-permissions": "Permission to access camera roll is required!",
-      "success": "Success"
+      "success": "Success",
+      "me": "Me"
     },
     "components": {
       "AdCard": {
@@ -32,7 +33,8 @@
         "discount": "Discounted price: ",
         "valid": "Valid until ",
         "show": "Show suggested combination",
-        "hide": "Hide suggested combination"
+        "hide": "Hide suggested combination",
+        "disliked-ingredients": "Hidden due to disliked ingredients: "
       },
       "ErrorBoundary": {
         "oops": "Oops!",
@@ -94,6 +96,8 @@
       "MapPage": {
         "save-filter-error": "Error saving filter. Please try again.",
         "save-filter-success": "Filter saved successfully.",
+        "saved-filters-overview": "{{used}} / {{limit}} filters saved",
+        "save-filter-limit-reached": "You reached the limit of saved filters",
         "delete-filter-error": "Error deleting filter. Please try again.",
         "delete-filter-success": "Filter deleted successfully",
         "enter-resto-name": "Enter restaurant name",
@@ -157,8 +161,15 @@
         "email": "Email",
         "enter-email": "Enter your email",
         "city": "City",
+        "allergens": "Allergens",
+        "disliked-ingredients-title": "Disliked Ingredients",
+        "language": "Language",
         "enter-city": "Enter your city",
         "apply-changes": "Apply Changes",
+        "disliked-ingredients": "avoid the following ingredients",
+        "ingredient-not-found": "Ingredient not found? Add new one here",
+        "add-new-ingredient": "Add new ingredient to selection",
+        "enter-ingredient": "Enter ingredient",
         "fav-restos": "Favourite Restaurants",
         "fav-dishes": "Favourite Dishes",
         "previous": "Previous",
@@ -199,6 +210,8 @@
         "delete-filter-success": "Filter deleted successfully",
         "enter-resto-name": "Enter restaurant name",
         "enter-city": "Enter city name",
+        "enter-name": "Enter profile name",
+        "add-profile": "Add new profile",
         "search": "Search",
         "filter": "Filter",
         "rating": "Rating: ",
@@ -220,7 +233,101 @@
         "contact-us": "Contact Us",
         "my-profile": "My Profile",
         "login": "Login",
-        "register": "Register"
+        "register": "Register",
+        "guides": "Guides"
+      },
+      "GuidePage": {
+        "title": "Allergen Guide & Tips",
+        "description": "Helpful tips, guides, and information on allergens, prevention, and alternatives.",
+        "tipsTitle": "Allergen Tips",
+        "loadingTips": "Loading tips...",
+        "tips": [
+          {
+            "title": "How to Avoid Common Food Allergens",
+            "content": "Read labels carefully, avoid cross-contamination, and ask restaurant staff about ingredients when eating out."
+          },
+          {
+            "title": "Avoiding Gluten While Traveling",
+            "content": "When traveling, bring your own allergen-free snacks, and research allergen-free restaurants ahead of time according to your dietary profile."
+          },
+          {
+            "title": "Navigating Food Allergies at Parties",
+            "content": "Inform the host about your allergies, bring your own dish, and avoid sharing utensils or plates."
+          },
+          {
+            "title": "Tips for Dining Out with Allergies",
+            "content": "Call ahead to ask about allergen-free options, be clear about your specific diet and avoid buffets."
+          },
+          {
+            "title": "Avoiding Cross-Contamination",
+            "content": "When preparing food at home, ensure utensils, cutting boards, and surfaces are cleaned thoroughly to avoid cross-contact with allergens."
+          }
+        ],
+        "preventionTitle": "Prevention & Alternatives",
+        "preventionDescription": "Learn how to prevent allergens and find suitable product alternatives.",
+        "prevention": [
+          {
+            "title": "How to Avoid Gluten in Food",
+            "content": "Gluten is found in many grains such as wheat, barley, and rye. Look for gluten-free labels on products. Opt for alternatives like rice, quinoa, and corn when preparing meals."
+          },
+          {
+            "title": "Dairy Alternatives",
+            "content": "For those who are lactose intolerant or allergic to dairy, you can replace milk with almond, soy, oat, or coconut milk. Look for dairy-free cheese and yogurt options as well. By now, a lot of plant-based alternatives exists for dairy products."
+          },
+          {
+            "title": "Substituting Dairy in Recipes",
+            "content": "Use almond, soy, or oat milk as a dairy substitute. Nutritional yeast is great for a cheesy flavor."
+          },
+          {
+            "title": "Allergen-Free Snacks for Kids",
+            "content": "Try apple slices with sunflower seed butter, or homemade granola bars with oats, dried fruit, and honey."
+          },
+          {
+            "title": "Egg Replacements for Baking",
+            "content": "You can substitute eggs in baking by using mashed bananas, applesauce, or flaxseeds mixed with water."
+          }
+        ],
+        "learnMore": "Learn More",
+        "faqTitle": "Frequently Asked Questions",
+        "faq": [
+          {
+            "title": "What is an allergen?",
+            "content": "It's a substance that can cause allergic reactions. In the context of Guardos, we are speaking of allergens contained in food or drinks."
+          },
+          {
+            "title": "What should I do if I accidentally consume an allergen?",
+            "content": "Depending on how severe your symptoms are, reactions are different. If you have mild symptoms caused by an intolerance, you might just wait out the symptoms. However, with intense symtoms (very important with food allergies),  medication might be required and seeking medical help immediately. You should discuss with your doctor what to do in case of an emergency."
+          },
+          {
+            "title": "How can I identify food allergens in restaurants?",
+            "content": "Always ask the restaurant staff about the ingredients and food preparation. Some restaurants provide allergen menus. With Guardos, you can filter restaurants by allergens and it presents you what dishes are fine for you to consume."
+          },
+          {
+            "title": "What is cross-contamination?",
+            "content": "Cross-contamination happens when allergens are transferred from one food item to another, often through shared surfaces or utensils."
+          },
+          {
+            "title": "How can I prevent cross-contamination at home?",
+            "content": "Use separate cutting boards, utensils, and cookware for allergen-free meals. Clean surfaces thoroughly and wash hands before preparing food."
+          },
+          {
+            "title": "Can food allergies develop later in life?",
+            "content": "Yes, food allergies can develop at any age, although they are more common in childhood. Some people may develop an allergy to a food they have previously eaten without problems."
+          },
+          {
+            "title": "Can food allergies go away over time?",
+            "content": "Some food allergies may be outgrown, especially in children. However, it is important to consult with a healthcare professional for proper diagnosis and guidance."
+          },
+          {
+            "title": "What is the difference between a food allergy and a food intolerance?",
+            "content": "A food allergy triggers an immune system response, which can be severe and life-threatening, while a food intolerance typically causes digestive issues and is less dangerous."
+          },
+          {
+            "title": "What is anaphylaxis?",
+            "content": "Anaphylaxis is a severe, potentially life-threatening allergic reaction that can occur within minutes of exposure to an allergen. Symptoms may include difficulty breathing, swelling, hives, and a drop in blood pressure. Immediate medical attention and the use of an epinephrine auto-injector are critical."
+          }
+        ],
+        "noresto": "No restaurants found"
       },
       "SubscriptionPage": {
         "my-subscription": "My Subscription",

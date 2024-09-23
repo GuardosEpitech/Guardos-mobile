@@ -235,7 +235,97 @@
         "scan": "Scan",
         "my-profile": "My Profile",
         "login": "Login",
-        "register": "Register"
+        "register": "Register",
+        "guides": "Guides"
+      },
+      "GuidePage": {
+        "title": "Allergen Management Guide",
+        "description": "Essential tips, guides, and information on how you can manage allergens in your restaurant, prevent cross-contamination, and provide safe dining options for customers with food allergies.",
+        "tipsTitle": "Allergen Management Tips",
+        "loadingTips": "Loading tips...",
+        "tips": [
+          {
+            "title": "Train Staff on Allergen Awareness",
+            "content": "Ensure all staff members are trained to recognize and handle food allergens. Educate them on the common allergens, how to check ingredient labels, and the importance of preventing cross-contamination."
+          },
+          {
+            "title": "Clear Communication with Customers",
+            "content": "Encourage customers to inform your staff about their allergies. Make sure your team asks follow-up questions and provides accurate information about ingredients used in each dish."
+          },
+          {
+            "title": "Create an Allergen-Friendly Menu",
+            "content": "Offer a separate allergen-friendly menu or clearly mark dishes that are free from common allergens like gluten, nuts, or dairy. This makes it easier for customers with allergies to find safe options. Guardos helps you to create a personalized menu for your customers with clear indication of included allergens."
+          },
+          {
+            "title": "Avoid Cross-Contamination in the Kitchen",
+            "content": "Dedicate separate areas, utensils, and cookware for preparing allergen-free meals. Make sure surfaces are cleaned thoroughly before preparing allergen-free dishes to avoid cross-contact."
+          },
+          {
+            "title": "Label Ingredients Clearly",
+            "content": "Ensure that all food and ingredients in your kitchen are properly labeled with potential allergens. This helps kitchen staff avoid mistakes and ensures that allergens are properly identified."
+          }
+        ],
+        "preventionTitle": "Prevention & Safe Practices",
+        "preventionDescription": "Learn how to prevent allergen exposure and create a safe dining environment for customers with food allergies.",
+        "prevention": [
+          {
+            "title": "Use Dedicated Equipment for Allergen-Free Dishes",
+            "content": "Have separate cutting boards, utensils, and cookware for allergen-free meal preparation. This reduces the risk of cross-contamination."
+          },
+          {
+            "title": "Allergen-Free Preparation Zones",
+            "content": "Designate specific areas in the kitchen for preparing allergen-free meals. Ensure that these areas are cleaned regularly and used exclusively for allergen-free preparation."
+          },
+          {
+            "title": "Proper Cleaning Procedures",
+            "content": "Regularly sanitize all work surfaces, utensils, and cooking equipment. Use different color-coded tools to differentiate between allergen-free and regular meal preparation."
+          },
+          {
+            "title": "Regular Staff Training",
+            "content": "Conduct regular training for staff members on how to handle allergens, respond to customer queries about allergens, and prevent cross-contamination."
+          },
+          {
+            "title": "Accurate Allergen Information for Customers",
+            "content": "Make sure the menu is updated regularly with accurate allergen information. Inform customers about any changes in ingredients that might affect allergen content."
+          }
+        ],
+        "learnMore": "Learn More",
+        "faqTitle": "Frequently Asked Questions",
+        "faq": [
+          {
+            "title": "What are the most common allergens restaurants should be aware of?",
+            "content": "The most common food allergens include milk, eggs, peanuts, tree nuts, fish, shellfish, soy, wheat, and sesame. Ensure these allergens are clearly marked on your menu."
+          },
+          {
+            "title": "How can we prevent cross-contamination in the kitchen?",
+            "content": "To prevent cross-contamination, use separate utensils, cookware, and preparation areas for allergen-free meals. Clean all surfaces thoroughly and make sure staff wash their hands between handling different foods."
+          },
+          {
+            "title": "How should we communicate allergen information to customers?",
+            "content": "Make sure allergen information is clearly listed on the menu or on a separate allergen menu. Train staff to ask customers about any food allergies and to provide clear, accurate information about ingredients and preparation methods."
+          },
+          {
+            "title": "What steps should be taken if a customer has an allergic reaction in the restaurant?",
+            "content": "Ensure all staff know how to recognize signs of an allergic reaction and are trained in emergency response procedures. Call emergency services immediately if a customer is experiencing a severe reaction, such as anaphylaxis."
+          },
+          {
+            "title": "How can we keep up with changing allergen information?",
+            "content": "Regularly update your menu and ingredient lists to reflect any changes in allergen content. Work closely with suppliers to ensure you have accurate and up-to-date information about the ingredients you use."
+          },
+          {
+            "title": "What are the legal requirements for allergen labeling in restaurants?",
+            "content": "In many countries, restaurants are required by law to provide allergen information to customers. Make sure you comply with all relevant regulations and clearly label allergens on your menu."
+          },
+          {
+            "title": "How often should staff receive allergen training?",
+            "content": "Staff should receive allergen training at least once a year, or whenever there are significant changes to the menu or food preparation methods. Refresher training is also recommended to ensure ongoing awareness."
+          },
+          {
+            "title": "What should be done if an ingredient's allergen status changes?",
+            "content": "If an ingredient's allergen status changes, update your menu immediately and inform your staff. Communicate the change clearly to customers, especially those who may have previously ordered the dish."
+          }
+        ],
+        "noresto": "No restaurants found"
       },
       "SubscriptionPage": {
         "my-subscription": "My subscription",

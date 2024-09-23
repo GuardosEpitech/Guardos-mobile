@@ -234,7 +234,97 @@
         "scan": "Scannen",
         "my-profile": "Mein Profil",
         "login": "Anmelden",
-        "register": "Registrieren"
+        "register": "Registrieren",
+        "guides": "Ratgeber"
+      },
+      "GuidePage": {
+        "title": "Allergenmanagement-Leitfaden",
+        "description": "Wichtige Tipps, Leitfäden und Informationen darüber, wie Restaurants Allergene verwalten, Kreuzkontaminationen verhindern und sichere Speisemöglichkeiten für Kunden mit Nahrungsmittelallergien bieten können.",
+        "tipsTitle": "Tipps zum Allergenmanagement",
+        "loadingTips": "Tipps werden geladen...",
+        "tips": [
+          {
+            "title": "Schulung des Personals zur Allergenbewusstheit",
+            "content": "Stellen Sie sicher, dass alle Mitarbeiter geschult sind, um Lebensmittelallergene zu erkennen und zu handhaben. Schulen Sie sie in den häufigsten Allergenen, der Überprüfung von Zutatenlisten und der Bedeutung der Vermeidung von Kreuzkontaminationen."
+          },
+          {
+            "title": "Klare Kommunikation mit Kunden",
+            "content": "Ermutigen Sie die Kunden, Ihr Personal über ihre Allergien zu informieren. Achten Sie darauf, dass Ihr Team Rückfragen stellt und genaue Informationen zu den in jedem Gericht verwendeten Zutaten gibt."
+          },
+          {
+            "title": "Erstellen Sie ein allergikerfreundliches Menü",
+            "content": "Bieten Sie ein separates allergikerfreundliches Menü an oder kennzeichnen Sie deutlich Gerichte, die frei von häufigen Allergenen wie Gluten, Nüssen oder Milchprodukten sind. Dies erleichtert es Kunden mit Allergien, sichere Optionen zu finden."
+          },
+          {
+            "title": "Vermeiden Sie Kreuzkontaminationen in der Küche",
+            "content": "Richten Sie separate Bereiche, Utensilien und Kochgeschirr für die Zubereitung von allergenfreien Mahlzeiten ein. Achten Sie darauf, dass die Oberflächen gründlich gereinigt werden, bevor allergenfreie Gerichte zubereitet werden, um Kreuzkontakte zu vermeiden."
+          },
+          {
+            "title": "Kennzeichnen Sie Zutaten klar und deutlich",
+            "content": "Stellen Sie sicher, dass alle Lebensmittel und Zutaten in Ihrer Küche ordnungsgemäß mit potenziellen Allergenen gekennzeichnet sind. Dies hilft dem Küchenpersonal, Fehler zu vermeiden und stellt sicher, dass Allergene korrekt identifiziert werden."
+          }
+        ],
+        "preventionTitle": "Prävention & Sichere Praktiken",
+        "preventionDescription": "Erfahren Sie, wie Sie die Exposition gegenüber Allergenen verhindern und ein sicheres Speiseumfeld für Kunden mit Nahrungsmittelallergien schaffen können.",
+        "prevention": [
+          {
+            "title": "Verwenden Sie spezielle Geräte für allergenfreie Gerichte",
+            "content": "Haben Sie separate Schneidebretter, Utensilien und Kochgeschirr für die Zubereitung von allergenfreien Mahlzeiten. Dies verringert das Risiko einer Kreuzkontamination."
+          },
+          {
+            "title": "Allergenfreie Zubereitungszonen",
+            "content": "Weisen Sie in der Küche bestimmte Bereiche für die Zubereitung von allergenfreien Mahlzeiten zu. Achten Sie darauf, dass diese Bereiche regelmäßig gereinigt und ausschließlich für die allergenfreie Zubereitung verwendet werden."
+          },
+          {
+            "title": "Ordnungsgemäße Reinigungsverfahren",
+            "content": "Desinfizieren Sie regelmäßig alle Arbeitsflächen, Utensilien und Kochgeräte. Verwenden Sie unterschiedlich farbcodierte Werkzeuge, um zwischen der Zubereitung allergenfreier und regulärer Mahlzeiten zu unterscheiden."
+          },
+          {
+            "title": "Regelmäßige Schulung des Personals",
+            "content": "Führen Sie regelmäßige Schulungen für Mitarbeiter durch, wie sie mit Allergenen umgehen, auf Kundenanfragen zu Allergenen reagieren und Kreuzkontaminationen verhindern können."
+          },
+          {
+            "title": "Genauere Allergeninformationen für Kunden",
+            "content": "Achten Sie darauf, dass das Menü regelmäßig mit genauen Allergeninformationen aktualisiert wird. Informieren Sie die Kunden über Änderungen bei den Zutaten, die den Allergengehalt betreffen könnten."
+          }
+        ],
+        "learnMore": "Mehr erfahren",
+        "faqTitle": "Häufig gestellte Fragen",
+        "faq": [
+          {
+            "title": "Was sind die häufigsten Allergene, die Restaurants beachten sollten?",
+            "content": "Die häufigsten Nahrungsmittelallergene sind Milch, Eier, Erdnüsse, Baumnüsse, Fisch, Schalentiere, Soja, Weizen und Sesam. Achten Sie darauf, dass diese Allergene in Ihrem Menü deutlich gekennzeichnet sind."
+          },
+          {
+            "title": "Wie können wir Kreuzkontaminationen in der Küche verhindern?",
+            "content": "Um Kreuzkontaminationen zu verhindern, verwenden Sie separate Utensilien, Kochgeschirr und Zubereitungsbereiche für allergenfreie Mahlzeiten. Reinigen Sie alle Oberflächen gründlich und achten Sie darauf, dass das Personal sich zwischen der Handhabung verschiedener Lebensmittel die Hände wäscht."
+          },
+          {
+            "title": "Wie sollten wir Allergeninformationen an Kunden weitergeben?",
+            "content": "Stellen Sie sicher, dass Allergeninformationen klar auf der Speisekarte oder auf einem separaten Allergen-Menü angegeben sind. Schulen Sie das Personal, um Kunden nach etwaigen Lebensmittelallergien zu fragen und klare, genaue Informationen über Zutaten und Zubereitungsmethoden zu geben."
+          },
+          {
+            "title": "Welche Maßnahmen sollten ergriffen werden, wenn ein Kunde im Restaurant eine allergische Reaktion hat?",
+            "content": "Stellen Sie sicher, dass alle Mitarbeiter wissen, wie man Anzeichen einer allergischen Reaktion erkennt und in Notfällen richtig reagiert. Rufen Sie sofort den Rettungsdienst, wenn ein Kunde eine schwere Reaktion wie Anaphylaxie zeigt."
+          },
+          {
+            "title": "Wie können wir über Änderungen von Allergeninformationen auf dem Laufenden bleiben?",
+            "content": "Aktualisieren Sie regelmäßig Ihr Menü und Ihre Zutatenlisten, um Änderungen des Allergengehalts widerzuspiegeln. Arbeiten Sie eng mit Ihren Lieferanten zusammen, um genaue und aktuelle Informationen zu den verwendeten Zutaten zu erhalten."
+          },
+          {
+            "title": "Was sind die gesetzlichen Anforderungen zur Kennzeichnung von Allergenen in Restaurants?",
+            "content": "In vielen Ländern sind Restaurants gesetzlich verpflichtet, den Kunden Informationen über Allergene bereitzustellen. Stellen Sie sicher, dass Sie alle relevanten Vorschriften einhalten und Allergene auf Ihrer Speisekarte deutlich kennzeichnen."
+          },
+          {
+            "title": "Wie oft sollten Mitarbeiter eine Schulung zu Allergenen erhalten?",
+            "content": "Mitarbeiter sollten mindestens einmal im Jahr oder immer dann, wenn sich das Menü oder die Zubereitungsmethoden erheblich ändern, eine Schulung zu Allergenen erhalten. Es wird auch empfohlen, Auffrischungskurse durchzuführen, um das Bewusstsein aufrechtzuerhalten."
+          },
+          {
+            "title": "Was sollte getan werden, wenn sich der Allergenstatus einer Zutat ändert?",
+            "content": "Wenn sich der Allergenstatus einer Zutat ändert, aktualisieren Sie sofort Ihr Menü und informieren Sie Ihr Personal. Kommunizieren Sie die Änderung deutlich an Kunden, insbesondere an diejenigen, die das Gericht möglicherweise zuvor bestellt haben."
+          }
+        ],
+        "noresto": "Keine Restaurants gefunden"
       },
       "SubscriptionPage": {
         "my-subscription": "Mein Abonnement",

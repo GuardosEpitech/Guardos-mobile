@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   profileHeaderDarkTheme: {
-    color: 'white',
+    color: 'black',
   },
   dropDownDarkTheme: {
     marginBottom: 20,

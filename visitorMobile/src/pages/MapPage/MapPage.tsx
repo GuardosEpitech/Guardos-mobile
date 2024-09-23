@@ -693,11 +693,11 @@ const MapPage = () => {
       </TouchableOpacity>
 
       <Modal isVisible={showFilterPopup} style={{ marginTop: 50 }}>
-      <ScrollView style={styles.filterPopup}>
-        <View style={styles.filterPopup}>
-          <Text style={styles.popupHeading}>{t('pages.MapPage.filter')}</Text>
+      <ScrollView style={darkMode ? styles.filterPopupDark : styles.filterPopup}>
+        <View style={darkMode ? styles.filterPopupDark : styles.filterPopup}>
+          <Text style={[darkMode && styles.darkModeTxt, styles.popupHeading]}>{t('pages.MapPage.filter')}</Text>
 
-          <Text style={styles.categoryText}>{t('pages.MapPage.rating')}</Text>
+          <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.MapPage.rating')}</Text>
           <View style={styles.ratingContainer}>
             {[1, 2, 3, 4, 5].map((index) => (
               <TouchableOpacity
@@ -713,7 +713,7 @@ const MapPage = () => {
             ))}
           </View>
 
-          <Text style={styles.categoryText}>{t('pages.MapPage.range')}</Text>
+          <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.MapPage.range')}</Text>
               <Slider
                 thumbStyle={styles.thumb}
                 value={range}
@@ -725,9 +725,9 @@ const MapPage = () => {
                 maximumTrackTintColor="#e2b0b3"
                 thumbTintColor="#6d071a" 
               />
-              <Text style={styles.distanceText}>{t('pages.MapPage.distance', {range: range})}</Text>
+              <Text style={[darkMode && styles.darkModeTxt, styles.distanceText]}>{t('pages.MapPage.distance', {range: range})}</Text>
 
-          <Text style={styles.categoryText}>{t('pages.MapPage.categories')}</Text>
+          <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.MapPage.categories')}</Text>
 
           <View style={styles.categoriesContainer}>
             {categories.map((category, index) => (
@@ -742,7 +742,7 @@ const MapPage = () => {
             ))}
           </View>
 
-          <Text style={styles.categoryText}>{t('pages.MapPage.allergens')}</Text>
+          <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.MapPage.allergens')}</Text>
           <View style={styles.categoriesContainer}>
             {allergens.map((allergen, index) => (
               <TouchableOpacity
@@ -757,7 +757,7 @@ const MapPage = () => {
           </View>
 
           <View>
-            <Text style={styles.categoryText}>{t('pages.MapPage.save-filter')}</Text>
+            <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.MapPage.save-filter')}</Text>
             <TextInput
               style={styles.saveInput}
               placeholder={t('pages.MapPage.enter-filter-name') as string}
@@ -785,7 +785,7 @@ const MapPage = () => {
           </View>
 
           {/* Saved Filters Section */}
-          <Text style={styles.categoryText}>{t('pages.MapPage.saved-filters')}</Text>
+          <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.MapPage.saved-filters')}</Text>
           <ScrollView>
             {savedFilters.map((filter, index) => (
               <View key={index} style={styles.savedFilterItem}>

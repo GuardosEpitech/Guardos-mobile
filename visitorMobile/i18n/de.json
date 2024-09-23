@@ -18,7 +18,8 @@
 
       "error": "Fehler",
       "need-cam-permissions": "Zugriff auf die Kamerarolle ist erforderlich!",
-      "success": "Geschafft"
+      "success": "Geschafft",
+      "me": "Ich"
     },
     "components": {
       "AdCard": {
@@ -32,7 +33,8 @@
         "discount": "Reduzierter Preis: ",
         "valid": "Gültig bis ",
         "show": "Vorgeschlagene Kombination anzeigen",
-        "hide": "Vorgeschlagene Kombination ausblenden"
+        "hide": "Vorgeschlagene Kombination ausblenden",
+        "disliked-ingredients": "Versteckt wegen nicht gemochter Zutaten: "
       },
       "ErrorBoundary": {
         "oops": "Hoppla!",
@@ -95,6 +97,8 @@
       "MapPage": {
         "save-filter-error": "Fehler beim Speichern des Filters. Bitte versuchen Sie es erneut.",
         "save-filter-success": "Filter erfolgreich gespeichert.",
+        "saved-filters-overview": "{{used}} / {{limit}} Filtern gespeichert",
+        "save-filter-limit-reached": "Sie haben das Limit für gespeicherte Filter erreicht",
         "delete-filter-error": "Fehler beim Löschen des Filters. Bitte versuchen Sie es erneut.",
         "delete-filter-success": "Filter erfolgreich gelöscht",
         "enter-resto-name": "Restaurantname eingeben",
@@ -158,8 +162,15 @@
         "email": "E-Mail",
         "enter-email": "Geben Sie Ihre E-Mail ein",
         "city": "Stadt",
+        "allergens": "Allergene",
+        "disliked-ingredients-title": "Vermeide Zutaten",
+        "language": "Sprache",
         "enter-city": "Geben Sie Ihre Stadt ein",
         "apply-changes": "Änderungen übernehmen",
+        "disliked-ingredients": "Vermeide folgende Zutaten",
+        "ingredient-not-found": "Zutat nicht gefunden? Hier neue hinzufügen",
+        "add-new-ingredient": "Neues Zutat zur Auswahl hinzufügen",
+        "enter-ingredient": "Zutat eingeben",
         "fav-restos": "Lieblingsrestaurants",
         "fav-dishes": "Lieblingsgerichte",
         "previous": "Vorherige",
@@ -200,6 +211,8 @@
         "delete-filter-success": "Filter erfolgreich gelöscht",
         "enter-resto-name": "Restaurantname eingeben",
         "enter-city": "Stadtname eingeben",
+        "enter-name": "Profilname eingeben",
+        "add-profile": "Neues profil hinzufügen",
         "search": "Suchen",
         "filter": "Filter",
         "rating": "Bewertung: ",
@@ -221,7 +234,101 @@
         "contact-us": "Kontakt",
         "my-profile": "Mein Profil",
         "login": "Anmelden",
-        "register": "Registrieren"
+        "register": "Registrieren",
+        "guides": "Ratgeber"
+      },
+      "GuidePage": {
+        "title": "Allergene Ratgeber & Tipps",
+        "description": "Hilfreiche Tipps, Leitfäden und Informationen zu Allergenen, Prävention und Alternativen.",
+        "tipsTitle": "Allergene Tipps",
+        "loadingTips": "Tipps werden geladen...",
+        "tips": [
+          {
+            "title": "Wie man häufige Nahrungsmittelallergene vermeidet",
+            "content": "Lesen Sie die Inhaltsstoffe sorgfältig, vermeiden Sie Kreuzkontaminationen und fragen Sie das Restaurantpersonal nach den Zutaten, wenn Sie auswärts essen."
+          },
+          {
+            "title": "Gluten vermeiden beim Reisen",
+            "content": "Wenn Sie reisen, nehmen Sie Ihre eigenen allergenfreien Snacks mit und recherchieren Sie allergenfreie Restaurants im Voraus, die zu Ihrem Ernährungsprofil passen."
+          },
+          {
+            "title": "Nahrungsmittelallergien auf Partys handeln",
+            "content": "Informieren Sie den Gastgeber über Ihre Allergien, bringen Sie Ihr eigenes Gericht mit und vermeiden Sie das Teilen von Utensilien oder Tellern."
+          },
+          {
+            "title": "Tipps für das Essen im Restaurant mit Allergien",
+            "content": "Rufen Sie das Restaurant zuvor an, um nach allergenfreien Optionen zu fragen, seien Sie klar bezüglich Ihrer spezifischen Diät und vermeiden Sie Buffets."
+          },
+          {
+            "title": "Kreuzkontamination vermeiden",
+            "content": "Achten Sie beim Zubereiten von Speisen zu Hause darauf, dass Utensilien, Schneidebretter und Oberflächen gründlich gereinigt werden, um Kreuzkontakt mit Allergenen zu vermeiden."
+          }
+        ],
+        "preventionTitle": "Prävention & Alternativen",
+        "preventionDescription": "Erfahren Sie, wie Sie Allergene vermeiden und geeignete Produktalternativen finden können.",
+        "prevention": [
+          {
+            "title": "Wie man Gluten in Lebensmitteln vermeidet",
+            "content": "Gluten kommt in vielen Getreidearten wie Weizen, Gerste und Roggen vor. Achten Sie auf glutenfreie Etiketten auf Produkten. Verwenden Sie Alternativen wie Reis, Quinoa und Mais bei der Zubereitung von Mahlzeiten."
+          },
+          {
+            "title": "Milchalternativen",
+            "content": "Für Menschen mit Laktoseintoleranz oder einer Allergie gegen Milchprodukte können Sie Milch durch Mandel-, Soja-, Hafer- oder Kokosmilch ersetzen. Es gibt auch milchfreie Käse- und Joghurtoptionen. Heutzutage gibt es viele pflanzliche Alternativen für Milchprodukte."
+          },
+          {
+            "title": "Milchprodukte in Rezepten ersetzen",
+            "content": "Verwenden Sie Mandel-, Soja- oder Hafermilch als Ersatz für Milchprodukte. Nährhefe eignet sich hervorragend für einen käsigen Geschmack."
+          },
+          {
+            "title": "Allergenfreie Snacks für Kinder",
+            "content": "Probieren Sie Apfelscheiben mit Sonnenblumenkernbutter oder hausgemachte Müsliriegel mit Hafer, Trockenfrüchten und Honig."
+          },
+          {
+            "title": "Eiersatz für das Backen",
+            "content": "Sie können Eier beim Backen durch zerdrückte Bananen, Apfelmus oder Leinsamen mit Wasser ersetzen."
+          }
+        ],
+        "learnMore": "Mehr erfahren",
+        "faqTitle": "Häufig gestellte Fragen",
+        "faq": [
+          {
+            "title": "Was ist ein Allergen?",
+            "content": "Ein Allergen ist eine Substanz, die allergische Reaktionen hervorrufen kann. Im Kontext von Guardos sprechen wir von Allergenen, die in Lebensmitteln oder Getränken enthalten sind."
+          },
+          {
+            "title": "Was sollte ich tun, wenn ich versehentlich ein Allergen zu mir nehme?",
+            "content": "Abhängig von der Schwere Ihrer Symptome können die Reaktionen unterschiedlich sein. Bei milden Symptomen aufgrund einer Unverträglichkeit können Sie die Symptome abwarten. Bei starken Symptomen (sehr wichtig bei Nahrungsmittelallergien) kann jedoch eine Medikation erforderlich sein und es ist ratsam, sofort medizinische Hilfe in Anspruch zu nehmen. Sie sollten mit Ihrem Arzt besprechen, was im Notfall zu tun ist."
+          },
+          {
+            "title": "Wie kann ich Nahrungsmittelallergene in Restaurants erkennen?",
+            "content": "Fragen Sie das Restaurantpersonal immer nach den Zutaten und der Zubereitung der Speisen. Einige Restaurants bieten Allergen-Menüs an. Mit Guardos können Sie Restaurants nach Allergenen filtern und es zeigt Ihnen an, welche Gerichte für Sie geeignet sind."
+          },
+          {
+            "title": "Was ist Kreuzkontamination?",
+            "content": "Eine Kreuzkontamination tritt auf, wenn Allergene von einem Lebensmittel auf ein anderes übertragen werden, oft durch gemeinsame Oberflächen oder Utensilien."
+          },
+          {
+            "title": "Wie kann ich Kreuzkontaminationen zu Hause vermeiden?",
+            "content": "Verwenden Sie separate Schneidebretter, Utensilien und Kochgeschirr für allergenfreie Mahlzeiten. Reinigen Sie Oberflächen gründlich und waschen Sie Ihre Hände, bevor Sie mit der Zubereitung von Speisen beginnen."
+          },
+          {
+            "title": "Können sich Nahrungsmittelallergien im Laufe des Lebens entwickeln?",
+            "content": "Ja, Nahrungsmittelallergien können in jedem Alter auftreten, obwohl sie im Kindesalter häufiger sind. Manche Menschen entwickeln eine Allergie gegen Lebensmittel, die sie zuvor problemlos verzehrt haben."
+          },
+          {
+            "title": "Können Nahrungsmittelallergien mit der Zeit verschwinden?",
+            "content": "Einige Nahrungsmittelallergien können überwunden werden, insbesondere bei Kindern. Es ist jedoch wichtig, einen Arzt für eine richtige Diagnose und Beratung zu konsultieren."
+          },
+          {
+            "title": "Was ist der Unterschied zwischen einer Nahrungsmittelallergie und einer Nahrungsmittelunverträglichkeit?",
+            "content": "Eine Nahrungsmittelallergie löst eine Reaktion des Immunsystems aus, die schwerwiegend und lebensbedrohlich sein kann, während eine Nahrungsmittelunverträglichkeit normalerweise Verdauungsprobleme verursacht und weniger gefährlich ist."
+          },
+          {
+            "title": "Was ist Anaphylaxie?",
+            "content": "Anaphylaxie ist eine schwere, potenziell lebensbedrohliche allergische Reaktion, die innerhalb von Minuten nach Kontakt mit einem Allergen auftreten kann. Zu den Symptomen gehören Atembeschwerden, Schwellungen, Hautausschläge und ein Blutdruckabfall. Sofortige medizinische Hilfe und die Verwendung eines Epinephrin-Autoinjektors sind entscheidend."
+          }
+        ],
+        "noresto": "Keine Restaurants gefunden"
       },
       "SubscriptionPage": {
         "my-subscription": "Mein Abonnement",

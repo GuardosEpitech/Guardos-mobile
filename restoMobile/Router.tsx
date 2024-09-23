@@ -36,6 +36,7 @@ import TermsPage from "./src/pages/TermsPage/TermsPage";
 import DishDiscountPage from './src/pages/DishDiscountPage/DishDiscountPage';
 import DishComboPage from 'src/pages/DishComboPage/DishComboPage';
 import UserInsights from "./src/pages/UserInsights/UserInsinghts";
+import GuidesPage from "./src/pages/Guides/GuidesPage";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -75,6 +76,9 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                 case 'MyRestaurantsScreen':
                   iconName = focused ? 'restaurant' : 'restaurant-outline';
                   break;
+                case 'MyCategoriesScreen':
+                    iconName = focused ? 'menu' : 'menu-outline';
+                    break;
                 case 'MyDishesScreen':
                   iconName = focused ? 'pizza' : 'pizza-outline';
                   break;
@@ -87,9 +91,12 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                 case 'QRCodeEngin':
                   iconName = focused ? 'qr-code' : 'qr-code-outline';
                   break;
-                  case 'Insights':
-                    iconName = focused ? 'analytics' : 'analytics-outline';
-                    break;
+                case 'Guides':
+                  iconName = focused ?  'book' : 'book-outline';
+                  break;
+                case 'Insights':
+                  iconName = focused ? 'analytics' : 'analytics-outline';
+                  break;
                 default:
                   iconName = 'alert-circle-outline'; // Default icon for unrecognized routes
                   break;
@@ -109,6 +116,16 @@ const MainDrawer = ({ setLoggedInStatus }) => {
             options={{
               drawerLabel: t('common.my-restos') as string,
               title: t('common.my-restos') as string,
+              headerShown: true,
+              headerStyle: { backgroundColor: '#6d071a' },
+            }}
+        />
+        <Drawer.Screen
+            name="MyCategoriesScreen"
+            component={MyCategoryStack}
+            options={{
+              drawerLabel: t('common.my-categories') as string,
+              title: t('common.my-categories') as string,
               headerShown: true,
               headerStyle: { backgroundColor: '#6d071a' },
             }}
@@ -154,6 +171,16 @@ const MainDrawer = ({ setLoggedInStatus }) => {
         >
           {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus} />}
         </Drawer.Screen>
+        <Drawer.Screen
+          name="Guides"
+          component={GuidesPage}
+          options={{
+            drawerLabel: t('pages.Router.guides') as string,
+            title: t('pages.Router.guides') as string,
+            headerShown: true,
+            headerStyle: { backgroundColor: '#6d071a' },
+          }}
+        />
         <Drawer.Screen
             name="Insights"
             component={UserInsights}

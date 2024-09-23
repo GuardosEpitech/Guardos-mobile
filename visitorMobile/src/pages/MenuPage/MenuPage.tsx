@@ -10,7 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "@react-navigation/native";
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
-import {getUserAllergens} from "../../services/userCalls";
+import {getUserAllergens, getUserDislikedIngredients} from "../../services/userCalls";
 import {getRestosMenu} from "../../services/menuCalls";
 import { ICategories } from "../../../../shared/models/categoryInterfaces";
 import Category from "../../components/Category/Category";
@@ -33,6 +33,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   const [isFavouriteDishs, setIsFavouriteDishs] = React.useState<Array<{ restoID: number, dish: IDishFE }>>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [restoMenu, setRestoMenu] = React.useState([]);
+  const [dislikedIngredients, setDislikedIngredients] = React.useState([]);
   const {t} = useTranslation();
 
   useEffect(() => {
@@ -76,7 +77,9 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
     }
 
     const userAllergens = await getUserAllergens(userToken);
-    const restosMenu = await getRestosMenu(restaurantId, userAllergens);
+    const ingredients = await getUserDislikedIngredients(userToken);
+    setDislikedIngredients(ingredients);
+    const restosMenu = await getRestosMenu(restaurantId, userAllergens, ingredients);
     setRestoMenu(restosMenu);
     return restosMenu;
   }
@@ -160,6 +163,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
                         isFavourite={isFavouriteDishs.some(fav => {
                           return fav.restoID === restaurantId && fav.dish.uid === dish.uid;
                         })}
+                        dislikedIngredients={dislikedIngredients}
                         isSmallerCard={true}
                         pictures={pictures}
                         isFirstLevel={true}

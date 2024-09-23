@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
-        width: '40%',
+        width: '35%',
         borderWidth: 1,
         paddingHorizontal: 10,
     },
@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
     categoryHitRate: {
         fontSize: 16,
     },
+    iconButton: {
+        marginHorizontal: 1,
+        padding: 1,
+      },
     // Dark theme
     containerDarkTheme: {
         flex: 1,
@@ -106,6 +110,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
       },
+      buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+        // width: '100%',
+        paddingHorizontal: 20,
+    },
 });
 
 export default styles;
