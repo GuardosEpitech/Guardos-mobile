@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Platform, NativeModules } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
+import 'react-native-gesture-handler';
 import Router from './Router';
 import './i18n/i18n';
 import { useTranslation } from "react-i18next";
