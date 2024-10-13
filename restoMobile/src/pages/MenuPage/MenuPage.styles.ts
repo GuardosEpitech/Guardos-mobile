@@ -120,7 +120,14 @@ const styles = StyleSheet.create({
   },
   discountContainer: {
     marginBottom: 10,
-  }
+  },
+  noMenuText: {
+    fontSize: 28,
+    textAlign: "center",
+  },
+  noMenuTextDarkTheme: {
+    color: 'white',
+  },
 });
 
 export default styles;

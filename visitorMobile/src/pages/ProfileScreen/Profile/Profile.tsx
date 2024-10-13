@@ -620,7 +620,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         <ScrollView contentContainerStyle={styles.favoriteListContainer}>
           {activeTab === 'restaurants' && (
             <View>
-              {favoriteRestaurants.slice((restoPage - 1) * pageSize, restoPage * pageSize).map((restaurant) => (
+              {favoriteRestaurants.length === 0 ? (
+                <Text style={[styles.tabButtonText, darkMode && styles.tabButtonTexDarkTheme]}>{t('pages.Profile.no-fav-restos')}</Text>
+              ) : (
+              favoriteRestaurants.slice((restoPage - 1) * pageSize, restoPage * pageSize).map((restaurant) => (
                 <TouchableOpacity onPress={() => navigateToMenu(restaurant.uid, restaurant.name)}>
                   <RestaurantCard
                     key={restaurant.uid}
@@ -630,25 +633,28 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
                     dataIndex={0}
                   />
                 </TouchableOpacity>
-              ))}
+              )))}
             </View>
           )}
 
           {activeTab === 'dishes' && (
             <View>
-              {favoriteDishes.slice((dishPage - 1) * pageSize, dishPage * pageSize).map((dish, index) => {
-                return (<DishCard
-                  key={dish.dish.uid + index}
-                  dish={dish.dish}
-                  restoID={dish.restoID}
-                  pictures={[]}
-                  isSmallerCard={true}
-                  isFavourite={true}
-                  isFirstLevel={false}
-                />)
+              {favoriteDishes.length === 0 ? (
+                  <Text style={[styles.tabButtonText, darkMode && styles.tabButtonTexDarkTheme]}>{t('pages.Profile.no-fav-dishes')}</Text>
+                ) : (
+                  favoriteDishes.slice((dishPage - 1) * pageSize, dishPage * pageSize).map((dish, index) => {
+                    return (<DishCard
+                      key={dish.dish.uid + index}
+                      dish={dish.dish}
+                      restoID={dish.restoID}
+                      pictures={[]}
+                      isSmallerCard={true}
+                      isFavourite={true}
+                      isFirstLevel={false}
+                    />)
+                  })
+                )
               }
-
-              )}
             </View>
           )}
           {/* Pagination controls */}

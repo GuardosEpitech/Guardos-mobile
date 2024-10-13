@@ -79,7 +79,8 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
     const userAllergens = await getUserAllergens(userToken);
     const ingredients = await getUserDislikedIngredients(userToken);
     setDislikedIngredients(ingredients);
-    const restosMenu = await getRestosMenu(restaurantId, userAllergens, ingredients);
+    const restosMenu = (await getRestosMenu(restaurantId, userAllergens, ingredients))
+      .filter((category: ICategories) => category.dishes.length > 0);
     setRestoMenu(restosMenu);
     return restosMenu;
   }
@@ -134,7 +135,9 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
         <Text>{t('common.loading')}</Text>
       ) : (
         <ScrollView contentContainerStyle={[styles.scrollView, darkMode && styles.scrollViewDarkTheme]}>
-          {restoMenu.map((category: ICategories) => (
+          {restoMenu.length === 0 ? (
+            <Text style={[styles.noMenuText, darkMode && styles.noMenuTextDarkTheme]}>{t('pages.MenuPage.no-menu')}</Text>
+          ) : restoMenu.map((category: ICategories) => (
             <View>
               <Category title={category.name} >
                 {category.dishes

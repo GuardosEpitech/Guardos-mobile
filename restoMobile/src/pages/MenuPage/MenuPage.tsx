@@ -101,7 +101,9 @@ const MenuPage: React.FC = ({ route }) => {
       ) : (
         <>
           <ScrollView contentContainerStyle={styles.scrollView}>
-            {sortedDishes.map((dish, index) => (
+            {sortedDishes.length === 0 ? (
+              <Text style={[styles.noMenuText, darkMode && styles.noMenuTextDarkTheme]}>{t('pages.MenuPage.no-menu')}</Text>
+            ) : sortedDishes.map((dish, index) => (
               <React.Fragment key={dish.name + index}>
                 {(index === 0 || sortedDishes[index - 1].category.menuGroup !== dish.category.menuGroup) && (
                   <Text style={[styles.groupTitle, darkMode && styles.groupTitleDarkTheme]}>{dish.category.menuGroup}</Text>

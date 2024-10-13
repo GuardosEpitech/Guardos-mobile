@@ -119,7 +119,8 @@
         "load": "Load"
       },
       "MenuPage": {
-        "show-non-compatible-dishes": "Show non-compatible dishes"
+        "show-non-compatible-dishes": "Show non-compatible dishes",
+        "no-menu": "No menu available"
       },
       "Profile": {
         "change-pw": "Change Password",
@@ -171,7 +172,9 @@
         "add-new-ingredient": "Add new ingredient to selection",
         "enter-ingredient": "Enter ingredient",
         "fav-restos": "Favourite Restaurants",
+        "no-fav-restos": "No favourite restaurants yet",
         "fav-dishes": "Favourite Dishes",
+        "no-fav-dishes": "No favourite dishes yet",
         "previous": "Previous",
         "next": "Next",
         "feature-request": "Feature request",
