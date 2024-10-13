@@ -62,6 +62,20 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 20,
   },
+  success: {
+    color: '#4caf50',
+    backgroundColor: '#e8f5e9',
+    alignSelf: 'center',
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  error: {
+    color: '#d32f2f',
+    backgroundColor: '#ffcdd2',
+    alignSelf: 'center',
+    fontSize: 18,
+    marginBottom: 10,
+  },
   logoutButtonContainer: {
     marginTop: 20,
   },

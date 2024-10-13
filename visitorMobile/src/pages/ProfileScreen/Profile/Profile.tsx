@@ -76,6 +76,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     { label: "tree nuts", value: "tree nuts"}
   ];
   const [dataChangeStatus, setDataChangeStatus] = useState(null);
+  const [saveFailureType, setSaveFailureType] = useState(null);
   const [favoriteRestaurants, setFavoriteRestaurants] = useState([]);
   const [favoriteDishes, setFavoriteDishes] = useState([]);
   const [activeTab, setActiveTab] = useState("restaurants");
@@ -367,6 +368,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
 
   const handleSave = async () => {
     setDataChangeStatus(null);
+    setSaveFailureType(null);
     const userToken = await AsyncStorage.getItem('user');
     if (userToken === null) {
       setDataChangeStatus("failed");
@@ -383,10 +385,23 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     i18n.changeLanguage(language);
 
     let isError = false;
-    if (!res) {
+
+    if (typeof res === "string") {
+      if (!res) {
+        isError = true;
+      } else {
+        await AsyncStorage.setItem('user', res);
+      }
+    } else if (Array.isArray(res) && res.length === 2) {
       isError = true;
+      if (res[0] === true) {
+        setSaveFailureType("email");
+      } else if (res[1] === true) {
+        setSaveFailureType("username");
+      }
     } else {
-      await AsyncStorage.setItem('user', res);
+      isError = true;
+      console.error('Error updating user data:');
     }
 
     if (isError) {
@@ -465,6 +480,17 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('MenuPage', { restaurantId, restaurantName });
   };
 
+  const errorExplanation = () => {
+    switch (saveFailureType) {
+      case 'email':
+        return t('pages.Profile.email-taken');
+      case 'username':
+        return t('pages.Profile.username-taken');
+      default:
+        return '';
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
       <View style={[styles.profileSection, darkMode && styles.profileSectionDarkTheme]}>
@@ -476,7 +502,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           >
             {dataChangeStatus === 'success'
               ? t('pages.Profile.changed-data-success')
-              : t('pages.Profile.changed-data-failure')}
+              : (t('pages.Profile.changed-data-failure') + errorExplanation())}
           </Text>
         )}
         <TouchableOpacity

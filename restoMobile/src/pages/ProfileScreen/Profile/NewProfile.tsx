@@ -60,6 +60,8 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [darkMode, setDarkMode] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const [twoFactor, setTwoFactor] = useState<boolean>(false);
+    const [dataChangeStatus, setDataChangeStatus] = useState(null);
+    const [saveFailureType, setSaveFailureType] = useState(null);
 
 
     const toggleDarkMode = async () => {
@@ -275,8 +277,11 @@ const ProfilePage: React.FC<ProfileScreenProps &
     };
 
     const handleApplyChanges = async () => {
+      setDataChangeStatus(null);
+      setSaveFailureType(null);
       const userToken = await AsyncStorage.getItem('user');
       if (userToken === null) {
+        setDataChangeStatus("failed");
         return;
       }
       const res = await editProfileDetails(userToken, {
@@ -287,10 +292,37 @@ const ProfilePage: React.FC<ProfileScreenProps &
       });
       i18n.changeLanguage(language);
 
-      if (res) {
-        await AsyncStorage.setItem('user', res);
+      let isError = false;
+
+      if (typeof res === "string") {
+        if (res) {
+          await AsyncStorage.setItem('user', res);
+        } else {
+          isError = true;
+        }
+      } else if (Array.isArray(res) && res.length === 2) {
+        isError = true;
+        if (res[0] === true) {
+          setSaveFailureType("email");
+        }
+        if (res[1] === true) {
+          setSaveFailureType("username");
+        }
       } else {
+        isError = true;
         console.error('Error updating user data:');
+      }
+
+      if (isError) {
+        setDataChangeStatus("failed");
+        setTimeout(() => {
+          setDataChangeStatus(null);
+        }, 5000);
+      } else {
+        setDataChangeStatus("success");
+        setTimeout(() => {
+          setDataChangeStatus(null);
+        }, 5000);
       }
 
         // TODO: add image mngt
@@ -365,11 +397,32 @@ const ProfilePage: React.FC<ProfileScreenProps &
       navigation.navigate('Payment methods');
     };
 
+    const errorExplanation = () => {
+      switch (saveFailureType) {
+        case 'email':
+          return t('pages.Profile.email-taken');
+        case 'username':
+          return t('pages.Profile.username-taken');
+        default:
+          return '';
+      }
+    };
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView >
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
           <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>{t('pages.Profile.profile-page')}</Text>
+          {dataChangeStatus !== null && (
+            <Text
+              style={dataChangeStatus === 'success' ?
+                styles.success : styles.error}
+            >
+              {dataChangeStatus === 'success'
+                ? t('pages.Profile.changed-data-success')
+                : (t('pages.Profile.changed-data-failure') + errorExplanation())}
+            </Text>
+          )}
           <TouchableOpacity
             onPress={selectImage}
             style={styles.profilePictureContainer}

@@ -151,6 +151,8 @@
         "profile-page": "Mon profil",
         "changed-data-success": "Détails du profil modifiés avec succès !",
         "changed-data-failure": "Échec de la modification des détails du profil.",
+        "email-taken": " L'email est déjà utilisé par un autre utilisateur.",
+        "username-taken": " Le nom d'utilisateur est déjà utilisé par un autre utilisateur.",
         "add-picture": "Ajouter une photo",
         "delete-picture": "Supprimer l'image",
         "username": "Nom d'utilisateur",
