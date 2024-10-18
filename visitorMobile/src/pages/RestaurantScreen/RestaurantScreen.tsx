@@ -388,6 +388,21 @@ const MyRestaurantsScreen = () => {
       }, 5000);
       return;
     }
+    if (savedFilters.some(filter => filter.filterName === filterName)) {
+      setSaveFilterStatus({
+        success: false,
+        error: true,
+        message: t('pages.RestaurantScreen.save-filter-error') as string,
+      });
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
+      return;
+    }
     let selectedRating = [];
       if (rating < 5 && rating !== 0) {
         selectedRating = [rating, rating + 1]
