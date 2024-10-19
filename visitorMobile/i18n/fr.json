@@ -116,7 +116,8 @@
         "load": "Charger"
       },
       "MenuPage": {
-        "show-non-compatible-dishes": "Afficher les plats incompatibles"
+        "show-non-compatible-dishes": "Afficher les plats incompatibles",
+        "no-menu": "Aucun menu disponible"
       },
       "Profile": {
         "change-pw": "Changer de mot de passe",
@@ -170,7 +171,9 @@
         "add-new-ingredient": "Ajouter un nouvel ingrédient à la sélection",
         "enter-ingredient": "Entrez un ingrédient",
         "fav-restos": "Restaurants favoris",
+        "no-fav-restos": "Pas encore de restaurants favoris",
         "fav-dishes": "Plats favoris",
+        "no-fav-dishes": "Pas encore de plats favoris",
         "previous": "Précédent",
         "next": "Suivant",
         "feature-request": "Demande de fonctionnalité",

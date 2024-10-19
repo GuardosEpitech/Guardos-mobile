@@ -140,7 +140,8 @@
       "MenuPage": {
         "price": "Prix : {{ price }}",
         "allergens": "Allergènes : {{ allergens }}",
-        "confirm-delete-dish": "Êtes-vous sûr de vouloir supprimer ce plat ?"
+        "confirm-delete-dish": "Êtes-vous sûr de vouloir supprimer ce plat ?",
+        "no-menu": "Aucun menu disponible pour l'instant. Veuillez ajouter un plat à une catégorie."
       },
       "MyDishPage": {
         "nodish": "Aucun plat n'est disponible. Veuillez ajouter votre plat. Mais assurez-vous d'abord d'ajouter un restaurant."
