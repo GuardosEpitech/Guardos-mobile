@@ -68,3 +68,22 @@ export interface IRestaurantBackEnd {
   extras: IDishBE[];
   products: IProduct[];
 }
+
+export type color =
+  | "primary"
+  | "secondary"
+  | "default"
+  | "error"
+  | "info"
+  | "success"
+  | "warning";
+
+export interface Allergen {
+  name: string;
+  selected: boolean;
+}
+
+export interface AllergenProfile {
+  name: string;
+  allergens: Allergen[];
+}
