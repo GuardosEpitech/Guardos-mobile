@@ -67,7 +67,9 @@ const GuidesPage = () => {
           <Text style={[styles.sectionTitle, darkMode && styles.sectionTitleDarkMode]}>
             {t('pages.GuidePage.preventionTitle')}
           </Text>
-          <Text>{t('pages.GuidePage.preventionDescription')}</Text>
+          <Text style = {[styles.smallDescription, darkMode && styles.smallDescriptionDarkMode]}>
+            {t('pages.GuidePage.preventionDescription')}
+          </Text>
           {prevention.map((item, index) => (
             <Accordion key={index} title={item.title}>
               <Text>{item.content}</Text>
@@ -121,6 +123,9 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: 20,
   },
+  smallDescription: {
+    fontSize: 15
+  },
 
   containerDarkMode: {
     padding: 20,
@@ -146,7 +151,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: 20,
     backgroundColor: '#1B1D1E',
-    color: '#white',
+    color: '#FFF',
+  },
+  smallDescriptionDarkMode: {
+    fontSize: 15,
+    color : '#FFF'
   },
 });
 
