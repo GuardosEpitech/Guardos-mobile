@@ -46,6 +46,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  profileSwitcher: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  profileButton: {
+    padding: 10,
+    marginHorizontal: 5,
+    backgroundColor: '#ccc',
+    borderRadius: 5,
+  },
+  activeProfileButton: {
+    backgroundColor: '#6d071a',
+  },
+  profileButtonText: {
+    color: '#fff',
+  },
 });
 
 export default styles;

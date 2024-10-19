@@ -126,11 +126,6 @@ const MyRestaurantsScreen = () => {
     fetchDarkMode();
 
     fetchGroupProfile();
-
-    setGroupProfiles([{
-      name: userProfileName,
-      allergens: allergens.map(allergen => ({ ...allergen, value: false, colorButton: "primary" })),
-    }]);
   }, [isFocused]);
 
   const fetchGroupProfile = async () => {
@@ -140,6 +135,9 @@ const MyRestaurantsScreen = () => {
     }
     getUserAllergens(userToken).then((userAllergens) => {
       const profileCopy = groupProfiles[0] ?? { name: userProfileName, allergens: allergens};
+      for (let j = 0; j < profileCopy.allergens.length; j++) {
+        profileCopy.allergens[j].selected = false;
+      }
       for (let i = 0; i < userAllergens.length; i++) {
         profileCopy.allergens.map((state, index) => {
           if (userAllergens[i] === state.name) {
@@ -148,6 +146,7 @@ const MyRestaurantsScreen = () => {
         });
       }
       setGroupProfiles([profileCopy]);
+      AsyncStorage.setItem('groupProfiles', JSON.stringify([profileCopy]));
       setDefaultAllergens(profileCopy.allergens);
     });
   }
@@ -371,7 +370,7 @@ const MyRestaurantsScreen = () => {
     const groupProfilesCopy = groupProfiles;
     groupProfilesCopy[selectedProfileIndex].allergens = updatedAllergens;
     setGroupProfiles(groupProfilesCopy);
-    AsyncStorage.setItem('groupProfiles', JSON.stringify(groupProfiles));
+    AsyncStorage.setItem('groupProfiles', JSON.stringify(groupProfilesCopy));
     const allergenListSelected: string[] = [];
     for (let i = 0; i < groupProfiles.length; i++) {
       for (let j = 0; j < groupProfiles[i].allergens.length; j++) {
@@ -398,6 +397,10 @@ const MyRestaurantsScreen = () => {
       name: userProfileName,
       allergens: defaultAllergens,
     }]);
+    AsyncStorage.setItem('groupProfiles', JSON.stringify([{
+      name: userProfileName,
+      allergens: defaultAllergens,
+    }]));
     setSelectedProfileIndex(0);
   };
 
@@ -449,8 +452,20 @@ const MyRestaurantsScreen = () => {
       location: '',
       categories: selectedCategories,
       allergenList: selectedAllergens,
+      groupProfiles: groupProfiles.map((profile) => (
+        {
+          name: profile.name,
+          allergens: profile.allergens.map((allergen) => (
+            {
+              name: allergen.name,
+              value: allergen.selected,
+              selected: allergen.selected,
+            }
+          )),
+        }
+      )),
       userLoc: userPosition
-    }
+    };
 
       setFilterName('');
     addSavedFilter(userToken, filter).then((res) => {
@@ -543,14 +558,16 @@ const MyRestaurantsScreen = () => {
         allergens: profile.allergens.map((allergen) => ({
           name: allergen.name,
           selected: allergen['value'],
+          value: allergen['value'],
         })),
       }));
     }
     const tempGroupProfiles = adjustedGroupProfiles ?? [{
       name: userProfileName,
-      allergens: updatedAllergens,
+      allergens: defaultAllergens,
     }]
     setGroupProfiles(tempGroupProfiles);
+    AsyncStorage.setItem('groupProfiles', JSON.stringify(tempGroupProfiles));
     setAllergens(updatedAllergens);
   };
 
@@ -637,10 +654,12 @@ const MyRestaurantsScreen = () => {
 
   const handleProfileSave = () => {
     if (newProfileName && !groupProfiles.some(profile => profile.name === newProfileName)) {
-      setGroupProfiles([
+      const profileCopy = [
         ...groupProfiles,
-        { name: newProfileName, allergens: allergens.map(allergen => ({ ...allergen, value: false, colorButton: "primary" })) }
-      ]);
+        { name: newProfileName, allergens: allergens.map(allergen => ({ name: allergen.name, value: false, selected: false })) }
+      ];
+      setGroupProfiles(profileCopy);
+      AsyncStorage.setItem('groupProfiles', JSON.stringify(profileCopy));
       setSelectedProfileIndex(groupProfiles.length);
     }
     setNewProfileName('');
