@@ -342,7 +342,8 @@ const LoginStackScreen: React.FC<LoginStackProps> = ({ setLoggedInStatus }) => {
       <Stack.Screen
         name="Login"
         options={{
-          title: t('pages.Router.login') as string
+          title: t('pages.Router.login') as string,
+          headerShown: false
         }}
       >
         {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
