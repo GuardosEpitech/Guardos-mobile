@@ -135,6 +135,7 @@ const PrivacyPage = () => {
               <Text />
               <Text style={[styles.text, darkMode && styles.textDarkTheme]}>{t('pages.Privacy.address')}</Text>
               <Text style={[styles.text, darkMode && styles.textDarkTheme]}>{t('pages.Privacy.email')}</Text>
+              <Text style={[styles.text, darkMode && styles.textDarkTheme]}>{t('pages.Privacy.phone')}</Text>
               <Text />
               <Text style={[styles.text, darkMode && styles.textDarkTheme]}>{t('pages.Privacy.end')}</Text>
               <Text />
