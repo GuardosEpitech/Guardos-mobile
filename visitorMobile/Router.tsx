@@ -29,6 +29,7 @@ import UserSupport from "./src/pages/UserSupport/UserSupport";
 import MenuPage from './src/pages/MenuPage/MenuPage';
 import i18n from "i18next";
 import GuidesPage from "./src/pages/Guides/GuidesPage";
+import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -271,7 +272,7 @@ const AuthTabs = ({ setLoggedInStatus }) => {
             name="Login"
             options={{ tabBarLabel: t('pages.Router.login') as string }}
         >
-          {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+          {() => <LoginStackScreen setLoggedInStatus={setLoggedInStatus} />}
         </Tab.Screen>
         <Tab.Screen
             name="Register"
@@ -328,6 +329,29 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
       </Stack.Navigator>
   );
 };
+
+interface LoginStackProps {
+  setLoggedInStatus: (status: boolean) => void;
+}
+
+const LoginStackScreen: React.FC<LoginStackProps> = ({ setLoggedInStatus }) => {
+  const {t} = useTranslation();
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        options={{
+          title: t('pages.Router.login') as string,
+          headerShown: false
+        }}
+      >
+        {(props) => <LoginScreen {...props} setLoggedInStatus={setLoggedInStatus} />}
+      </Stack.Screen>
+      <Stack.Screen name="Account Recovery" component={ResetPassword} />
+    </Stack.Navigator>
+  );
+}
 
 
 // @ts-ignore
