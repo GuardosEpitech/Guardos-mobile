@@ -427,7 +427,10 @@
         "name": "Kategorie:",
         "id": "Reihenfolge:",
         "noresto": "Kein Restaurant verfügbar. Bitte fügen Sie zuerst Ihr Restaurant hinzu.",
-        "add": "Neu"
+        "add": "Neu",
+        "delete": "Sind Sie sicher, dass Sie diese Kategorie löschen möchten?",
+        "noCategory": "Oops, es scheint, dass Sie noch keine Kategorien haben!",
+        "noCategory2": "Fügen Sie Kategorien hinzu, indem Sie auf 'Neu' klicken."
       },
       "Intro": {
         "ScanIntro": "Scannen Sie den Barcode eines Produkts, um es zu Ihrer Zutatenliste hinzuzufügen",

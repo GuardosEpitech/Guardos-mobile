@@ -428,7 +428,10 @@
         "name": "Category:",
         "id": "Order:",
         "noresto": "No restaurant available. Please add your restaurant first.",
-        "add": "New"
+        "add": "New",
+        "delete": "Are you sure you want to delete this category?",
+        "noCategory": "Oops, looks like you don't have any categories yet!",
+        "noCategory2": "Add categories by clicking on 'New'."
       },
       "Intro": {
         "ScanIntro": "Scan the barcode of a product to add it to your list of ingredients",
