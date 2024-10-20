@@ -42,7 +42,6 @@ const ImprintPage: React.FC = () => {
         <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.address1')}</Text>
         <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.address2')}</Text>
         <Text>{"\n"}</Text>
-        <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.telephone')}</Text>
         <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.email')}</Text>
         <Text>{"\n"}</Text>
         <Text style={[styles.impressumText, darkMode && styles.impressumTextDarkTheme]}>{t('pages.Imprint.register')}</Text>
