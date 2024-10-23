@@ -5,6 +5,7 @@ import { API_URL } from '@env';
 const baseUrl = `${API_URL}login/`;
 const baseUrl1 = `${API_URL}user/`;
 const baseUrlEmail = `${API_URL}sendEmail/`;
+const verifyLink = `${API_URL}register/resend-verification`;
 
 export const loginUser = async (userData: any) => {
   try {
@@ -264,5 +265,18 @@ export const getStripeKey = async () => {
   } catch (error) {
     console.error("Error fetching stripe key:", error);
     throw new Error("Error fetching stripe key");
+  }
+};
+
+export const resendValidationLink = async (email: string) => {
+  try {
+    await axios.post(verifyLink, { email });
+        
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(`Error with request: ${error.message}`);
+    } else {
+      console.error(`Unexpected error: ${error}`);
+    }
   }
 };

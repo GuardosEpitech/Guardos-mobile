@@ -560,6 +560,10 @@
         "update-week": "Daten beziehen sich auf folgende Woche",
         "user-allergens": "Benutzer mit diesen allergenen Präferenzen haben dieses Restaurant besucht",
         "user-disliked-ingredients": "Benutzer, die diese Zutaten nicht mögen, haben dieses Restaurant besucht"
+      },
+      "Login": {
+        "unverified": "Bitte verifizieren Sie zuerst Ihre E-Mail-Adresse.",
+        "resend": "Bestätigungslink erneut senden"
       }
     }
   }

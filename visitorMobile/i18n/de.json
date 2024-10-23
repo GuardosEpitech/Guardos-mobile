@@ -507,6 +507,10 @@
         "deviceTxt": "Die App kann Zugriff auf bestimmte Funktionen auf Ihrem Gerät anfordern (z.B. Ortungsdienste, Kamera), um den Dienst bereitzustellen. Sie können diese Berechtigungen über die Einstellungen Ihres Geräts verwalten.",
         "update": "11. Änderungen der Geschäftsbedingungen",
         "updateTxt": "Guardos behält sich das Recht vor, diese Bedingungen jederzeit ohne vorherige Ankündigung zu aktualisieren oder zu ändern. Ihre fortgesetzte Nutzung des Dienstes nach Änderungen stellt Ihre Zustimmung zu den neuen Bedingungen dar. Es liegt in Ihrer Verantwortung, diese Bedingungen regelmäßig auf Updates oder Änderungen zu überprüfen."
+    },
+    "Login": {
+      "unverified": "Bitte verifizieren Sie zuerst Ihre E-Mail-Adresse.",
+      "resend": "Bestätigungslink erneut senden"
     }
     }
   }

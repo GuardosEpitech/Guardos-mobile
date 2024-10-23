@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import styles from './Login.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {loginUser} from "../../../services/userCalls";
+import {loginUser, resendValidationLink } from "../../../services/userCalls";
 import {Ionicons} from "@expo/vector-icons";
 import {useTranslation} from "react-i18next";
 import {getVisitorProfileDetails} from "../../../services/profileCalls";
@@ -18,6 +18,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
   const [errorForm, setErrorForm] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const {t, i18n} = useTranslation();
+  const [isUnverified, setIsUnverified] = useState<boolean>(false);
 
   const handleSubmit = async () => {
     try {
@@ -33,7 +34,11 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         setErrorForm(true);
         AsyncStorage.removeItem('userToken');
         AsyncStorage.removeItem('userName');
+      } else if (response === 'Unverified email') {
+        setIsUnverified(true);
+        AsyncStorage.removeItem('userToken');
       } else {
+        setIsUnverified(false);
         setErrorForm(false);
         getVisitorProfileDetails(response)
           .then((res) => {
@@ -92,6 +97,17 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         </View>
       )}
       <View style={styles.form}>
+        {isUnverified && (
+          <>
+            <Text style={styles.errorText}>{t('pages.Login.unverified')}</Text>
+            <TouchableOpacity
+              style={styles.resendButton}
+              onPress={() => username && resendValidationLink(username)}  // Ensure username is provided
+            >
+              <Text>{t('pages.Login.resend')}</Text>
+            </TouchableOpacity>
+          </>
+        )}
         <TextInput
           style={styles.input}
           placeholder={t('pages.Profile.username-or-email') as string}

@@ -503,6 +503,10 @@
         "deviceTxt": "L'application peut demander l'accès à certaines fonctionnalités de votre appareil (par exemple, services de localisation, caméra) pour fournir le Service. Vous pouvez gérer ces autorisations via les paramètres de votre appareil.",
         "update": "11. Modifications des Conditions Générales d'Utilisation",
         "updateTxt": "Guardos se réserve le droit de mettre à jour ou de modifier ces Conditions à tout moment sans préavis. Votre utilisation continue du Service après toute modification constitue votre acceptation des nouvelles Conditions. Il est de votre responsabilité de consulter périodiquement ces Conditions pour vérifier les mises à jour ou les modifications."
+      },
+      "Login": {
+        "resend": "Renvoyer le lien de vérification",
+        "unverified": "Veuillez d'abord vérifier votre adresse e-mail."
       }
     }
   }
