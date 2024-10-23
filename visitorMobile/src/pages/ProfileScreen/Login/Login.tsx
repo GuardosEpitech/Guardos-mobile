@@ -27,35 +27,40 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         username: username,
         password: password
       });
+  
       await AsyncStorage.setItem('userName', userName);
+  
       const response = await loginUser(dataStorage);
-
-      if (response === 'Invalid Access') {
+      if (response.status === 403) {
         setErrorForm(true);
         AsyncStorage.removeItem('userToken');
         AsyncStorage.removeItem('userName');
-      } else if (response === 'Unverified email') {
+      } else if (response.status === 404) {
         setIsUnverified(true);
         AsyncStorage.removeItem('userToken');
-      } else {
+      } else if (response.status === 200) {
+        const responseData = response.data;
         setIsUnverified(false);
         setErrorForm(false);
-        getVisitorProfileDetails(response)
-          .then((res) => {
-            if (res.preferredLanguage) {
-              i18n.changeLanguage(res.preferredLanguage);
-            }
-          });
+  
+        const profileDetails = await getVisitorProfileDetails(responseData);
+        if (profileDetails.preferredLanguage) {
+          i18n.changeLanguage(profileDetails.preferredLanguage);
+        }
+  
         await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
-        await AsyncStorage.setItem('user', response);
+        await AsyncStorage.setItem('user', JSON.stringify(responseData));
+  
         setLoggedInStatus(true);
         navigation.navigate('Main');
+      } else {
+        throw new Error(`Unexpected status code: ${response.status}`);
       }
     } catch (error) {
       console.error(`Error in Post Route: ${error}`);
-      throw error;
     }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -102,7 +107,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
             <Text style={styles.errorText}>{t('pages.Login.unverified')}</Text>
             <TouchableOpacity
               style={styles.resendButton}
-              onPress={() => username && resendValidationLink(username)}  // Ensure username is provided
+              onPress={() => username && resendValidationLink(username)}  
             >
               <Text>{t('pages.Login.resend')}</Text>
             </TouchableOpacity>

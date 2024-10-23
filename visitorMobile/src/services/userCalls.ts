@@ -14,10 +14,14 @@ export const loginUser = async (userData: any) => {
         'Content-Type': 'application/json',
       },
     });
-    return response.data;
+    return {status: response.status, data: response.data};
   } catch (error) {
-    console.error("Error logging in:", error);
-    throw new Error("Error logging in");
+    if (error.response.status === 403 || error.response.status === 404) {
+      return {status: error.response.status, data: error.response.data};
+    } else {
+      console.error("Error logging in:", error);
+      throw new Error("Network error or other issue");
+    }
   }
 };
 
