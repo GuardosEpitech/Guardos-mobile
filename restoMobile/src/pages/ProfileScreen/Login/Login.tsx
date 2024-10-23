@@ -46,7 +46,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
           setUserId(response.userId);
         } else {
           setErrorForm(false);
-          await getProfileDetails(response)
+          await getProfileDetails(response.token)
               .then((res) => {
                 if (res.preferredLanguage) {
                   i18n.changeLanguage(res.preferredLanguage);
