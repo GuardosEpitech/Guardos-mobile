@@ -16,9 +16,9 @@
     },
     "preview": {
       "distribution": "internal"
-    },
-    "submit": {
-      "production": {}
     }
+  },
+  "submit": {
+    "production": {}
   }
 }
