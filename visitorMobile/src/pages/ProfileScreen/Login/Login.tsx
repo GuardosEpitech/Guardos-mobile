@@ -49,7 +49,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         }
   
         await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
-        await AsyncStorage.setItem('user', JSON.stringify(responseData));
+        await AsyncStorage.setItem('user', responseData);
   
         setLoggedInStatus(true);
         navigation.navigate('Main');
