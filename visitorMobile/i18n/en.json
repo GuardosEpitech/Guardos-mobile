@@ -119,7 +119,8 @@
         "load": "Load"
       },
       "MenuPage": {
-        "show-non-compatible-dishes": "Show non-compatible dishes"
+        "show-non-compatible-dishes": "Show non-compatible dishes",
+        "no-menu": "No menu available"
       },
       "Profile": {
         "change-pw": "Change Password",
@@ -154,6 +155,8 @@
         "profile-page": "My Profile",
         "changed-data-success": "Profile details changed successfully!",
         "changed-data-failure": "Failed to change profile details.",
+        "email-taken": " Email is already used by another user.",
+        "username-taken": " Username is already used by another user.",
         "add-picture": "Add Picture",
         "delete-picture": "Delete Picture",
         "username": "Username",
@@ -171,7 +174,9 @@
         "add-new-ingredient": "Add new ingredient to selection",
         "enter-ingredient": "Enter ingredient",
         "fav-restos": "Favourite Restaurants",
+        "no-fav-restos": "No favourite restaurants yet",
         "fav-dishes": "Favourite Dishes",
+        "no-fav-dishes": "No favourite dishes yet",
         "previous": "Previous",
         "next": "Next",
         "feature-request": "Feature request",
@@ -501,6 +506,10 @@
         "deviceTxt": "The app may request access to certain features on your device (e.g., location services, camera) to provide the Service. You can manage these permissions through your device settings.",
         "update": "11. Changes to Terms and Conditions",
         "updateTxt": "Guardos reserves the right to update or modify these Terms at any time without prior notice. Your continued use of the Service after any changes constitutes your acceptance of the new Terms. It is your responsibility to review these Terms periodically for any updates or changes."
+      },
+      "Login": {
+        "unverified": "Please verify your email first.",
+        "resend": "Resend Verification Link"
       }
     }
   }

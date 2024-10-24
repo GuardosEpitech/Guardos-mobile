@@ -21,7 +21,8 @@ import { getAllResto , getFilteredRestosNew} from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
-import {Allergen, AllergenProfile, IRestaurantFrontEnd} from '../../models/restaurantsInterfaces';
+import {IRestaurantFrontEnd} from '../../models/restaurantsInterfaces';
+import {Allergen, AllergenProfile} from '../../../../shared/models/restaurantInterfaces';
 import {
   addSavedFilter,
   deleteSavedFilter, getSavedFilterLimit,
@@ -35,6 +36,7 @@ import {getRestoFavourites} from "../../services/favourites";
 import {useTranslation} from "react-i18next";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';
+import {getUserAllergens} from "../../services/userCalls";
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -52,7 +54,7 @@ const MyRestaurantsScreen = () => {
     { name: 'Salad', selected: false },
     { name: 'Pasta', selected: false },
   ]);
-  const [allergens, setAllergens] = useState([
+  const [allergens, setAllergens] = useState<Allergen[]>([
     { name: 'gluten', selected: false },
     { name: 'celery', selected: false },
     { name: 'crustaceans', selected: false },
@@ -111,6 +113,7 @@ const MyRestaurantsScreen = () => {
   const [filterLimit, setFilterLimit] = useState<number | null>(null);
   const userProfileName: string = t('common.me') as string;
   const [groupProfiles, setGroupProfiles] = useState<AllergenProfile[]>([]);
+  const [defaultAllergens, setDefaultAllergens] = useState([]);
   const [selectedProfileIndex, setSelectedProfileIndex] = useState(0);
   const [openProfileDialog, setOpenProfileDialog] = useState(false);
   const [newProfileName, setNewProfileName] = useState('');
@@ -121,11 +124,32 @@ const MyRestaurantsScreen = () => {
     }
     fetchFavourites().then(r => console.log("Loaded favourite resto list"));
     fetchDarkMode();
-    setGroupProfiles([{
-      name: userProfileName,
-      allergens: allergens.map(allergen => ({ ...allergen, value: false, colorButton: "primary" })),
-    }]);
+
+    fetchGroupProfile();
   }, [isFocused]);
+
+  const fetchGroupProfile = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      return;
+    }
+    getUserAllergens(userToken).then((userAllergens) => {
+      const profileCopy = groupProfiles[0] ?? { name: userProfileName, allergens: allergens};
+      for (let j = 0; j < profileCopy.allergens.length; j++) {
+        profileCopy.allergens[j].selected = false;
+      }
+      for (let i = 0; i < userAllergens.length; i++) {
+        profileCopy.allergens.map((state, index) => {
+          if (userAllergens[i] === state.name) {
+            profileCopy.allergens[index].selected = true;
+          }
+        });
+      }
+      setGroupProfiles([profileCopy]);
+      AsyncStorage.setItem('groupProfiles', JSON.stringify([profileCopy]));
+      setDefaultAllergens(profileCopy.allergens);
+    });
+  }
 
   useFocusEffect(
     React.useCallback(() => {
@@ -346,7 +370,7 @@ const MyRestaurantsScreen = () => {
     const groupProfilesCopy = groupProfiles;
     groupProfilesCopy[selectedProfileIndex].allergens = updatedAllergens;
     setGroupProfiles(groupProfilesCopy);
-    AsyncStorage.setItem('groupProfiles', JSON.stringify(groupProfiles));
+    AsyncStorage.setItem('groupProfiles', JSON.stringify(groupProfilesCopy));
     const allergenListSelected: string[] = [];
     for (let i = 0; i < groupProfiles.length; i++) {
       for (let j = 0; j < groupProfiles[i].allergens.length; j++) {
@@ -369,11 +393,35 @@ const MyRestaurantsScreen = () => {
       { ...category, selected: false })));
     setAllergens(allergens.map(allergen => (
       { ...allergen, selected: false })));
+    setGroupProfiles([{
+      name: userProfileName,
+      allergens: defaultAllergens,
+    }]);
+    AsyncStorage.setItem('groupProfiles', JSON.stringify([{
+      name: userProfileName,
+      allergens: defaultAllergens,
+    }]));
+    setSelectedProfileIndex(0);
   };
 
   const handleSaveFilter = async () => {
     const userToken = await AsyncStorage.getItem('user');
     if (userToken === null || !filterName) {
+      setSaveFilterStatus({
+        success: false,
+        error: true,
+        message: t('pages.RestaurantScreen.save-filter-error') as string,
+      });
+      setTimeout(() => {
+        setSaveFilterStatus({
+          success: false,
+          error: false,
+          message: '',
+        });
+      }, 5000);
+      return;
+    }
+    if (savedFilters.some(filter => filter.filterName === filterName)) {
       setSaveFilterStatus({
         success: false,
         error: true,
@@ -404,8 +452,20 @@ const MyRestaurantsScreen = () => {
       location: '',
       categories: selectedCategories,
       allergenList: selectedAllergens,
+      groupProfiles: groupProfiles.map((profile) => (
+        {
+          name: profile.name,
+          allergens: profile.allergens.map((allergen) => (
+            {
+              name: allergen.name,
+              value: allergen.selected,
+              selected: allergen.selected,
+            }
+          )),
+        }
+      )),
       userLoc: userPosition
-    }
+    };
 
       setFilterName('');
     addSavedFilter(userToken, filter).then((res) => {
@@ -491,6 +551,23 @@ const MyRestaurantsScreen = () => {
       ...allergen,
       selected: newFilter.allergenList.includes(allergen.name),
     }));
+    let adjustedGroupProfiles: AllergenProfile[] = null;
+    if (newFilter.groupProfiles) {
+      adjustedGroupProfiles = newFilter.groupProfiles.map((profile) => ({
+        name: profile.name,
+        allergens: profile.allergens.map((allergen) => ({
+          name: allergen.name,
+          selected: allergen['value'],
+          value: allergen['value'],
+        })),
+      }));
+    }
+    const tempGroupProfiles = adjustedGroupProfiles ?? [{
+      name: userProfileName,
+      allergens: defaultAllergens,
+    }]
+    setGroupProfiles(tempGroupProfiles);
+    AsyncStorage.setItem('groupProfiles', JSON.stringify(tempGroupProfiles));
     setAllergens(updatedAllergens);
   };
 
@@ -577,10 +654,12 @@ const MyRestaurantsScreen = () => {
 
   const handleProfileSave = () => {
     if (newProfileName && !groupProfiles.some(profile => profile.name === newProfileName)) {
-      setGroupProfiles([
+      const profileCopy = [
         ...groupProfiles,
-        { name: newProfileName, allergens: allergens.map(allergen => ({ ...allergen, value: false, colorButton: "primary" })) }
-      ]);
+        { name: newProfileName, allergens: allergens.map(allergen => ({ name: allergen.name, value: false, selected: false })) }
+      ];
+      setGroupProfiles(profileCopy);
+      AsyncStorage.setItem('groupProfiles', JSON.stringify(profileCopy));
       setSelectedProfileIndex(groupProfiles.length);
     }
     setNewProfileName('');

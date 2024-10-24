@@ -140,7 +140,8 @@
       "MenuPage": {
         "price": "Prix : {{ price }}",
         "allergens": "Allergènes : {{ allergens }}",
-        "confirm-delete-dish": "Êtes-vous sûr de vouloir supprimer ce plat ?"
+        "confirm-delete-dish": "Êtes-vous sûr de vouloir supprimer ce plat ?",
+        "no-menu": "Aucun menu disponible pour l'instant. Veuillez ajouter un plat à une catégorie."
       },
       "MyDishPage": {
         "nodish": "Aucun plat n'est disponible. Veuillez ajouter votre plat. Mais assurez-vous d'abord d'ajouter un restaurant."
@@ -179,6 +180,10 @@
         "delete-account-failure-login": "Échec de la suppression du compte. Veuillez vous reconnecter.",
         "delete-account-failure-retry": "Échec de la suppression du compte. Veuillez réessayer.",
         "profile-page": "Mon profil",
+        "changed-data-success": "Détails du profil modifiés avec succès !",
+        "changed-data-failure": "Échec de la modification des détails du profil.",
+        "email-taken": " L'email est déjà utilisé par un autre utilisateur.",
+        "username-taken": " Le nom d'utilisateur est déjà utilisé par un autre utilisateur.",
         "add-picture": "Ajouter une photo",
         "delete-picture": "Supprimer l'image",
         "username": "Nom d'utilisateur",
@@ -423,7 +428,10 @@
         "name": "Catégorie:",
         "id": "Séquence:",
         "noresto": "Aucun restaurant n'est disponible. Veuillez d'abord ajouter votre restaurant.",
-        "add": "Nouveau"
+        "add": "Nouveau",
+        "delete": "Êtes-vous certain(e) de vouloir supprimer cette catégorie ?",
+        "noCategory": "Oups, on dirait que vous n'avez pas encore de catégories !",
+        "noCategory2": "Ajoutez des catégories en cliquant sur 'Nouveau'."
       },
       "Intro": {
         "ScanIntro": "Scannez le code-barres d'un produit pour l'ajouter à votre liste d'ingrédients",
@@ -553,6 +561,10 @@
         "update-week": "Les données se réfèrent à la semaine suivante",
         "user-allergens": "Les utilisateurs avec ces préférences allergènes ont visité ce restaurant",
         "user-disliked-ingredients": "Les utilisateurs qui n'aiment pas ces ingrédients ont visité ce restaurant"
+      },
+      "Login": {
+        "resend": "Renvoyer le lien de vérification",
+        "unverified": "Veuillez d'abord vérifier votre adresse e-mail."
       }
     }
   }

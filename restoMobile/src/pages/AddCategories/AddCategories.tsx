@@ -166,7 +166,7 @@ const AddCategoryPage = () => {
 
     const handleDeleteConfirmation = (category: ICategory) => {
         Alert.alert(
-            t('pages.AddCategory.deleteTitle'),
+            t('pages.AddCategory.delete'),
             `${t('pages.AddCategory.deleteMessage')} ${category.name}?`,
             [
                 {
@@ -240,7 +240,12 @@ const AddCategoryPage = () => {
                     textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
                 />
             </View>
-
+            {newCategories.length === 0 ? (
+                <View style={styles.centered}>
+                    <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.AddCategory.noCategory')}</Text> 
+                    <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.AddCategory.noCategory2')}</Text> 
+                </View>
+            ) : (
             <ScrollView style={[styles.scrollContainer, darkMode && styles.scrollContainerDarkTheme]} ref={scrollViewRef} contentContainerStyle={{ paddingBottom: 30 }}>
                 <View style={[styles.categoryContainers, darkMode && styles.categoryContainersDarkTheme]}>
                     {activeRestaurant !== -1 && (
@@ -298,7 +303,7 @@ const AddCategoryPage = () => {
                     )}
                 </View>
             </ScrollView>
-            
+            )}
             <View style={styles.addButtonContainer}>
                 <Button title={t('pages.AddCategory.add')} onPress={handleAddNewCategory} />
             </View>

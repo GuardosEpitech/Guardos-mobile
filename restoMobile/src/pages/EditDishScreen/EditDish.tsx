@@ -297,7 +297,7 @@ const EditDish = ({ route }) => {
 
   const handleSave = async () => {
     // check if valid
-    if (!name || !price || !description || !pictures || !selectedAllergens || !selectedProducts || !selectedCategories || !selectedRestaurants) {
+    if (!name || !price || !description || !pictures || !selectedProducts || !selectedCategories || !selectedRestaurants) {
       Alert.alert(String(t('common.error')),  String(t('common.all-fields-mandatory')));
       return;
     }
@@ -432,28 +432,6 @@ const EditDish = ({ route }) => {
           style={styles.button}
           onPress={() => onAddProduct()}>
           <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-product')}</Text>
-        </TouchableOpacity>
-      </View>
-
-
-      <View style={styles.contentProducsDishes}>
-        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.allergens')}</Text>
-        <View style={styles.containerAllergens}>
-          {selectedAllergens.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.button}
-              onPress={() => onAllergenPress(item)}
-            >
-              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <TouchableOpacity
-          key={"ADDNEWAllergens"}
-          style={styles.button}
-          onPress={() => onAddAllergen()}>
-          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-allergens')}</Text>
         </TouchableOpacity>
       </View>
 

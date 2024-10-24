@@ -5,6 +5,7 @@ import { API_URL } from '@env';
 const baseUrl = `${API_URL}login/`;
 const baseUrl1 = `${API_URL}user/`;
 const baseUrlEmail = `${API_URL}sendEmail/`;
+const verifyLink = `${API_URL}register/restoWeb/resend-verification`;
 
 export const checkIfTokenIsValid = async (body: any) => {
   try {
@@ -278,3 +279,16 @@ export const verfyTwoFactorAndLogin =
         return error;
       }
     };
+
+export const resendValidationLink = async (email: string) => {
+  try {
+    await axios.post(verifyLink, { email });
+        
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(`Error with request: ${error.message}`);
+    } else {
+      console.error(`Unexpected error: ${error}`);
+    }
+  }
+};

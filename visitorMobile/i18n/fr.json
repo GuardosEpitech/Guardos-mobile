@@ -116,7 +116,8 @@
         "load": "Charger"
       },
       "MenuPage": {
-        "show-non-compatible-dishes": "Afficher les plats incompatibles"
+        "show-non-compatible-dishes": "Afficher les plats incompatibles",
+        "no-menu": "Aucun menu disponible"
       },
       "Profile": {
         "change-pw": "Changer de mot de passe",
@@ -151,6 +152,8 @@
         "profile-page": "Mon profil",
         "changed-data-success": "Détails du profil modifiés avec succès !",
         "changed-data-failure": "Échec de la modification des détails du profil.",
+        "email-taken": " L'email est déjà utilisé par un autre utilisateur.",
+        "username-taken": " Le nom d'utilisateur est déjà utilisé par un autre utilisateur.",
         "add-picture": "Ajouter une photo",
         "delete-picture": "Supprimer l'image",
         "username": "Nom d'utilisateur",
@@ -168,7 +171,9 @@
         "add-new-ingredient": "Ajouter un nouvel ingrédient à la sélection",
         "enter-ingredient": "Entrez un ingrédient",
         "fav-restos": "Restaurants favoris",
+        "no-fav-restos": "Pas encore de restaurants favoris",
         "fav-dishes": "Plats favoris",
+        "no-fav-dishes": "Pas encore de plats favoris",
         "previous": "Précédent",
         "next": "Suivant",
         "feature-request": "Demande de fonctionnalité",
@@ -498,6 +503,10 @@
         "deviceTxt": "L'application peut demander l'accès à certaines fonctionnalités de votre appareil (par exemple, services de localisation, caméra) pour fournir le Service. Vous pouvez gérer ces autorisations via les paramètres de votre appareil.",
         "update": "11. Modifications des Conditions Générales d'Utilisation",
         "updateTxt": "Guardos se réserve le droit de mettre à jour ou de modifier ces Conditions à tout moment sans préavis. Votre utilisation continue du Service après toute modification constitue votre acceptation des nouvelles Conditions. Il est de votre responsabilité de consulter périodiquement ces Conditions pour vérifier les mises à jour ou les modifications."
+      },
+      "Login": {
+        "resend": "Renvoyer le lien de vérification",
+        "unverified": "Veuillez d'abord vérifier votre adresse e-mail."
       }
     }
   }

@@ -1,7 +1,7 @@
 import { IDishBE } from './dishInterfaces';
 import { ILocation, ICoordinates } from './locationInterfaces';
 import { IMealType } from './mealTypeInterfaces';
-import { IOpeningHours, IProduct } from './restaurantInterfaces';
+import { AllergenProfile, IOpeningHours, IProduct } from './restaurantInterfaces';
 
 export interface IIngredientsCommunication {
   name?: string;
@@ -49,5 +49,6 @@ export interface ISearchCommunication {
   location?: string;
   categories?: string[];
   allergenList?: string[];
+  groupProfiles?: AllergenProfile[];
   userLoc: ICoordinates;
 }

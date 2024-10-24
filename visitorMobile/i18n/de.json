@@ -120,7 +120,8 @@
         "load": "Laden"
       },
       "MenuPage": {
-        "show-non-compatible-dishes": "Zeige inkompatible Gerichte"
+        "show-non-compatible-dishes": "Zeige inkompatible Gerichte",
+        "no-menu": "Kein Menü verfügbar"
       },
       "Profile": {
         "change-pw": "Passwort ändern",
@@ -155,6 +156,8 @@
         "profile-page": "Mein Profil",
         "changed-data-success": "Profilangaben erfolgreich geändert!",
         "changed-data-failure": "Fehler beim Ändern der Profilangaben.",
+        "email-taken": " E-Mail wird bereits von einem anderen Benutzer verwendet.",
+        "username-taken": " Benutzername wird bereits von einem anderen Benutzer verwendet.",
         "add-picture": "Bild hinzufügen",
         "delete-picture": "Bild löschen",
         "username": "Benutzername",
@@ -172,7 +175,9 @@
         "add-new-ingredient": "Neues Zutat zur Auswahl hinzufügen",
         "enter-ingredient": "Zutat eingeben",
         "fav-restos": "Lieblingsrestaurants",
+        "no-fav-restos": "Noch keine Lieblingsrestaurants",
         "fav-dishes": "Lieblingsgerichte",
+        "no-fav-dishes": "Noch keine Lieblingsgerichte",
         "previous": "Vorherige",
         "next": "Nächste",
         "feature-request": "Feature-Anfrage",
@@ -502,6 +507,10 @@
         "deviceTxt": "Die App kann Zugriff auf bestimmte Funktionen auf Ihrem Gerät anfordern (z.B. Ortungsdienste, Kamera), um den Dienst bereitzustellen. Sie können diese Berechtigungen über die Einstellungen Ihres Geräts verwalten.",
         "update": "11. Änderungen der Geschäftsbedingungen",
         "updateTxt": "Guardos behält sich das Recht vor, diese Bedingungen jederzeit ohne vorherige Ankündigung zu aktualisieren oder zu ändern. Ihre fortgesetzte Nutzung des Dienstes nach Änderungen stellt Ihre Zustimmung zu den neuen Bedingungen dar. Es liegt in Ihrer Verantwortung, diese Bedingungen regelmäßig auf Updates oder Änderungen zu überprüfen."
+    },
+    "Login": {
+      "unverified": "Bitte verifizieren Sie zuerst Ihre E-Mail-Adresse.",
+      "resend": "Bestätigungslink erneut senden"
     }
     }
   }

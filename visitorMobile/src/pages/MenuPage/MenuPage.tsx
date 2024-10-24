@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import styles from './MenuPage.styles';
 import {Dish, IDishFE} from '../../models/dishesInterfaces'
 import { IimageInterface } from "../../models/imageInterface";
@@ -10,7 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "@react-navigation/native";
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
-import {getUserAllergens, getUserDislikedIngredients} from "../../services/userCalls";
+import {getUserDislikedIngredients} from "../../services/userCalls";
 import {getRestosMenu} from "../../services/menuCalls";
 import { ICategories } from "../../../../shared/models/categoryInterfaces";
 import Category from "../../components/Category/Category";
@@ -29,21 +29,47 @@ type MenuProps = {
 const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const {restaurantId, restaurantName } = route.params;
+  const [groupProfiles, setGroupProfiles] = useState(null);
+  const [selectedProfileIndex, setSelectedProfileIndex] = useState<number>(0);
+  const [selectedProfile, setSelectedProfile] = useState(null);
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [isFavouriteDishs, setIsFavouriteDishs] = React.useState<Array<{ restoID: number, dish: IDishFE }>>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [restoMenu, setRestoMenu] = React.useState([]);
   const [dislikedIngredients, setDislikedIngredients] = React.useState([]);
   const {t} = useTranslation();
+  const userProfileName: string = t('common.me') as string;
 
   useEffect(() => {
     fetchFavourites().then(r => console.log("Loaded favourite dish list"));
     fetchData();
     fetchDarkMode()
+
     const unsubscribe = navigation.addListener('focus', fetchData);
 
     return unsubscribe;
   }, [restaurantName, navigation]);
+
+  const fetchGroupProfiles = async () => {
+    let profile = {name: userProfileName, allergens: []};
+
+    const groupProfilesFromStore = JSON.parse(await AsyncStorage.getItem('groupProfiles') || '[]');
+
+    setGroupProfiles(groupProfilesFromStore);
+
+    if (groupProfiles) {
+      if (groupProfiles.length > 0) {
+        profile = groupProfiles[0];
+      }
+    }
+    setSelectedProfile(profile);
+    return groupProfilesFromStore;
+  }
+
+  const handleSelectProfile = (profile: any, index: number) => {
+    setSelectedProfile(profile);
+    setSelectedProfileIndex(index)
+  }
 
   const fetchDarkMode = async () => {
     try {
@@ -68,7 +94,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
     }, [])
   );
 
-  const fetchMenu = async () => {
+  const fetchMenu = async (groupProfilesFromStore) => {
     // const filter = JSON.parse(await AsyncStorage.getItem('filter') || '{}');
     // const allergenList = filter.allergenList;
     const userToken = await AsyncStorage.getItem('user');
@@ -76,10 +102,19 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
       return;
     }
 
-    const userAllergens = await getUserAllergens(userToken);
     const ingredients = await getUserDislikedIngredients(userToken);
     setDislikedIngredients(ingredients);
-    const restosMenu = await getRestosMenu(restaurantId, userAllergens, ingredients);
+    const restosMenu = []
+
+    for (let i = 0; i < groupProfilesFromStore?.length; i++) {
+      const profileAllergens = groupProfilesFromStore[i].allergens.map((allergen) => {
+        if (allergen.value || allergen.selected) return allergen.name;
+      }).filter((allergen) => allergen !== undefined);
+      const profileMenu = (await getRestosMenu(restaurantId, profileAllergens, ingredients))
+        .filter((category: ICategories) => category.dishes.length > 0);
+      restosMenu.push(profileMenu);
+    }
+
     setRestoMenu(restosMenu);
     return restosMenu;
   }
@@ -87,10 +122,11 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const restosMenu : ICategories[] = await fetchMenu();
+      const groupProfilesFromStore = await fetchGroupProfiles();
+      const restosMenu : ICategories[][] = await fetchMenu(groupProfilesFromStore);
 
-      const picturesId = restosMenu.reduce((acc, category) => {
-        const categoryPicturesId = category.dishes.reduce((dishAcc, dish) => dishAcc.concat(dish.picturesId), []);
+      const picturesId = restosMenu[0].reduce((acc, category) => {
+        const categoryPicturesId = category.dishes?.reduce((dishAcc, dish) => dishAcc.concat(dish.picturesId), []);
         return acc.concat(categoryPicturesId);
       }, []);
 
@@ -128,13 +164,36 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
     }
   };
 
+  const getCurrentMenu = () => {
+    if (!restoMenu || restoMenu?.length <= selectedProfileIndex) {
+      return [];
+    }
+    return restoMenu[selectedProfileIndex] ?? [];
+  }
+
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {loading ? (
         <Text>{t('common.loading')}</Text>
       ) : (
         <ScrollView contentContainerStyle={[styles.scrollView, darkMode && styles.scrollViewDarkTheme]}>
-          {restoMenu.map((category: ICategories) => (
+          <View style={styles.profileSwitcher}>
+            {groupProfiles?.map((profile, index) => (
+              <TouchableOpacity
+                key={profile.name + index}
+                style={[
+                  styles.profileButton,
+                  selectedProfile?.name === profile.name ? styles.activeProfileButton : null
+                ]}
+                onPress={() => handleSelectProfile(profile, index)}
+              >
+                <Text style={styles.profileButtonText}>{profile.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          {getCurrentMenu().length === 0 ? (
+            <Text style={[styles.noMenuText, darkMode && styles.noMenuTextDarkTheme]}>{t('pages.MenuPage.no-menu')}</Text>
+          ) : getCurrentMenu().map((category: ICategories) => (
             <View>
               <Category title={category.name} >
                 {category.dishes

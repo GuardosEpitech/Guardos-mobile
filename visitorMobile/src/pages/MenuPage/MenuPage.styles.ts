@@ -36,6 +36,33 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: 'white',
   },
+  noMenuText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  noMenuTextDarkTheme: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  profileSwitcher: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  profileButton: {
+    padding: 10,
+    marginHorizontal: 5,
+    backgroundColor: '#ccc',
+    borderRadius: 5,
+  },
+  activeProfileButton: {
+    backgroundColor: '#6d071a',
+  },
+  profileButtonText: {
+    color: '#fff',
+  },
 });
 
 export default styles;

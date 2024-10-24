@@ -114,7 +114,14 @@ const styles = StyleSheet.create({
   flexItemGoogle: {
     width: 60,
     height: 62
-  }
+  },
+  resendButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom: 10
+  },
 });
 
 export default styles;

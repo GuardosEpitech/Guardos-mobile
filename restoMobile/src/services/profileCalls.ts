@@ -43,7 +43,7 @@ export const editProfileDetails = async (token: string, body: any) => {
         "content-type": "application/json",
       },
     });
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 207) {
       return response.data;
     } else {
       return false;
