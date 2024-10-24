@@ -561,6 +561,10 @@
         "update-week": "Data refers to the following week",
         "user-allergens": "Users with these allergenic preferences visited this restaurant",
         "user-disliked-ingredients": "Users who dislike these ingredients visited this restaurant"
+      },
+      "Login": {
+        "unverified": "Please verify your email first.",
+        "resend": "Resend Verification Link"
       }
     }
   }
