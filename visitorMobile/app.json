@@ -34,6 +34,10 @@
       "eas": {
         "projectId": "6b7d2e5e-b098-48a8-98a6-4f41f636d59a"
       }
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ],
+    "owner": "marcpister"
   }
 }
