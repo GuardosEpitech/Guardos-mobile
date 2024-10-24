@@ -11,7 +11,7 @@ import { defaultDishImage, defaultRestoImage } from "../../assets/placeholderIma
 import { IimageInterface } from "../../models/imageInterface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
-import { getDishesByID } from 'src/services/dishCalls';
+import { getDishesByID } from '../../../src/services/dishCalls';
 
 interface DishCardProps {
   dish: IDishFE;

@@ -29,12 +29,12 @@ import AddCategoryPage from './src/pages/AddCategories/AddCategories';
 import AppIntro from './src/pages/AppIntro/AppIntro';
 import SubscriptionPage from "./src/pages/SubscriptionPage/SubscriptionPage";
 import PaymentPage from './src/pages/Payment/PaymentPage';
-import UserSupport from 'src/pages/UserSupport/UserSupport';
+import UserSupport from './src/pages/UserSupport/UserSupport';
 import {checkIfTokenIsValid} from "./src/services/userCalls";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import TermsPage from "./src/pages/TermsPage/TermsPage";
 import DishDiscountPage from './src/pages/DishDiscountPage/DishDiscountPage';
-import DishComboPage from 'src/pages/DishComboPage/DishComboPage';
+import DishComboPage from './src/pages/DishComboPage/DishComboPage';
 import UserInsights from "./src/pages/UserInsights/UserInsinghts";
 
 const Drawer = createDrawerNavigator();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, 
-  Modal, FlatList, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+  Modal, FlatList, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { IIngredient, IRestaurantFrontEnd, IProduct } from '../../../../shared/models/restaurantInterfaces';
 import { IProductFE } from '../../../../shared/models/productInterfaces';
 import { getAllRestaurantsByUser } from "../../services/restoCalls";
@@ -80,8 +80,9 @@ const ProductForm: React.FC<IDishFormProps> = ({
 
   const handleAddProduct = async () => {
     try {
-      if (!name || selectedRestaurants.length === 0) {
-        console.error('Name and Restaurant are required.');
+      // check if valid
+      if (!name || selectedRestaurants.length === 0 || selectedIngredients.length === 0) {
+        Alert.alert(String(t('common.error')),  String(t('common.all-fields-mandatory')));
         return;
       }
 
