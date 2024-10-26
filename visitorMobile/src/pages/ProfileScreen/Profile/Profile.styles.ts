@@ -129,6 +129,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
   },
+  restoReference: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    alignSelf: 'center',
+    paddingTop: 10,
+  },
+  restoReferenceDarkTheme: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+    alignSelf: 'center',
+    paddingTop: 10,
+  },
   activeTab: {
     borderBottomWidth: 2,
     borderBottomColor: '#6d071a',

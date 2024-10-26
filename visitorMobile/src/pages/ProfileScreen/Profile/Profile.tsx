@@ -672,7 +672,9 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
                     return (
                       <>
                         <TouchableOpacity onPress={() => navigateToMenu(dish.restoID, dish.restoName)}>
-                          <Text>{dish.restoName}</Text>
+                          <Text style={[styles.restoReference, darkMode && styles.restoReferenceDarkTheme]}>
+                            {dish.restoName}
+                          </Text>
                         </TouchableOpacity>
                         <DishCard
                           key={dish.dish.uid + index}
