@@ -21,9 +21,11 @@ interface DishCardProps {
   dislikedIngredients?: string[];
   isSmallerCard?: boolean;
   isFirstLevel: boolean;
+  deleteFavDish?: (dishId: number, restoId: number) => void;
 }
 
-const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, pictures, dislikedIngredients, isSmallerCard, isFirstLevel }) => {
+const DishCard: React.FC<DishCardProps> = (props: DishCardProps) => {
+  const { restoID, dish, isFavourite, pictures, dislikedIngredients, isSmallerCard, isFirstLevel, deleteFavDish } = props;
   const [isDishFavorite, setIsDishFavorite] = useState(isFavourite);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [isAccordionOpen, setAccordionOpen] = useState<boolean>(false);
@@ -108,6 +110,9 @@ const DishCard: React.FC<DishCardProps> = ({ restoID, dish, isFavourite, picture
       await addDishAsFavourite(userToken, restoID, dish.uid);
     } else {
       await deleteDishFromFavourites(userToken, restoID, dish.uid);
+      if (deleteFavDish) {
+        deleteFavDish(dish.uid, restoID);
+      }
     }
   };
 
