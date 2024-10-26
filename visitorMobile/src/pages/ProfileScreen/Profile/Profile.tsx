@@ -86,6 +86,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const pageSize = 3; // Number of items per page
   const [refresh, setRefresh] = useState(false);
   const isFocused = useIsFocused();
+  const [ingredientFeedback, setIngredientFeedback] = useState('');
 
 
   useEffect(() => {
@@ -457,6 +458,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   }
 
   const handleAddIngredientPopupOpen = () => {
+    setIngredientFeedback('');
     closeAllPopups();
     setOpenAddIngredientPopup(true);
   };
@@ -470,10 +472,25 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   };
 
   const handleAddIngredient = async () => {
-    addIngredient(newIngredient).then(r => console.log("Added ingredient: ", r));
-    setDBIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
-    setNewIngredient('');
-    handleAddIngredientPopupClose();
+    setIngredientFeedback('');
+    try {
+      const result = await addIngredient(newIngredient);
+      if (result.ok) {
+        setDBIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+        setNewIngredient('');
+        handleAddIngredientPopupClose();
+        setIngredientFeedback(`Successfully added ingredient: ${newIngredient}`);
+      } else {
+        setNewIngredient('');
+        handleAddIngredientPopupClose();
+        setIngredientFeedback(`Error handling ingredient change: ${newIngredient}`);
+      }
+    } catch (error) {
+      setNewIngredient('');
+      handleAddIngredientPopupClose();
+      console.error("Error handling ingredient change:", error);
+      setIngredientFeedback(`Error: ${error.message}`);
+    }
   };
 
   const navigateToMenu = (restaurantId: number, restaurantName: string) => {
@@ -604,8 +621,11 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
           />
         </View>
-        <View>
+        <View style={styles.ingredientButton}>
           <Button title={t('pages.Profile.ingredient-not-found')} onPress={handleAddIngredientPopupOpen}/>
+          {ingredientFeedback && (
+            <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}>{ingredientFeedback}</Text>
+          )}
         </View>
         <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.language')}</Text>
         <DropDownPicker

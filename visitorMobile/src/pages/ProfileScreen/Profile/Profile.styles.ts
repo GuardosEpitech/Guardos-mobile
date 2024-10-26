@@ -180,6 +180,10 @@ const styles = StyleSheet.create({
   profileHeaderDarkTheme: {
     color: 'black',
   },
+  ingredientButton: {
+    paddingTop: 0,
+    paddingBottom: 20,
+  },
   dropDownDarkTheme: {
     marginBottom: 20,
     backgroundColor: '#3B3B3B'
