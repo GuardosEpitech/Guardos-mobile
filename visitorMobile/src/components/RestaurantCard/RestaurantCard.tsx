@@ -10,8 +10,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {addRestoAsFavourite, deleteRestoFromFavourites} from "../../services/favourites";
 import {useTranslation} from "react-i18next";
 
-const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
+interface RestaurantCardProps {
+  info: any,
+  isFavouriteResto: boolean,
+  isSmallerCard: boolean,
+  deleteFavResto?: (restoId: number) => void;
+}
+
+const RestaurantCard = (props: RestaurantCardProps) => {
   const navigation = useNavigation();
+  const { info, isFavouriteResto, isSmallerCard, deleteFavResto } = props;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [isFavorite, setIsFavorite] = useState(isFavouriteResto);
   const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -63,6 +71,9 @@ const RestaurantCard = ({ info, isFavouriteResto, isSmallerCard}) => {
       await addRestoAsFavourite(userToken, info.uid);
     } else {
       await deleteRestoFromFavourites(userToken, info.uid);
+      if (deleteFavResto) {
+        deleteFavResto(info.uid);
+      }
     }
   };
 
