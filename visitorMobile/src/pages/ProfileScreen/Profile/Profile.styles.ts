@@ -207,6 +207,12 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     fontSize: 20,
   },
+  dialogActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
+    width: '80%'
+  },
 });
 
 export default styles;

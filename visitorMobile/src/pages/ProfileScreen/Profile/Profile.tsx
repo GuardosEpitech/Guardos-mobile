@@ -791,8 +791,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             onChangeText={handleNewIngredientChange}
           />
         <Dialog.Actions>
-          <Dialog.Button title={t('common.cancel')} onPress={handleAddIngredientPopupClose}/>
-          <Dialog.Button title={t('common.save')} onPress={handleAddIngredient}/>
+          <View style={styles.dialogActions}>
+            <Dialog.Button title={t('common.cancel')} onPress={handleAddIngredientPopupClose} />
+            <Dialog.Button title={t('common.save')} onPress={handleAddIngredient} />
+          </View>
         </Dialog.Actions>
       </Dialog>
     </ScrollView>
