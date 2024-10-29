@@ -180,6 +180,10 @@ const styles = StyleSheet.create({
   profileHeaderDarkTheme: {
     color: 'black',
   },
+  ingredientButton: {
+    paddingTop: 0,
+    paddingBottom: 20,
+  },
   dropDownDarkTheme: {
     marginBottom: 20,
     backgroundColor: '#3B3B3B'
@@ -206,6 +210,12 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingBottom: 10,
     fontSize: 20,
+  },
+  dialogActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
+    width: '80%'
   },
 });
 
