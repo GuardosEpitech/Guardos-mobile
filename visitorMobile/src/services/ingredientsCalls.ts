@@ -16,20 +16,29 @@ export const getAllIngredients = async () => {
   }
 };
 
-export const addIngredient = async (ingredient: string) => {
+export const addIngredient = async (ingredient: any, timeout = 5000) => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
   try {
-    await axios({
-      url: baseUrl,
+    const response = await fetch(baseUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      data: JSON.stringify({
+      body: JSON.stringify({
         name: ingredient
       }),
+      signal: controller.signal
     });
-    return true;
+
+    clearTimeout(timeoutId);
+    return response;
   } catch (error) {
-    console.error("Error adding ingredient:", error);
+    if (error.name === 'AbortError') {
+      throw new Error('This request took too long to complete. Please try again or check for a spelling mistake.');
+    } else {
+      throw new Error(`Failed to add ingredient ${ingredient}: ${error.message}`);
+    }
   }
 };
