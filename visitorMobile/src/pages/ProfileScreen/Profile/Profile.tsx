@@ -491,6 +491,16 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     }
   };
 
+  const removeFavDish = (dishId: number, restoId: number) => {
+    const newFavDishes = favoriteDishes.filter((dish) => !(dish.dish.uid === dishId && dish.restoID === restoId));
+    setFavoriteDishes(newFavDishes);
+  }
+
+  const removeFavResto = (restoId: number) => {
+    const newFavRestos = favoriteRestaurants.filter((resto) => resto.uid !== restoId);
+    setFavoriteRestaurants(newFavRestos);
+  }
+
   return (
     <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
       <View style={[styles.profileSection, darkMode && styles.profileSectionDarkTheme]}>
@@ -657,6 +667,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
                     isFavouriteResto={true}
                     isSmallerCard={true}
                     dataIndex={0}
+                    deleteFavResto={removeFavResto}
                   />
                 </TouchableOpacity>
               )))}
@@ -684,6 +695,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
                           isSmallerCard={true}
                           isFavourite={true}
                           isFirstLevel={false}
+                          deleteFavDish={removeFavDish}
                         />
                       </>
                     )
