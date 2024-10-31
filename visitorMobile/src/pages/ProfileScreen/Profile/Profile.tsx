@@ -700,16 +700,25 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
                   <Text style={[styles.tabButtonText, darkMode && styles.tabButtonTexDarkTheme]}>{t('pages.Profile.no-fav-dishes')}</Text>
                 ) : (
                   favoriteDishes.slice((dishPage - 1) * pageSize, dishPage * pageSize).map((dish, index) => {
-                    return (<DishCard
-                      key={dish.dish.uid + index}
-                      dish={dish.dish}
-                      restoID={dish.restoID}
-                      pictures={[]}
-                      isSmallerCard={true}
-                      isFavourite={true}
-                      isFirstLevel={false}
-                      deleteFavDish={removeFavDish}
-                    />)
+                    return (
+                      <>
+                        <TouchableOpacity onPress={() => navigateToMenu(dish.restoID, dish.restoName)}>
+                          <Text style={[styles.restoReference, darkMode && styles.restoReferenceDarkTheme]}>
+                            {dish.restoName}
+                          </Text>
+                        </TouchableOpacity>
+                        <DishCard
+                          key={dish.dish.uid + index}
+                          dish={dish.dish}
+                          restoID={dish.restoID}
+                          pictures={[]}
+                          isSmallerCard={true}
+                          isFavourite={true}
+                          isFirstLevel={false}
+                          deleteFavDish={removeFavDish}
+                        />
+                      </>
+                    )
                   })
                 )
               }
