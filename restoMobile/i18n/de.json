@@ -428,7 +428,7 @@
         "id": "Reihenfolge:",
         "noresto": "Kein Restaurant verfügbar. Bitte fügen Sie zuerst Ihr Restaurant hinzu.",
         "add": "Neu",
-        "delete": "Sind Sie sicher, dass Sie diese Kategorie löschen möchten?",
+        "deleteMessage": "Sind Sie sicher, dass Sie diese Kategorie löschen möchten?",
         "noCategory": "Oops, es scheint, dass Sie noch keine Kategorien haben!",
         "noCategory2": "Fügen Sie Kategorien hinzu, indem Sie auf 'Neu' klicken."
       },

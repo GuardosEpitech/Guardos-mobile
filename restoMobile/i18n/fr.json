@@ -429,7 +429,7 @@
         "id": "Séquence:",
         "noresto": "Aucun restaurant n'est disponible. Veuillez d'abord ajouter votre restaurant.",
         "add": "Nouveau",
-        "delete": "Êtes-vous certain(e) de vouloir supprimer cette catégorie ?",
+        "deleteMessage": "Êtes-vous certain(e) de vouloir supprimer cette catégorie ?",
         "noCategory": "Oups, on dirait que vous n'avez pas encore de catégories !",
         "noCategory2": "Ajoutez des catégories en cliquant sur 'Nouveau'."
       },
