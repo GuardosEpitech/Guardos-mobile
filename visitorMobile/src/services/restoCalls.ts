@@ -19,6 +19,21 @@ export const getAllResto = async () => {
     }
   };
 
+export const getResto = async (restoName: string) => {
+  console.log(baseUrlResto + restoName);
+  
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: baseUrlResto + restoName,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all restaurants:', error);
+      throw new Error('Failed to fetch all restaurants');
+    }
+  };  
+
 export const getFilteredRestosNew = async (body: any) => {
     try {
         const response = await axios({
