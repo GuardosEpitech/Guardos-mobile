@@ -164,14 +164,18 @@ const ProfilePage: React.FC<ProfileScreenProps &
       }
     };
 
-    const handleFileChange = async (assets) => {
-      const file = {
-        name: "profileImage",
-        type: "image/png",
-        size: assets.length,
-        uri: assets[0].uri
+    const handleFileChange = async (assets: ImagePicker.ImagePickerAsset[]) => {
+      if (assets.length === 0) {
+        return;
       }
-      const userToken = await AsyncStorage.getItem('user');
+      const asset = assets[0];
+      const file = {
+        name: asset.fileName,
+        type: asset.mimeType,
+        size: asset.fileSize,
+        uri: 'data:' + asset.mimeType + ';base64,' + asset.base64
+      }
+      const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         return;
       }
@@ -191,7 +195,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
     const handleFileDelete = async () => {
       if (image) {
-        const userToken = await AsyncStorage.getItem('user');
+        const userToken = await AsyncStorage.getItem('userToken');
         if (userToken === null) {
           return;
         }
@@ -215,19 +219,20 @@ const ProfilePage: React.FC<ProfileScreenProps &
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
+        base64: true,
         aspect: [1, 1],
         quality: 1,
       });
 
       if (!result.canceled) {
-        let uri: string = '';
+        let base64: string = '';
 
         if (result.assets && result.assets.length > 0 &&
-          'uri' in result.assets[0]) {
-          uri = result.assets[0].uri as string;
+          'base64' in result.assets[0]) {
+          base64 = result.assets[0].base64 as string;
         }
 
-        if (uri) {
+        if (base64) {
           await handleFileChange(result.assets);
         }
       }
@@ -279,7 +284,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const handleApplyChanges = async () => {
       setDataChangeStatus(null);
       setSaveFailureType(null);
-      const userToken = await AsyncStorage.getItem('user');
+      const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         setDataChangeStatus("failed");
         return;
