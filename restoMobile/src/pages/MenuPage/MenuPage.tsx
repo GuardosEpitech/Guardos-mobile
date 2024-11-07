@@ -7,6 +7,9 @@ import DishCard from "../../components/DishCard/DishCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
 import { IDishFE } from '../../../../shared/models/dishInterfaces';
+import {Ionicons} from "@expo/vector-icons";
+import Header from "../../components/Header";
+import {useNavigation} from "@react-navigation/native";
 
 
 export interface DishData {
@@ -19,6 +22,7 @@ const MenuPage: React.FC = ({ route }) => {
   const [loading, setLoading] = useState(true);
   const { restaurantName } = route.params;
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const navigation = useNavigation();
 
   const { t } = useTranslation();
 
@@ -96,6 +100,8 @@ const MenuPage: React.FC = ({ route }) => {
 
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+      <Header label={restaurantName}
+              leftIcon={<Ionicons name="arrow-back" size={24} color="black" onPress={() => navigation.goBack()} />} />
       {loading ? (
         <Text>{t('common.loading')}</Text>
       ) : (
