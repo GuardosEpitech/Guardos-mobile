@@ -198,7 +198,7 @@ const MapPage = () => {
   };
 
   const loadSavedFilters = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
@@ -371,7 +371,7 @@ const MapPage = () => {
   };
 
   const handleSaveFilter = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       setSaveFilterStatus({
         success: false,
@@ -478,7 +478,7 @@ const MapPage = () => {
   };
 
   const handleDeleteFilter = async (filterName: string) => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       setSaveFilterStatus({
         success: false,

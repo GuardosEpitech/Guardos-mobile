@@ -129,7 +129,7 @@ const MyRestaurantsScreen = () => {
   }, [isFocused]);
 
   const fetchGroupProfile = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
@@ -185,7 +185,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const fetchFilteredFavourits = async (filter: ISearchCommunication) => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) { return; }
 
     try {
@@ -244,7 +244,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const fetchFavourites = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) { return; }
 
     try {
@@ -258,7 +258,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const loadSavedFilters = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
@@ -405,7 +405,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const handleSaveFilter = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null || !filterName) {
       setSaveFilterStatus({
         success: false,
@@ -572,7 +572,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const handleDeleteFilter = async (filterName: string) => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       setSaveFilterStatus({
         success: false,

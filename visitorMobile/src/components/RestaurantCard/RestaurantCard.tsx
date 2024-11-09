@@ -60,7 +60,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
   };
 
   const handleFavoriteClick = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }

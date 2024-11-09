@@ -62,7 +62,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
     }
     const res = await changePassword(userToken, oldPassword, newPassword);
     if (res) {
-      await AsyncStorage.setItem('user', res);
+      await AsyncStorage.setItem('userToken', res);
       navigation.navigate('Profile', { passwordChanged: true });
     }
   };

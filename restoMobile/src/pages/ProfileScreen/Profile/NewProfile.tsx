@@ -301,7 +301,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
 
       if (typeof res === "string") {
         if (res) {
-          await AsyncStorage.setItem('user', res);
+          await AsyncStorage.setItem('userToken', res);
         } else {
           isError = true;
         }

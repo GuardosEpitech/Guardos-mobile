@@ -47,9 +47,8 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         if (profileDetails.preferredLanguage) {
           i18n.changeLanguage(profileDetails.preferredLanguage);
         }
-  
-        await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
-        await AsyncStorage.setItem('user', responseData);
+
+        await AsyncStorage.setItem('userToken', responseData);
   
         setLoggedInStatus(true);
         navigation.navigate('Main');

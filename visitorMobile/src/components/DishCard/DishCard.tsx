@@ -75,7 +75,7 @@ const DishCard: React.FC<DishCardProps> = (props: DishCardProps) => {
   }, [isFavourite, picturesId]);
 
   const fetchFavourites = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) { return; }
 
     try {
@@ -99,7 +99,7 @@ const DishCard: React.FC<DishCardProps> = (props: DishCardProps) => {
   };
 
   const handleFavoriteClick = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
