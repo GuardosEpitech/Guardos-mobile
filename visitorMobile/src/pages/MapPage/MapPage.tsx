@@ -1,21 +1,23 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { 
-  View, 
-  Text, 
-  Image, 
-  TextInput, 
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
   ScrollView,
-  Linking, 
-  TouchableOpacity, 
-  Platform, 
-  Keyboard, 
+  Linking,
+  TouchableOpacity,
+  Platform,
+  Keyboard,
   TouchableWithoutFeedback,
-  Alert 
+  Alert, Button
 } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import MapView, { Marker, Circle } from 'react-native-maps';
 import Modal from 'react-native-modal';
-import { 
+import {
+  Allergen,
+  AllergenProfile,
   IRestaurantFrontEnd
 } from '../../../../shared/models/restaurantInterfaces';
 import { 
@@ -26,7 +28,6 @@ import {
   getFilteredRestosNew
 } from '../../services/restoCalls';
 import styles from './MapPage.styles';
-import MenuPage from '../MenuPage/MenuPage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Slider } from 'react-native-elements';
@@ -41,6 +42,7 @@ import { getImages } from "../../services/imageCalls";
 import { FilterContext } from '../../models/filterContext';
 import {useTranslation} from "react-i18next";
 import * as Location from 'expo-location';
+import {getUserAllergens} from "../../services/userCalls";
 
 const Epitech = [13.328820, 52.508540];// long,lat
 
@@ -97,12 +99,44 @@ const MapPage = () => {
   const {t} = useTranslation();
   const mapRef = useRef(null);
   const [userLocation, setUserLocation] = useState(null);
+  const [groupProfiles, setGroupProfiles] = useState<AllergenProfile[]>([]);
+  const userProfileName: string = t('common.me') as string;
+  const [defaultAllergens, setDefaultAllergens] = useState([]);
+  const [selectedProfileIndex, setSelectedProfileIndex] = useState(0);
+  const [openProfileDialog, setOpenProfileDialog] = useState(false);
+  const [newProfileName, setNewProfileName] = useState('');
 
   useEffect(() => {
     if (isFocused) {
       loadSavedFilters(); // Trigger loadSavedFilters when the screen is focused
     }
+
+    fetchGroupProfile();
   }, [isFocused]);
+
+  const fetchGroupProfile = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+    if (userToken === null) {
+      return;
+    }
+    getUserAllergens(userToken).then(async (userAllergens) => {
+      const profileCopy = groupProfiles[0] ?? { name: userProfileName, allergens: allergens};
+      for (let j = 0; j < profileCopy.allergens.length; j++) {
+        profileCopy.allergens[j].selected = false;
+      }
+      for (let i = 0; i < userAllergens.length; i++) {
+        profileCopy.allergens.map((state, index) => {
+          if (userAllergens[i] === state.name) {
+            profileCopy.allergens[index].selected = true;
+          }
+        });
+      }
+      setGroupProfiles([profileCopy]);
+      setSelectedProfileIndex(0);
+      await AsyncStorage.setItem('groupProfiles', JSON.stringify([profileCopy]));
+      setDefaultAllergens(profileCopy.allergens);
+    });
+  }
 
   useEffect(() => {
     (async () => {
@@ -348,12 +382,29 @@ const MapPage = () => {
       .filter(category => category.selected).map(category => category.name));
   };
 
-  const handleAllergenToggle = (index: number) => {
-    const updatedAllergens = [...allergens];
+  const getSelectedProfileAllergens = () : Allergen[] => {
+    if (!groupProfiles || groupProfiles.length <= selectedProfileIndex) {
+      return [];
+    }
+    return groupProfiles[selectedProfileIndex].allergens;
+  }
+
+  const handleAllergenToggle = async (index: number) => {
+    const updatedAllergens = [...getSelectedProfileAllergens()];
     updatedAllergens[index].selected = !updatedAllergens[index].selected;
-    setAllergens(updatedAllergens);
-    setSelectedAllergens(allergens
-      .filter(allergen => allergen.selected).map(allergen => allergen.name));
+    const groupProfilesCopy = groupProfiles;
+    groupProfilesCopy[selectedProfileIndex].allergens = updatedAllergens;
+    setGroupProfiles(groupProfilesCopy);
+    await AsyncStorage.setItem('groupProfiles', JSON.stringify(groupProfilesCopy));
+    const allergenListSelected: string[] = [];
+    for (let i = 0; i < groupProfiles.length; i++) {
+      for (let j = 0; j < groupProfiles[i].allergens.length; j++) {
+        if (groupProfiles[i].allergens[j].selected) {
+          allergenListSelected.push(groupProfiles[i].allergens[j].name);
+        }
+      }
+    }
+    setSelectedAllergens(allergenListSelected);
   };
 
   const clearFilters = async () => {
@@ -368,6 +419,15 @@ const MapPage = () => {
     setAllergens(allergens.map(allergen => 
       ({ ...allergen, selected: false })));
     await AsyncStorage.removeItem('filter');
+    setGroupProfiles([{
+      name: userProfileName,
+      allergens: defaultAllergens,
+    }]);
+    await AsyncStorage.setItem('groupProfiles', JSON.stringify([{
+      name: userProfileName,
+      allergens: defaultAllergens,
+    }]));
+    setSelectedProfileIndex(0);
   };
 
   const handleSaveFilter = async () => {
@@ -402,7 +462,19 @@ const MapPage = () => {
       name: nameFilter,
       location: locationFilter,
       categories: selectedCategories,
-      allergenList: selectedAllergens
+      allergenList: selectedAllergens,
+      groupProfiles: groupProfiles.map((profile) => (
+        {
+          name: profile.name,
+          allergens: profile.allergens.map((allergen) => (
+            {
+              name: allergen.name,
+              value: allergen.selected,
+              selected: allergen.selected,
+            }
+          )),
+        }
+      )),
     }
     addSavedFilter(userToken, filter).then((res) => {
       if (res !== null) {
@@ -474,6 +546,24 @@ const MapPage = () => {
       ...allergen,
       selected: newFilter.allergenList.includes(allergen.name),
     }));
+    let adjustedGroupProfiles: AllergenProfile[] = null;
+    if (newFilter.groupProfiles) {
+      adjustedGroupProfiles = newFilter.groupProfiles.map((profile) => ({
+        name: profile.name,
+        allergens: profile.allergens.map((allergen) => ({
+          name: allergen.name,
+          selected: allergen['value'],
+          value: allergen['value'],
+        })),
+      }));
+    }
+    const tempGroupProfiles = adjustedGroupProfiles ?? [{
+      name: userProfileName,
+      allergens: defaultAllergens,
+    }]
+    setGroupProfiles(tempGroupProfiles);
+    setSelectedProfileIndex(tempGroupProfiles.length - 1);
+    await AsyncStorage.setItem('groupProfiles', JSON.stringify(tempGroupProfiles));
     setAllergens(updatedAllergens);
   };
 
@@ -529,6 +619,52 @@ const MapPage = () => {
         }, 5000);
       }
     })
+  };
+
+  const handleRemoveProfile = async (index: number) => {
+    const remainingProfiles = groupProfiles.filter((_, i) => i !== index);
+    const allergenListChanged: string[] = [];
+    setGroupProfiles(remainingProfiles);
+    if (Number(selectedProfileIndex) === index && groupProfiles.length > 1) {
+      setSelectedProfileIndex(index === 0 ? 0 : index - 1);
+    }
+
+    for (let i = 0; i < remainingProfiles.length; i++) {
+      const allergens = remainingProfiles[i].allergens;
+      for (let j = 0; j < allergens.length; j++) {
+        if (allergens[j].selected && !allergenListChanged.includes(allergens[j].name)) {
+          allergenListChanged.push(allergens[j].name);
+        }
+      }
+    }
+    await AsyncStorage.setItem('groupProfiles', JSON.stringify(remainingProfiles));
+  };
+
+  const handleProfileChange = (event) => {
+    setSelectedProfileIndex(event);
+  };
+
+  const handleAddProfile = () => {
+    setOpenProfileDialog(true);
+  };
+
+  const handleProfileSave = async () => {
+    if (newProfileName && !groupProfiles.some(profile => profile.name === newProfileName)) {
+      const profileCopy = [
+        ...groupProfiles,
+        { name: newProfileName, allergens: allergens.map(allergen => ({ name: allergen.name, value: false, selected: false })) }
+      ];
+      setGroupProfiles(profileCopy);
+      await AsyncStorage.setItem('groupProfiles', JSON.stringify(profileCopy));
+      setSelectedProfileIndex(groupProfiles.length);
+    }
+    setNewProfileName('');
+    setOpenProfileDialog(false);
+  };
+
+  const handleProfileCancel = () => {
+    setNewProfileName('');
+    setOpenProfileDialog(false);
   };
 
   return (
@@ -743,18 +879,62 @@ const MapPage = () => {
           </View>
 
           <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.MapPage.allergens')}</Text>
-          <View style={styles.categoriesContainer}>
-            {allergens.map((allergen, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[styles.categoryBox, 
-                  { backgroundColor: allergen.selected ? '#e2b0b3' : 'white' }]}
-                onPress={() => handleAllergenToggle(index)}
-              >
-                <Text>{allergen.name}</Text>
+
+          <View>
+            {/* Scrollable list of allergen profiles */}
+            <ScrollView horizontal>
+              {groupProfiles.map((profile, index) => (
+                <>
+                  <TouchableOpacity key={index} onPress={() => handleProfileChange(String(index))}>
+                    <Text style={{ margin: 10, padding: 5, backgroundColor: index === Number(selectedProfileIndex) ? 'lightgray' : 'white' }}>
+                      {profile.name}
+                      {index > 0 && (
+                        <TouchableOpacity onPress={() => handleRemoveProfile(index)}>
+                          <Icon name="trash" size={12} />
+                        </TouchableOpacity>
+                      )}
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              ))}
+              <TouchableOpacity onPress={handleAddProfile}>
+                <Icon name="add" size={24} />
               </TouchableOpacity>
-            ))}
+            </ScrollView>
+
+            {/* Dialog for adding a new profile */}
+            {openProfileDialog && (
+              <View style={{ padding: 20, backgroundColor: 'white', borderRadius: 5 }}>
+                <Text style={{ fontSize: 20 }}>Add New Profile</Text>
+                <TextInput
+                  style={{ borderBottomWidth: 1, marginVertical: 10 }}
+                  placeholder={t('pages.RestaurantScreen.enter-name')}
+                  value={newProfileName}
+                  onChangeText={setNewProfileName}
+                />
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Button title={t('common.cancel')} onPress={handleProfileCancel} />
+                  <Button title={t('common.save')} onPress={handleProfileSave} />
+                </View>
+              </View>
+            )}
+
+            {/* Display selected allergen profile */}
+            <View style={styles.categoriesContainer}>
+              { getSelectedProfileAllergens().map((allergen, allergenIndex) => (
+                <TouchableOpacity
+                  key={allergenIndex}
+                  style={[styles.categoryBox,
+                    { backgroundColor: allergen.selected ?
+                        '#e2b0b3' : 'white' }]}
+                  onPress={() => handleAllergenToggle(allergenIndex)}
+                >
+                  <Text>{allergen.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
+
 
           <View>
             <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.MapPage.save-filter')}</Text>

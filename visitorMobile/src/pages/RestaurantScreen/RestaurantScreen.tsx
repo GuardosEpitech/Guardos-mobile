@@ -12,7 +12,7 @@ import {
   Alert,
   Linking
 } from 'react-native';
-import {Chip, Slider} from 'react-native-elements';
+import {Slider} from 'react-native-elements';
 import {useFocusEffect, useNavigation, useIsFocused} from '@react-navigation/native';
 import Card from '../../components/RestaurantCard/RestaurantCard';
 import AdCard from '../../components/AdCard/AdCard';
@@ -146,6 +146,7 @@ const MyRestaurantsScreen = () => {
         });
       }
       setGroupProfiles([profileCopy]);
+      setSelectedProfileIndex(0);
       AsyncStorage.setItem('groupProfiles', JSON.stringify([profileCopy]));
       setDefaultAllergens(profileCopy.allergens);
     });
