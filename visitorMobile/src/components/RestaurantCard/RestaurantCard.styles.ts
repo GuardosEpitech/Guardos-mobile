@@ -191,12 +191,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '##181A1B',
   },
   modalContaineDark: {
     width: deviceWidth * 0.8,
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#181A1B',
     borderRadius: 10,
     elevation: 5,
     shadowColor: '#000',
@@ -211,12 +211,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: 'white'
   },
   modalTextDark: {
     fontSize: 16,
     marginBottom: 10,
     textAlign: 'center',
     lineHeight: 20,
+    color: 'white',
   },
 });
 
