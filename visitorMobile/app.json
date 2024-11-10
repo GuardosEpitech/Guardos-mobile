@@ -2,6 +2,8 @@
   "expo": {
     "name": "visitorMobile",
     "slug": "visitorMobile",
+    "owner": "marcpister",
+    "scheme": "https",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -17,16 +19,30 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.guardos.visitorMobile"
     },
     "android": {
+      "package": "com.guardos.visitorMobile",
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleSignIn": {
+          "certificateHash": "06:EF:A5:84:41:F6:99:AF:7F:C1:F3:92:80:D3:16:3F:0C:90:23:1A"
+        }
       }
     },
     "web": {
       "favicon": "./assets/logo.png"
+    },
+    "plugins": [
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6b7d2e5e-b098-48a8-98a6-4f41f636d59a"
+      }
     }
   }
 }
