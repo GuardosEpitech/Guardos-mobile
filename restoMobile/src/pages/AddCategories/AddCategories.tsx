@@ -167,7 +167,7 @@ const AddCategoryPage = () => {
     const handleDeleteConfirmation = (category: ICategory) => {
         Alert.alert(
             t('pages.AddCategory.delete'),
-            `${t('pages.AddCategory.deleteMessage')} ${category.name}?`,
+            `${t('pages.AddCategory.deleteMessage')} ${category.name} ?`,
             [
                 {
                     text: t('common.cancel'),
