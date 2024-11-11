@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
-import * as AuthSession from 'expo-auth-session';
+import {TouchableOpacity, View, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 import { getVisitorProfileDetails } from '../../../services/profileCalls';
-import {styles} from "./styles";
-import {GoogleSignin, GoogleSigninButton} from "@react-native-google-signin/google-signin";
+import {GoogleSignin} from "@react-native-google-signin/google-signin";
 import {loginUser} from "../../../services/userCalls";
+import styles from "./styles";
 
 const GOOGLE_CLIENT_ID = '251768771069-7v10qin71ssbe5au77dt6at41s6cgglg.apps.googleusercontent.com';
 const WEB_CLIENT_ID = '251768771069-9iate5ptc3pm51k380d2uamf3segvtf6.apps.googleusercontent.com';
@@ -73,12 +72,9 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ setLoggedInStatus
 
   return (
       <View>
-        <GoogleSigninButton
-            style={styles.googleButton}
-            size={GoogleSigninButton.Size.Icon}
-            color={GoogleSigninButton.Color.Light}
-            onPress={signIn}
-        />
+        <TouchableOpacity onPress={signIn}>
+          <Image source={require('../../../../assets/Google.png')} style={styles.flexItemGoogle} />
+        </TouchableOpacity>
       </View>
   );
 };
