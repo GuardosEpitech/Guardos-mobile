@@ -6,6 +6,11 @@ import Router from './Router';
 import './i18n/i18n';
 import { useTranslation } from "react-i18next";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Settings, LoginManager } from 'react-native-fbsdk-next';
+
+Settings.setAppID('3681976368725984');
+Settings.initializeSDK();
+
 
 interface ErrorScreenProps {
   errorMessage: string;
