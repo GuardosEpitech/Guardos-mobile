@@ -23,7 +23,7 @@
       "bundleIdentifier": "com.guardos.visitorMobile"
     },
     "android": {
-      "package": "com.guardos.visitorMobile",
+      "package": "com.marcpister.visitorMobile",
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
@@ -38,6 +38,7 @@
       "favicon": "./assets/logo.png"
     },
     "plugins": [
+      "@react-native-google-signin/google-signin"
     ],
     "extra": {
       "eas": {
