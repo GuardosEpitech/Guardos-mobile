@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
   container: {
     width: deviceWidth,
     alignItems: 'center',
-    marginTop: 25,
     marginBottom: 25,
   },
   scrollView: {
     alignItems: 'center',
+    paddingBottom: 25,
   },
   groupTitle: {
     fontSize: 20,

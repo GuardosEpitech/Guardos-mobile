@@ -168,15 +168,18 @@ const EditRestaurant = ({ route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
+      base64: true,
       aspect: [4, 3],
       quality: 1,
     });
     if (!result.canceled) {
       if (result.assets && result.assets.length > 0) {
-        await addImageResto(name, 'restoImage', "image/png", result.assets.length, result.assets[0].uri).then(
+        const asset = result.assets[0];
+        const base64 = 'data:' + asset.mimeType + ';base64,' + asset.base64;
+        await addImageResto(name, asset.fileName, asset.mimeType, asset.fileSize, base64).then(
           r => {
-            setPictures([{ base64: result.assets[0].uri, contentType: "image/png",
-              filename: 'restoImage', size: result.assets.length, uploadDate: "0", id: r }]);
+            setPictures([{ base64: base64, contentType: asset.mimeType,
+              filename: asset.fileName, size: asset.fileSize, uploadDate: "0", id: r }]);
             if (picturesId.length > 0) {
               deleteImageRestaurant(picturesId[0], name);
               picturesId.shift();

@@ -15,6 +15,7 @@ import {getRestosMenu} from "../../services/menuCalls";
 import { ICategories } from "../../../../shared/models/categoryInterfaces";
 import Category from "../../components/Category/Category";
 import Accordion from "../../components/Accordion/Accordion";
+import Header from "../../components/Header";
 
 export interface DishData {
   _id: number;
@@ -173,6 +174,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
 
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+      <Header label={restaurantName}/>
       {loading ? (
         <Text>{t('common.loading')}</Text>
       ) : (

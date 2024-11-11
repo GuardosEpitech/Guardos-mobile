@@ -145,12 +145,16 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     }
   };
 
-  const handleFileChange = async (assets) => {
+  const handleFileChange = async (assets: ImagePicker.ImagePickerAsset[]) => {
+    if (assets.length === 0) {
+      return;
+    }
+    const asset = assets[0];
     const file = {
-      name: "profileImage",
-      type: "image/png",
-      size: assets.length,
-      uri: assets[0].uri
+      name: asset.fileName,
+      type: asset.mimeType,
+      size: asset.fileSize,
+      uri: 'data:' + asset.mimeType + ';base64,' + asset.base64
     }
     const userToken = await AsyncStorage.getItem('user');
     if (userToken === null) {
@@ -273,19 +277,20 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
+      base64: true,
       aspect: [1, 1],
       quality: 1,
     });
 
     if (!result.canceled) {
-      let uri: string = '';
+      let base64: string = '';
 
       if (result.assets && result.assets.length > 0 &&
-        'uri' in result.assets[0]) {
-        uri = result.assets[0].uri as string;
+        'base64' in result.assets[0]) {
+        base64 = result.assets[0].base64 as string;
       }
 
-      if (uri) {
+      if (base64) {
         await handleFileChange(result.assets);
       }
     }
@@ -700,16 +705,25 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
                   <Text style={[styles.tabButtonText, darkMode && styles.tabButtonTexDarkTheme]}>{t('pages.Profile.no-fav-dishes')}</Text>
                 ) : (
                   favoriteDishes.slice((dishPage - 1) * pageSize, dishPage * pageSize).map((dish, index) => {
-                    return (<DishCard
-                      key={dish.dish.uid + index}
-                      dish={dish.dish}
-                      restoID={dish.restoID}
-                      pictures={[]}
-                      isSmallerCard={true}
-                      isFavourite={true}
-                      isFirstLevel={false}
-                      deleteFavDish={removeFavDish}
-                    />)
+                    return (
+                      <>
+                        <TouchableOpacity onPress={() => navigateToMenu(dish.restoID, dish.restoName)}>
+                          <Text style={[styles.restoReference, darkMode && styles.restoReferenceDarkTheme]}>
+                            {dish.restoName}
+                          </Text>
+                        </TouchableOpacity>
+                        <DishCard
+                          key={dish.dish.uid + index}
+                          dish={dish.dish}
+                          restoID={dish.restoID}
+                          pictures={[]}
+                          isSmallerCard={true}
+                          isFavourite={true}
+                          isFirstLevel={false}
+                          deleteFavDish={removeFavDish}
+                        />
+                      </>
+                    )
                   })
                 )
               }

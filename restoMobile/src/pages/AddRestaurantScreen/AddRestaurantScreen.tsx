@@ -123,19 +123,6 @@ const AddRestaurantScreen = () => {
     }
   };
 
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImageURL(result.uri);
-    }
-  };
-
   return (
     <ScrollView style={[styles.container, darkMode ? styles.darkContainer : styles.lightContainer]}>
       <StatusBar barStyle={darkMode ? "light-content" : "dark-content"} />
