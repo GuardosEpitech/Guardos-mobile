@@ -29,11 +29,6 @@
       },
       "package": "com.marcpister.visitorMobile"
       },
-      "config": {
-        "googleSignIn": {
-          "certificateHash": ""
-        }
-      },
     "web": {
       "favicon": "./assets/logo.png"
     },
