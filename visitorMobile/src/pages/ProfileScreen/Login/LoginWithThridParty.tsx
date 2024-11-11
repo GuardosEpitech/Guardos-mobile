@@ -8,6 +8,7 @@ import {Ionicons} from "@expo/vector-icons";
 import {useTranslation} from "react-i18next";
 import {getVisitorProfileDetails} from "../../../services/profileCalls";
 import GoogleLoginButton from "../../../components/Login/GoogleLogin/GoogleLogin";
+import FacebookLoginButton from "../../../components/Login/FacebookLogin/FacebookLogin";
 
 type LoginScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -149,7 +150,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
             <View style={styles.divider}></View>
           </View>
           <View style={styles.containerFlex}>
-            <Image source={require('../../../../assets/Facebook.png')} style={styles.flexItem} />
+            <FacebookLoginButton setLoggedInStatus={setLoggedInStatus} navigation={navigation} />
             <View style={styles.dividerLogos}></View>
             <GoogleLoginButton setLoggedInStatus={setLoggedInStatus} navigation={navigation} />
           </View>

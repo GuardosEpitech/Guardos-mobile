@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {TouchableOpacity, View, Image} from 'react-native';
+import {TouchableOpacity, View, Image, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 import { getVisitorProfileDetails } from '../../../services/profileCalls';
@@ -66,6 +66,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ setLoggedInStatus
         navigation.navigate('RestaurantScreen');
       }
     } catch (error) {
+      Alert.alert(t('pages.Profile.error-login-google'));
       console.error('Error logging in with Google:', error);
     }
   };

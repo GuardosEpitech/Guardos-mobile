@@ -20,13 +20,11 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({ setLoggedInSt
       const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
       if (result.isCancelled) {
-        Alert.alert('Login abgebrochen', 'Der Benutzer hat die Anmeldung abgebrochen.');
         return;
       }
 
       const data = await AccessToken.getCurrentAccessToken();
       if (!data) {
-        Alert.alert('Fehler', 'Zugriffstoken konnte nicht abgerufen werden.');
         return;
       }
 
@@ -37,7 +35,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({ setLoggedInSt
       await handleFacebookLogin(userInfo);
     } catch (error) {
       console.error('Facebook Login Error:', error);
-      Alert.alert('Fehler', 'Anmeldung fehlgeschlagen.');
+      Alert.alert(t('pages.Profile.error-login-facebook'));
     }
   };
 

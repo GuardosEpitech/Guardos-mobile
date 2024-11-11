@@ -149,7 +149,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
             <View style={styles.divider}></View>
           </View>
           <View style={styles.containerFlex}>
-            <FacebookLoginButton setLoggedInStatus={setLoggedInStatus} navigation={navigation} />
+            <Image source={require('../../../../assets/Facebook.png')} style={styles.flexItemGoogle} />
             <View style={styles.dividerLogos}></View>
             <Image source={require('../../../../assets/Google.png')} style={styles.flexItemGoogle} />
           </View>
