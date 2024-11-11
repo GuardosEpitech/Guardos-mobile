@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   descriptionDarkMode: {
     fontSize: 20,
-    color: '#white',
+    color: '#FFF',
   },
   sectionDarkMode: {
     marginBottom: 40,
