@@ -24,6 +24,7 @@ const PaymentPage = () => {
     const [ready, setReady] = useState(false);
     const {initPaymentSheet, presentPaymentSheet, loading} = usePaymentSheet();
     const [publishableKey, setKey] = useState("");
+    const [isKeyLoading, setIsKeyLoading] = useState(true);
 
     const fetchMethods = async () => {
         try {
@@ -41,7 +42,9 @@ const PaymentPage = () => {
             const userToken = await AsyncStorage.getItem('userToken');
             if (userToken === null) { return; }
             const customer = await getCustomer(userToken);
+            console.log('Customer:', customer);
             if (!customer) {
+              console.log('Adding customer');
                 const newCustomerId = await addCustomer(userToken);
                 setCustomerId(newCustomerId);
             } else {
@@ -62,18 +65,24 @@ const PaymentPage = () => {
           console.error('Error loading dark mode value:', error);
         }
       };
-    
-      const getKey = async () => {
-        try {
-            const { publishableKey } = await getStripeKey();
-            if (publishableKey !== null) {
-              setKey(publishableKey);
-            }
-          } catch (error) {
-            console.error('Error fetching stripe key:', error);
-          }
-    };
-    
+
+  const getKey = async () => {
+    try {
+      const response = await getStripeKey();
+      const { publishableKey } = response;
+      if (publishableKey) {
+        setKey(publishableKey);
+      } else {
+        console.error('Publishable Key is null or undefined');
+      }
+    } catch (error) {
+      console.error('Error fetching stripe key:', error);
+    } finally {
+      setIsKeyLoading(false);
+    }
+  };
+
+
     useEffect(() => {
         loadDarkModeState();
         getKey();
@@ -87,6 +96,10 @@ const PaymentPage = () => {
         if (userToken === null) { return; }
         const {setupIntent, ephemeralKey, customer} =
           await fetchPaymentSheetParams(userToken);
+      if (!setupIntent || !ephemeralKey || !customer) {
+        Alert.alert(`${t('pages.Payment.error')}`,`${t('components.TwoFactor.code-error')}`);
+        return;
+      }
         const {error} = await initPaymentSheet({
           customerId: customer,
           customerEphemeralKeySecret: ephemeralKey,
@@ -94,6 +107,8 @@ const PaymentPage = () => {
           merchantDisplayName: 'Guardos',
           allowsDelayedPaymentMethods: true,
         });
+        console.log('init payment done');
+        console.log(publishableKey);
         if (error) {
           Alert.alert(`Error code: ${error.code}`, error.message);
         } else {
@@ -102,66 +117,87 @@ const PaymentPage = () => {
         }
       };
 
-    const onCheckout = async () => {
-        const {error} = await presentPaymentSheet();
+  const onCheckout = async () => {
+    try {
+      const { error } = await presentPaymentSheet();
+      if (error) {
+        Alert.alert(`${t('pages.Payment.error')} ${error.code}`, error.message);
+      } else {
+        Alert.alert(t('pages.Payment.success'), t('pages.Payment.msg'));
+        setReady(false);
+        fetchMethods();
+      }
+    } catch (e) {
+      console.error('Error processing payment:', e);
+    }
+  };
 
-        if (error) {
-            Alert.alert(`${t('pages.Payment.error')} ${error.code}`, error.message);
-        } else {
-            Alert.alert(t('pages.Payment.success'), t('pages.Payment.msg'));
-            setReady(false);
-            fetchMethods();
-        }
-    };
-
+  if (isKeyLoading) {
     return (
-        <StripeProvider
-            publishableKey={publishableKey}
-            merchantIdentifier="merchant.com.guardos"
-        >
+        <View style={ [styles.containerLoad, darkMode && styles.containerLoadDark]}>
+          <Text>{t('common.unexpected-error')}</Text>
+        </View>
+    );
+  }
+
+  if (!publishableKey) {
+    return (
+        <View style={ [styles.containerLoad, darkMode && styles.containerLoadDark]}>
+          <Text>{t('common.unexpected-error')}</Text>
+        </View>
+    );
+  }
+
+  return (
+      <StripeProvider
+          publishableKey={publishableKey}
+          merchantIdentifier="merchant.com.guardos"
+      >
         <View style={[styles.paymentPage, darkMode && styles.paymentPageDark]}>
-            <Text style={[styles.heading, darkMode && styles.headingDark]}>{t('pages.Payment.title')}</Text>
-            {isLoading ? (
-                <View style={[styles.containerLoad, darkMode && styles.containerLoadDark]}>
-                    <Text>{t('common.loading')}</Text>
-                </View>
-            ) : (
-                <>
+          <Text style={[styles.heading, darkMode && styles.headingDark]}>
+            {t('pages.Payment.title')}
+          </Text>
+          {isLoading ? (
+              <View style={[styles.containerLoad, darkMode && styles.containerLoadDark]}>
+                <Text>{t('common.loading')}</Text>
+              </View>
+          ) : (
+              <>
                 {paymentMethods.length > 0 ? (
-                <ScrollView contentContainerStyle={styles.creditCardsContainer}>
-                    {paymentMethods.map((paymentMethod, index) => (
-                        <CreditCard
-                            key={index}
-                            name={paymentMethod.name}
-                            brand={paymentMethod.brand}
-                            last4={paymentMethod.last4}
-                            exp_month={paymentMethod.exp_month}
-                            exp_year={paymentMethod.exp_year}
-                            id={paymentMethod.id}
-                            onDelete={deletePaymentMethod}
-                            onUpdate={fetchMethods}
-                        />
-                    ))}
-                </ScrollView>
+                    <ScrollView contentContainerStyle={styles.creditCardsContainer}>
+                      {paymentMethods.map((paymentMethod, index) => (
+                          <CreditCard
+                              key={index}
+                              name={paymentMethod.name}
+                              brand={paymentMethod.brand}
+                              last4={paymentMethod.last4}
+                              exp_month={paymentMethod.exp_month}
+                              exp_year={paymentMethod.exp_year}
+                              id={paymentMethod.id}
+                              onDelete={deletePaymentMethod}
+                              onUpdate={fetchMethods}
+                          />
+                      ))}
+                    </ScrollView>
                 ) : (
                     <View style={[styles.noPaymentMethods, darkMode && styles.noPaymentMethodsDark]}>
-                        <Text>{t('pages.Payment.nopay')}</Text>
+                      <Text>{t('pages.Payment.nopay')}</Text>
                     </View>
                 )}
-                <TouchableOpacity 
-                    style={styles.addButton} 
-                    onPress={onCheckout} 
+                <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={onCheckout}
                     disabled={loading || !ready}
-                >                    
-                    <Text style={styles.buttonText}>
-                        {t('pages.Payment.add')}
-                    </Text>
+                >
+                  <Text style={styles.buttonText}>
+                    {t('pages.Payment.add')}
+                  </Text>
                 </TouchableOpacity>
-            </>
-            )}
+              </>
+          )}
         </View>
-        </StripeProvider>
-    );
+      </StripeProvider>
+  );
 };
 
 export default PaymentPage;
