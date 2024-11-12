@@ -42,9 +42,7 @@ const PaymentPage = () => {
             const userToken = await AsyncStorage.getItem('userToken');
             if (userToken === null) { return; }
             const customer = await getCustomer(userToken);
-            console.log('Customer:', customer);
             if (!customer) {
-              console.log('Adding customer');
                 const newCustomerId = await addCustomer(userToken);
                 setCustomerId(newCustomerId);
             } else {
@@ -107,8 +105,6 @@ const PaymentPage = () => {
           merchantDisplayName: 'Guardos',
           allowsDelayedPaymentMethods: true,
         });
-        console.log('init payment done');
-        console.log(publishableKey);
         if (error) {
           Alert.alert(`Error code: ${error.code}`, error.message);
         } else {

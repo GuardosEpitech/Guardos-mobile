@@ -94,8 +94,6 @@ const PaymentPage = () => {
             if (!userToken) return;
 
             const response = await fetchPaymentSheetParams(userToken);
-            console.log('fetchPaymentSheetParams response:', response);
-
             const { setupIntent, ephemeralKey, customer } = response || {};
 
             if (!setupIntent || !ephemeralKey || !customer) {
