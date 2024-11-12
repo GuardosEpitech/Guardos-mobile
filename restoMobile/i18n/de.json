@@ -217,7 +217,8 @@
         "select-resto": "Wählen Sie ein Restaurant aus",
         "search": "Suchen...",
         "scan-again": "Erneut scannen",
-        "scan-result-ask-if-want-to-add": "Sie haben gerade {{ data }} (Produktname: {{ productName }}) gescannt. Möchten Sie es zu Ihrer Liste der Zutaten hinzufügen?"
+        "scan-result-ask-if-want-to-add": "Sie haben gerade {{ data }} (Produktname: {{ productName }}) gescannt. Möchten Sie es zu Ihrer Liste der Zutaten hinzufügen?",
+        "required-field": "Sie müssen ein Restaurant auswählen"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "Dieser Benutzername und diese E-Mail-Adresse ({{ email }}) stimmen nicht überein. Bitte überprüfen Sie die Schreibweise oder versuchen Sie einen anderen Benutzernamen.",

@@ -8,12 +8,11 @@ const styles = StyleSheet.create({
     height: 320,
     width: 290,
     justifyContent: "center",
-    alignItem: "center",
+    alignItems: "center",
   },
   DivTop: {
-    flexDirection: "row",
-    flexWrap: "wrap",
     justifyContent: "center",
+    alignItems: "center",
   },
   IconUser: {
     marginHorizontal: gap / 2,
@@ -54,13 +53,20 @@ const styles = StyleSheet.create({
   DivButton: {
     backgroundColor: "#FFFFFF",
     width: 370,
-    height: 170,
     borderRadius: 10,
     marginTop: 20,
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 5,
+    paddingBottom: 30,
+    marginBottom: 30,
+  },
+  DivBtn: {
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
   },
   TitleScan: {
     fontSize: 20,
@@ -111,8 +117,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   DivTitleIngr: {
-    margin: 0,
-    padding: 0,
+    alignSelf: "center",
+    justifyContent: "center",
   },
   containerDarkTheme: {
     backgroundColor: "#3B3B3B",

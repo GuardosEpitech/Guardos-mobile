@@ -218,7 +218,8 @@
         "select-resto": "Select a restaurant",
         "search": "Search...",
         "scan-again": "Scan Again",
-        "scan-result-ask-if-want-to-add": "You just scanned {{ data }} (Product Name: {{ productName }}). Do you want to add it to your list of ingredients?"
+        "scan-result-ask-if-want-to-add": "You just scanned {{ data }} (Product Name: {{ productName }}). Do you want to add it to your list of ingredients?",
+        "required-field": "You need to select a restaurant"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "That username and email ({{ email }}) don't match. Please check its spelling or try another username.",
