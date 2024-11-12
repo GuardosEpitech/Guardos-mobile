@@ -6,8 +6,10 @@ import Router from './Router';
 import './i18n/i18n';
 import { useTranslation } from "react-i18next";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Settings, LoginManager } from 'react-native-fbsdk-next';
 
+
+// Use this if you want to build the APK
+//import { Settings, LoginManager } from 'react-native-fbsdk-next';
 //Settings.setAppID('3681976368725984');
 //Settings.initializeSDK();
 
@@ -38,7 +40,7 @@ const App: React.FC = () => {
   }, []);
 
   const fetchUserLanguage = async () => {
-    let deviceLanguage = 'en'; // Standardsprache
+    let deviceLanguage = 'en';
 
     try {
       if (Platform.OS === 'ios') {
@@ -49,13 +51,13 @@ const App: React.FC = () => {
       }
       deviceLanguage = deviceLanguage.split('_')[0];
     } catch (error) {
-      console.error('Fehler beim Abrufen der Gerätesprache:', error);
+      console.error('Error while fetching language:', error);
     }
 
     if (['en', 'de', 'fr'].includes(deviceLanguage)) {
       i18n.changeLanguage(deviceLanguage);
     } else {
-      i18n.changeLanguage('en'); // Fallback-Sprache
+      i18n.changeLanguage('en');
     }
   };
 
