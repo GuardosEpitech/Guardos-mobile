@@ -301,7 +301,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const onRefresh = useCallback(async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
