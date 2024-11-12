@@ -33,7 +33,7 @@ const Accordion = ({ title, children }) => {
     <View style={[styles.accordion, darkMode && styles.accordionDarkMode]}>
       <TouchableOpacity style={[styles.header, darkMode && styles.headerDarkMode]} onPress={toggleAccordion}>
         <Text style={[styles.title, darkMode && styles.titleDarkMode]}>{title}</Text>
-        <AntDesign name={isOpen ? 'up' : 'down'} size={20} />
+        <AntDesign name={isOpen ? 'up' : 'down'} size={20} color={darkMode ? 'white' : 'black'}/>
       </TouchableOpacity>
       {isOpen && (
         <View style={[styles.content, darkMode && styles.contentDarkMode]}>
