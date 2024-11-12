@@ -84,7 +84,7 @@ const MapPage = () => {
     { name: 'peanuts', selected: false },
     { name: 'sesame', selected: false },
     { name: 'soybeans', selected: false },
-    { name: 'sulphides', selected: false },
+    { name: 'sulphites', selected: false },
     { name: 'tree nuts', selected: false },
   ]);
   const isFocused = useIsFocused();

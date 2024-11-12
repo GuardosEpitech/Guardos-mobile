@@ -72,7 +72,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     { label: "peanuts", value: "peanuts"},
     { label: "sesame", value: "sesame"},
     { label: "soybeans", value: "soybeans"},
-    { label: "sulphides", value: "sulphides"},
+    { label: "sulphites", value: "sulphites"},
     { label: "tree nuts", value: "tree nuts"}
   ];
   const [dataChangeStatus, setDataChangeStatus] = useState(null);
