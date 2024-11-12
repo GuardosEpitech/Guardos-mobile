@@ -141,7 +141,8 @@
         "price": "Preis: {{ price }}",
         "allergens": "Allergene: {{ allergens }}",
         "confirm-delete-dish": "Möchten Sie dieses Gericht wirklich löschen?",
-        "no-menu": "Noch kein Menü verfügbar. Bitte fügen Sie einer Kategorie ein Gericht hinzu."
+        "no-menu": "Noch kein Menü verfügbar. Bitte fügen Sie einer Kategorie ein Gericht hinzu.",
+        "get-qr-code": "Meinen qr-code erhalten"
       },
       "MyDishPage": {
         "nodish": "Keine Gerichte verfügbar. Bitte fügen Sie Ihr Gericht hinzu. Fügen Sie aber zuerst ein Restaurant hinzu."

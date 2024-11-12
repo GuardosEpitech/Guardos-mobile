@@ -141,7 +141,8 @@
         "price": "Price: {{ price }}",
         "allergens": "Allergens: {{ allergens }}",
         "confirm-delete-dish": "Are you sure you want to delete this dish?",
-        "no-menu": "No menu available yet. Please add a dish to a category."
+        "no-menu": "No menu available yet. Please add a dish to a category.",
+        "get-qr-code": "Get my QR code"
       },
       "MyDishPage": {
         "nodish": "No dishes available. Please add your dish. But be sure to add a restaurant first."
