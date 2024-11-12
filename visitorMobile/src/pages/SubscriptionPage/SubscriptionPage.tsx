@@ -18,7 +18,7 @@ const SubscriptionPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userToken = await AsyncStorage.getItem('user');
+        const userToken = await AsyncStorage.getItem('userToken');
         if (userToken === null) {
           return;
         }
@@ -46,7 +46,7 @@ const SubscriptionPage = () => {
 
   const handleAddPermission = async (permission) => {
     try {
-      const userToken = await AsyncStorage.getItem('user');
+      const userToken = await AsyncStorage.getItem('userToken');
       if (!userToken) {
         return;
       }
@@ -60,7 +60,7 @@ const SubscriptionPage = () => {
 
   const handleRemovePermission = async (permission) => {
     try {
-      const userToken = await AsyncStorage.getItem('user');
+      const userToken = await AsyncStorage.getItem('userToken');
       if (!userToken) {
         return;
       }
