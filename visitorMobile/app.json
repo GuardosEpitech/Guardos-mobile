@@ -2,6 +2,11 @@
   "expo": {
     "name": "visitorMobile",
     "slug": "visitorMobile",
+    "owner": "marcpister",
+    "scheme": "https",
+    "facebookAppId": "3681976368725984",
+    "facebookDisplayName": "Guardos",
+    "facebookScheme": "fb3681976368725984",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -17,16 +22,34 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.marcpister.visitorMobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
-      }
-    },
+      },
+      "package": "com.marcpister.visitorMobile"
+      },
     "web": {
       "favicon": "./assets/logo.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6b7d2e5e-b098-48a8-98a6-4f41f636d59a"
+      }
+    },
+    "plugins": [
+      "expo-font",
+      "@react-native-google-signin/google-signin",
+      ["react-native-fbsdk-next",
+      {
+        "appID": "3681976368725984",
+        "clientToken": "1ac8bb95cd980c400b270dbb93dfa275",
+        "displayName": "Guardos"
+      }
+      ]
+    ]
   }
 }

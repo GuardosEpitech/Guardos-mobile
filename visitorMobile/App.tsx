@@ -1,9 +1,17 @@
+import 'react-native-gesture-handler'; // Muss als erstes importiert werden
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Platform, NativeModules } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import Router from './Router';
 import './i18n/i18n';
 import { useTranslation } from "react-i18next";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+
+// Use this if you want to build the APK
+//import { Settings, LoginManager } from 'react-native-fbsdk-next';
+//Settings.setAppID('3681976368725984');
+//Settings.initializeSDK();
 
 interface ErrorScreenProps {
   errorMessage: string;
@@ -32,14 +40,24 @@ const App: React.FC = () => {
   }, []);
 
   const fetchUserLanguage = async () => {
-    const deviceLanguage =
-        (Platform.OS === 'ios'
-            ? NativeModules.SettingsManager.settings.AppleLocale ||
-            NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
-            : NativeModules.I18nManager.localeIdentifier).split('_')[0];
+    let deviceLanguage = 'en';
 
-    if (deviceLanguage === 'en' || deviceLanguage === 'de' || deviceLanguage === 'fr') {
+    try {
+      if (Platform.OS === 'ios') {
+        const settings = NativeModules.SettingsManager.settings;
+        deviceLanguage = settings.AppleLocale || (settings.AppleLanguages && settings.AppleLanguages[0]) || 'en';
+      } else {
+        deviceLanguage = NativeModules.I18nManager.localeIdentifier || 'en';
+      }
+      deviceLanguage = deviceLanguage.split('_')[0];
+    } catch (error) {
+      console.error('Error while fetching language:', error);
+    }
+
+    if (['en', 'de', 'fr'].includes(deviceLanguage)) {
       i18n.changeLanguage(deviceLanguage);
+    } else {
+      i18n.changeLanguage('en');
     }
   };
 
@@ -50,7 +68,11 @@ const App: React.FC = () => {
     return <Router />;
   };
 
-  return renderContent();
+  return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        {renderContent()}
+      </GestureHandlerRootView>
+  );
 };
 
 const styles = StyleSheet.create({

@@ -1,0 +1,7 @@
+#!/bin/bash
+npm install
+# if not already logged in:
+#eas login --username USERNAME --password PASSWORD
+eas build:configure
+eas build --platform android --local
+

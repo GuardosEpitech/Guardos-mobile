@@ -1,0 +1,3 @@
+how to build apps:
+
+eas build --platform android --profile production --local

@@ -138,6 +138,8 @@
         "password": "Password",
         "invalid-login": "Invalid Login data",
         "login": "Login",
+        "error-login-facebook": "Error logging in with Facebook. Please try again.",
+        "error-login-google": "Error logging in with Google. Please try again.",
         "trouble-logging-in": "Trouble logging in?",
         "register-prompt": "You don't have an account yet? Register yourself ",
         "register-here": "here",
