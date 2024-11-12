@@ -93,10 +93,13 @@ const PaymentPage = () => {
             const userToken = await AsyncStorage.getItem('user');
             if (!userToken) return;
 
-            const { setupIntent, ephemeralKey, customer } = await fetchPaymentSheetParams(userToken);
+            const response = await fetchPaymentSheetParams(userToken);
+            console.log('fetchPaymentSheetParams response:', response);
+
+            const { setupIntent, ephemeralKey, customer } = response || {};
 
             if (!setupIntent || !ephemeralKey || !customer) {
-                Alert.alert(`${t('pages.Payment.error')}`, `${t('components.TwoFactor.code-error')}`);
+                Alert.alert(`${t('pages.Payment.error')}`, `${t('pages.ResetPasswordScreen.user-error')}`);
                 return;
             }
 
