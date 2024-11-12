@@ -27,7 +27,6 @@ export const restoByName = async (restoName: string) =>  {
       method: "GET",
       url: baseURL + "restaurants/" + restoName
     });
-    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error("Error fetching restoByName:", error);

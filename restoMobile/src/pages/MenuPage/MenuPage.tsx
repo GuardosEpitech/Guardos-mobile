@@ -56,7 +56,6 @@ const MenuPage: React.FC = ({ route }) => {
     fetchData();
     restoByName(restaurantName)
         .then(res => setRestaurantData(res));
-    console.log(restaurantData)
   }, []);
 
   const fetchDarkMode = async () => {

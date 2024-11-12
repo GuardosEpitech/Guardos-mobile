@@ -6,7 +6,6 @@ const baseUrl =
     `${API_URL}qrcode`;
 
 export const addQRCode = async (body: any) => {
-    console.log(body);
     try {
         const response = await axios({
             url: baseUrl,
@@ -24,7 +23,6 @@ export const addQRCode = async (body: any) => {
 };
 
 export const getQRCodeByNameBase64 = async (uid: string) => {
-    console.log("this is the uid", uid);
     try {
         const response = await axios({
             url: `${baseUrl}/base64/${uid}`,
