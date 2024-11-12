@@ -52,7 +52,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
                   i18n.changeLanguage(res.preferredLanguage);
                 }
               });
-          AsyncStorage.setItem('userToken', response.token);
+          await AsyncStorage.setItem('userToken', response.token);
           setLoggedInStatus(true);
           navigation.navigate('Scanning');
         }

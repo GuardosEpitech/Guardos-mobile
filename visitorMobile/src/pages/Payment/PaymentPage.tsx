@@ -28,7 +28,7 @@ const PaymentPage = () => {
 
     const fetchMethods = async () => {
         try {
-            const userToken = await AsyncStorage.getItem('user');
+            const userToken = await AsyncStorage.getItem('userToken');
             if (!userToken) return;
             const methods = await getPaymentMethods(userToken);
             setPaymentMethods(methods);
@@ -39,7 +39,7 @@ const PaymentPage = () => {
 
     const fetchData = async () => {
         try {
-            const userToken = await AsyncStorage.getItem('user');
+            const userToken = await AsyncStorage.getItem('userToken');
             if (!userToken) return;
             const customer = await getCustomer(userToken);
             if (!customer) {
@@ -90,7 +90,7 @@ const PaymentPage = () => {
 
     const initialisePaymentSheet = async () => {
         try {
-            const userToken = await AsyncStorage.getItem('user');
+            const userToken = await AsyncStorage.getItem('userToken');
             if (!userToken) return;
 
             const response = await fetchPaymentSheetParams(userToken);
