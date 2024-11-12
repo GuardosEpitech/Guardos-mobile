@@ -7,13 +7,15 @@ import {loginUser, resendValidationLink } from "../../../services/userCalls";
 import {Ionicons} from "@expo/vector-icons";
 import {useTranslation} from "react-i18next";
 import {getVisitorProfileDetails} from "../../../services/profileCalls";
+import GoogleLoginButton from "../../../components/Login/GoogleLogin/GoogleLogin";
 import FacebookLoginButton from "../../../components/Login/FacebookLogin/FacebookLogin";
 
 type LoginScreenProps = {
   navigation: NavigationProp<ParamListBase>;
+  setLoggedInStatus: (status: boolean) => void;
 };
 
-const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boolean) => void }> = ({ navigation, setLoggedInStatus }) => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, setLoggedInStatus }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorForm, setErrorForm] = useState(false);
@@ -50,7 +52,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
         }
 
         await AsyncStorage.setItem('userToken', responseData);
-  
+
         setLoggedInStatus(true);
         navigation.navigate('Main');
       } else {
@@ -148,9 +150,9 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
             <View style={styles.divider}></View>
           </View>
           <View style={styles.containerFlex}>
-            <Image source={require('../../../../assets/Facebook.png')} style={styles.flexItemGoogle} />
+            <FacebookLoginButton setLoggedInStatus={setLoggedInStatus} navigation={navigation} />
             <View style={styles.dividerLogos}></View>
-            <Image source={require('../../../../assets/Google.png')} style={styles.flexItemGoogle} />
+            <GoogleLoginButton setLoggedInStatus={setLoggedInStatus} navigation={navigation} />
           </View>
         </View>
       </View>

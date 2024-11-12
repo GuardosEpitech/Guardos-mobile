@@ -134,6 +134,8 @@
         "username-or-email": "Nom d'utilisateur ou email",
         "password": "Mot de passe",
         "invalid-login": "Données de connexion invalides",
+        "error-login-facebook": "Erreur lors de la connexion avec Facebook. Veuillez réessayer.",
+        "error-login-google": "Erreur lors de la connexion avec Google. Veuillez réessayer.",
         "login": "Connexion",
         "trouble-logging-in": "Problèmes pour vous connecter ?",
         "register-prompt": "Vous n'avez pas encore de compte ? Inscrivez-vous ",
