@@ -43,6 +43,7 @@ import { FilterContext } from '../../models/filterContext';
 import {useTranslation} from "react-i18next";
 import * as Location from 'expo-location';
 import {getUserAllergens} from "../../services/userCalls";
+import {getCategories} from "../../services/categorieCalls";
 
 const Epitech = [13.328820, 52.508540];// long,lat
 
@@ -70,14 +71,8 @@ const MapPage = () => {
     error: false,
     message: '',
   });
-  // TODO: apply i18n
-  const [categories, setCategories] = useState([
-    { name: 'Burger', selected: false },
-    { name: 'Sushi', selected: false },
-    { name: 'Pizza', selected: false },
-    { name: 'Salad', selected: false },
-    { name: 'Pasta', selected: false },
-  ]);
+  const [categories, setCategories] = useState([]);
+  const hasLoadedFilter = useRef(false);
   const [allergens, setAllergens] = useState([
     { name: 'gluten', selected: false },
     { name: 'celery', selected: false },
@@ -115,7 +110,7 @@ const MapPage = () => {
   }, [isFocused]);
 
   const fetchGroupProfile = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
@@ -162,6 +157,12 @@ const MapPage = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (categories.length > 0 && !hasLoadedFilter.current) {
+      hasLoadedFilter.current = true;
+    }
+  }, [categories]);
 
   useEffect(() => {
     if (filter) {
@@ -240,6 +241,11 @@ const MapPage = () => {
     getSavedFilters(userToken).then((res) => {
       setSavedFilters(res);
     })
+
+    getCategories(userToken)
+        .then((res) => {
+          setCategories(res.map(category => ({name: category, selected: false})));
+        });
   }
 
   const toggleModal = () => {
@@ -934,7 +940,6 @@ const MapPage = () => {
               ))}
             </View>
           </View>
-
 
           <View>
             <Text style={[darkMode && styles.darkModeTxt, styles.categoryText]}>{t('pages.MapPage.save-filter')}</Text>
