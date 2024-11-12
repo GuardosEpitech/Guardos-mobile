@@ -135,7 +135,9 @@
       "FeatureRequest": {
         "name": "Nom",
         "subject": "Sujet",
-        "request": "Demande"
+        "request": "Demande",
+        "thanks": "Demande envoyé ! Merci !",
+        "require": "Tous les champs sont obligatoires"
       },
       "MenuPage": {
         "price": "Prix : {{ price }}",
