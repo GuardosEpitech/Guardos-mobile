@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
+import React, {useEffect, useState, useCallback, useContext, useRef} from 'react';
 import {
   View,
   FlatList,
@@ -37,6 +37,7 @@ import {useTranslation} from "react-i18next";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';
 import {getUserAllergens} from "../../services/userCalls";
+import {getCategories} from "../../services/categorieCalls";
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -47,13 +48,8 @@ const MyRestaurantsScreen = () => {
   const [isTabVisible, setIsTabVisible] = useState(false);
   const [rating, setRating] = useState(0);
   const [distance, setDistance] = useState(0);
-  const [categories, setCategories] = useState([
-    { name: 'Burger', selected: false },
-    { name: 'Sushi', selected: false },
-    { name: 'Pizza', selected: false },
-    { name: 'Salad', selected: false },
-    { name: 'Pasta', selected: false },
-  ]);
+  const [categories, setCategories] = useState([]);
+  const hasLoadedFilter = useRef(false);
   const [allergens, setAllergens] = useState<Allergen[]>([
     { name: 'gluten', selected: false },
     { name: 'celery', selected: false },
@@ -124,12 +120,11 @@ const MyRestaurantsScreen = () => {
     }
     fetchFavourites().then(r => console.log("Loaded favourite resto list"));
     fetchDarkMode();
-
     fetchGroupProfile();
   }, [isFocused]);
 
   const fetchGroupProfile = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
@@ -185,7 +180,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const fetchFilteredFavourits = async (filter: ISearchCommunication) => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) { return; }
 
     try {
@@ -244,7 +239,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const fetchFavourites = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) { return; }
 
     try {
@@ -258,7 +253,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const loadSavedFilters = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
@@ -268,9 +263,14 @@ const MyRestaurantsScreen = () => {
     })
 
     getSavedFilterLimit(userToken)
-      .then((res) => {
-        setFilterLimit((res && res.filterLimit) ? res.filterLimit : 0);
-      });
+        .then((res) => {
+          setFilterLimit((res && res.filterLimit) ? res.filterLimit : 0);
+        });
+
+    getCategories(userToken)
+        .then((res) => {
+          setCategories(res.map(category => ({name: category, selected: false})));
+        });
   }
 
   const handleSearch = async () => {
@@ -300,8 +300,15 @@ const MyRestaurantsScreen = () => {
     Keyboard.dismiss();
   };
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken === null) {
+      return;
+    }
     setRefreshing(true);
+    getCategories(userToken).then((res) => {
+      setCategories(res.map(category => ({name: category, selected: false})));
+    });
     getAllResto().then((res) => {
       setRestoData(res);
       setSelectedRestoData(res);
@@ -311,6 +318,12 @@ const MyRestaurantsScreen = () => {
     resetFilters();
     setRefreshing(false);
   }, []);
+
+  useEffect(() => {
+    if (categories.length > 0 && !hasLoadedFilter.current) {
+      hasLoadedFilter.current = true;
+    }
+  }, [categories]);
 
   const navigateToMenu = (restaurantId: number, restaurantName: string) => {
     navigation.navigate('MenuPage', { restaurantId, restaurantName });
@@ -326,6 +339,10 @@ const MyRestaurantsScreen = () => {
   }
 
   const handleFilter = async () => {
+
+    setNameFilter(nameFilter ?? '');
+    setLocationFilter(locationFilter ?? '');
+
     let selectedRating = [];
     if (rating < 5 && rating !== 0) {
       selectedRating = [rating, rating + 1]
@@ -343,6 +360,7 @@ const MyRestaurantsScreen = () => {
       allergenList: selectedAllergens,
       userLoc: userPosition
     }
+    console.log(inter);
     await setFilteredRestos(inter);
     setFilter(inter);
     setIsTabVisible(false);
@@ -357,6 +375,8 @@ const MyRestaurantsScreen = () => {
   };
 
   const handleCategoryToggle = (index: number) => {
+    setNameFilter(nameFilter ?? '');
+    setLocationFilter(locationFilter ?? '');
     const updatedCategories = [...categories];
     updatedCategories[index].selected = !updatedCategories[index].selected;
     setCategories(updatedCategories);
@@ -389,8 +409,8 @@ const MyRestaurantsScreen = () => {
     setDistance(0);
     setSelectedAllergens([]);
     setSelectedCategories([]);
-    setCategories(categories.map(category => (
-      { ...category, selected: false })));
+    setCategories(prevCategories =>
+        prevCategories.map(category => ({ ...category, value: false })));
     setAllergens(allergens.map(allergen => (
       { ...allergen, selected: false })));
     setGroupProfiles([{
@@ -405,7 +425,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const handleSaveFilter = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null || !filterName) {
       setSaveFilterStatus({
         success: false,
@@ -572,7 +592,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const handleDeleteFilter = async (filterName: string) => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       setSaveFilterStatus({
         success: false,

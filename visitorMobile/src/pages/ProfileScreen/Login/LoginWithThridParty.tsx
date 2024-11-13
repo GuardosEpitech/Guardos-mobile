@@ -12,9 +12,10 @@ import FacebookLoginButton from "../../../components/Login/FacebookLogin/Faceboo
 
 type LoginScreenProps = {
   navigation: NavigationProp<ParamListBase>;
+  setLoggedInStatus: (status: boolean) => void;
 };
 
-const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boolean) => void }> = ({ navigation, setLoggedInStatus }) => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, setLoggedInStatus }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorForm, setErrorForm] = useState(false);
@@ -50,8 +51,7 @@ const LoginScreen: React.FC<LoginScreenProps & { setLoggedInStatus: (status: boo
           i18n.changeLanguage(profileDetails.preferredLanguage);
         }
 
-        await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
-        await AsyncStorage.setItem('user', responseData);
+        await AsyncStorage.setItem('userToken', responseData);
 
         setLoggedInStatus(true);
         navigation.navigate('Main');

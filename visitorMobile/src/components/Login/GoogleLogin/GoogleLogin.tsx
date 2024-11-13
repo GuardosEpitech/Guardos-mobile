@@ -48,7 +48,6 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ setLoggedInStatus
         username: userInfo.user.email,
         password: userInfo.user.id,
       });
-      console.log('Data storage:', dataStorage)
       const response = await loginUser(dataStorage);
       if (response.data === 'Invalid Access') {
         AsyncStorage.removeItem('userToken');
@@ -60,8 +59,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ setLoggedInStatus
                 i18n.changeLanguage(res.preferredLanguage);
               }
             });
-        await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
-        await AsyncStorage.setItem('user', response.data);
+        await AsyncStorage.setItem('userToken', response.data);
         setLoggedInStatus(true);
         navigation.navigate('RestaurantScreen');
       }

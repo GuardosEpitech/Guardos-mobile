@@ -81,7 +81,9 @@
       "FeatureRequest": {
         "name": "Nom",
         "subject": "Sujet",
-        "request": "Demande"
+        "request": "Demande",
+        "thanks": "Demande envoyé ! Merci !",
+        "require": "Tous les champs sont obligatoires"
       },
       "UserSupport": {
         "UserSupport": "Support utilisateur",

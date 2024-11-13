@@ -128,6 +128,12 @@ const styles = StyleSheet.create({
   noMenuTextDarkTheme: {
     color: 'white',
   },
+  QrCodeButton: {
+    backgroundColor: '#6d071a',
+    marginTop: 15,
+    borderRadius: 10,
+    padding: 10
+  }
 });
 
 export default styles;

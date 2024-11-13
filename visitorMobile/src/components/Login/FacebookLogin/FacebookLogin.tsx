@@ -55,8 +55,7 @@ const FacebookLoginButton: React.FC<FacebookLoginButtonProps> = ({ setLoggedInSt
         if (profileDetails.preferredLanguage) {
           i18n.changeLanguage(profileDetails.preferredLanguage);
         }
-        await AsyncStorage.setItem('userToken', JSON.stringify('isSet'));
-        await AsyncStorage.setItem('user', response.data);
+        await AsyncStorage.setItem('userToken', response.data);
         setLoggedInStatus(true);
         navigation.navigate('RestaurantScreen');
       }
