@@ -11,8 +11,7 @@
     "production": {
       "autoIncrement": true,
       "android": {
-        "buildType": "apk",
-        "ndkVersion": "26.3.11579264"
+        "buildType": "apk"
       },
       "env": {
         "JAVA_TOOL_OPTIONS": "-Xmx6g"
