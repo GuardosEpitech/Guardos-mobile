@@ -10,11 +10,12 @@
     },
     "production": {
       "autoIncrement": true,
+      "env": {
+        "ANDROID_HOME": "/home/epitech/Android/Sdk",
+        "ANDROID_NDK_HOME": "/home/epitech/Android/Sdk/ndk/25.1.8937393"
+      },
       "android": {
         "buildType": "apk"
-      },
-      "env": {
-        "JAVA_TOOL_OPTIONS": "-Xmx6g"
       }
     },
     "preview": {
