@@ -80,6 +80,22 @@ export const getRestaurantByName = async(name: string) => {
   }
 }
 
+export const getAllRestaurantChainsByUser = async (token:string) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: baseURL + 'restaurants/user/resto/chain',
+      params: {key: token},
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching all restaurant chains:", error);
+  }
+};
+
 export const addRestaurant = async(restaurantData: any) => {
   try {
     if (baseURL === undefined) {

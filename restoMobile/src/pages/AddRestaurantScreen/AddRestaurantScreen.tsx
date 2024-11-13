@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './AddRestaurantScreen.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { addRestaurant, getAllMenuDesigns } from '../../services/restoCalls';
+import { addRestaurant, getAllMenuDesigns, getAllRestaurantChainsByUser } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface';
 import {useTranslation} from "react-i18next";
 
@@ -41,12 +41,19 @@ const AddRestaurantScreen = () => {
   const [menuDesignOpen, setMenuDesignOpen] = useState(false);
   const [language, setLanguage] = useState('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [restoChains, setRestoChains] = useState<{uid: number, name: string}[]>([]);
+  const [valueRestoChain, setValueRestoChain] = useState(null);
+  const [selectedRestoChainId, setSelectedRestoChainId] = useState(null);
+  const [inputValueRestoChain, setInputValueRestoChain] = React.useState("");
+  const [restoChainID, setRestoChainID] = React.useState(0);
+  const [restoChainOpen, setRestoChainOpen] = useState(false);
   const {t, i18n} = useTranslation();
 
   useEffect(() => {
     catchAllMenuDesigns();
     setLanguage(i18n.language);
     fetchDarkMode();
+    fetchRestoChains();
   }, []);
 
   const fetchDarkMode = async () => {
@@ -75,6 +82,17 @@ const AddRestaurantScreen = () => {
       });
   }
 
+  const fetchRestoChains = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken === null) {
+      return;
+    }
+    getAllRestaurantChainsByUser(userToken)
+      .then((res) => {
+        setRestoChains(res);
+      });
+  };
+
   const handleAddRestaurant = async () => {
     if (!restaurantName || !streetName || !streetNumber || !postalCode || !city || !country) {
       Alert.alert(String(t('common.error')), String(t('common.all-fields-mandatory')));
@@ -97,6 +115,7 @@ const AddRestaurantScreen = () => {
       },
       description: description,
       menuDesignID: selectedMenuDesignID,
+      ...((selectedRestoChainId != null) && { restoChainID: selectedRestoChainId }),
     };
     const data  = {
       userToken: token,
@@ -116,6 +135,7 @@ const AddRestaurantScreen = () => {
       setImageURL('');
       setSelectedMenuDesignID(0);
       setSelectedMenuDesign('');
+      setSelectedRestoChainId(null);
       navigation.navigate('MyRestaurantsScreen');
     } catch (error) {
       console.error('Error adding restaurant:', error);
@@ -223,6 +243,30 @@ const AddRestaurantScreen = () => {
             setSelectedMenuDesignID(item);
             }}
             setValue={setSelectedMenuDesign}
+            style={darkMode ? styles.darkDropdown : styles.lightDropdown} // Dropdown container style
+            dropDownContainerStyle={darkMode ? styles.darkDropDownContainer : styles.lightDropDownContainer} // Dropdown menu style
+            textStyle={darkMode ? styles.darkDropdownText : styles.lightDropdownText} // Text style in dropdown
+            placeholderStyle={darkMode ? styles.darkPlaceholder : styles.lightPlaceholder} // Placeholder style
+            labelStyle={darkMode ? styles.darkLabel : styles.lightLabel} // Label text style
+          />
+        </View>
+        <View style={styles.containerPicker}>
+          <Text style={{ marginBottom: 5, paddingTop: 5 }}>{t('pages.AddEditRestaurantScreen.select-resto-chain')}</Text>
+          <DropDownPicker
+            open={restoChainOpen}
+            language={language.toUpperCase() as LanguageType}
+            items={restoChains.map((restoChain) => ({ label: restoChain.name, value: restoChain.uid }))}
+            value={valueRestoChain}
+            dropDownDirection={'TOP'}
+            setOpen={setRestoChainOpen}
+            onChangeValue={(item:any) => {
+              if (item === null || item === undefined || item === '' || typeof item === "undefined") {
+                return;
+              };
+              setValueRestoChain(item);
+              setSelectedRestoChainId(item.uid);
+            }}
+            setValue={setValueRestoChain}
             style={darkMode ? styles.darkDropdown : styles.lightDropdown} // Dropdown container style
             dropDownContainerStyle={darkMode ? styles.darkDropDownContainer : styles.lightDropDownContainer} // Dropdown menu style
             textStyle={darkMode ? styles.darkDropdownText : styles.lightDropdownText} // Text style in dropdown
