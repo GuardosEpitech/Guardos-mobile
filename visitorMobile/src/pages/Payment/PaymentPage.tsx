@@ -75,11 +75,15 @@ const PaymentPage = () => {
     };
 
     useEffect(() => {
-        loadDarkModeState();
-        getKey();
-        fetchData();
-        fetchMethods();
-        initialisePaymentSheet();   
+        const initialise = async () => {
+            await loadDarkModeState();
+            await getKey();
+            await fetchData();
+            await fetchMethods();
+            await initialisePaymentSheet();
+        };
+
+        initialise();
     }, []);
 
     const initialisePaymentSheet = async () => {
