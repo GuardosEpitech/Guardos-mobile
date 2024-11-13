@@ -84,7 +84,9 @@
       "FeatureRequest": {
         "name": "Name",
         "subject": "Betreff",
-        "request": "Anfrage"
+        "request": "Anfrage",
+        "thanks": "Anfrage senden ! Dankeschön !",
+        "require": "Alle Felder sind erforderlich"
       },
       "UserSupport": {
         "UserSupport": "Kundensupport",
@@ -138,6 +140,8 @@
         "username-or-email": "Benutzername oder E-Mail",
         "password": "Passwort",
         "invalid-login": "Ungültige Anmeldedaten",
+        "error-login-facebook": "Fehler beim Anmelden mit Facebook. Bitte versuchen Sie es erneut.",
+        "error-login-google": "Fehler beim Anmelden mit Google. Bitte versuchen Sie es erneut.",
         "login": "Anmelden",
         "trouble-logging-in": "Probleme beim Einloggen?",
         "register-prompt": "Sie haben noch kein Konto? Registrieren Sie sich ",

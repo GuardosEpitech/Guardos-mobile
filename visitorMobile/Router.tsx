@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,6 +15,9 @@ import AboutUsScreen from './src/pages/AboutUs/AboutUs';
 import ContactUsScreen from './src/pages/ContactUs/ContactUs';
 import MapPage from './src/pages/MapPage/MapPage';
 import Register from "./src/pages/ProfileScreen/Register/Register";
+
+//Use this LoginScreen if you want to build the apk
+//import LoginScreen from "./src/pages/ProfileScreen/Login/LoginWithThridParty";
 import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
 import ChangePasswordScreen from "./src/pages/ProfileScreen/ChangePassword/ChangePassword";
 import Profile from "./src/pages/ProfileScreen/Profile/Profile";
@@ -30,6 +33,8 @@ import MenuPage from './src/pages/MenuPage/MenuPage';
 import i18n from "i18next";
 import GuidesPage from "./src/pages/Guides/GuidesPage";
 import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
+import { ISearchCommunication } from '../shared/models/communicationInterfaces';
+import { FilterContext } from './src/models/filterContext';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -44,6 +49,7 @@ const ErrorScreen: React.FC<{ errorMessage: string }> = ({ errorMessage }) => (
 const MainDrawer = ({ setLoggedInStatus }) => {
   const { t } = useTranslation();
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [filter, setFilter] = useState<ISearchCommunication>({});
 
   useEffect(() => {
     const fetchDarkMode = async () => {
@@ -63,6 +69,7 @@ const MainDrawer = ({ setLoggedInStatus }) => {
 
 
   return (
+    <FilterContext.Provider value={{ filter, setFilter }}>
       <Drawer.Navigator
           screenOptions={({ route }) => ({
             drawerIcon: ({ focused, color, size }) => {
@@ -158,6 +165,7 @@ const MainDrawer = ({ setLoggedInStatus }) => {
           {() => <ProfileStackScreen setLoggedInStatus={setLoggedInStatus} />}
         </Drawer.Screen>
       </Drawer.Navigator>
+      </FilterContext.Provider>
   );
 };
 

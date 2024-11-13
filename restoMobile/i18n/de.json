@@ -137,13 +137,16 @@
       "FeatureRequest": {
         "name": "Name",
         "subject": "Betreff",
-        "request": "Anfragen"
+        "request": "Anfragen",
+        "thanks": "Anfrage senden ! Dankeschön !",
+        "require": "Alle Felder sind erforderlich"
       },
       "MenuPage": {
         "price": "Preis: {{ price }}",
         "allergens": "Allergene: {{ allergens }}",
         "confirm-delete-dish": "Möchten Sie dieses Gericht wirklich löschen?",
-        "no-menu": "Noch kein Menü verfügbar. Bitte fügen Sie einer Kategorie ein Gericht hinzu."
+        "no-menu": "Noch kein Menü verfügbar. Bitte fügen Sie einer Kategorie ein Gericht hinzu.",
+        "get-qr-code": "Meinen qr-code erhalten"
       },
       "MyDishPage": {
         "nodish": "Keine Gerichte verfügbar. Bitte fügen Sie Ihr Gericht hinzu. Fügen Sie aber zuerst ein Restaurant hinzu."
@@ -216,7 +219,8 @@
         "select-resto": "Wählen Sie ein Restaurant aus",
         "search": "Suchen...",
         "scan-again": "Erneut scannen",
-        "scan-result-ask-if-want-to-add": "Sie haben gerade {{ data }} (Produktname: {{ productName }}) gescannt. Möchten Sie es zu Ihrer Liste der Zutaten hinzufügen?"
+        "scan-result-ask-if-want-to-add": "Sie haben gerade {{ data }} (Produktname: {{ productName }}) gescannt. Möchten Sie es zu Ihrer Liste der Zutaten hinzufügen?",
+        "required-field": "Sie müssen ein Restaurant auswählen"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "Dieser Benutzername und diese E-Mail-Adresse ({{ email }}) stimmen nicht überein. Bitte überprüfen Sie die Schreibweise oder versuchen Sie einen anderen Benutzernamen.",
@@ -430,7 +434,8 @@
         "id": "Reihenfolge:",
         "noresto": "Kein Restaurant verfügbar. Bitte fügen Sie zuerst Ihr Restaurant hinzu.",
         "add": "Neu",
-        "delete": "Sind Sie sicher, dass Sie diese Kategorie löschen möchten?",
+        "delete": "Kategorie löschen",
+        "deleteMessage": "Sind Sie sicher, dass Sie diese Kategorie löschen möchten",
         "noCategory": "Oops, es scheint, dass Sie noch keine Kategorien haben!",
         "noCategory2": "Fügen Sie Kategorien hinzu, indem Sie auf 'Neu' klicken."
       },

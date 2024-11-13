@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Modal, Button } from 'react-native';
 import styles from './RestaurantCard.styles';
 import { useNavigation } from '@react-navigation/native';
+import { getResto } from '../../services/restoCalls';
 import { IimageInterface } from "../../models/imageInterface";
 import { getImages } from "../../services/imageCalls";
 import { defaultRestoImage } from "../../../assets/placeholderImagesBase64";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {addRestoAsFavourite, deleteRestoFromFavourites} from "../../services/favourites";
-import {useTranslation} from "react-i18next";
+import { addRestoAsFavourite, deleteRestoFromFavourites } from "../../services/favourites";
+import { useTranslation } from "react-i18next";
 
 interface RestaurantCardProps {
-  info: any,
-  isFavouriteResto: boolean,
-  isSmallerCard: boolean,
+  info: any;
+  isFavouriteResto: boolean;
+  isSmallerCard: boolean;
   deleteFavResto?: (restoId: number) => void;
 }
 
 const RestaurantCard = (props: RestaurantCardProps) => {
-  const navigation = useNavigation();
   const { info, isFavouriteResto, isSmallerCard, deleteFavResto } = props;
+  const { name, description, phoneNumber, website, openingHours } = info;
+  const { streetName, streetNumber, postalCode, city, country } = info.location;
+  const address = `${streetName} ${streetNumber}, ${postalCode} ${city}, ${country}`;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [isFavorite, setIsFavorite] = useState(isFavouriteResto);
   const [darkMode, setDarkMode] = useState<boolean>(false);
-  const {t} = useTranslation();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { t } = useTranslation();
 
   let picturesId = info.picturesId;
   useEffect(() => {
@@ -51,8 +55,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
     try {
       const darkModeValue = await AsyncStorage.getItem('DarkMode');
       if (darkModeValue !== null) {
-        const isDarkMode = darkModeValue === 'true';
-        setDarkMode(isDarkMode);
+        setDarkMode(darkModeValue === 'true');
       }
     } catch (error) {
       console.error('Error fetching dark mode value:', error);
@@ -60,10 +63,8 @@ const RestaurantCard = (props: RestaurantCardProps) => {
   };
 
   const handleFavoriteClick = async () => {
-    const userToken = await AsyncStorage.getItem('user');
-    if (userToken === null) {
-      return;
-    }
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken === null) return;
 
     setIsFavorite((prevIsFavorite) => !prevIsFavorite);
 
@@ -71,15 +72,21 @@ const RestaurantCard = (props: RestaurantCardProps) => {
       await addRestoAsFavourite(userToken, info.uid);
     } else {
       await deleteRestoFromFavourites(userToken, info.uid);
-      if (deleteFavResto) {
-        deleteFavResto(info.uid);
-      }
+      if (deleteFavResto) deleteFavResto(info.uid);
     }
+  };
+
+  const handleOpenDetails = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
     <View style={isSmallerCard ? styles.containerSmall : styles.container}>
-      <View style={isSmallerCard ? (darkMode ? styles.cardContainerSmallDarkTheme : styles.cardContainerSmall) : ( darkMode ? styles.cardContainerDarkTheme : styles.cardContainer)}>
+      <View style={isSmallerCard ? (darkMode ? styles.cardContainerSmallDarkTheme : styles.cardContainerSmall) : (darkMode ? styles.cardContainerDarkTheme : styles.cardContainer)}>
         <Image
           style={isSmallerCard ? styles.imageStyleSmall : styles.imageStyle}
           resizeMode="contain"
@@ -97,7 +104,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
             <TouchableOpacity onPress={handleFavoriteClick}>
               <Icon
                 name={isFavorite ? 'favorite' : 'favorite-border'}
-                size={24}
+                size={20}
                 color={isFavorite ? '#FF0000' : '#000000'}
               />
             </TouchableOpacity>
@@ -105,11 +112,53 @@ const RestaurantCard = (props: RestaurantCardProps) => {
           <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
             {info.description}
           </Text>
-          <Text style = {[darkMode && styles.ratingDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
-            {t('components.RestaurantCard.rating', {rating: info.rating, ratingCount: info.ratingCount})}
+          <Text style={[darkMode && styles.ratingDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
+            {t('components.RestaurantCard.rating', { rating: info.rating, ratingCount: info.ratingCount })}
+            <TouchableOpacity onPress={handleOpenDetails}>
+              <Icon
+                name={'info'}
+                size={24}
+                color={'grey'}
+              />
+            </TouchableOpacity>
           </Text>
         </View>
       </View>
+      <Modal
+        transparent={true}
+        visible={isModalVisible}
+        animationType="slide"
+        onRequestClose={handleCloseModal}
+      >
+        <View style={[styles.modalBackground, darkMode && styles.modalBackgroundDark]}>
+          <View style={[styles.modalContainer, darkMode && styles.modalContaineDark]}>
+            <Text style={[styles.modalTitle, darkMode && styles.modalTitleDark]} >
+              {name}
+            </Text>
+            <Icon name="star" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
+            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>
+              {t('components.RestaurantCard.rating', { rating: info.rating, ratingCount: info.ratingCount })}
+            </Text>
+            <Icon name="location-on" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
+            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>
+                {address}
+            </Text>
+            <Icon name="phone" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
+            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>{
+              phoneNumber}
+            </Text>
+            <Icon name="web" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
+            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>
+              {website}
+            </Text>
+            <Icon name="info" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
+            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>
+              {description}
+            </Text>
+            <Button title={t('common.close')} onPress={handleCloseModal} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

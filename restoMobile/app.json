@@ -1,7 +1,6 @@
 {
   "expo": {
     "name": "Guardos",
-    "entryPoint": "App.tsx",
     "slug": "Guardos",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,19 +17,26 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.marcpister.Guardos"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/logo.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.marcpister.Guardos"
     },
     "web": {
       "favicon": "./src/assets/logo.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a585be42-30a3-43ad-872e-3401048e24a9"
+      }
+    }
   }
 }

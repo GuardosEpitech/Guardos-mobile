@@ -4,6 +4,7 @@ import NetInfo from "@react-native-community/netinfo";
 import Router from './Router';
 import './i18n/i18n';
 import { useTranslation } from "react-i18next";
+import 'react-native-gesture-handler';
 
 interface ErrorScreenProps {
   errorMessage: string;

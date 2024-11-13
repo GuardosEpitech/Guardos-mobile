@@ -200,6 +200,9 @@ export const getCustomer = async (token: string) => {
       headers: {
         "content-type": "application/json",
       },
+      validateStatus: (status) => {
+        return status < 501;
+      },
     });
     if (response.status === 200) {
       return response.data;
@@ -220,6 +223,9 @@ export const getPaymentMethods = async (token: string) => {
       params: {key: token},
       headers: {
         "content-type": "application/json",
+      },
+      validateStatus: (status) => {
+        return status < 500;
       },
     });
     if (response.status === 200) {
@@ -267,6 +273,9 @@ export const fetchPaymentSheetParams = async (userToken: string) => {
       }),
       headers: {
         'Content-Type': 'application/json',
+      },
+      validateStatus: (status) => {
+        return status < 500;
       },
     });
 

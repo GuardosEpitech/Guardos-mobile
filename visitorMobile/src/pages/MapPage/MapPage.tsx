@@ -41,6 +41,7 @@ import { getImages } from "../../services/imageCalls";
 import { FilterContext } from '../../models/filterContext';
 import {useTranslation} from "react-i18next";
 import * as Location from 'expo-location';
+import {getCategories} from "../../services/categorieCalls";
 
 const Epitech = [13.328820, 52.508540];// long,lat
 
@@ -68,14 +69,8 @@ const MapPage = () => {
     error: false,
     message: '',
   });
-  // TODO: apply i18n
-  const [categories, setCategories] = useState([
-    { name: 'Burger', selected: false },
-    { name: 'Sushi', selected: false },
-    { name: 'Pizza', selected: false },
-    { name: 'Salad', selected: false },
-    { name: 'Pasta', selected: false },
-  ]);
+  const [categories, setCategories] = useState([]);
+  const hasLoadedFilter = useRef(false);
   const [allergens, setAllergens] = useState([
     { name: 'gluten', selected: false },
     { name: 'celery', selected: false },
@@ -89,7 +84,7 @@ const MapPage = () => {
     { name: 'peanuts', selected: false },
     { name: 'sesame', selected: false },
     { name: 'soybeans', selected: false },
-    { name: 'sulphides', selected: false },
+    { name: 'sulphites', selected: false },
     { name: 'tree nuts', selected: false },
   ]);
   const isFocused = useIsFocused();
@@ -128,6 +123,12 @@ const MapPage = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (categories.length > 0 && !hasLoadedFilter.current) {
+      hasLoadedFilter.current = true;
+    }
+  }, [categories]);
 
   useEffect(() => {
     if (filter) {
@@ -198,7 +199,7 @@ const MapPage = () => {
   };
 
   const loadSavedFilters = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
@@ -206,6 +207,11 @@ const MapPage = () => {
     getSavedFilters(userToken).then((res) => {
       setSavedFilters(res);
     })
+
+    getCategories(userToken)
+        .then((res) => {
+          setCategories(res.map(category => ({name: category, selected: false})));
+        });
   }
 
   const toggleModal = () => {
@@ -371,7 +377,7 @@ const MapPage = () => {
   };
 
   const handleSaveFilter = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       setSaveFilterStatus({
         success: false,
@@ -478,7 +484,7 @@ const MapPage = () => {
   };
 
   const handleDeleteFilter = async (filterName: string) => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       setSaveFilterStatus({
         success: false,
