@@ -17,8 +17,8 @@ import MapPage from './src/pages/MapPage/MapPage';
 import Register from "./src/pages/ProfileScreen/Register/Register";
 
 //Use this LoginScreen if you want to build the apk
-//import LoginScreen from "./src/pages/ProfileScreen/Login/LoginWithThridParty";
-import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
+import LoginScreen from "./src/pages/ProfileScreen/Login/LoginWithThridParty";
+//import LoginScreen from "./src/pages/ProfileScreen/Login/Login";
 import ChangePasswordScreen from "./src/pages/ProfileScreen/ChangePassword/ChangePassword";
 import Profile from "./src/pages/ProfileScreen/Profile/Profile";
 import FeatureRequest from './src/pages/FeatureRequest/FeatureRequest';
