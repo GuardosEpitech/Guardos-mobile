@@ -63,7 +63,7 @@ const MyRestaurantsScreen = () => {
     { name: 'peanuts', selected: false },
     { name: 'sesame', selected: false },
     { name: 'soybeans', selected: false },
-    { name: 'sulphides', selected: false },
+    { name: 'sulphites', selected: false },
     { name: 'tree nuts', selected: false },
   ]);
   const [filterName, setFilterName] = useState('');
@@ -113,6 +113,44 @@ const MyRestaurantsScreen = () => {
   const [selectedProfileIndex, setSelectedProfileIndex] = useState(0);
   const [openProfileDialog, setOpenProfileDialog] = useState(false);
   const [newProfileName, setNewProfileName] = useState('');
+  const [loadingAllergens, setLoadingAllergens] = useState(true);
+
+  useEffect(() => {
+    const loadAllergensAndFavourites = async () => {
+      const userToken = await AsyncStorage.getItem('user');
+      if (userToken === null) {
+        return;
+      }
+      setLoadingAllergens(true);
+      const userAllergens = await getUserAllergens(userToken);
+
+      const updatedAllergens = allergens.map((allergen) => ({
+        ...allergen,
+        selected: userAllergens.includes(allergen.name) ? true : allergen.selected,
+      }));
+      
+      setAllergens(updatedAllergens);
+      const newFilter = {
+        range: distance,
+        rating: [rating, 5],
+        name: nameFilter,
+        location: locationFilter,
+        categories: categories.filter(category => 
+          category.value).map(category => category.name),
+        allergenList: updatedAllergens.filter(allergen => 
+          allergen.selected).map(allergen => allergen.name),
+        userLoc: userPosition
+      };
+      setFilter(newFilter);
+      await fetchFavourites();
+      setLoadingAllergens(false);
+    };
+
+    loadAllergensAndFavourites()
+      .then(() => console.log("Loaded allergens and favourites ", allergens))
+      .catch((error) => console.error("Error loading allergens or favourites:", error));
+  
+  }, []);
 
   useEffect(() => {
     if (isFocused) {
@@ -194,35 +232,37 @@ const MyRestaurantsScreen = () => {
   }
 
   useEffect(() => {
-    if (filter) {
-      setNameFilter(filter.name);
-      setLocationFilter(filter.location);
-      setRating(filter.rating ? filter.rating[0] : 0);
-      setDistance(filter.range || 0);
-      setSelectedCategories(filter.categories || []);
-      setSelectedAllergens(filter.allergenList || []);
-      setCategories(categories.map(category => ({
-        ...category,
-        selected: filter.categories ? 
-          filter.categories.includes(category.name) : false,
-      })));
-      setAllergens(allergens.map(allergen => ({
-        ...allergen,
-        selected: filter.allergenList ? 
-          filter.allergenList.includes(allergen.name) : false,
-      })));
-      fetchFilteredFavourits(filter);
-    } else {
-      fetchFavourites().then(r => console.log("Loaded favourite resto list"));
-      getAllResto().then((res) => {
-        const updatedRestoData = res.map(resto => ({
-          ...resto,
-          isFavouriteResto: isFavouriteRestos?.includes(resto.uid)
-        }));
-        setSelectedRestoData(updatedRestoData);
-      });
+    if (!loadingAllergens) {
+      if (filter) {
+        setNameFilter(filter.name);
+        setLocationFilter(filter.location);
+        setRating(filter.rating ? filter.rating[0] : 0);
+        setDistance(filter.range || 0);
+        setSelectedCategories(filter.categories || []);
+        setSelectedAllergens(filter.allergenList || []);
+        setCategories(categories.map(category => ({
+          ...category,
+          selected: filter.categories ? 
+            filter.categories.includes(category.name) : false,
+        })));
+        setAllergens(allergens.map(allergen => ({
+          ...allergen,
+          selected: filter.allergenList ? 
+            filter.allergenList.includes(allergen.name) : false,
+        })));
+        fetchFilteredFavourits(filter);
+      } else {
+        fetchFavourites().then(r => console.log("Loaded favourite resto list"));
+        getAllResto().then((res) => {
+          const updatedRestoData = res.map(resto => ({
+            ...resto,
+            isFavouriteResto: isFavouriteRestos?.includes(resto.uid)
+          }));
+          setSelectedRestoData(updatedRestoData);
+        });
+      }
     }
-  }, [filter]);
+  }, [filter, loadingAllergens]);
 
   const updateRestoData = async (favRestoIds) => {
     getAllResto()
@@ -309,13 +349,15 @@ const MyRestaurantsScreen = () => {
     getCategories(userToken).then((res) => {
       setCategories(res.map(category => ({name: category, selected: false})));
     });
-    getAllResto().then((res) => {
-      setRestoData(res);
-      setSelectedRestoData(res);
-    }).catch((error) => {
-      console.error('Error updating restaurant data:', error);
-    });
-    resetFilters();
+    const newFilter = resetFilters();
+    getFilteredRestosNew(filter)
+      .then((res) => {
+        setRestoData(res);
+        setSelectedRestoData(res);
+      })
+      .catch((error) => {
+        console.error('Error updating restaurant data:', error);
+      });
     setRefreshing(false);
   }, []);
 
@@ -360,7 +402,6 @@ const MyRestaurantsScreen = () => {
       allergenList: selectedAllergens,
       userLoc: userPosition
     }
-    console.log(inter);
     await setFilteredRestos(inter);
     setFilter(inter);
     setIsTabVisible(false);
@@ -402,7 +443,21 @@ const MyRestaurantsScreen = () => {
     setSelectedAllergens(allergenListSelected);
   };
 
-  const resetFilters = () => {
+  const getUserAllergensFunc = async () => {
+    const userToken = await AsyncStorage.getItem('user');
+      if (userToken === null) {
+        return;
+      }
+      const userAllergens = await getUserAllergens(userToken);
+
+      const updatedAllergens = allergens.map((allergen) => ({
+        ...allergen,
+        selected: userAllergens.includes(allergen.name) ? true : allergen.selected,
+      }));
+      return updatedAllergens;
+  }
+
+  const resetFilters = async () => {
     setNameFilter('');
     setLocationFilter('');
     setRating(0);
@@ -411,8 +466,8 @@ const MyRestaurantsScreen = () => {
     setSelectedCategories([]);
     setCategories(prevCategories =>
         prevCategories.map(category => ({ ...category, value: false })));
-    setAllergens(allergens.map(allergen => (
-      { ...allergen, selected: false })));
+    const foundUserAllergens = await getUserAllergensFunc();
+    setAllergens(foundUserAllergens);
     setGroupProfiles([{
       name: userProfileName,
       allergens: defaultAllergens,
@@ -421,7 +476,19 @@ const MyRestaurantsScreen = () => {
       name: userProfileName,
       allergens: defaultAllergens,
     }]));
+    const newFilter: ISearchCommunication = {
+      rating: [0, 5],
+      range: 0,
+      name: '',
+      location: '',
+      categories: [],
+      allergenList: foundUserAllergens.filter(allergen => 
+        allergen.selected).map(allergen => allergen.name),
+      userLoc: userPosition
+    };
+    setFilter(newFilter);
     setSelectedProfileIndex(0);
+    return newFilter;
   };
 
   const handleSaveFilter = async () => {

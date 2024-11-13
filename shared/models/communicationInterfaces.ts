@@ -50,5 +50,5 @@ export interface ISearchCommunication {
   categories?: string[];
   allergenList?: string[];
   groupProfiles?: AllergenProfile[];
-  userLoc: ICoordinates;
+  userLoc?: ICoordinates;
 }
