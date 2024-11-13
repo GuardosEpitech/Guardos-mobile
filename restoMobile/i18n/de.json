@@ -26,6 +26,7 @@
       "my-dishes": "Meine Gerichte",
       "restos": "Restaurants",
       "my-restos": "Meine Restaurants",
+      "my-resto-chains": "Meine Restaurant Ketten",
       "search-restaurants": "Restaurants nach Namen oder Ort suchen",
       "my-categories": "Meine Kategorien",
 
@@ -110,6 +111,7 @@
         "description": "Beschreibung",
         "website": "Webseite",
         "select-menu-design": "Menüdesign auswählen:",
+        "select-resto-chain": "Restaurantkette auswählen:",
         "add-resto": "Restaurant hinzufügen"
       },
       "EditDishScreen": {

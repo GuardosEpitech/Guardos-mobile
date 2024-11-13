@@ -17,6 +17,45 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 20,
   },
+  containerPicker: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  lightDropdown: {
+    backgroundColor: '#fff',
+    borderColor: '#ccc',
+  },
+  darkDropdown: {
+    backgroundColor: '#333',
+    borderColor: '#555',
+  },
+  lightDropDownContainer: {
+    backgroundColor: '#fff',
+    borderColor: '#ccc',
+  },
+  darkDropDownContainer: {
+    backgroundColor: '#333',
+    borderColor: '#555',
+  },
+  lightDropdownText: {
+    color: '#000',
+  },
+  darkDropdownText: {
+    color: '#fff',
+  },
+  lightPlaceholder: {
+    color: '#aaa',
+  },
+  darkPlaceholder: {
+    color: '#888',
+  },
+  lightLabel: {
+    color: '#000',
+  },
+  darkLabel: {
+    color: '#fff',
+  },
   column: {
     flex: 1,
     marginRight: 10,

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {View, Text, ScrollView, Linking, TouchableOpacity} from 'react-native';
 import styles from './MenuPage.styles';
 import { getDishesByResto, deleteDishByName } from '../../services/dishCalls';
+import { getRestaurantByName } from '../../services/restoCalls';
 import { Dish } from 'src/models/dishesInterfaces';
+import { IRestaurantFrontEnd } from 'src/models/restaurantsInterfaces';
 import DishCard from "../../components/DishCard/DishCard"; 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
@@ -10,6 +12,7 @@ import { IDishFE } from '../../../../shared/models/dishInterfaces';
 import {Ionicons} from "@expo/vector-icons";
 import Header from "../../components/Header";
 import {useNavigation} from "@react-navigation/native";
+import createStyles from './MenuPage.styles';
 import {restoByName} from "../../services/restoCalls";
 
 
@@ -20,7 +23,9 @@ export interface DishData {
 
 const MenuPage: React.FC = ({ route }) => {
   const [dishesData, setDishesData] = useState<DishData[]>([]);
+  const [restoMenuId, setRestoMenuId] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [styles, setStyles] = useState<StyleSheet.NamedStyles<any>>([]);
   const { restaurantName } = route.params;
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const navigation = useNavigation();
@@ -77,6 +82,10 @@ const MenuPage: React.FC = ({ route }) => {
       const data: DishData[] = await response.json();
 
       setDishesData(data);
+
+      const restoData = await getRestaurantByName(restaurantName);
+      setRestoMenuId(restoData.menuDesignID);
+      setStyles(createStyles(restoData.menuDesignID));
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {

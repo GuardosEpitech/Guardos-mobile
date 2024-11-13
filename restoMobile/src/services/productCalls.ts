@@ -51,6 +51,7 @@ export const addNewProduct = async (product: IProduct, restoName: string, token:
         console.error("Error adding new product:");
         throw new Error("Failed to add new product");
       }
+      console.log(token);
       const response = await axios({
         url: baseURL + restoName,
         method: "POST",
