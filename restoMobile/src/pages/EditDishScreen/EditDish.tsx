@@ -13,10 +13,11 @@ import {
 import styles from "../EditDishScreen/EditDish.style";
 import Header from "../../components/Header";
 import { Ionicons } from "@expo/vector-icons";
+import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { getProductsByUser } from "../../services/productCalls";
-import { getAllRestaurantsByUser, getRestaurantByName } from "../../services/restoCalls";
+import { getAllRestaurantsByUser, getRestaurantByName, getAllRestaurantChainsByUser } from "../../services/restoCalls";
 import * as ImagePicker from 'expo-image-picker';
 import { addDish, changeDishByName } from "../../services/dishCalls";
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
@@ -49,12 +50,21 @@ const EditDish = ({ route }) => {
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
+  const [restoChains, setRestoChains] = useState<{uid: number, name: string}[]>([]);
+  const [valueRestoChain, setValueRestoChain] = useState(null);
+  const [selectedRestoChainId, setSelectedRestoChainId] = useState(null);
+  const [inputValueRestoChain, setInputValueRestoChain] = React.useState("");
+  const [restoChainID, setRestoChainID] = React.useState(undefined);
+  const [restoChainOpen, setRestoChainOpen] = useState(false);
   const [checkName, setCheckName] = useState(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
-  const {t} = useTranslation();
+  const [language, setLanguage] = useState('');
+  const {t, i18n} = useTranslation();
   
   useEffect(() => {
+    setLanguage(i18n.language);
     fetchDarkMode();
+    fetchRestoChains();
   }, []);
 
 
@@ -68,6 +78,21 @@ const EditDish = ({ route }) => {
     } catch (error) {
       console.error('Error fetching dark mode value:', error);
     }
+  };
+
+  const fetchRestoChains = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken === null) {
+      return;
+    }
+    getAllRestaurantChainsByUser(userToken)
+      .then((res) => {
+        setRestoChains(res);
+
+        if (restoChainID !== undefined) {
+          setValueRestoChain(res.find((restoChain:{uid:number, name:string}) => restoChain.uid === restoChainID).uid);
+        }
+      });
   };
 
   const onProductPress = (item: string) => {
@@ -336,6 +361,7 @@ const EditDish = ({ route }) => {
         const newAddDish = await addDish({
           dish: dishToSave,
           resto: selectedRestaurants[i],
+          restoChainID: selectedRestoChainId
         }, selectedRestaurants[i], userToken);
         if (newAddDish && newAddDish.name) {
           console.log('Dish saved');
@@ -480,6 +506,31 @@ const EditDish = ({ route }) => {
           onPress={() => onAddCategory()}>
           <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-category')}</Text>
         </TouchableOpacity>
+      </View>
+
+      <View style={styles.containerPicker}>
+        <Text style={{ marginBottom: 5, paddingTop: 5 }}>{t('pages.AddEditRestaurantScreen.select-resto-chain')}</Text>
+        <DropDownPicker
+          open={restoChainOpen}
+          language={language.toUpperCase() as LanguageType}
+          items={restoChains.map((restoChain) => ({ label: restoChain.name, value: restoChain.uid }))}
+          value={valueRestoChain}
+          dropDownDirection={'TOP'}
+          setOpen={setRestoChainOpen}
+          onChangeValue={(item:any) => {
+            if (item === null || item === undefined || item === '' || typeof item === "undefined") {
+              return;
+            };
+            setValueRestoChain(item);
+            setSelectedRestoChainId(item.uid);
+          }}
+          setValue={setValueRestoChain}
+          style={darkMode ? styles.darkDropdown : styles.lightDropdown} // Dropdown container style
+          dropDownContainerStyle={darkMode ? styles.darkDropDownContainer : styles.lightDropDownContainer} // Dropdown menu style
+          textStyle={darkMode ? styles.darkDropdownText : styles.lightDropdownText} // Text style in dropdown
+          placeholderStyle={darkMode ? styles.darkPlaceholder : styles.lightPlaceholder} // Placeholder style
+          labelStyle={darkMode ? styles.darkLabel : styles.lightLabel} // Label text style
+        />
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>

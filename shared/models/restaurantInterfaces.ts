@@ -36,6 +36,7 @@ export interface IRestaurantFrontEnd {
   name: string;
   uid: number;
   phoneNumber: string;
+  restoChainID: number;
   website: string;
   description: string;
   categories: ICategories[];
@@ -55,6 +56,7 @@ export interface IRestaurantBackEnd {
   uid: number;
   name: string;
   phoneNumber: string;
+  restoChainID: number;
   website: string;
   rating: number;
   ratingCount: number;

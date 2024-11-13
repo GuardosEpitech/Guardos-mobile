@@ -37,6 +37,7 @@ import DishDiscountPage from './src/pages/DishDiscountPage/DishDiscountPage';
 import DishComboPage from './src/pages/DishComboPage/DishComboPage';
 import UserInsights from "./src/pages/UserInsights/UserInsinghts";
 import GuidesPage from "./src/pages/Guides/GuidesPage";
+import AddRestoChain from "./src/pages/AddRestoChain/AddRestoChain";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -85,6 +86,9 @@ const MainDrawer = ({ setLoggedInStatus }) => {
                 case 'MyProductsScreen':
                   iconName = focused ? 'cart' : 'cart-outline';
                   break;
+                case 'MyRestoChainScreen':
+                    iconName = focused ? 'link' : 'link-outline';
+                    break;
                 case 'Profile':
                   iconName = focused ? 'person' : 'person-outline';
                   break;
@@ -126,6 +130,16 @@ const MainDrawer = ({ setLoggedInStatus }) => {
             options={{
               drawerLabel: t('common.my-categories') as string,
               title: t('common.my-categories') as string,
+              headerShown: true,
+              headerStyle: { backgroundColor: '#6d071a' },
+            }}
+        />
+        <Drawer.Screen
+            name="MyRestoChainScreen"
+            component={AddRestoChain}
+            options={{
+              drawerLabel: t('common.my-resto-chains') as string,
+              title: t('common.my-resto-chains') as string,
               headerShown: true,
               headerStyle: { backgroundColor: '#6d071a' },
             }}
