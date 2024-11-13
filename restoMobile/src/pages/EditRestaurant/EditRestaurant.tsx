@@ -8,7 +8,7 @@ import styles from './EditRestaurant.styles';
 import * as ImagePicker from "expo-image-picker";
 import { defaultRestoImage } from "../../assets/placeholderImagesBase64";
 import { addImageResto, deleteImageRestaurant, getImages } from "../../services/imagesCalls";
-import { editResto, getAllMenuDesigns, getRestoByName } from '../../services/restoCalls';
+import { editResto, getAllMenuDesigns, getRestoByName, getAllRestaurantChainsByUser } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -43,7 +43,13 @@ const EditRestaurant = ({ route }) => {
   const [menuDesigns, setMenuDesigns] = useState<IMenuDesigns[]>([]);
   const [selectedMenuDesign, setSelectedMenuDesign] = useState('');
   const [selectedMenuDesignID, setSelectedMenuDesignID] = useState(0);
+  const [restoChains, setRestoChains] = useState<{uid: number, name: string}[]>([]);
+  const [valueRestoChain, setValueRestoChain] = useState(null);
+  const [selectedRestoChainId, setSelectedRestoChainId] = useState(null);
+  const [inputValueRestoChain, setInputValueRestoChain] = React.useState("");
+  const [restoChainID, setRestoChainID] = React.useState(undefined);
   const [menuDesignOpen, setMenuDesignOpen] = useState(false);
+  const [restoChainOpen, setRestoChainOpen] = useState(false);
   const [language, setLanguage] = useState('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const navigation = useNavigation();
@@ -53,7 +59,6 @@ const EditRestaurant = ({ route }) => {
     const fetchRestaurantData = async () => {
       try {
         const data = await getRestoByName(restaurantId);
-
         setName(data.name);
         setPhoneNumber(data.phoneNumber);
         setWebsite(data.website);
@@ -67,11 +72,21 @@ const EditRestaurant = ({ route }) => {
         setPictures(data.pictures);
         setSelectedMenuDesignID(data.menuDesignID);
         setSelectedMenuDesign(data.menuDesignID);
+        setRestoChainID(data.restoChainID);
+        
+        const userToken = await AsyncStorage.getItem('userToken');
+        if (userToken === null) {
+          return;
+        }
+        const res = await getAllRestaurantChainsByUser(userToken);
+        setRestoChains(res);
+        if (data.restoChainID !== undefined) {
+          setValueRestoChain(res.find((restoChain:{uid:number, name:string}) => restoChain.uid === data.restoChainID).uid);
+        }
       } catch (error) {
         console.error('Error fetching restaurant data:', error);
       }
     };
-
     fetchRestaurantData();
     catchMenuDesigns();
     setLanguage(i18n.language);
@@ -210,6 +225,7 @@ const EditRestaurant = ({ route }) => {
           longitude: "0"
         },
         menuDesignID: selectedMenuDesignID,
+        ...((selectedRestoChainId != null) && { restoChainID: selectedRestoChainId }),
       };
 
       const userToken = await AsyncStorage.getItem('userToken');
@@ -358,6 +374,26 @@ const EditRestaurant = ({ route }) => {
             setSelectedMenuDesignID(item);
           }}
           setValue={setSelectedMenuDesign}
+          style={darkMode ? styles.pickerStylesDark : styles.pickerStyles}
+          textStyle={darkMode ? styles.darkDropDownText : styles.dropDownText}
+        />
+      </View>
+      <View style={darkMode ? styles.containerPickerDark : styles.containerPicker}>
+        <DropDownPicker
+          open={restoChainOpen}
+          language={language.toUpperCase() as LanguageType}
+          items={restoChains.map((restoChain) => ({ label: restoChain.name, value: restoChain.uid }))}
+          value={valueRestoChain}
+          dropDownDirection={'TOP'}
+          setOpen={setRestoChainOpen}
+          onChangeValue={(item:any) => {
+            if (item === null || item === undefined || item === '' || typeof item === "undefined") {
+              return;
+            };
+            setValueRestoChain(item);
+            setSelectedRestoChainId(item);
+          }}
+          setValue={setValueRestoChain}
           style={darkMode ? styles.pickerStylesDark : styles.pickerStyles}
           textStyle={darkMode ? styles.darkDropDownText : styles.dropDownText}
         />
