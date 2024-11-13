@@ -12,6 +12,9 @@
       "autoIncrement": true,
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "JAVA_TOOL_OPTIONS": "-Xmx6g"
       }
     },
     "preview": {
