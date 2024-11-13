@@ -137,13 +137,16 @@
       "FeatureRequest": {
         "name": "Nom",
         "subject": "Sujet",
-        "request": "Demande"
+        "request": "Demande",
+        "thanks": "Demande envoyé ! Merci !",
+        "require": "Tous les champs sont obligatoires"
       },
       "MenuPage": {
         "price": "Prix : {{ price }}",
         "allergens": "Allergènes : {{ allergens }}",
         "confirm-delete-dish": "Êtes-vous sûr de vouloir supprimer ce plat ?",
-        "no-menu": "Aucun menu disponible pour l'instant. Veuillez ajouter un plat à une catégorie."
+        "no-menu": "Aucun menu disponible pour l'instant. Veuillez ajouter un plat à une catégorie.",
+        "get-qr-code": "Obtenir mon QR code"
       },
       "MyDishPage": {
         "nodish": "Aucun plat n'est disponible. Veuillez ajouter votre plat. Mais assurez-vous d'abord d'ajouter un restaurant."
@@ -217,7 +220,8 @@
         "select-resto": "Sélectionner un restaurant",
         "search": "Recherche...",
         "scan-again": "Scanner à nouveau",
-        "scan-result-ask-if-want-to-add": "Vous venez de scanner {{ data }} (Nom du produit : {{ productName }}). Voulez-vous l'ajouter à votre liste d'ingrédients ?"
+        "scan-result-ask-if-want-to-add": "Vous venez de scanner {{ data }} (Nom du produit : {{ productName }}). Voulez-vous l'ajouter à votre liste d'ingrédients ?",
+        "required-field": "Vous devez choisir un restaurant"
       },
       "ResetPasswordScreen": {
         "username-email-no-match": "Ce nom d'utilisateur et cet e-mail ({{ email }}) ne correspondent pas. Veuillez vérifier l'orthographe ou essayer un autre nom d'utilisateur.",

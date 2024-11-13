@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import {View, Text, ScrollView, Linking, TouchableOpacity} from 'react-native';
 import styles from './MenuPage.styles';
 import { getDishesByResto, deleteDishByName } from '../../services/dishCalls';
 import { getRestaurantByName } from '../../services/restoCalls';
@@ -13,6 +13,7 @@ import {Ionicons} from "@expo/vector-icons";
 import Header from "../../components/Header";
 import {useNavigation} from "@react-navigation/native";
 import createStyles from './MenuPage.styles';
+import {restoByName} from "../../services/restoCalls";
 
 
 export interface DishData {
@@ -28,6 +29,8 @@ const MenuPage: React.FC = ({ route }) => {
   const { restaurantName } = route.params;
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const navigation = useNavigation();
+  const [restaurantData, setRestaurantData] = useState({uid: 1});
+
 
   const { t } = useTranslation();
 
@@ -56,6 +59,8 @@ const MenuPage: React.FC = ({ route }) => {
   useEffect(() => {
     fetchDarkMode();
     fetchData();
+    restoByName(restaurantName)
+        .then(res => setRestaurantData(res));
   }, []);
 
   const fetchDarkMode = async () => {
@@ -105,7 +110,11 @@ const MenuPage: React.FC = ({ route }) => {
     await deleteDishByName(restoName, dishName, userToken);
     fetchData();
   };
-  
+
+  const handlePressQR = () => {
+    const url = `https://backend.guardos.eu/api/qrcode/base64/${restaurantData.uid}`;
+    Linking.openURL(url).catch((err) => console.error('Failed to open URL:', err));
+  };
 
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
@@ -130,6 +139,9 @@ const MenuPage: React.FC = ({ route }) => {
                 />
               </React.Fragment>
             ))}
+            <TouchableOpacity onPress={handlePressQR} style={styles.QrCodeButton}>
+              <Text style={{ color: '#fff', fontSize: 16,  }}>{t('pages.MenuPage.get-qr-code')}</Text>
+            </TouchableOpacity>
           </ScrollView>
         </>
       )}

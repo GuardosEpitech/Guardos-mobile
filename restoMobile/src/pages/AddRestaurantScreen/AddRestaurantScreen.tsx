@@ -5,9 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './AddRestaurantScreen.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { addRestaurant, getAllMenuDesigns, getAllRestaurantChainsByUser } from '../../services/restoCalls';
+import {addRestaurant, getAllMenuDesigns, getAllRestaurantChainsByUser, restoByName} from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface';
 import {useTranslation} from "react-i18next";
+import {addQRCode} from "../../services/qrcodeCall";
 
 DropDownPicker.addTranslation("DE", {
   PLACEHOLDER: "Wählen Sie ein Element aus",
@@ -122,7 +123,10 @@ const AddRestaurantScreen = () => {
       resto: restaurantData,
     };
     try {
-      const response = addRestaurant(data);
+      const response = await addRestaurant(data);
+      const res = await restoByName(restaurantName);
+      await addQRCode({uid: res.uid,
+        url: `https://guardos.eu/menu/${res.uid}`});
       setRestaurantName('');
       setPhoneNumber('');
       setStreetName('');
