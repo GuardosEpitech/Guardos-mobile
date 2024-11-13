@@ -98,7 +98,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   const fetchMenu = async (groupProfilesFromStore) => {
     // const filter = JSON.parse(await AsyncStorage.getItem('filter') || '{}');
     // const allergenList = filter.allergenList;
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
@@ -154,7 +154,7 @@ const MenuPage: React.FC<MenuProps> = ({ route, navigation }) => {
   };
 
   const fetchFavourites = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) { return; }
 
     try {

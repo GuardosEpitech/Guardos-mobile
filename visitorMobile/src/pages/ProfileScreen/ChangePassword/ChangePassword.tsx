@@ -50,7 +50,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
         return;
       }
 
-      const userToken = await AsyncStorage.getItem('user');
+      const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         setErrorMessage(t('pages.Profile.no-token-error') as string);
         return;
@@ -58,7 +58,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> =
 
       const res = await changeVisitorPassword(userToken, oldPassword, newPassword);
       if (res) {
-        await AsyncStorage.setItem('user', res);
+        await AsyncStorage.setItem('userToken', res);
         setSuccessMessage(t('pages.Profile.pw-changed') as string);
         navigation.navigate('Profile');
       } else {

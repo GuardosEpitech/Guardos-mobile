@@ -35,7 +35,7 @@ const FeatureRequest: React.FC<FeatureRequestScreenProps> = ({navigation}) => {
 
     const getPremium = async () => {
       try {
-        const userToken = await AsyncStorage.getItem('user');
+        const userToken = await AsyncStorage.getItem('userToken');
         const permissions = await getVisitorUserPermission(userToken);
         const isPremiumUser = permissions.includes('premiumUser');
         if (isPremiumUser) {
