@@ -33,7 +33,6 @@ import {useTranslation} from "react-i18next";
 
 const EditDish = ({ route }) => {
   const { restaurantName } = route.params;
-  const [editMode] = useState(!!route.params.dish);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -378,7 +377,7 @@ const EditDish = ({ route }) => {
               leftIcon={<Ionicons name="arrow-back" size={24} color="black" onPress={() => navigation.goBack()} />} />
       <StatusBar barStyle="dark-content" />
 
-      { editMode && (
+      {
         pictures.length > 0 ? (
           <View style={styles.container}>
             <Image source={{ uri: pictures[0].base64}} style={styles.image} />
@@ -399,7 +398,7 @@ const EditDish = ({ route }) => {
           </View>
             </TouchableOpacity>
           </View>
-        ))
+        )
       }
 
 
