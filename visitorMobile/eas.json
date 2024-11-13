@@ -11,6 +11,7 @@
     "production": {
       "autoIncrement": true,
       "env": {
+        "NODE_ENV": "production",
         "ANDROID_HOME": "/home/epitech/Android/Sdk",
         "ANDROID_NDK_HOME": "/home/epitech/Android/Sdk/ndk/25.1.8937393"
       },
