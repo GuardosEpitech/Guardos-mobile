@@ -32,8 +32,8 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     const [newComment, setNewComment] = useState<string>();
     const note = [
         {
-        label: 0
-         },
+            label: 0
+        },
         {
             label: 1
         },
@@ -49,7 +49,7 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
         {
             label: 5
         }
-        ]
+    ];
      const addReview = async () => {
          try {
              await postRatingData(restoName, newComment, value, name);

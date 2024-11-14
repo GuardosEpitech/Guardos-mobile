@@ -3,10 +3,7 @@ import axios from "axios";
 // @ts-ignore
 import { API_URL } from '@env';
 
-const baseUrl =
-    `${API_URL}`;
-
-
+const baseUrl = `${API_URL}`;
 
 export const getRatingData = async (name: string) => {
         const response = await axios({

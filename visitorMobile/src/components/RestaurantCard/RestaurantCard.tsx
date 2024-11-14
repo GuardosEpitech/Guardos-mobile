@@ -109,9 +109,8 @@ const RestaurantCard = (props: RestaurantCardProps) => {
       return sum;
     }
   };
-  console
   const navigateToReview = () => {
-    const restoName = info.name
+    const restoName = info.name;
     navigation.navigate('RatingPage', {ratingData, restoName});
   };
 
@@ -154,7 +153,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
             </TouchableOpacity>
           </Text>
           <TouchableOpacity  style={styles.button} onPress={navigateToReview}>
-            <Text style={{ color: '#fff'}}>Rating</Text>
+            <Text style={{ color: '#fff'}}>{t('pages.Review.rating')}</Text>
           </TouchableOpacity>
         </View>
       </View>

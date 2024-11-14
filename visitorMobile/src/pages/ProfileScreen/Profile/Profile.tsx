@@ -768,7 +768,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
-            title={'Your Reviews'}
+            title={t('pages.Review.your-review') as string}
             onPress={handleRedirectUserReview}
             color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>

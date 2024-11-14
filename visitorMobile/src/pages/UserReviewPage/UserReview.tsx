@@ -29,7 +29,7 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-                const userToken = await AsyncStorage.getItem('user');
+                const userToken = await AsyncStorage.getItem('userToken');
                 if (userToken === null) {
                     return;
                 }
@@ -56,7 +56,10 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
 
     const getPremium = async () => {
         try {
-            const userToken = await AsyncStorage.getItem('user');
+            const userToken = await AsyncStorage.getItem('userToken');
+            if (userToken === null) {
+                return;
+            }
             const permissions = await getVisitorUserPermission(userToken);
             const isPremiumUser = permissions.includes('premiumUser');
             if (isPremiumUser) {

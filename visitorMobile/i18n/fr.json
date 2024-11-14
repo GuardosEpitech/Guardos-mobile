@@ -57,7 +57,8 @@
         "all-review": "Tous les avis",
         "comment-review": "Commentaire :",
         "no-review": "Aucun avis",
-        "delete-review": "Supprimer"
+        "delete-review": "Supprimer",
+        "rating": "Avis"
       },
       "AboutUs": {
         "member-description-german": "Étudiant de 4e année à Epitech en provenance d'Allemagne",
