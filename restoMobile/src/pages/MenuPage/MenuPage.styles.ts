@@ -16,14 +16,14 @@ const createStyles = (menuDesignId: number) => {
       backgroundColor: '#ffffff',
     },
     scrollView: {
-      alignItems: 'center',
+      alignItems: "center",
       paddingBottom: 150,
     },
     card: {
       marginHorizontal: 20,
       marginBottom: 25,
       borderRadius: radius,
-      shadowColor: '#000',
+      shadowColor: "#000",
       shadowOffset: { width: 2, height: 2 },
       shadowOpacity: 0.75,
       shadowRadius: 4,
@@ -53,7 +53,7 @@ const createStyles = (menuDesignId: number) => {
       fontSize: 20,
       fontWeight: 'bold',
       marginVertical: 10,
-      paddingTop: 10
+      paddingTop: 10,
     },
     deleteButton: {
       position: 'absolute',
@@ -78,6 +78,37 @@ const createStyles = (menuDesignId: number) => {
       justifyContent: 'space-around',
       marginTop: 20,
     },
+    containerDarkTheme: {
+      flex: 1,
+      width: deviceWidth,
+      height: deviceHeight,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#1B1D1E',
+    },
+    cardDarkTheme: {
+      backgroundColor: "#3B3B3B",
+      marginHorizontal: 20,
+      marginBottom: 20,
+      borderRadius: radius,
+      shadowColor: "#000",
+      shadowOffset: { width: 2, height: 2 },
+      shadowOpacity: 0.75,
+      shadowRadius: 4,
+      elevation: 9,
+      overflow: 'hidden',
+    },
+    cardTitleDarkTheme: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: 'white',
+    },
+    groupTitleDarkTheme: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginVertical: 10,
+      color: 'white',
+    },
     discount: {
       textDecorationLine: 'line-through',
       textDecorationStyle: 'solid',
@@ -89,57 +120,67 @@ const createStyles = (menuDesignId: number) => {
       fontSize: 28,
       textAlign: 'center',
     },
+    noMenuTextDarkTheme: {
+      color: 'white',
+    },
+    QrCodeButton: {
+      backgroundColor: "#6d071a",
+      marginTop: 15,
+      borderRadius: 10,
+      padding: 10,
+    },
   };
+
 
   switch (menuDesignId) {
     case 0: // Classic Style
       return StyleSheet.create({
         ...baseStyles,
-        container: { ...baseStyles.container, backgroundColor: '#F9F9F9' },
-        card: { ...baseStyles.card, backgroundColor: '#FFFFFF' },
-        cardTitle: { ...baseStyles.cardTitle, color: '#333' },
-        groupTitle: { ...baseStyles.groupTitle, color: '#555' },
-        noMenuText: { ...baseStyles.noMenuText, color: '#666' },
+        container: { ...baseStyles.container, backgroundColor: "#F9F9F9" },
+        card: { ...baseStyles.card, backgroundColor: "#FFFFFF" },
+        cardTitle: { ...baseStyles.cardTitle, color: "#333" },
+        groupTitle: { ...baseStyles.groupTitle, color: "#555" },
+        noMenuText: { ...baseStyles.noMenuText, color: "#666" },
       });
 
     case 1: // Modern Style
       return StyleSheet.create({
         ...baseStyles,
-        container: { ...baseStyles.container, backgroundColor: '#121212' },
-        card: { ...baseStyles.card, backgroundColor: '#333' },
-        cardTitle: { ...baseStyles.cardTitle, color: '#1DB954' }, // Spotify green for a fresh look
-        groupTitle: { ...baseStyles.groupTitle, color: '#1DB954' },
-        noMenuText: { ...baseStyles.noMenuText, color: '#BBBBBB' },
+        container: { ...baseStyles.container, backgroundColor: "#121212" },
+        card: { ...baseStyles.card, backgroundColor: "#333" },
+        cardTitle: { ...baseStyles.cardTitle, color: "#1DB954" },
+        groupTitle: { ...baseStyles.groupTitle, color: "#1DB954" },
+        noMenuText: { ...baseStyles.noMenuText, color: "#BBBBBB" },
       });
 
-    case 3: // Elegant Style
+    case 2: // Elegant Style
       return StyleSheet.create({
         ...baseStyles,
-        container: { ...baseStyles.container, backgroundColor: '#F8F4F1' },
-        card: { ...baseStyles.card, backgroundColor: '#FFF' },
-        cardTitle: { ...baseStyles.cardTitle, color: '#5C3C92', fontStyle: 'italic' },
-        groupTitle: { ...baseStyles.groupTitle, color: '#5C3C92', fontSize: 24, fontStyle: 'italic' },
-        noMenuText: { ...baseStyles.noMenuText, color: '#6E6E6E' },
+        container: { ...baseStyles.container, backgroundColor: "#F8F4F1" },
+        card: { ...baseStyles.card, backgroundColor: "#FFF" },
+        cardTitle: { ...baseStyles.cardTitle, color: "#5C3C92", fontStyle: "italic" },
+        groupTitle: { ...baseStyles.groupTitle, color: "#5C3C92", fontSize: 24, fontStyle: "italic" },
+        noMenuText: { ...baseStyles.noMenuText, color: "#6E6E6E" },
       });
 
-    case 2: // Modern Style
+    case 3: // Dark Style
       return StyleSheet.create({
         ...baseStyles,
-        container: { ...baseStyles.container, backgroundColor: '#121212' },
-        card: { ...baseStyles.card, backgroundColor: '#333' },
-        cardTitle: { ...baseStyles.cardTitle, color: '#800020' }, 
-        groupTitle: { ...baseStyles.groupTitle, color: '#EE4B2B' },
-        noMenuText: { ...baseStyles.noMenuText, color: '#BBBBBB' },
+        container: { ...baseStyles.container, backgroundColor: "#121212" },
+        card: { ...baseStyles.card, backgroundColor: "#333" },
+        cardTitle: { ...baseStyles.cardTitle, color: "#800020" },
+        groupTitle: { ...baseStyles.groupTitle, color: "#EE4B2B" },
+        noMenuText: { ...baseStyles.noMenuText, color: "#BBBBBB" },
       });
 
     default: // Default Style
       return StyleSheet.create({
         ...baseStyles,
-        container: { ...baseStyles.container, backgroundColor: '#F9F9F9' },
-        card: { ...baseStyles.card, backgroundColor: '#FFFFFF' },
-        cardTitle: { ...baseStyles.cardTitle, color: '#333' },
-        groupTitle: { ...baseStyles.groupTitle, color: '#555' },
-        noMenuText: { ...baseStyles.noMenuText, color: '#666' },
+        container: { ...baseStyles.container, backgroundColor: "#F9F9F9" },
+        card: { ...baseStyles.card, backgroundColor: "#FFFFFF" },
+        cardTitle: { ...baseStyles.cardTitle, color: "#333" },
+        groupTitle: { ...baseStyles.groupTitle, color: "#555" },
+        noMenuText: { ...baseStyles.noMenuText, color: "#666" },
       });
   }
 };
