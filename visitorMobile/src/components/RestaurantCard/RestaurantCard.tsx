@@ -34,10 +34,10 @@ const RestaurantCard = (props: RestaurantCardProps) => {
   const { t } = useTranslation();
 
   let picturesId = info.picturesId;
-  useState(() => {
+  useEffect(() => {
     getRatingData(name)
         .then(res => setRatingData(res));
-  });
+  },[]);
 
   useEffect(() => {
     async function fetchImages() {
