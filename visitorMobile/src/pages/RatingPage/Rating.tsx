@@ -67,7 +67,7 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-                const userToken = await AsyncStorage.getItem('user');
+                const userToken = await AsyncStorage.getItem('userToken');
                 if (userToken === null) {
                     return;
                 }
@@ -88,7 +88,10 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
 
     const getPremium = async () => {
         try {
-            const userToken = await AsyncStorage.getItem('user');
+            const userToken = await AsyncStorage.getItem('userToken');
+            if (userToken === null) {
+                return;
+            }
             const permissions = await getVisitorUserPermission(userToken);
             const isPremiumUser = permissions.includes('premiumUser');
             if (isPremiumUser) {
@@ -135,8 +138,7 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
                 maxHeight={300}
                 labelField="label"
                 valueField="label"
-                placeholder={'Note'}
-                searchPlaceholder={'Note'}
+                placeholder={t('pages.Review.note')}
                 value={value}
                 onChange={(note) => {
                     setValue(note.label);
@@ -146,7 +148,7 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
                 style={styles.input}
                 onChangeText={handleCommentChange}
                 value={newComment}
-                placeholder={"Your comment"}
+                placeholder={t('pages.Review.your-comment')}
                 placeholderTextColor={darkMode ? 'white' : 'black'}
             />
             <TouchableOpacity onPress={addReview} style={styles.button}>

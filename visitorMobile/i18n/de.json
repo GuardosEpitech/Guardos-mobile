@@ -61,7 +61,9 @@
         "comment-review": "Wie :",
         "no-review": "Keine Bewertung",
         "delete-review": "Löschen",
-        "rating": "Bewertung"
+        "rating": "Bewertung",
+        "note": "Hinweis",
+        "your-comment": "Ihr Kommentar"
       },
       "AboutUs": {
         "member-description-german": "4. Jahr Epitech-Student aus Deutschland",

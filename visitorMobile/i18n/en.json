@@ -61,7 +61,9 @@
         "comment-review": "Comment :",
         "no-review": "No review found",
         "delete-review": "Delete",
-        "rating": "Rating"
+        "rating": "Rating",
+        "note": "Note",
+        "your-comment": "Your comment"
       },
       "AboutUs": {
         "member-description-german": "4th year Epitech student from Germany",
