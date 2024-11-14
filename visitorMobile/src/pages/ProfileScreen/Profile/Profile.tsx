@@ -93,7 +93,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     loadDarkModeState();
     const fetchUserData = async () => {
       try {
-        const userToken = await AsyncStorage.getItem('user');
+        const userToken = await AsyncStorage.getItem('userToken');
         if (userToken === null) {
           return;
         }
@@ -156,7 +156,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       size: asset.fileSize,
       uri: 'data:' + asset.mimeType + ';base64,' + asset.base64
     }
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
     }
@@ -173,7 +173,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
 
   const handleFileDelete = async () => {
     if (image) {
-      const userToken = await AsyncStorage.getItem('user');
+      const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         return;
       }
@@ -227,7 +227,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   };
 
   const fetchFavoriteRestaurants = async () => {
-    const userToken = await AsyncStorage.getItem("user");
+    const userToken = await AsyncStorage.getItem("userToken");
     if (userToken === null) {
       return;
     }
@@ -236,7 +236,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   };
 
   const fetchFavoriteDishes = async () => {
-    const userToken = await AsyncStorage.getItem("user");
+    const userToken = await AsyncStorage.getItem("userToken");
     if (userToken === null) {
       return;
     }
@@ -310,7 +310,6 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           onPress: () => {
             AsyncStorage.removeItem('userToken');
             AsyncStorage.removeItem('userName');
-            AsyncStorage.removeItem('user');
             setLoggedInStatus(false);
             navigation.navigate('Login');
           },
@@ -332,7 +331,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         {
           text: t('common.delete') as string,
           onPress: async () => {
-            const userToken = await AsyncStorage.getItem('user');
+            const userToken = await AsyncStorage.getItem('userToken');
             if (userToken === null) {
               Alert.alert(
                 t('common.error') as string,
@@ -375,7 +374,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const handleSave = async () => {
     setDataChangeStatus(null);
     setSaveFailureType(null);
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       setDataChangeStatus("failed");
       return;
@@ -396,7 +395,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       if (!res) {
         isError = true;
       } else {
-        await AsyncStorage.setItem('user', res);
+        await AsyncStorage.setItem('userToken', res);
       }
     } else if (Array.isArray(res) && res.length === 2) {
       isError = true;

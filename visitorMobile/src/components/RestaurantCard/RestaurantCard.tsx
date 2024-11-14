@@ -21,7 +21,7 @@ interface RestaurantCardProps {
 
 const RestaurantCard = (props: RestaurantCardProps) => {
   const navigation = useNavigation();
-  const { info, isFavouriteResto, isSmallerCard, deleteFavResto } = props;  
+  const { info, isFavouriteResto, isSmallerCard, deleteFavResto } = props;
   const { name, description, phoneNumber, website, openingHours } = info;
   const { streetName, streetNumber, postalCode, city, country } = info.location;
   const address = `${streetName} ${streetNumber}, ${postalCode} ${city}, ${country}`;
@@ -72,7 +72,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
   };
 
   const handleFavoriteClick = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) return;
 
     setIsFavorite((prevIsFavorite) => !prevIsFavorite);
@@ -86,7 +86,6 @@ const RestaurantCard = (props: RestaurantCardProps) => {
   };
 
   const handleOpenDetails = () => {
-    console.log(openingHours.length);
     setIsModalVisible(true);
   };
 
@@ -167,7 +166,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
       >
         <View style={[styles.modalBackground, darkMode && styles.modalBackgroundDark]}>
           <View style={[styles.modalContainer, darkMode && styles.modalContaineDark]}>
-            <Text style={[styles.modalTitle, darkMode && styles.modalTitleDark]} > 
+            <Text style={[styles.modalTitle, darkMode && styles.modalTitleDark]} >
               {name}
             </Text>
             <Icon name="star" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>

@@ -45,7 +45,7 @@ const UserSupport: React.FC<FeatureRequestScreenProps> = ({ navigation }) => {
 
   const getPremium = async () => {
     try {
-      const userToken = await AsyncStorage.getItem('user');
+      const userToken = await AsyncStorage.getItem('userToken');
       const permissions = await getVisitorUserPermission(userToken);
       const isPremiumUser = permissions.includes('premiumUser');
       handleInputChange('isPremium', isPremiumUser ? 'true' : 'false');
