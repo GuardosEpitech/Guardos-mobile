@@ -1,139 +1,188 @@
-import { StyleSheet, Dimensions, Platform } from "react-native";
+// MenuPage.styles.ts
+
+import { StyleSheet, Dimensions } from "react-native";
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const deviceHeight = Math.round(Dimensions.get('window').height);
 const offset = 40;
 const radius = 20;
-const iconSize = 20;
 
-const styles = StyleSheet.create({
-  container: {
-    width: deviceWidth,
-    height: deviceHeight,
-    alignItems: 'center',
-  },
-  scrollView: {
-    alignItems: 'center',
-    paddingBottom: 150,
-  },
-  card: {
-    backgroundColor: '#FFFFFF',
-    marginHorizontal: 20,
-    marginBottom: 25,
-    borderRadius: radius,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 2,
-      height: 2,
+const createStyles = (menuDesignId: number) => {
+  const baseStyles = {
+    container: {
+      width: deviceWidth,
+      height: deviceHeight,
+      alignItems: 'center',
+      backgroundColor: '#ffffff',
     },
-    shadowOpacity: 0.75,
-    shadowRadius: 4,
-    elevation: 9,
-    overflow: 'hidden',
-  },
-  cardImage: {
-    height: 130,
-    width: deviceWidth - offset,
-    borderTopLeftRadius: radius,
-    borderTopRightRadius: radius,
-    opacity: 0.9,
-    alignContent: 'center',
-    alignSelf: 'center',
-  },
-  cardContent: {
-    padding: 10,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 10,
-  },
-  groupTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  deleteButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    backgroundColor: 'transparent',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: '#FFFFFF',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  modalButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 20,
-  },
-  containerDarkTheme: {
-    flex: 1,
-    width: deviceWidth,
-    height: deviceHeight,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#1B1D1E'
-  },
-  cardDarkTheme: {
-    backgroundColor: '#3B3B3B',
-    marginHorizontal: 20,
-    marginBottom: 20,
-    borderRadius: radius,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 2,
-      height: 2,
+    scrollView: {
+      alignItems: 'center',
+      paddingBottom: 150,
     },
-    shadowOpacity: 0.75,
-    shadowRadius: 4,
-    elevation: 9,
-    overflow: 'hidden',
-  },
-  cardTitleDarkTheme: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: "white"
-  },
-  groupTitleDarkTheme: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 10,
-    color: "white"
-  },
-  discount: {
-    textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
-  },
-  discountContainer: {
-    marginBottom: 10,
-  },
-  noMenuText: {
-    fontSize: 28,
-    textAlign: "center",
-  },
-  noMenuTextDarkTheme: {
-    color: 'white',
-  },
-  QrCodeButton: {
-    backgroundColor: '#6d071a',
-    marginTop: 15,
-    borderRadius: 10,
-    padding: 10
-  }
-});
+    card: {
+      marginHorizontal: 20,
+      marginBottom: 25,
+      borderRadius: radius,
+      shadowColor: '#000',
+      shadowOffset: { width: 2, height: 2 },
+      shadowOpacity: 0.75,
+      shadowRadius: 4,
+      elevation: 9,
+      overflow: 'hidden',
+    },
+    cardImage: {
+      height: 130,
+      width: deviceWidth - offset,
+      borderTopLeftRadius: radius,
+      borderTopRightRadius: radius,
+      alignSelf: 'center',
+    },
+    cardContent: {
+      padding: 10,
+    },
+    cardTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    iconContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      padding: 10,
+    },
+    groupTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginVertical: 10,
+      paddingTop: 10
+    },
+    deleteButton: {
+      position: 'absolute',
+      bottom: 10,
+      right: 10,
+      backgroundColor: 'transparent',
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+      backgroundColor: '#FFFFFF',
+      padding: 20,
+      borderRadius: 10,
+      alignItems: 'center',
+    },
+    modalButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      marginTop: 20,
+    },
+    containerDarkTheme: {
+      flex: 1,
+      width: deviceWidth,
+      height: deviceHeight,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#1B1D1E'
+    },
+    cardDarkTheme: {
+      backgroundColor: '#3B3B3B',
+      marginHorizontal: 20,
+      marginBottom: 20,
+      borderRadius: radius,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.75,
+      shadowRadius: 4,
+      elevation: 9,
+      overflow: 'hidden',
+    },
+    cardTitleDarkTheme: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: "white"
+    },
+    groupTitleDarkTheme: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginVertical: 10,
+      color: "white"
+    },
+    discount: {
+      textDecorationLine: 'line-through',
+      textDecorationStyle: 'solid',
+    },
+    discountContainer: {
+      marginBottom: 10,
+    },
+    noMenuText: {
+      fontSize: 28,
+      textAlign: "center",
+    },
+    noMenuTextDarkTheme: {
+      color: 'white',
+    },
+    QrCodeButton: {
+      backgroundColor: '#6d071a',
+      marginTop: 15,
+      borderRadius: 10,
+      padding: 10
+    },
+    switch (menuDesignId) {
+    case 0: // Classic Style
+      return StyleSheet.create({
+        ...baseStyles,
+        container: { ...baseStyles.container, backgroundColor: '#F9F9F9' },
+        card: { ...baseStyles.card, backgroundColor: '#FFFFFF' },
+        cardTitle: { ...baseStyles.cardTitle, color: '#333' },
+        groupTitle: { ...baseStyles.groupTitle, color: '#555' },
+        noMenuText: { ...baseStyles.noMenuText, color: '#666' },
+      });
 
-export default styles;
+    case 1: // Modern Style
+      return StyleSheet.create({
+        ...baseStyles,
+        container: { ...baseStyles.container, backgroundColor: '#121212' },
+        card: { ...baseStyles.card, backgroundColor: '#333' },
+        cardTitle: { ...baseStyles.cardTitle, color: '#1DB954' }, // Spotify green for a fresh look
+        groupTitle: { ...baseStyles.groupTitle, color: '#1DB954' },
+        noMenuText: { ...baseStyles.noMenuText, color: '#BBBBBB' },
+      });
+
+    case 3: // Elegant Style
+      return StyleSheet.create({
+        ...baseStyles,
+        container: { ...baseStyles.container, backgroundColor: '#F8F4F1' },
+        card: { ...baseStyles.card, backgroundColor: '#FFF' },
+        cardTitle: { ...baseStyles.cardTitle, color: '#5C3C92', fontStyle: 'italic' },
+        groupTitle: { ...baseStyles.groupTitle, color: '#5C3C92', fontSize: 24, fontStyle: 'italic' },
+        noMenuText: { ...baseStyles.noMenuText, color: '#6E6E6E' },
+      });
+
+    case 2: // Modern Style
+      return StyleSheet.create({
+        ...baseStyles,
+        container: { ...baseStyles.container, backgroundColor: '#121212' },
+        card: { ...baseStyles.card, backgroundColor: '#333' },
+        cardTitle: { ...baseStyles.cardTitle, color: '#800020' },
+        groupTitle: { ...baseStyles.groupTitle, color: '#EE4B2B' },
+        noMenuText: { ...baseStyles.noMenuText, color: '#BBBBBB' },
+      });
+
+    default: // Default Style
+      return StyleSheet.create({
+        ...baseStyles,
+        container: { ...baseStyles.container, backgroundColor: '#F9F9F9' },
+        card: { ...baseStyles.card, backgroundColor: '#FFFFFF' },
+        cardTitle: { ...baseStyles.cardTitle, color: '#333' },
+        groupTitle: { ...baseStyles.groupTitle, color: '#555' },
+        noMenuText: { ...baseStyles.noMenuText, color: '#666' },
+      });
+    }
+  };
+
+  export default createStyles;

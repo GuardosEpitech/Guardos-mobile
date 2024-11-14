@@ -6,6 +6,7 @@ const baseUrl = `${API_URL}login/`;
 const baseUrl1 = `${API_URL}user/`;
 const baseUrlEmail = `${API_URL}sendEmail/`;
 const verifyLink = `${API_URL}register/restoWeb/resend-verification`;
+const baseApiUrl = `${API_URL}`;
 
 export const checkIfTokenIsValid = async (body: any) => {
   try {
@@ -79,6 +80,46 @@ export const registerUser = async (userData: any) => {
   } catch (error) {
     console.log("Error registering user:", error);
     throw new Error("Error registering user");
+  }
+}
+
+export const addRestoChain = async (token: string, 
+  restoChainName: string) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: baseApiUrl + 'profile/resto/restoChain',
+      params: {key: token},
+      data: {
+        restoChainName: restoChainName
+      },
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error while checking visitor user:", error);
+  }
+}
+
+export const deleteRestoChain = async (token: string, 
+  restoChainName: string) => {
+  try {
+    const response = await axios({
+      method: "DELETE",
+      url: baseApiUrl + 'profile/resto/restoChain',
+      params: {key: token},
+      data: {
+        restoChainName: restoChainName
+      },
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error while checking visitor user:", error);
   }
 }
 
