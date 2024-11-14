@@ -439,6 +439,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('Subscriptions', {});
   };
 
+  const handleRedirectUserReview = () => {
+    navigation.navigate('UserReview', {});
+  };
+
   const handleTerms = () => {
     navigation.navigate('Terms and Conditions', {});
   };
@@ -752,7 +756,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         </ScrollView>
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
-        <Button 
+        <Button
           title={t('pages.Profile.subscriptions') as string}
           onPress={handleRedirectSubscriptions}
           color={darkMode ? "#6d071a" :  "#6d071a"} />
@@ -762,6 +766,12 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           title={t('pages.Profile.payBtn') as string}
           onPress={handlePayment} 
           color={darkMode ? "#6d071a" :  "#6d071a"} />
+      </View>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
+        <Button
+            title={'Your Reviews'}
+            onPress={handleRedirectUserReview}
+            color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button

@@ -54,6 +54,14 @@
       }
     },
     "pages": {
+      "Review": {
+        "add-review": "Eine Bewertung hinzufügen",
+        "your-review": "Ihre Bewertung",
+        "all-review": "Eine Bewertung hinzufügen",
+        "comment-review": "Wie :",
+        "no-review": "Keine Bewertung",
+        "delete-review": "Löschen"
+      },
       "AboutUs": {
         "member-description-german": "4. Jahr Epitech-Student aus Deutschland",
         "member-description-french": "4. Jahr Epitech-Student aus Frankreich",

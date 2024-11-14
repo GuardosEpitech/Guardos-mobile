@@ -51,6 +51,14 @@
       }
     },
     "pages": {
+      "Review": {
+        "add-review": "Ajouter un avis",
+        "your-review": "Vos avis ",
+        "all-review": "Tous les avis",
+        "comment-review": "Commentaire :",
+        "no-review": "Aucun avis",
+        "delete-review": "Supprimer"
+      },
       "AboutUs": {
         "member-description-german": "Étudiant de 4e année à Epitech en provenance d'Allemagne",
         "member-description-french": "Étudiant de 4e année à Epitech en provenance de France",

@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addRestoAsFavourite, deleteRestoFromFavourites } from "../../services/favourites";
 import { useTranslation } from "react-i18next";
+import {getRatingData} from "../../services/ratingCalls";
 
 interface RestaurantCardProps {
   info: any;
@@ -19,6 +20,7 @@ interface RestaurantCardProps {
 }
 
 const RestaurantCard = (props: RestaurantCardProps) => {
+  const navigation = useNavigation();
   const { info, isFavouriteResto, isSmallerCard, deleteFavResto } = props;  
   const { name, description, phoneNumber, website, openingHours } = info;
   const { streetName, streetNumber, postalCode, city, country } = info.location;
@@ -27,9 +29,16 @@ const RestaurantCard = (props: RestaurantCardProps) => {
   const [isFavorite, setIsFavorite] = useState(isFavouriteResto);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [ratingData, setRatingData] = useState([]);
+
   const { t } = useTranslation();
 
   let picturesId = info.picturesId;
+  useState(() => {
+    getRatingData(name)
+        .then(res => setRatingData(res));
+  });
+
   useEffect(() => {
     async function fetchImages() {
       if (picturesId.length > 0) {
@@ -85,6 +94,28 @@ const RestaurantCard = (props: RestaurantCardProps) => {
     setIsModalVisible(false);
   };
 
+
+  const averageRating = () => {
+    let sum = 0;
+    if (Array.isArray(ratingData)) {
+      ratingData.forEach((data) => {
+        if (data.note === undefined) {
+          sum += 0;
+        } else {
+          sum += data.note;
+        }
+      });
+      return parseFloat((sum / ratingData.length).toFixed(1));
+    } else {
+      return sum;
+    }
+  };
+  console
+  const navigateToReview = () => {
+    const restoName = info.name
+    navigation.navigate('RatingPage', {ratingData, restoName});
+  };
+
   return (
     <View style={isSmallerCard ? styles.containerSmall : styles.container}>
       <View style={isSmallerCard ? (darkMode ? styles.cardContainerSmallDarkTheme : styles.cardContainerSmall) : (darkMode ? styles.cardContainerDarkTheme : styles.cardContainer)}>
@@ -114,7 +145,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
             {info.description}
           </Text>
           <Text style={[darkMode && styles.ratingDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
-            {t('components.RestaurantCard.rating', { rating: info.rating, ratingCount: info.ratingCount })}
+            {t('components.RestaurantCard.rating', { rating: ratingData.length === 0 ? "0" : averageRating(), ratingCount: ratingData.length})}
             <TouchableOpacity onPress={handleOpenDetails}>
               <Icon
                 name={'info'}
@@ -123,6 +154,9 @@ const RestaurantCard = (props: RestaurantCardProps) => {
               />
             </TouchableOpacity>
           </Text>
+          <TouchableOpacity  style={styles.button} onPress={navigateToReview}>
+            <Text style={{ color: '#fff'}}>Rating</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <Modal
