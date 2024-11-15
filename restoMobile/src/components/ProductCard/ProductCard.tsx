@@ -97,6 +97,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
             {<FontAwesomeIcon icon={ faPen } size={15} color="gray" />}
           </TouchableOpacity>
           <ModalConfirm
+            objectType={t('components.ProductCard.ingredient')}
             isVisible={isModalVisible}
             onConfirm={handleDeleteProduct}
             onCancel={toggleModal}

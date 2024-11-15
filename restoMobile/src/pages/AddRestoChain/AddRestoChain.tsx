@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, Button, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, Alert} from 'react-native';
-import { ICategories, ICategory } from '../../../../shared/models/categoryInterfaces';
-import { IRestaurantFrontEnd } from '../../../../shared/models/restaurantInterfaces';
 import { getAllRestaurantChainsByUser } from '../../services/restoCalls';
 import { addRestoChain, deleteRestoChain } from '../../services/userCalls';
 import { useTranslation } from 'react-i18next';
 import styles from './AddRestoChain.styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import ModalConfirm from "../../components/ModalConfirm/ModalConfirm";
 
 
 const AddRestoChain = () => {
@@ -18,6 +16,7 @@ const AddRestoChain = () => {
   const [showRestoChainInput, setShowRestoChainInput] = useState(false);
   const [newRestoChainNameError, setRestoChainNameError] = useState(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   const {t} = useTranslation();
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -114,6 +113,10 @@ const AddRestoChain = () => {
       setShowRestoChainInput(false);
   }
 
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
@@ -129,9 +132,15 @@ const AddRestoChain = () => {
                           {newRestoChain.map((restoChain, index) => (
                               <View key={index} style={[styles.categoryItemContainer, darkMode && styles.categoryItemContainerDarkTheme]}>
                                   <Text style={[styles.categoryName, darkMode && styles.categoryNameDarkTheme]}>{t('pages.RestoChain.name')} {restoChain.name}</Text>
-                                  <TouchableOpacity onPress={() => {handleDeleteRestoChain(restoChain.name)}} style={styles.iconButton}>
+                                  <TouchableOpacity onPress={toggleModal} style={styles.iconButton}>
                                       <FontAwesomeIcon icon={faTrash} size={15} color="gray" />
                                   </TouchableOpacity>
+                                  <ModalConfirm
+                                    objectType={t('pages.RestoChain.restoChain')}
+                                    isVisible={isModalVisible}
+                                    onConfirm={() => {handleDeleteRestoChain(restoChain.name)}}
+                                    onCancel={toggleModal}
+                                  />
                               </View>
                           ))}
                           {showRestoChainInput && (
