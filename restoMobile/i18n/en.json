@@ -72,7 +72,7 @@
       },
       "ProductCard": {
         "ingredients": "Ingredients: {{ ingredients }}",
-        "ingredient": "Ingredient"
+        "product": "Product"
       },
       "ProductForm": {
         "product-name": "Product Name",
