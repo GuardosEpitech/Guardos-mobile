@@ -9,11 +9,13 @@ import {
 import SubscriptionBox from '../../components/SubscriptionBox/SubscriptionBox';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./SubscriptionPage.styles";
+import {getPaymentMethodsSubscribe} from "../../services/userCalls";
 
 const SubscriptionPage = () => {
   const [userPermissions, setUserPermissions] = useState([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const { t } = useTranslation();
+  const [noPayment, setNoPayment] = useState<boolean>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,15 +75,25 @@ const SubscriptionPage = () => {
   };
 
   const handleSwitchPermissions = async (permission) => {
-    await handleRemovePermission(userPermissions);
-    await handleAddPermission(permission);
-    setUserPermissions(permission);
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (!userToken) {
+      return;
+    }
+    if (await getPaymentMethodsSubscribe(userToken) === undefined) {
+      setNoPayment(true);
+      return;
+    } else {
+      await handleRemovePermission(userPermissions);
+      await handleAddPermission(permission);
+      setUserPermissions(permission);
+    }
   };
 
   return (
     <ScrollView contentContainerStyle={[styles.userPermissionsContainer, darkMode && styles.containerDarkTheme]}>
       <Text style={[styles.title, darkMode && styles.titleDark]}>{t('pages.SubscriptionPage.my-subscription')}</Text>
       <View style={styles.subscriptionContainer}>
+        {noPayment && <Text style={{color: 'red'}}>{[t('pages.SubscriptionPage.no-payment-method')]}</Text>}
         <SubscriptionBox
           title={t('pages.SubscriptionPage.free')}
           description={[t('pages.SubscriptionPage.free-description')]}
