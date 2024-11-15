@@ -117,7 +117,7 @@ const MyRestaurantsScreen = () => {
 
   useEffect(() => {
     const loadAllergensAndFavourites = async () => {
-      const userToken = await AsyncStorage.getItem('user');
+      const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         return;
       }
@@ -445,7 +445,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const getUserAllergensFunc = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         return;
       }
