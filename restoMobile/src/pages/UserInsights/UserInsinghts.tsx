@@ -64,7 +64,7 @@ const UserInsights = () => {
             style={[styles.chip, {backgroundColor: "#e26627"}]}
             mode="outlined"
         >
-          {`${allergen.allergen} (${allergen.count})`}
+          {`${t('food-allergene.' + allergen.allergen)} (${allergen.count})`}
         </Chip>
     ));
   };

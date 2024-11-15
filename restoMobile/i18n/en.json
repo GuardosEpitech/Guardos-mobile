@@ -579,6 +579,22 @@
         "noChain2": "Add a new chain by clicking on 'New'.",
         "name": "Chain:"
       }
+    },
+    "food-allergene": {
+      "celery": "celery",
+      "gluten": "gluten",
+      "crustaceans": "crustaceans",
+      "eggs": "eggs",
+      "fish": "fish",
+      "lupin": "lupin",
+      "milk": "milk",
+      "molluscs": "molluscs",
+      "mustard": "mustard",
+      "peanuts": "peanuts",
+      "sesame": "sesame",
+      "soybeans": "soybeans",
+      "sulphites": "sulphites",
+      "tree nuts": "tree nuts"
     }
   }
 }
