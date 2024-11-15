@@ -119,8 +119,8 @@ const AddRestoChain = () => {
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
             {newRestoChain.length === 0 ? (
                 <View style={styles.centered}>
-                    <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.AddCategory.noCategory')}</Text> 
-                    <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.AddCategory.noCategory2')}</Text> 
+                    <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.RestoChain.noChain')}</Text> 
+                    <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.RestoChain.noChain2')}</Text> 
                 </View>
             ) : (
             <ScrollView style={[styles.scrollContainer, darkMode && styles.scrollContainerDarkTheme]} ref={scrollViewRef} contentContainerStyle={{ paddingBottom: 30 }}>
@@ -128,7 +128,7 @@ const AddRestoChain = () => {
                       <View style={{ width: '100%' }}>
                           {newRestoChain.map((restoChain, index) => (
                               <View key={index} style={[styles.categoryItemContainer, darkMode && styles.categoryItemContainerDarkTheme]}>
-                                  <Text style={[styles.categoryName, darkMode && styles.categoryNameDarkTheme]}>{t('pages.AddCategory.name')} {restoChain.name}</Text>
+                                  <Text style={[styles.categoryName, darkMode && styles.categoryNameDarkTheme]}>{t('pages.RestoChain.name')} {restoChain.name}</Text>
                                   <TouchableOpacity onPress={() => {handleDeleteRestoChain(restoChain.name)}} style={styles.iconButton}>
                                       <FontAwesomeIcon icon={faTrash} size={15} color="gray" />
                                   </TouchableOpacity>
@@ -137,7 +137,7 @@ const AddRestoChain = () => {
                           {showRestoChainInput && (
                               <View style={styles.categoryItemContainer}>
                                   <TextInput
-                                      placeholder={t('pages.AddCategory.name')}
+                                      placeholder={t('pages.RestoChain.name')}
                                       value={newRestoChainName}
                                       onChangeText={(text) => {
                                           setNewRestoChainName(text);

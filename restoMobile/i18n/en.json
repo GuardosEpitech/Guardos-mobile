@@ -572,6 +572,11 @@
       "Login": {
         "unverified": "Please verify your email first.",
         "resend": "Resend Verification Link"
+      },
+      "RestoChain": {
+        "noChain": "Oops, looks like you don't have any restaurant chains yet!",
+        "noChain2": "Add a new chain by clicking on 'New'.",
+        "name": "Chain:"
       }
     }
   }
