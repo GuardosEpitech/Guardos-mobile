@@ -579,6 +579,22 @@
         "noChain2": "Ajoutez une nouvelle chaîne en cliquant sur 'Nouveau'.",
         "name": "Chaîne :"
       }
+    },
+    "food-allergene": {
+      "celery": "céleri",
+      "gluten": "gluten",
+      "crustaceans": "crustacés",
+      "eggs": "œufs",
+      "fish": "poisson",
+      "lupin": "lupin",
+      "milk": "lait",
+      "molluscs": "mollusques",
+      "mustard": "moutarde",
+      "peanuts": "arachides",
+      "sesame": "sésame",
+      "soybeans": "soja",
+      "sulphites": "sulfites",
+      "tree nuts": "fruits à coque"
     }
   }
 }

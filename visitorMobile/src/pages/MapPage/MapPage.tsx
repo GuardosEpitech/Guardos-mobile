@@ -935,7 +935,7 @@ const MapPage = () => {
                         '#e2b0b3' : 'white' }]}
                   onPress={() => handleAllergenToggle(allergenIndex)}
                 >
-                  <Text>{allergen.name}</Text>
+                  <Text>{t('food-allergene.' + allergen.name)}</Text>
                 </TouchableOpacity>
               ))}
             </View>
