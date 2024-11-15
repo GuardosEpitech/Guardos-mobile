@@ -29,7 +29,7 @@
       },
       "DishCard": {
         "price": "Preis: {{ price }}",
-        "allergens": "Allergene: {{ allergens }}",
+        "allergens": "Allergene",
         "discount": "Reduzierter Preis: ",
         "valid": "Gültig bis ",
         "show": "Vorgeschlagene Kombination anzeigen",
@@ -516,6 +516,22 @@
       "unverified": "Bitte verifizieren Sie zuerst Ihre E-Mail-Adresse.",
       "resend": "Bestätigungslink erneut senden"
     }
+    },
+    "food-allergene": {
+      "celery": "Sellerie",
+      "gluten": "Gluten",
+      "crustaceans": "Krustentiere",
+      "eggs": "Eier",
+      "fish": "Fisch",
+      "lupin": "Lupine",
+      "milk": "Milch",
+      "molluscs": "Weichtiere",
+      "mustard": "Senf",
+      "peanuts": "Erdnüsse",
+      "sesame": "Sesam",
+      "soybeans": "Sojabohnen",
+      "sulphites": "Sulfite",
+      "tree nuts": "Baumnüsse"
     }
   }
 }
