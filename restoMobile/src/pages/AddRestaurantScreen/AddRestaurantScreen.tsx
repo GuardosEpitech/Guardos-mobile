@@ -7,6 +7,7 @@ import styles from './AddRestaurantScreen.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addRestaurant, getAllMenuDesigns, restoByName, getAllRestaurantChainsByUser } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface';
+import { CommonActions} from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
 import {addQRCode} from "../../services/qrcodeCall";
 
@@ -48,6 +49,7 @@ const AddRestaurantScreen = () => {
   const [inputValueRestoChain, setInputValueRestoChain] = React.useState("");
   const [restoChainID, setRestoChainID] = React.useState(0);
   const [restoChainOpen, setRestoChainOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const {t, i18n} = useTranslation();
 
   useEffect(() => {
@@ -140,11 +142,21 @@ const AddRestaurantScreen = () => {
       setSelectedMenuDesignID(0);
       setSelectedMenuDesign('');
       setSelectedRestoChainId(null);
-      navigation.navigate('MyRestaurantsScreen');
+      refreshApp();;
     } catch (error) {
       console.error('Error adding restaurant:', error);
       Alert.alert(String(t('common.error')), String(t('pages.AddEditRestaurantScreen.add-resto-failed')));
     }
+  };
+
+  const refreshApp = () => {
+    setRefresh((prevRefresh) => !prevRefresh);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      })
+    );
   };
 
   return (
