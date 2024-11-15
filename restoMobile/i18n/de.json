@@ -571,7 +571,13 @@
       "Login": {
         "unverified": "Bitte verifizieren Sie zuerst Ihre E-Mail-Adresse.",
         "resend": "Bestätigungslink erneut senden"
+      },
+      "RestoChain": {
+        "noChain": "Oops, es sieht so aus, als hätten Sie noch keine Restaurantketten!",
+        "noChain2": "Füge eine neue Kette hinzu, indem Sie auf 'Neu' klickst.",
+        "name": "Kette:"
       }
+
     }
   }
 }
