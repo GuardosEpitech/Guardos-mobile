@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTrash, faPlus, faPercentage } from '@fortawesome/free-solid-svg-icons';
 import ModalConfirm from '../ModalConfirm/ModalConfirm';
@@ -18,8 +18,6 @@ interface DishCardProps {
   onDelete: any;
   isFirstLevel: boolean;
 }
-
-const whatToDelete = "dish";
 
 const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => {
   const navigation = useNavigation();
@@ -156,7 +154,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
             <FontAwesomeIcon icon={faPlus} size={15} color="gray" />
           </TouchableOpacity>
           <ModalConfirm
-            whatToDelete={whatToDelete}
+            objectType={t('components.DishCard.dish')}
             isVisible={isModalVisible}
             onConfirm={handleDeleteDish}
             onCancel={toggleModal}

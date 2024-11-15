@@ -53,7 +53,8 @@
         "valid": "Gültig bis ",
         "price": "Preis: ",
         "show": "Vorgeschlagene Kombination anzeigen",
-        "hide": "Vorgeschlagene Kombination ausblenden"
+        "hide": "Vorgeschlagene Kombination ausblenden",
+        "dish": "Gericht"
       },
       "TwoFactor": {
         "enter-code": "Geben Sie den 8-stelligen Code ein",
@@ -67,10 +68,11 @@
         "try-again": "Erneut versuchen"
       },
       "ModalConfirm": {
-        "do-you-want-to-delete-product": "Möchten Sie dieses Produkt wirklich löschen?"
+        "do-you-want-to-delete": "Möchten Sie dieses {{ object }} wirklich löschen?"
       },
       "ProductCard": {
-        "ingredients": "Zutaten: {{ ingredients }}"
+        "ingredients": "Zutaten: {{ ingredients }}",
+        "product": "Product"
       },
       "ProductForm": {
         "product-name": "Produktname",
@@ -81,7 +83,8 @@
         "add-product": "Produkt hinzufügen"
       },
       "RestaurantCard": {
-        "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"
+        "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)",
+        "restaurant": "Restaurant"
       },
       "SubscriptionBox": {
         "select": "Auswählen",
@@ -576,9 +579,9 @@
       "RestoChain": {
         "noChain": "Oops, es sieht so aus, als hätten Sie noch keine Restaurantketten!",
         "noChain2": "Füge eine neue Kette hinzu, indem Sie auf 'Neu' klickst.",
-        "name": "Kette:"
+        "name": "Kette:",
+        "restoChain": "Restaurantkette"
       }
-
     },
     "food-allergene": {
       "celery": "Sellerie",
