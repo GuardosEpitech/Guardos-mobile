@@ -29,6 +29,26 @@ export const checkIfTokenIsValid = async (body: any) => {
 };
 
 
+export const getPaymentMethodsSubscribe = async (token: string) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: API_URL + 'payments/showPaymentMethodsResto',
+      params: {key: token},
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching payment methods:", error);
+  }
+};
+
 export const loginUser = async (userData: any) => {
   try {
     if (baseUrl === undefined) {

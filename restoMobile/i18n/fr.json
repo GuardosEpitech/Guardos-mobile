@@ -350,7 +350,8 @@
         "description-low-level-2": "Menu personnalisé",
         "premium": "Abonnement Premium",
         "description-high-level-1": "Prioriser les demandes de fonctionnalités",
-        "description-high-level-2": "Informations détaillées"
+        "description-high-level-2": "Informations détaillées",
+        "no-payment-method": "Ajouter un moyen de payement."
       },
       "Privacy": {
         "title": "Déclaration de Confidentialité",
@@ -582,6 +583,22 @@
         "name": "Chaîne :",
         "restoChain": "Chaîne de restaurants"
       }
+    },
+    "food-allergene": {
+      "celery": "céleri",
+      "gluten": "gluten",
+      "crustaceans": "crustacés",
+      "eggs": "œufs",
+      "fish": "poisson",
+      "lupin": "lupin",
+      "milk": "lait",
+      "molluscs": "mollusques",
+      "mustard": "moutarde",
+      "peanuts": "arachides",
+      "sesame": "sésame",
+      "soybeans": "soja",
+      "sulphites": "sulfites",
+      "tree nuts": "fruits à coque"
     }
   }
 }

@@ -349,7 +349,8 @@
         "description-low-level-2": "Personalisiertes Menü",
         "premium": "Premium-Abonnement",
         "description-high-level-1": "Feature-Anfragen werden priorisiert",
-        "description-high-level-2": "Detaillierte Analyse-Einblicke"
+        "description-high-level-2": "Detaillierte Analyse-Einblicke",
+        "no-payment-method": "Fügen Sie zunächst eine Zahlungsmethode hinzu."
       },
       "Privacy": {
         "title": "Datenschutzerklärung",
@@ -581,6 +582,22 @@
         "name": "Kette:",
         "restoChain": "Restaurantkette"
       }
+    },
+    "food-allergene": {
+      "celery": "Sellerie",
+      "gluten": "Gluten",
+      "crustaceans": "Krustentiere",
+      "eggs": "Eier",
+      "fish": "Fisch",
+      "lupin": "Lupine",
+      "milk": "Milch",
+      "molluscs": "Weichtiere",
+      "mustard": "Senf",
+      "peanuts": "Erdnüsse",
+      "sesame": "Sesam",
+      "soybeans": "Sojabohnen",
+      "sulphites": "Sulfite",
+      "tree nuts": "Baumnüsse"
     }
   }
 }
