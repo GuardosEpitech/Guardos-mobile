@@ -93,7 +93,7 @@ const SubscriptionPage = () => {
     <ScrollView contentContainerStyle={[styles.userPermissionsContainer, darkMode && styles.containerDarkTheme]}>
       <Text style={[styles.title, darkMode && styles.titleDark]}>{t('pages.SubscriptionPage.my-subscription')}</Text>
       <View style={styles.subscriptionContainer}>
-        {noPayment && <Text style={{color: 'red'}}>{[t('pages.SubscriptionPage.no-payment-method')]}</Text>}
+        {noPayment && <Text style={{color: 'red', marginBottom: 20}}>{[t('pages.SubscriptionPage.no-payment-method')]}</Text>}
         <SubscriptionBox
           title={t('pages.SubscriptionPage.free')}
           description={[t('pages.SubscriptionPage.free-description')]}
