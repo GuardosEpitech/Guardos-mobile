@@ -347,7 +347,8 @@
         "description-low-level-2": "personalized menu",
         "premium": "Premium Subscription",
         "description-high-level-1": "prioritize feature requests",
-        "description-high-level-2": "detailed insights"
+        "description-high-level-2": "detailed insights",
+        "no-payment-method": "Add a payment method first."
       },
       "Privacy": {
         "title": "Privacy Statement",
