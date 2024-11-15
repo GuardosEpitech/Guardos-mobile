@@ -23,6 +23,11 @@
       "bundleIdentifier": "com.marcpister.visitorMobile"
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "provideKey"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
