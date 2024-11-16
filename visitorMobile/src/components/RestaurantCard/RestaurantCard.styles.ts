@@ -103,6 +103,15 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     padding: 8,
   },
+  shareIconContainer: {
+    position: 'relative',
+    backgroundColor: 'grey',
+    borderRadius: 15,
+    marginBottom: 1,
+    padding: 4,
+    elevation: 3,
+    shadowColor: '#000',
+  },  
   cardContainerDarkTheme: {
     width: deviceWidth - offset,
     backgroundColor: '#181A1B',
