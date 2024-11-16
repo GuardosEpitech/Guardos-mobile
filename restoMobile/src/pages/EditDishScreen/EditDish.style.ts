@@ -25,18 +25,26 @@ const styles = StyleSheet.create({
   lightDropdown: {
     backgroundColor: '#fff',
     borderColor: '#ccc',
+    width: Dimensions.get('window').width - 50,
+    alignSelf: 'center',
   },
   darkDropdown: {
     backgroundColor: '#333',
     borderColor: '#555',
+    width: Dimensions.get('window').width - 50,
+    alignSelf: 'center',
   },
   lightDropDownContainer: {
     backgroundColor: '#fff',
     borderColor: '#ccc',
+    width: Dimensions.get('window').width - 50,
+    alignSelf: 'center',
   },
   darkDropDownContainer: {
     backgroundColor: '#333',
     borderColor: '#555',
+    width: Dimensions.get('window').width - 50,
+    alignSelf: 'center',
   },
   lightDropdownText: {
     color: '#000',

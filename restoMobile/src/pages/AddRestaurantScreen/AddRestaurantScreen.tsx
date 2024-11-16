@@ -98,7 +98,7 @@ const AddRestaurantScreen = () => {
 
   const handleAddRestaurant = async () => {
     if (!restaurantName || !streetName || !streetNumber || !postalCode || !city || !country) {
-      Alert.alert(String(t('common.error')), String(t('common.all-fields-mandatory')));
+      Alert.alert(String(t('common.error')), String(t('common.some-fields-mandatory')));
       return;
     }
     const token = await AsyncStorage.getItem('userToken');

@@ -100,11 +100,6 @@ const EditDish = ({ route }) => {
     setSelectedProducts(updatedProducts);
   };
 
-  const onAllergenPress = (item: string) => {
-    const updatedAllergens = selectedAllergens.filter(allergen => allergen !== item);
-    setSelectedAllergens(updatedAllergens);
-  }
-
   const onCategoryPress = (item: string) => {
     const updatedCategories = selectedCategories.filter(category => category !== item);
     setSelectedCategories(updatedCategories);
@@ -125,22 +120,6 @@ const EditDish = ({ route }) => {
     setModalContentType(t('common.products') as string);
     setModalVisible(true);
   };
-
-  const onAddAllergen = () => {
-    let allergens;
-    if (restaurantName.length === 0) {
-      // TODO: need to adjust this for i18n
-      allergens = ["No Allergens", "Celery", "Gluten",
-        "Crustaceans", "Eggs", "Fish", "Lupin", "Milk", "Molluscs", "Mustard",
-        "Nuts", "Peanuts", "Sesame seeds", "Soya", "Sulphur dioxide", "Lactose"];
-    }
-    const newAllergens = allergens.filter(allergen => !selectedAllergens.includes(allergen));
-    setAllergens([...selectedAllergens, ...newAllergens]);
-
-    setModalContentType(t('pages.EditDishScreen.allergens') as string);
-    setModalVisible(true);
-  };
-
 
   const onAddCategory = async () => {
     let categories: string[] = [];
@@ -326,8 +305,8 @@ const EditDish = ({ route }) => {
 
   const handleSave = async () => {
     // check if valid
-    if (!name || !price || !description || !pictures || !selectedProducts || !selectedCategories || !selectedRestaurants) {
-      Alert.alert(String(t('common.error')),  String(t('common.all-fields-mandatory')));
+    if (!name || !price || !selectedProducts || !selectedCategories || !selectedRestaurants) {
+      Alert.alert(String(t('common.error')),  String(t('common.some-fields-mandatory')));
       return;
     }
     const userToken = await AsyncStorage.getItem('userToken');
@@ -344,14 +323,17 @@ const EditDish = ({ route }) => {
         description: description,
         allergens: selectedAllergens,
         products: selectedProducts,
-        combo: route.params.dish.combo,
+        combo: [],
         category: {
           menuGroup: selectedCategories.toString(),
           foodGroup: dishCategory.foodGroup,
           extraGroup: dishCategory.extraGroup,
         },
-        resto: selectedRestaurants[i]
-      }
+        resto: selectedRestaurants[i],
+        restoChainID: selectedRestoChainId,
+        discount: -1,
+        validTill: ''
+      };
       const dish = await changeDishByName(dishToSave, selectedRestaurants[i], userToken);
       if (dish && dish.name) {
         console.log('Dish saved');
@@ -445,7 +427,7 @@ const EditDish = ({ route }) => {
       </View>
 
       <View style={styles.contentProducsDishes}>
-        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('common.products')}</Text>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.products')}</Text>
         <View style={styles.containerAllergens}>
           {selectedProducts.map((item, index) => (
             <TouchableOpacity

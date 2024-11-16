@@ -208,6 +208,10 @@ const EditRestaurant = ({ route }) => {
   };
 
   const handleSave = async () => {
+    if (!name || !streetName || !streetNumber || !postalCode || !city || !country) {
+      Alert.alert(String(t('common.error')), String(t('common.some-fields-mandatory')));
+      return;
+    }
     try {
       const updatedData = {
         name: name,

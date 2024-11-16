@@ -38,6 +38,7 @@
       "error": "Fehler",
       "unexpected-error": "Ein unerwarteter Fehler ist aufgetreten",
       "all-fields-mandatory": "Alle Felder sind Pflichtfelder.",
+      "some-fields-mandatory": "Bitte fülle alle Pflichtfelder.",
       "need-cam-permissions": "Wir benötigen zusätzliche Berechtigungen für die Kamera!"
     },
     "components": {
@@ -118,15 +119,16 @@
         "add-resto": "Restaurant hinzufügen"
       },
       "EditDishScreen": {
-        "dish-name": "Gerichtsname",
-        "price": "Preis",
+        "dish-name": "Gerichtsname *",
+        "price": "Preis *",
         "description": "Beschreibung",
+        "products": "Produkte *",
         "add-product": "Neues Produkt hinzufügen",
         "allergens": "Allergene",
         "add-allergens": "Neue Allergene hinzufügen",
-        "food-category": "Essenskategorie",
+        "food-category": "Essenskategorie *",
         "add-category": "Neue Kategorie hinzufügen",
-        "resto": "Restaurant",
+        "resto": "Restaurant *",
         "add-resto": "Neues Restaurant hinzufügen",
         "categories": "Kategorien"
       },
