@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {View, Text, ScrollView, Linking, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, ScrollView, Linking, TouchableOpacity, RefreshControl} from 'react-native';
 import styles from './MenuPage.styles';
 import { getDishesByResto, deleteDishByName } from '../../services/dishCalls';
 import { getRestaurantByName } from '../../services/restoCalls';
@@ -30,6 +30,7 @@ const MenuPage: React.FC = ({ route }) => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const navigation = useNavigation();
   const [restaurantData, setRestaurantData] = useState({uid: 1});
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
 
   const { t } = useTranslation();
@@ -115,8 +116,21 @@ const MenuPage: React.FC = ({ route }) => {
     const url = `https://backend.guardos.eu/api/qrcode/base64/${restaurantData.uid}`;
     Linking.openURL(url).catch((err) => console.error('Failed to open URL:', err));
   };
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+    fetchDarkMode();
+    fetchData();
+    restoByName(restaurantName)
+        .then(res => setRestaurantData(res));
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 2000);
+  }, []);
 
   return (
+    <ScrollView refreshControl={
+      <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+    }>
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       <Header label={restaurantName}
               leftIcon={<Ionicons name="arrow-back" size={24} color="black" onPress={() => navigation.goBack()} />} />
@@ -146,6 +160,7 @@ const MenuPage: React.FC = ({ route }) => {
         </>
       )}
     </View>
+    </ScrollView>
   );
 };
 

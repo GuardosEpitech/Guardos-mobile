@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {
   Alert,
   Button,
-  Modal,
+  Modal, RefreshControl,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -26,6 +26,7 @@ const DishComboPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContentType, setModalContentType] = useState('');
   const navigation = useNavigation();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     const fetchDishes = async () => {
@@ -111,9 +112,51 @@ const DishComboPage: React.FC = () => {
     setSelectedDishes([]);
   };
 
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+    const fetchDishes = async () => {
+      const allDishes = await getDishesByResto2(dish.resto);
+      const cleanedDishes = allDishes[0].dishes.filter(
+          (d: IDishFE) => d.name !== dish.name
+      );
+
+      const selected: IDishFE[] = [];
+      if (dish.combo && dish.combo.length > 0) {
+        cleanedDishes.forEach((d: IDishFE) => {
+          if (dish.combo.includes(d.uid)) {
+            selected.push(d);
+          }
+        });
+      }
+      setDishes(cleanedDishes);
+      setSelectedDishes(selected);
+    };
+
+    const fetchDarkMode = async () => {
+      try {
+        const darkModeValue = await AsyncStorage.getItem('DarkMode');
+        if (darkModeValue !== null) {
+          const isDarkMode = darkModeValue === 'true';
+          setDarkMode(isDarkMode);
+        }
+      } catch (error) {
+        console.error('Error fetching dark mode value:', error);
+      }
+    };
+
+    fetchDarkMode();
+    fetchDishes();
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
     <ScrollView style={[styles.container, darkMode && styles.containerDark]}
-                contentContainerStyle={styles.scrollViewContentContainer}>
+                contentContainerStyle={styles.scrollViewContentContainer}
+                refreshControl={
+                  <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+    }>
       <View style={[styles.container, darkMode && styles.containerDark]}>
         <Text style={[styles.title, darkMode && styles.titleDark]}>
           {t('pages.DishComboPage.title')} {dish.name}

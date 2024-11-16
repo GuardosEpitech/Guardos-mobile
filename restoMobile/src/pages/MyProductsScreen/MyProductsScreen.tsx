@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, TouchableOpacity, Text, RefreshControl,FlatList } from 'react-native';
+import {View, TouchableOpacity, Text, RefreshControl, FlatList, ScrollView} from 'react-native';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './MyProductsScreen.styles';
 import AddProductScreen from '../AddProductScreen/AddProductScreen';
@@ -17,6 +17,7 @@ const MyProductsScreen = ({ navigation }: { navigation: any }) => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [key, setKey] = useState(0);
   const {t} = useTranslation();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     fetchDarkMode();
@@ -62,29 +63,52 @@ const MyProductsScreen = ({ navigation }: { navigation: any }) => {
     setKey(prevKey => prevKey + 1);
   }, []);
 
+  const onRefresh2 = useCallback(() => {
+    setIsRefreshing(true);
+    fetchDarkMode();
+    setTimeout(() => {
+      const fetchProducts = async () => {
+        try {
+          const userToken = await AsyncStorage.getItem('userToken');
+          const products = await getProductsByUser(userToken);
+          setProductList(products);
+        } catch (error) {
+          console.error('Error fetching products:', error);
+        }
+      };
+
+      fetchProducts();
+      setIsRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
-    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
-      {productList.length === 0 ? (
-        <View style={styles.centered}>
-        <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyProductPage.noprod')}</Text> 
-        </View>
-      ) : (
-        <FlatList
-        data={productList}
-        renderItem={({ item }) => (
-          <ProductCard key={item._id} product={item} onDelete={updateProductList} key={key}/>
+    <ScrollView refreshControl={
+      <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
+    }>
+      <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+        {productList.length === 0 ? (
+          <View style={styles.centered}>
+          <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyProductPage.noprod')}</Text>
+          </View>
+        ) : (
+          <FlatList
+          data={productList}
+          renderItem={({ item }) => (
+            <ProductCard key={item._id} product={item} onDelete={updateProductList} key={key}/>
+            )}
+            keyExtractor={(item) => item._id}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+            }
+            />
           )}
-          keyExtractor={(item) => item._id}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-          }
-          />
-        )}
-      <TouchableOpacity style={styles.addButton} onPress={navigateToAddProduct}>
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.addButton} onPress={navigateToAddProduct}>
+          <Text style={styles.addButtonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 

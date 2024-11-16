@@ -1,5 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, Button, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {
+    View,
+    Text,
+    TextInput,
+    Button,
+    ScrollView,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableOpacity,
+    Alert,
+    RefreshControl
+} from 'react-native';
 import { ICategories, ICategory } from '../../../../shared/models/categoryInterfaces';
 import { IRestaurantFrontEnd } from '../../../../shared/models/restaurantInterfaces';
 import { getAllRestaurantsByUser, updateRestoCategories } from '../../services/restoCalls';
@@ -25,6 +36,7 @@ const AddCategoryPage = () => {
     const scrollViewRef = useRef<ScrollView>(null);
     const [darkMode, setDarkMode] = useState<boolean>(false);
     const [categoryToEdit, setCategoryToEdit] = useState<ICategory | undefined>(undefined);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     useEffect(() => {
         async function fetchRestaurants() {
@@ -216,7 +228,30 @@ const AddCategoryPage = () => {
         setShowNewCategoryInput(true);
       };
 
+    const onRefresh2 = useCallback(() => {
+        setIsRefreshing(true);
+        fetchDarkMode();
+        setTimeout(() => {
+            async function fetchRestaurants() {
+                try {
+                    const userToken = await AsyncStorage.getItem('userToken');
+                    const restaurants = await getAllRestaurantsByUser({ key: userToken });
+                    setRestoData(restaurants);
+                    setActiveRestaurant(restaurants.length > 0 ? restaurants[0].uid : -1);
+                    updateNewCategories(restaurants.length > 0 ? restaurants[0].categories : []);
+                } catch (error) {
+                    console.error('Error fetching restaurants:', error);
+                }
+            }
+            fetchRestaurants();
+            setIsRefreshing(false);
+        }, 2000);
+    }, []);
+
     return (
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
+        }>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
             {restoData.length === 0 ? (
@@ -311,6 +346,7 @@ const AddCategoryPage = () => {
         )}
         </View>
         </KeyboardAvoidingView>
+        </ScrollView>
     );
 };
 
