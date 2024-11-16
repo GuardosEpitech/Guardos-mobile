@@ -86,6 +86,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const onRefresh = useCallback(() => {
+    getPremium();
     setRefreshing(true);
     updateRestoData(filter);
     fetchDarkMode();

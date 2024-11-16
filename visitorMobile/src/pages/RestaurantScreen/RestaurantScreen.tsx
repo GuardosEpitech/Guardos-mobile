@@ -104,10 +104,13 @@ const MyRestaurantsScreen = () => {
       setUserPosition({lat: location.coords.latitude, lng: location.coords.longitude});
     })();
   }, []);
-
-  for (let i = adFrequency - 1; i < dataWithAds.length; i += adFrequency) {
-    dataWithAds.splice(i, 0, { isAd: true });
+  
+  if (!premium) {
+    for (let i = adFrequency - 1; i < dataWithAds.length; i += adFrequency) {
+      dataWithAds.splice(i, 0, { isAd: true });
+    }
   }
+  
   const [filterLimit, setFilterLimit] = useState<number | null>(null);
   const userProfileName: string = t('common.me') as string;
   const [groupProfiles, setGroupProfiles] = useState<AllergenProfile[]>([]);
@@ -161,6 +164,7 @@ const MyRestaurantsScreen = () => {
       const isPremiumUser = permissions.includes('premiumUser');
       const isBasicUser = permissions.includes('basicSubscription');
       if (isBasicUser || isPremiumUser) {
+        
         setPremium(true);
       } else {
         setPremium(false);
@@ -366,6 +370,7 @@ const MyRestaurantsScreen = () => {
       return;
     }
     setRefreshing(true);
+    getPremium();
     getCategories(userToken).then((res) => {
       setCategories(res.map(category => ({name: category, selected: false})));
     });
@@ -812,7 +817,7 @@ const MyRestaurantsScreen = () => {
           <FlatList
           data={dataWithAds}
           renderItem={({ item, index }) => {
-            if (item.isAd && !premium) {
+            if (item.isAd) {
               return <AdCard />;
             } else {
               return (
