@@ -38,6 +38,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';
 import {getUserAllergens} from "../../services/userCalls";
 import {getCategories} from "../../services/categorieCalls";
+import { getVisitorUserPermission } from '../../services/permissionsCalls';
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -114,6 +115,7 @@ const MyRestaurantsScreen = () => {
   const [openProfileDialog, setOpenProfileDialog] = useState(false);
   const [newProfileName, setNewProfileName] = useState('');
   const [loadingAllergens, setLoadingAllergens] = useState(true);
+  const [premium, setPremium] = useState<boolean>(false);
 
   useEffect(() => {
     const loadAllergensAndFavourites = async () => {
@@ -152,10 +154,27 @@ const MyRestaurantsScreen = () => {
   
   }, []);
 
+  const getPremium = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      const permissions = await getVisitorUserPermission(userToken);
+      const isPremiumUser = permissions.includes('premiumUser');
+      const isBasicUser = permissions.includes('basicSubscription');
+      if (isBasicUser || isPremiumUser) {
+        setPremium(true);
+      } else {
+        setPremium(false);
+      }
+    } catch (error) {
+      console.error('Error getting permissions: ', error);
+    }
+  };
+
   useEffect(() => {
     if (isFocused) {
       loadSavedFilters();
     }
+    getPremium();
     fetchFavourites().then(r => console.log("Loaded favourite resto list"));
     fetchDarkMode();
     fetchGroupProfile();
@@ -793,7 +812,7 @@ const MyRestaurantsScreen = () => {
           <FlatList
           data={dataWithAds}
           renderItem={({ item, index }) => {
-            if (item.isAd) {
+            if (item.isAd && !premium) {
               return <AdCard />;
             } else {
               return (
