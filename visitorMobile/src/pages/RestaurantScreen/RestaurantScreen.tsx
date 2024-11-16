@@ -38,6 +38,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';
 import {getUserAllergens} from "../../services/userCalls";
 import {getCategories} from "../../services/categorieCalls";
+import { getVisitorUserPermission } from '../../services/permissionsCalls';
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -85,6 +86,7 @@ const MyRestaurantsScreen = () => {
   const adFrequency = 5;
   const dataWithAds = [...selectedRestoData];
   const [userPosition, setUserPosition] = React.useState<{ lat: number; lng: number } | null>(null);
+  const [premium, setPremium] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -102,10 +104,13 @@ const MyRestaurantsScreen = () => {
       setUserPosition({lat: location.coords.latitude, lng: location.coords.longitude});
     })();
   }, []);
-
-  for (let i = adFrequency - 1; i < dataWithAds.length; i += adFrequency) {
-    dataWithAds.splice(i, 0, { isAd: true });
+  
+  if (!premium) {
+    for (let i = adFrequency - 1; i < dataWithAds.length; i += adFrequency) {
+      dataWithAds.splice(i, 0, { isAd: true });
+    }
   }
+  
   const [filterLimit, setFilterLimit] = useState<number | null>(null);
   const userProfileName: string = t('common.me') as string;
   const [groupProfiles, setGroupProfiles] = useState<AllergenProfile[]>([]);
@@ -117,7 +122,7 @@ const MyRestaurantsScreen = () => {
 
   useEffect(() => {
     const loadAllergensAndFavourites = async () => {
-      const userToken = await AsyncStorage.getItem('user');
+      const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         return;
       }
@@ -152,10 +157,28 @@ const MyRestaurantsScreen = () => {
   
   }, []);
 
+  const getPremium = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      const permissions = await getVisitorUserPermission(userToken);
+      const isPremiumUser = permissions.includes('premiumUser');
+      const isBasicUser = permissions.includes('basicSubscription');
+      if (isBasicUser || isPremiumUser) {
+        
+        setPremium(true);
+      } else {
+        setPremium(false);
+      }
+    } catch (error) {
+      console.error('Error getting permissions: ', error);
+    }
+  };
+
   useEffect(() => {
     if (isFocused) {
       loadSavedFilters();
     }
+    getPremium();
     fetchFavourites().then(r => console.log("Loaded favourite resto list"));
     fetchDarkMode();
     fetchGroupProfile();
@@ -347,6 +370,7 @@ const MyRestaurantsScreen = () => {
       return;
     }
     setRefreshing(true);
+    getPremium();
     getCategories(userToken).then((res) => {
       setCategories(res.map(category => ({name: category, selected: false})));
     });
@@ -445,7 +469,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const getUserAllergensFunc = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         return;
       }
@@ -918,7 +942,7 @@ const MyRestaurantsScreen = () => {
                             '#e2b0b3' : 'white' }]}
                       onPress={() => handleAllergenToggle(allergenIndex)}
                     >
-                      <Text>{allergen.name}</Text>
+                      <Text>{t('food-allergene.' + allergen.name)}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>

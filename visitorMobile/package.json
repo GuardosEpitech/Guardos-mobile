@@ -41,6 +41,7 @@
     "react-native": "0.74.5",
     "react-native-dotenv": "^3.4.9",
     "react-native-dropdown-picker": "^5.4.6",
+    "react-native-element-dropdown": "^2.12.2",
     "react-native-elements": "3.4.3",
     "react-native-fbsdk-next": "13.1.4",
     "react-native-gesture-handler": "~2.16.1",

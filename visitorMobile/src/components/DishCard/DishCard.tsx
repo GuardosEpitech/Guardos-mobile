@@ -163,7 +163,9 @@ const DishCard: React.FC<DishCardProps> = (props: DishCardProps) => {
           ) : (
             <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.price', {price: dish.price})}€</Text>
           )}
-          <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.allergens', {allergens: dish.allergens.join(', ')})}</Text>
+          <Text style={[darkMode && styles.priceDarkTheme]}>
+            {t('components.DishCard.allergens')}: {dish.allergens.map((allergen) => t(`food-allergene.${allergen}`)).join(', ')}
+          </Text>
         </View>
 
         {dish.combo && dish.combo.length > 0 && isFirstLevel && !isLoading && (

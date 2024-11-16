@@ -10,11 +10,13 @@ import { IimageInterface } from '../models/imageInterface';
 import { defaultRestoImage } from "../assets/placeholderImagesBase64";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useTranslation} from "react-i18next";
+import ModalConfirm from "./ModalConfirm/ModalConfirm";
 
 const RestaurantCard = ({ info, onDelete }) => {
   const navigation = useNavigation();
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     fetchDarkMode();  
@@ -33,8 +35,18 @@ const RestaurantCard = ({ info, onDelete }) => {
   };
   const {t} = useTranslation();
 
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   const handleDelete = () => {
-    onDelete(info.name);
+    try {
+      onDelete(info.name);
+    } catch (error) {
+      console.error('Error deleting restaurant:', error);
+    } finally {
+      toggleModal();
+    }
   };
 
   const handleEdit = () => {
@@ -86,12 +98,18 @@ const RestaurantCard = ({ info, onDelete }) => {
           </Text>
         </View>
         <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={handleDelete} style={styles.iconButton}>
+          <TouchableOpacity onPress={toggleModal} style={styles.iconButton}>
             {<FontAwesomeIcon icon={ faTrash } size={15} color="gray" />}
           </TouchableOpacity>
           <TouchableOpacity onPress={handleEdit} style={styles.iconButton}>
             {<FontAwesomeIcon icon={ faPen } size={15} color="gray" />}
           </TouchableOpacity>
+          <ModalConfirm
+            objectType={t('components.RestaurantCard.restaurant')}
+            isVisible={isModalVisible}
+            onConfirm={handleDelete}
+            onCancel={toggleModal}
+          />
         </View>
       </View>
     </View>

@@ -26,7 +26,7 @@
       },
       "DishCard": {
         "price": "Prix : {{ price }}",
-        "allergens": "Allergènes : {{ allergens }}",
+        "allergens": "Allergènes",
         "discount": "Prix réduit : ",
         "valid": "Valide jusqu'au ",
         "show": "Afficher la combinaison suggérée",
@@ -51,6 +51,18 @@
       }
     },
     "pages": {
+      "Review": {
+        "add-review": "Ajouter un avis",
+        "your-review": "Vos avis ",
+        "all-review": "Tous les avis",
+        "comment-review": "Commentaire :",
+        "no-review": "Aucun avis",
+        "delete-review": "Supprimer",
+        "rating": "Avis",
+        "note": "Note",
+        "your-comment": "Votre avis",
+        "invalid": "Tous les champs sont obligatoires."
+      },
       "AboutUs": {
         "member-description-german": "Étudiant de 4e année à Epitech en provenance d'Allemagne",
         "member-description-french": "Étudiant de 4e année à Epitech en provenance de France",
@@ -512,6 +524,22 @@
         "resend": "Renvoyer le lien de vérification",
         "unverified": "Veuillez d'abord vérifier votre adresse e-mail."
       }
+    },
+    "food-allergene": {
+      "celery": "céleri",
+      "gluten": "gluten",
+      "crustaceans": "crustacés",
+      "eggs": "œufs",
+      "fish": "poisson",
+      "lupin": "lupin",
+      "milk": "lait",
+      "molluscs": "mollusques",
+      "mustard": "moutarde",
+      "peanuts": "arachides",
+      "sesame": "sésame",
+      "soybeans": "soja",
+      "sulphites": "sulfites",
+      "tree nuts": "fruits à coque"
     }
   }
 }

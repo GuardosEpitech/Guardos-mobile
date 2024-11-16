@@ -29,7 +29,7 @@
       },
       "DishCard": {
         "price": "Preis: {{ price }}",
-        "allergens": "Allergene: {{ allergens }}",
+        "allergens": "Allergene",
         "discount": "Reduzierter Preis: ",
         "valid": "Gültig bis ",
         "show": "Vorgeschlagene Kombination anzeigen",
@@ -54,6 +54,18 @@
       }
     },
     "pages": {
+      "Review": {
+        "add-review": "Eine Bewertung hinzufügen",
+        "your-review": "Ihre Bewertung",
+        "all-review": "Eine Bewertung hinzufügen",
+        "comment-review": "Wie :",
+        "no-review": "Keine Bewertung",
+        "delete-review": "Löschen",
+        "rating": "Bewertung",
+        "note": "Hinweis",
+        "your-comment": "Ihr Kommentar",
+        "invalid": "Alle Felder sind erforderlich"
+      },
       "AboutUs": {
         "member-description-german": "4. Jahr Epitech-Student aus Deutschland",
         "member-description-french": "4. Jahr Epitech-Student aus Frankreich",
@@ -516,6 +528,22 @@
       "unverified": "Bitte verifizieren Sie zuerst Ihre E-Mail-Adresse.",
       "resend": "Bestätigungslink erneut senden"
     }
+    },
+    "food-allergene": {
+      "celery": "Sellerie",
+      "gluten": "Gluten",
+      "crustaceans": "Krustentiere",
+      "eggs": "Eier",
+      "fish": "Fisch",
+      "lupin": "Lupine",
+      "milk": "Milch",
+      "molluscs": "Weichtiere",
+      "mustard": "Senf",
+      "peanuts": "Erdnüsse",
+      "sesame": "Sesam",
+      "soybeans": "Sojabohnen",
+      "sulphites": "Sulfite",
+      "tree nuts": "Baumnüsse"
     }
   }
 }

@@ -29,7 +29,7 @@
       },
       "DishCard": {
         "price": "Price: {{ price }}",
-        "allergens": "Allergens: {{ allergens }}",
+        "allergens": "Allergens",
         "discount": "Discounted price: ",
         "valid": "Valid until ",
         "show": "Show suggested combination",
@@ -54,6 +54,18 @@
       }
     },
     "pages": {
+      "Review": {
+        "add-review": "Add a review",
+        "your-review": "Your review ",
+        "all-review": "All review",
+        "comment-review": "Comment :",
+        "no-review": "No review found",
+        "delete-review": "Delete",
+        "rating": "Rating",
+        "note": "Note",
+        "your-comment": "Your comment",
+        "invalid": "All fields are require"
+      },
       "AboutUs": {
         "member-description-german": "4th year Epitech student from Germany",
         "member-description-french": "4th year Epitech student from France",
@@ -515,6 +527,22 @@
         "unverified": "Please verify your email first.",
         "resend": "Resend Verification Link"
       }
+    },
+    "food-allergene": {
+      "celery": "celery",
+      "gluten": "gluten",
+      "crustaceans": "crustaceans",
+      "eggs": "eggs",
+      "fish": "fish",
+      "lupin": "lupin",
+      "milk": "milk",
+      "molluscs": "molluscs",
+      "mustard": "mustard",
+      "peanuts": "peanuts",
+      "sesame": "sesame",
+      "soybeans": "soybeans",
+      "sulphites": "sulphites",
+      "tree nuts": "tree nuts"
     }
   }
 }

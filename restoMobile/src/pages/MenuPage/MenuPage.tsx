@@ -5,7 +5,7 @@ import { getDishesByResto, deleteDishByName } from '../../services/dishCalls';
 import { getRestaurantByName } from '../../services/restoCalls';
 import { Dish } from 'src/models/dishesInterfaces';
 import { IRestaurantFrontEnd } from 'src/models/restaurantsInterfaces';
-import DishCard from "../../components/DishCard/DishCard"; 
+import DishCard from "../../components/DishCard/DishCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
 import { IDishFE } from '../../../../shared/models/dishInterfaces';

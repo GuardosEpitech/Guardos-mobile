@@ -124,7 +124,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text>{t('pages.ResetPasswordScreen.email-sent')}</Text>
-            <Text>{t('pages.ResetPasswordScreen.check-your-email')}</Text>
+            <Text>{t('pages.ResetPasswordScreen.check-your-emails')}</Text>
             <Button title={t('pages.ResetPasswordScreen.go-back')} onPress={handleGoBackToLogin} />
           </View>
         </View>
