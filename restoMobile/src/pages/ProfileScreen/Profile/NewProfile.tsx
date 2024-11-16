@@ -424,6 +424,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
               }, 5000);
           }
           fetchUserData();
+          handleApplyChanges();
           setIsRefreshing(false);
         }, 2000);
     }, []);

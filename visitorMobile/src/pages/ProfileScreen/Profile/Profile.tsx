@@ -533,6 +533,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const onRefresh = useCallback(() => {
     setIsRefreshing(true);
     loadDarkModeState();
+    setTimeout(() => {
     const fetchUserData = async () => {
       try {
         const userToken = await AsyncStorage.getItem('userToken');
@@ -563,8 +564,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     };
 
     fetchUserData().then(r => console.log("Loaded user data successfully"));
-
-    setTimeout(() => {
+    handleSave()
       setIsRefreshing(false);
     }, 2000);
   }, []);
