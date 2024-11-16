@@ -32,6 +32,8 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     const [name, setName] = useState<string>();
     const [value, setValue] = useState(null);
     const [ invalidInput, setInvalidInput] = useState<boolean>();
+    const [newComment, setNewComment] = useState<string>();
+
     const note = [
         { label: '0', value: 0 },
         { label: '1', value: 1 },
