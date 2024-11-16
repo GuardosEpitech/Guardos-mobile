@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput, ScrollView} from 'react-native';
+import { View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import AdCard from '../../components/AdCard/AdCard';
