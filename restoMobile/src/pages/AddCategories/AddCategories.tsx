@@ -275,7 +275,7 @@ const AddCategoryPage = () => {
                     textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
                 />
             </View>
-            {newCategories.length === 0 ? (
+            {newCategories.length === 0 && !showNewCategoryInput ? (
                 <View style={styles.centered}>
                     <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.AddCategory.noCategory')}</Text> 
                     <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.AddCategory.noCategory2')}</Text> 
