@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Alert, Button, View, Text, TextInput, Image, ScrollView, TouchableOpacity} from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
@@ -58,22 +58,22 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     {label: t('common.german'), value: 'de'},
     {label: t('common.french'), value: 'fr'},
   ];
-  // TODO: apply i18n
-  const allergensOptions = [
-    { label: "celery", value: "celery"},
-    { label: "gluten", value: "gluten"},
-    { label: "crustaceans", value: "crustaceans"},
-    { label: "eggs", value: "eggs"},
-    { label: "fish", value: "fish"},
-    { label: "lupin", value: "lupin"},
-    { label: "milk", value: "milk"},
-    { label: "molluscs", value: "molluscs"},
-    { label: "mustard", value: "mustard"},
-    { label: "peanuts", value: "peanuts"},
-    { label: "sesame", value: "sesame"},
-    { label: "soybeans", value: "soybeans"},
-    { label: "sulphites", value: "sulphites"},
-    { label: "tree nuts", value: "tree nuts"}
+
+  const allergenNames = [
+    "celery",
+    "gluten",
+    "crustaceans",
+    "eggs",
+    "fish",
+    "lupin",
+    "milk",
+    "molluscs",
+    "mustard",
+    "peanuts",
+    "sesame",
+    "soybeans",
+    "sulphites",
+    "tree nuts",
   ];
   const [dataChangeStatus, setDataChangeStatus] = useState(null);
   const [saveFailureType, setSaveFailureType] = useState(null);
@@ -144,6 +144,13 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
       setProfilePic([]);
     }
   };
+
+  const allergensOptions = useMemo(() => {
+    return allergenNames.map((name) => ({
+      label: t('food-allergene.' + name),
+      value: name,
+    }));
+  }, [i18n.language]);
 
   const handleFileChange = async (assets: ImagePicker.ImagePickerAsset[]) => {
     if (assets.length === 0) {
@@ -602,22 +609,26 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         </View>
         <View>
         <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.allergens')}</Text>
-        <DropDownPicker
-          itemKey={"languagePicker"}
-          dropDownDirection={'TOP'}
-          language={language.toUpperCase()}
-          multiple
-          open={allergensOpen}
-          value={allergens}
-          textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
-          items={allergensOptions}
-          setOpen={() => {
-            closeAllPopups();
-            return setAllergensOpen(!allergensOpen)
-          }}
-          setValue={setAllergens}
-          style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
-        />
+          <DropDownPicker
+              itemKey={"languagePicker"}
+              dropDownDirection={'TOP'}
+              language={language.toUpperCase()}
+              multiple
+              open={allergensOpen}
+              value={allergens}
+              textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
+              items={allergensOptions}
+              mode="SIMPLE"
+              listMode="SCROLLVIEW"
+              zIndex={1000}
+              zIndexInverse={3000}
+              setOpen={() => {
+                closeAllPopups();
+                return setAllergensOpen(!allergensOpen)
+              }}
+              setValue={setAllergens}
+              style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
+          />
         
           <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.disliked-ingredients-title')}</Text>
           <DropDownPicker
@@ -625,6 +636,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             dropDownDirection={'TOP'}
             language={language.toUpperCase()}
             multiple
+            listMode="SCROLLVIEW"
+            mode="SIMPLE"
+            zIndex={1001}
+            zIndexInverse={3001}
             open={openIngredientPopup}
             value={selectedDislikedIngredients}
             textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}

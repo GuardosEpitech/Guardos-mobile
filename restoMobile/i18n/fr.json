@@ -53,7 +53,8 @@
         "valid": "Valide jusqu'au ",
         "price": "Prix : ",
         "show": "Afficher la combinaison suggérée",
-        "hide": "Masquer la combinaison suggérée"
+        "hide": "Masquer la combinaison suggérée",
+        "dish": "Plat"
       },
       "TwoFactor": {
         "enter-code": "Veuillez entrer le code à 8 chiffres",
@@ -67,10 +68,11 @@
         "try-again": "Réessayer"
       },
       "ModalConfirm": {
-        "do-you-want-to-delete-product": "Êtes-vous sûr de vouloir supprimer ce produit ?"
+        "do-you-want-to-delete": "Êtes-vous sûr de vouloir supprimer ce {{ object }} ?"
       },
       "ProductCard": {
-        "ingredients": "Ingrédients : {{ ingredients }}"
+        "ingredients": "Ingrédients : {{ ingredients }}",
+        "product": "Produit"
       },
       "ProductForm": {
         "product-name": "Nom du produit",
@@ -81,7 +83,8 @@
         "add-product": "Ajouter un produit"
       },
       "RestaurantCard": {
-        "rating": "Note : {{ rating }} ({{ ratingCount }} évaluations)"
+        "rating": "Note : {{ rating }} ({{ ratingCount }} évaluations)",
+        "restaurant": "Restaurant"
       },
       "SubscriptionBox": {
         "select": "Choisir",
@@ -347,7 +350,8 @@
         "description-low-level-2": "Menu personnalisé",
         "premium": "Abonnement Premium",
         "description-high-level-1": "Prioriser les demandes de fonctionnalités",
-        "description-high-level-2": "Informations détaillées"
+        "description-high-level-2": "Informations détaillées",
+        "no-payment-method": "Ajouter un moyen de payement."
       },
       "Privacy": {
         "title": "Déclaration de Confidentialité",
@@ -572,7 +576,29 @@
       "Login": {
         "resend": "Renvoyer le lien de vérification",
         "unverified": "Veuillez d'abord vérifier votre adresse e-mail."
+      },
+      "RestoChain": {
+        "noChain": "Oups, il semble que vous n'ayez encore aucune chaîne de restaurants !",
+        "noChain2": "Ajoutez une nouvelle chaîne en cliquant sur 'Nouveau'.",
+        "name": "Chaîne :",
+        "restoChain": "Chaîne de restaurants"
       }
+    },
+    "food-allergene": {
+      "celery": "céleri",
+      "gluten": "gluten",
+      "crustaceans": "crustacés",
+      "eggs": "œufs",
+      "fish": "poisson",
+      "lupin": "lupin",
+      "milk": "lait",
+      "molluscs": "mollusques",
+      "mustard": "moutarde",
+      "peanuts": "arachides",
+      "sesame": "sésame",
+      "soybeans": "soja",
+      "sulphites": "sulfites",
+      "tree nuts": "fruits à coque"
     }
   }
 }

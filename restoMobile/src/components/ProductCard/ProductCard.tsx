@@ -8,7 +8,6 @@ import { faPen } from '@fortawesome/free-solid-svg-icons/faPen'
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
 import { deleteProduct } from '../../services/productCalls';
 import ModalConfirm from '../ModalConfirm/ModalConfirm';
-import EditProductPage from '../../pages/EditProductPage/EditProductPage';
 import { useNavigation } from '@react-navigation/native';
 import { getAllResto } from '../../services/restoCalls';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -97,6 +96,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
             {<FontAwesomeIcon icon={ faPen } size={15} color="gray" />}
           </TouchableOpacity>
           <ModalConfirm
+            objectType={t('components.ProductCard.product')}
             isVisible={isModalVisible}
             onConfirm={handleDeleteProduct}
             onCancel={toggleModal}

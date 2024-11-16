@@ -39,6 +39,7 @@ import * as Location from 'expo-location';
 import {getUserAllergens} from "../../services/userCalls";
 import {getCategories} from "../../services/categorieCalls";
 
+
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
   const [restoData, setRestoData] = useState<IRestaurantFrontEnd[]>([]);
@@ -117,7 +118,7 @@ const MyRestaurantsScreen = () => {
 
   useEffect(() => {
     const loadAllergensAndFavourites = async () => {
-      const userToken = await AsyncStorage.getItem('user');
+      const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         return;
       }
@@ -445,7 +446,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const getUserAllergensFunc = async () => {
-    const userToken = await AsyncStorage.getItem('user');
+    const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         return;
       }
@@ -918,7 +919,7 @@ const MyRestaurantsScreen = () => {
                             '#e2b0b3' : 'white' }]}
                       onPress={() => handleAllergenToggle(allergenIndex)}
                     >
-                      <Text>{allergen.name}</Text>
+                      <Text>{t('food-allergene.' + allergen.name)}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>

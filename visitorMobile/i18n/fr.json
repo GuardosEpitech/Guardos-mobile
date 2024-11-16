@@ -26,7 +26,7 @@
       },
       "DishCard": {
         "price": "Prix : {{ price }}",
-        "allergens": "Allergènes : {{ allergens }}",
+        "allergens": "Allergènes",
         "discount": "Prix réduit : ",
         "valid": "Valide jusqu'au ",
         "show": "Afficher la combinaison suggérée",
@@ -524,6 +524,22 @@
         "resend": "Renvoyer le lien de vérification",
         "unverified": "Veuillez d'abord vérifier votre adresse e-mail."
       }
+    },
+    "food-allergene": {
+      "celery": "céleri",
+      "gluten": "gluten",
+      "crustaceans": "crustacés",
+      "eggs": "œufs",
+      "fish": "poisson",
+      "lupin": "lupin",
+      "milk": "lait",
+      "molluscs": "mollusques",
+      "mustard": "moutarde",
+      "peanuts": "arachides",
+      "sesame": "sésame",
+      "soybeans": "soja",
+      "sulphites": "sulfites",
+      "tree nuts": "fruits à coque"
     }
   }
 }

@@ -53,7 +53,8 @@
         "valid": "Gültig bis ",
         "price": "Preis: ",
         "show": "Vorgeschlagene Kombination anzeigen",
-        "hide": "Vorgeschlagene Kombination ausblenden"
+        "hide": "Vorgeschlagene Kombination ausblenden",
+        "dish": "Gericht"
       },
       "TwoFactor": {
         "enter-code": "Geben Sie den 8-stelligen Code ein",
@@ -67,10 +68,11 @@
         "try-again": "Erneut versuchen"
       },
       "ModalConfirm": {
-        "do-you-want-to-delete-product": "Möchten Sie dieses Produkt wirklich löschen?"
+        "do-you-want-to-delete": "Möchten Sie dieses {{ object }} wirklich löschen?"
       },
       "ProductCard": {
-        "ingredients": "Zutaten: {{ ingredients }}"
+        "ingredients": "Zutaten: {{ ingredients }}",
+        "product": "Product"
       },
       "ProductForm": {
         "product-name": "Produktname",
@@ -81,7 +83,8 @@
         "add-product": "Produkt hinzufügen"
       },
       "RestaurantCard": {
-        "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)"
+        "rating": "Bewertung: {{ rating }} ({{ ratingCount }} Bewertungen)",
+        "restaurant": "Restaurant"
       },
       "SubscriptionBox": {
         "select": "Auswählen",
@@ -346,7 +349,8 @@
         "description-low-level-2": "Personalisiertes Menü",
         "premium": "Premium-Abonnement",
         "description-high-level-1": "Feature-Anfragen werden priorisiert",
-        "description-high-level-2": "Detaillierte Analyse-Einblicke"
+        "description-high-level-2": "Detaillierte Analyse-Einblicke",
+        "no-payment-method": "Fügen Sie zunächst eine Zahlungsmethode hinzu."
       },
       "Privacy": {
         "title": "Datenschutzerklärung",
@@ -571,7 +575,29 @@
       "Login": {
         "unverified": "Bitte verifizieren Sie zuerst Ihre E-Mail-Adresse.",
         "resend": "Bestätigungslink erneut senden"
+      },
+      "RestoChain": {
+        "noChain": "Oops, es sieht so aus, als hätten Sie noch keine Restaurantketten!",
+        "noChain2": "Füge eine neue Kette hinzu, indem Sie auf 'Neu' klickst.",
+        "name": "Kette:",
+        "restoChain": "Restaurantkette"
       }
+    },
+    "food-allergene": {
+      "celery": "Sellerie",
+      "gluten": "Gluten",
+      "crustaceans": "Krustentiere",
+      "eggs": "Eier",
+      "fish": "Fisch",
+      "lupin": "Lupine",
+      "milk": "Milch",
+      "molluscs": "Weichtiere",
+      "mustard": "Senf",
+      "peanuts": "Erdnüsse",
+      "sesame": "Sesam",
+      "soybeans": "Sojabohnen",
+      "sulphites": "Sulfite",
+      "tree nuts": "Baumnüsse"
     }
   }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Modal, Button } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Modal, Button, Share } from 'react-native';
 import styles from './RestaurantCard.styles';
 import { useNavigation } from '@react-navigation/native';
 import { getResto } from '../../services/restoCalls';
@@ -93,7 +93,6 @@ const RestaurantCard = (props: RestaurantCardProps) => {
     setIsModalVisible(false);
   };
 
-
   const averageRating = () => {
     let sum = 0;
     if (Array.isArray(ratingData)) {
@@ -112,6 +111,20 @@ const RestaurantCard = (props: RestaurantCardProps) => {
   const navigateToReview = () => {
     const restoName = info.name;
     navigation.navigate('RatingPage', {ratingData, restoName});
+  };
+  const handleShare = async () => {
+    const uid = info.uid;
+
+    try {
+      const result = await Share.share({
+        message: `https://guardos.eu/menu/${uid}`,
+      });
+      if (result.action === Share.sharedAction) {
+        console.log('Shared successfully');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
   };
 
   return (
@@ -150,6 +163,12 @@ const RestaurantCard = (props: RestaurantCardProps) => {
                 size={24}
                 color={'grey'}
               />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.shareIconContainer}
+              onPress={handleShare}
+            >
+              <Icon name="share" size={12} color={darkMode ? 'black' : 'white'}/>
             </TouchableOpacity>
           </Text>
           <TouchableOpacity  style={styles.button} onPress={navigateToReview}>
