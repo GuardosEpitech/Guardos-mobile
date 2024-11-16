@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput } from 'react-native';
+import {View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import AdCard from '../../components/AdCard/AdCard';
@@ -94,9 +94,13 @@ const MyRestaurantsScreen = () => {
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {restoData.length === 0 ? (
-        <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>
-          {t('pages.MyRestoPage.noresto')}
-        </Text>
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+          <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>
+            {t('pages.MyRestoPage.noresto')}
+          </Text>
+        </ScrollView>
       ) : (
         <>
           <TextInput
