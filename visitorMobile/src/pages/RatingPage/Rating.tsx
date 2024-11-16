@@ -56,7 +56,6 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
          if (newComment === undefined || value === null) {
              setInvalidInput(true)
              return
-         } else {
          }
          try {
              await postRatingData(restoName, newComment, value, name);
