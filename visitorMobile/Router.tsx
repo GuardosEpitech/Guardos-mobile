@@ -35,6 +35,8 @@ import GuidesPage from "./src/pages/Guides/GuidesPage";
 import ResetPassword from './src/pages/ResetPasswordScreen/ResetPasswordScreen';
 import { ISearchCommunication } from '../shared/models/communicationInterfaces';
 import { FilterContext } from './src/models/filterContext';
+import RatingPage from "./src/pages/RatingPage/Rating";
+import UserReview from "./src/pages/UserReviewPage/UserReview";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -304,6 +306,11 @@ const MyStack = () => {
             component={MenuPage}
             options={{ headerShown: false }}
         />
+          <Stack.Screen
+              name="RatingPage"
+              component={RatingPage}
+              options={{ headerShown: false }}
+          />
       </Stack.Navigator>
   );
 };
@@ -329,6 +336,7 @@ const ProfileStackScreen: React.FC<ProfileStackProps> = ({ setLoggedInStatus }) 
         <Stack.Screen name="FeatureRequest" component={FeatureRequest} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="UserSupport" component={UserSupport} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}} />
         <Stack.Screen name="Subscriptions" component={SubscriptionPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
+        <Stack.Screen name="UserReview" component={UserReview} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />
         <Stack.Screen name="Change Password" component={ChangePasswordScreen} />
         <Stack.Screen name="Terms and Conditions" component={TermsPage} options={{ headerShown: true, headerStyle: {backgroundColor: '#6d071a'}}}/>
         <Stack.Screen name="Privacy" component={PrivacyPage} options={{ headerShown: true, headerStyle: { backgroundColor: '#6d071a' } }} />

@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: deviceWidth - offset,
     backgroundColor: '#FFFFFF',
-    height: 230,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
@@ -32,10 +31,20 @@ const styles = StyleSheet.create({
     elevation: 9,
     position: 'relative',
   },
+
+  button: {
+    padding: 10,
+    width: '30%',
+    backgroundColor: "#6d071a",
+    alignItems: "center",
+    borderRadius: 10,
+    margin:10,
+    marginLeft: 0
+  },
+
   cardContainerSmall: {
     width: deviceWidth - offset - decreaseSizeOffset,
     backgroundColor: '#FFFFFF',
-    height: 230,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
@@ -115,7 +124,6 @@ const styles = StyleSheet.create({
   cardContainerDarkTheme: {
     width: deviceWidth - offset,
     backgroundColor: '#181A1B',
-    height: 230,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
@@ -130,7 +138,6 @@ const styles = StyleSheet.create({
   cardContainerSmallDarkTheme: {
     width: deviceWidth - offset - decreaseSizeOffset,
     backgroundColor: '#181A1B',
-    height: 230,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {
