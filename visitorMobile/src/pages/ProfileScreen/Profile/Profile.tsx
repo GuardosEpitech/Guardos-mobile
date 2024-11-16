@@ -122,8 +122,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     };
 
     fetchUserData().then(r => console.log("Loaded user data successfully"));
-    i18n.changeLanguage(language);
-  }, [language]);
+  }, []);
 
   const loadImages = async (picId) => {
     if (picId) {
