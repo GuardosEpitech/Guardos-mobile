@@ -345,7 +345,8 @@ const ProfilePage: React.FC<ProfileScreenProps &
           setShowPasswordChangedMessage(false);
         }, 5000);
       }
-    }, [route.params]);
+      i18n.changeLanguage(language);
+    }, [route.params, language]);
 
     const handleDeleteAccount = () => {
       Alert.alert(
@@ -424,7 +425,6 @@ const ProfilePage: React.FC<ProfileScreenProps &
               }, 5000);
           }
           fetchUserData();
-          handleApplyChanges();
           setIsRefreshing(false);
         }, 2000);
     }, []);

@@ -122,7 +122,8 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     };
 
     fetchUserData().then(r => console.log("Loaded user data successfully"));
-  }, []);
+    i18n.changeLanguage(language);
+  }, [language]);
 
   const loadImages = async (picId) => {
     if (picId) {
@@ -545,7 +546,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           const tmp = Array.from(new Set(res.map((ingredient: any) => ingredient.name)));
           setDBIngredients(tmp);
         }
-        getVisitorProfileDetails(userToken)
+        await getVisitorProfileDetails(userToken)
             .then((res) => {
               setEmail(res.email);
               setName(res.username);
@@ -558,14 +559,14 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             });
         await fetchFavoriteRestaurants();
         await fetchFavoriteDishes();
+
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
     fetchUserData().then(r => console.log("Loaded user data successfully"));
-    handleSave()
-      setIsRefreshing(false);
+    setIsRefreshing(false);
     }, 2000);
   }, []);
 
