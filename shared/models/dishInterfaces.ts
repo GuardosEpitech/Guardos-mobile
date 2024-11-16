@@ -10,6 +10,7 @@ export interface IDishBE {
   picturesId?: number[];
   products: string[];
   category: ICategoryBE;
+  restoChainID: number;
 }
 
 export interface IDishFE {
@@ -22,6 +23,7 @@ export interface IDishFE {
   picturesId?: number[];
   category: ICategoryFE;
   resto: string;
+  restoChainID: number;
   products: string[];
   fitsPreference?: boolean;
   discount: number;
