@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import {View, Text, TouchableOpacity, FlatList, RefreshControl, ScrollView} from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import DishCard from '../../components/DishCard/DishCard';
 import { deleteDishByName, getDishesByUser } from "../../services/dishCalls";
@@ -16,6 +16,7 @@ const MyDishesScreen: React.FC = () => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [key, setKey] = useState(0);
   const {t, i18n} = useTranslation();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchDishes = async () => {
     try {
@@ -75,29 +76,45 @@ const MyDishesScreen: React.FC = () => {
     navigation.navigate('EditDish', { restaurantName, dish });
   };
 
+  const onRefresh2 = useCallback(() => {
+    setIsRefreshing(true);
+    fetchDarkMode();
+    setTimeout(() => {
+      if (isFocused) {
+        fetchDishes();
+      }
+      setIsRefreshing(false);
+    }, 2000);
+  }, []);
+
+
   return (
-    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
-      {dishList.length === 0 ? (
-        <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyDishPage.nodish')}</Text>
-      ) : (
-      <FlatList
-        data={dishList}
-        renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigateToChangeDish(item.resto, item)}>
-          <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} key={key} isFirstLevel={true} />
-          </TouchableOpacity>
+    <ScrollView refreshControl={
+      <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
+    }>
+      <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+        {dishList.length === 0 ? (
+          <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyDishPage.nodish')}</Text>
+        ) : (
+        <FlatList
+          data={dishList}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity onPress={() => navigateToChangeDish(item.resto, item)}>
+            <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} key={key} isFirstLevel={true} />
+            </TouchableOpacity>
+          )}
+          keyExtractor={(_, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
         )}
-        keyExtractor={(_, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
-      )}
-      <TouchableOpacity style={styles.roundButton} onPress={navigateToAddDish}>
-        <Text style={styles.buttonText}>+</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.roundButton} onPress={navigateToAddDish}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 

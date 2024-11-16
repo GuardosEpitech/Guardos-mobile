@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
-  Alert,
-  View,
-  Text,
-  TextInput,
-  Button,
-  Image,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ScrollView, Switch
+    Alert,
+    View,
+    Text,
+    TextInput,
+    Button,
+    Image,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    Keyboard,
+    ScrollView, Switch, RefreshControl
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
@@ -62,6 +62,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [twoFactor, setTwoFactor] = useState<boolean>(false);
     const [dataChangeStatus, setDataChangeStatus] = useState(null);
     const [saveFailureType, setSaveFailureType] = useState(null);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
 
     const toggleDarkMode = async () => {
@@ -413,9 +414,25 @@ const ProfilePage: React.FC<ProfileScreenProps &
       }
     };
 
+    const onRefresh2 = useCallback(() => {
+        setIsRefreshing(true);
+        setTimeout(() => {
+          if (route.params?.passwordChanged) {
+              setShowPasswordChangedMessage(true);
+              setTimeout(() => {
+                  setShowPasswordChangedMessage(false);
+              }, 5000);
+          }
+          fetchUserData();
+          setIsRefreshing(false);
+        }, 2000);
+    }, []);
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView >
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
+        }>
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
           <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>{t('pages.Profile.profile-page')}</Text>
           {dataChangeStatus !== null && (
