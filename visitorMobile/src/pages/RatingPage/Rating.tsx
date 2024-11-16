@@ -8,6 +8,7 @@ import { getVisitorUserPermission } from '../../services/permissionsCalls';
 import {getVisitorProfileDetails} from "../../services/profileCalls";
 import {getRatingData, postRatingData} from "../../services/ratingCalls";
 import { Dropdown } from 'react-native-element-dropdown';
+
 import Icon from "react-native-vector-icons/MaterialIcons";
 import styleToBarStyle from "expo-status-bar/build/styleToBarStyle";
 
@@ -30,29 +31,17 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     const [darkMode, setDarkMode] = useState<boolean>(false);
     const [name, setName] = useState<string>();
     const [value, setValue] = useState(null);
-    const [newComment, setNewComment] = useState<string>();
     const [ invalidInput, setInvalidInput] = useState<boolean>();
     const note = [
-        {
-            label: 0
-        },
-        {
-            label: 1
-        },
-        {
-            label: 2
-        },
-        {
-            label: 3
-        },
-        {
-            label: 4
-        },
-        {
-            label: 5
-        }
+        { label: '0', value: 0 },
+        { label: '1', value: 1 },
+        { label: '2', value: 2 },
+        { label: '3', value: 3 },
+        { label: '4', value: 4 },
+        { label: '5', value: 5 },
     ];
-     const addReview = async () => {
+
+    const addReview = async () => {
          if (newComment === undefined || value === null) {
              setInvalidInput(true)
              return
@@ -145,11 +134,11 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
                 data={note}
                 maxHeight={300}
                 labelField="label"
-                valueField="label"
+                valueField="value"
                 placeholder={t('pages.Review.note')}
                 value={value}
-                onChange={(note) => {
-                    setValue(note.label);
+                onChange={(item) => {
+                    setValue(item.value);
                 }}
             />
             <TextInput
