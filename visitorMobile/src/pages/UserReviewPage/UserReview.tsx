@@ -33,13 +33,15 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
                 if (userToken === null) {
                     return;
                 }
-                getVisitorProfileDetails(userToken)
+                await getVisitorProfileDetails(userToken)
                     .then((res) => {
                         setName(res.username);
+                         fetchReview(res.username);
                     });
         }
         fetchUserData()
-    })
+    }, [])
+
     const deleteReview = async (reviewId, restoName) => {
         try {
             await deleteRatingDataUser(reviewId, restoName)
@@ -72,8 +74,8 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
         }
     }
 
-    const fetchReview = async () => {
-        const review = await getRatingDataUser(name);
+    const fetchReview = async (username) => {
+        const review = await getRatingDataUser(username);
         setUserReview(review);
     }
 
@@ -86,9 +88,8 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     }, []);
 
     useEffect(() => {
-        fetchReview();
         fetchDarkMode();
-    })
+    }, [])
 
     const fetchDarkMode = async () => {
         try {
