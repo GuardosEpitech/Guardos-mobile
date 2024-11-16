@@ -95,13 +95,13 @@ const DishDiscountPage: React.FC = () => {
     const userToken = await AsyncStorage.getItem('userToken');
     if (mode === 'percentage') {
       const percentage = parseFloat(discountValue);
-      if (isNaN(percentage) || percentage < 0 || percentage > 100) {
+      if (isNaN(percentage) || percentage <= 0 || percentage > 100) {
         setError(t('pages.DiscountDishPage.errorPercent'));
         return;
       }
     } else {
       const price = parseFloat(discountValue);
-      if (isNaN(price) || price < 0 || price > originalPrice) {
+      if (isNaN(price) || price <= 0 || price > originalPrice) {
         setError(t('pages.DiscountDishPage.errorPrice'));
         return;
       }
