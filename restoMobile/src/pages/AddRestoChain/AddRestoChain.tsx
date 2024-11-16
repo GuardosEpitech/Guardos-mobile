@@ -1,5 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, Button, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {
+    View,
+    Text,
+    TextInput,
+    Button,
+    ScrollView,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableOpacity,
+    Alert,
+    RefreshControl
+} from 'react-native';
 import { getAllRestaurantChainsByUser } from '../../services/restoCalls';
 import { addRestoChain, deleteRestoChain } from '../../services/userCalls';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +31,7 @@ const AddRestoChain = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const {t} = useTranslation();
   const scrollViewRef = useRef<ScrollView>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     async function fetchRestoChains() {
@@ -126,8 +138,28 @@ const AddRestoChain = () => {
     setModalVisible(!isModalVisible);
     setSelectedRestoName(restoName);
   };
+    const onRefresh2 = useCallback(() => {
+        setIsRefreshing(true);
+        fetchDarkMode();
+        setTimeout(() => {
+            async function fetchRestoChains() {
+                try {
+                    const userToken = await AsyncStorage.getItem('userToken');
+                    const restoChains = await getAllRestaurantChainsByUser(userToken);
+                    updateRestoChains(restoChains.length > 0 ? restoChains : []);
+                } catch (error) {
+                    console.error('Error fetching resto chains:', error);
+                }
+            }
+            fetchRestoChains();
+            setIsRefreshing(false);
+        }, 2000);
+    }, []);
 
     return (
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
+        }>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
         <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
             {newRestoChain.length === 0 && !showRestoChainInput ? (
@@ -179,6 +211,7 @@ const AddRestoChain = () => {
             />
         </View>
         </KeyboardAvoidingView>
+        </ScrollView>
     );
 };
 
