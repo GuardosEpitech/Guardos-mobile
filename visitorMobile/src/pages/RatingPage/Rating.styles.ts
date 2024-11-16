@@ -7,6 +7,12 @@ const styles = StyleSheet.create({
         padding: 16,
         gap:  10
     },
+    containerDarkTheme: {
+        flexGrow: 1,
+        backgroundColor: '#181A1B',
+        padding: 16,
+        gap:  10
+    },
     card: {
         backgroundColor: '#fff',
         padding: 10,
@@ -23,6 +29,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10
+    },
+    mainTitleDark: {
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: "white",
     },
     button: {
         backgroundColor: '#6d071a',
@@ -55,6 +68,11 @@ const styles = StyleSheet.create({
     allReview: {
         fontWeight: 'bold',
         fontSize: 15,
+    },
+    allReviewDark: {
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: 'white',
     }
 })
 

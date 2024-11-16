@@ -6,6 +6,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8',
         padding: 16,
     },
+    containerDarkTheme: {
+        flexGrow: 1,
+        backgroundColor: '#181A1B',
+        padding: 16,
+        gap:  10
+    },
     card: {
         backgroundColor: '#fff',
         padding: 10,
@@ -22,6 +28,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10
+    },
+    mainTitleDark: {
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: "white",
     },
     containerStar: {
         flexDirection: 'row',

@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
   cardContainerDarkTheme: {
     width: deviceWidth - offset,
     backgroundColor: '#181A1B',
-    height: 230,
     borderRadius: radius,
     shadowColor: '#000',
     shadowOffset: {

@@ -103,10 +103,9 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     };
 
     return (
-        <View style={[styles.container]}>
+        <View style={darkMode ? styles.containerDarkTheme : styles.container}>
             <ScrollView>
-
-            <Text style={styles.mainTitle}>{t('pages.Review.your-review')}</Text>
+            <Text style={darkMode ? styles.mainTitleDark :styles.mainTitle}>{t('pages.Review.your-review')}</Text>
             {!userReview?.length ?
                 <Text>{t('pages.Review.no-review')}</Text>
                 :

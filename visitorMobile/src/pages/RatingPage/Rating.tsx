@@ -9,6 +9,7 @@ import {getVisitorProfileDetails} from "../../services/profileCalls";
 import {getRatingData, postRatingData} from "../../services/ratingCalls";
 import { Dropdown } from 'react-native-element-dropdown';
 import Icon from "react-native-vector-icons/MaterialIcons";
+import styleToBarStyle from "expo-status-bar/build/styleToBarStyle";
 
 type ReviewPageProps = {
     route: any;
@@ -30,6 +31,7 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     const [name, setName] = useState<string>();
     const [value, setValue] = useState(null);
     const [newComment, setNewComment] = useState<string>();
+    const [ invalidInput, setInvalidInput] = useState<boolean>();
     const note = [
         {
             label: 0
@@ -51,6 +53,11 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
         }
     ];
      const addReview = async () => {
+         if (newComment === undefined || value === null) {
+             setInvalidInput(true)
+             return
+         } else {
+         }
          try {
              await postRatingData(restoName, newComment, value, name);
              setValue(2);
@@ -129,9 +136,11 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     };
 
     return (
-        <View style={[styles.container]}>
-            <Text style={styles.mainTitle}>{t('pages.Review.add-review')}</Text>
-            <Text>{t('pages.Review.your-review')}</Text>
+            <ScrollView>
+        <View style={(darkMode ? styles.containerDarkTheme : styles.container)}>
+
+            <Text style={(darkMode ? styles.mainTitleDark : styles.mainTitle)}>{t('pages.Review.add-review')}</Text>
+            <Text style={darkMode? {color: "white"} : {color: "black" }}>{t('pages.Review.your-review')}</Text>
             <Dropdown
                 style={styles.dropdown}
                 data={note}
@@ -151,11 +160,11 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
                 placeholder={t('pages.Review.your-comment')}
                 placeholderTextColor={darkMode ? 'white' : 'black'}
             />
+            {invalidInput && <Text style={{color: "red"}}>{t('pages.Review.invalid')}</Text>}
             <TouchableOpacity onPress={addReview} style={styles.button}>
                 <Text style={{color: "white"}}>{t('pages.Review.add-review')}</Text>
             </TouchableOpacity>
-            <Text style={styles.allReview}>{t('pages.Review.all-review')}</Text>
-                <ScrollView>
+            <Text style={darkMode ? styles.allReviewDark : styles.allReview}>{t('pages.Review.all-review')}</Text>
             {review.map((index, key) => (
 
                 <View style={styles.card} key={key}>
@@ -170,8 +179,8 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
                     <Text style={styles.comment}>{index.comment}</Text>
                 </View>
             ))}
-                </ScrollView>
         </View>
+                </ScrollView>
     );
 };
 export default RatingPage;

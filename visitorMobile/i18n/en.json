@@ -63,7 +63,8 @@
         "delete-review": "Delete",
         "rating": "Rating",
         "note": "Note",
-        "your-comment": "Your comment"
+        "your-comment": "Your comment",
+        "invalid": "All fields are require"
       },
       "AboutUs": {
         "member-description-german": "4th year Epitech student from Germany",
