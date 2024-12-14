@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getProductsByUser } from "../../services/productCalls";
 import { getAllRestaurantsByUser, getRestaurantByName, getAllRestaurantChainsByUser } from "../../services/restoCalls";
 import * as ImagePicker from 'expo-image-picker';
-import { addDish, changeDishByName } from "../../services/dishCalls";
+import {addDish, changeDishByName, deleteDishByName} from "../../services/dishCalls";
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -50,9 +50,10 @@ const EditDish = ({ route }) => {
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
-  const [restoChains, setRestoChains] = useState<{uid: number, name: string}[]>([]);
+  const [originalRestaurants, setOriginalRestaurants] = useState([]);
+  const [restoChains, setRestoChains] = useState<{uid: number, name: string, restos: string[]}[]>([]);
   const [valueRestoChain, setValueRestoChain] = useState(null);
-  const [selectedRestoChainId, setSelectedRestoChainId] = useState(null);
+  const [selectedRestoChainId, setSelectedRestoChainId] = useState<number>(-1);
   const [inputValueRestoChain, setInputValueRestoChain] = React.useState("");
   const [restoChainID, setRestoChainID] = React.useState(undefined);
   const [restoChainOpen, setRestoChainOpen] = useState(false);
@@ -85,14 +86,29 @@ const EditDish = ({ route }) => {
     if (userToken === null) {
       return;
     }
-    getAllRestaurantChainsByUser(userToken)
+    getAllRestaurantsByUser({key: userToken})
       .then((res) => {
-        setRestoChains(res);
+        getAllRestaurantChainsByUser(userToken)
+          .then((restoChainsRes) => {
+            const chains = restoChainsRes.map((chain: {uid: number, name: string}) => ({
+              uid: chain.uid,
+              name: chain.name,
+              restos: res.filter((resto: any) => resto.restoChainID === chain.uid)
+                .map((resto: any) => resto.name),
+            }));
+            setRestoChains(chains);
+            if (route.params.dish.restoChainID != -1) {
+              setValueRestoChain(route.params.dish.restoChainID);
+            }
+          });
 
-        if (restoChainID !== undefined) {
-          setValueRestoChain(res.find((restoChain:{uid:number, name:string}) => restoChain.uid === restoChainID).uid);
-        }
-      });
+        const allDishRestos = res
+          .filter((item: any) => item.dishes
+            .some((dish: any) => dish.name === route.params.dish.name))
+          .map((item: any) => item.name);
+        setSelectedRestaurants(allDishRestos);
+        setOriginalRestaurants(allDishRestos.map((resto: string) => resto));
+      })
   };
 
   const onProductPress = (item: string) => {
@@ -278,7 +294,6 @@ const EditDish = ({ route }) => {
 
   useEffect(() => {
     try {
-      // TODO: need to adjust this for i18n
       const allergens = ["No Allergens", "Celery", "Gluten",
         "Crustaceans", "Eggs", "Fish", "Lupin", "Milk", "Molluscs", "Mustard",
         "Nuts", "Peanuts", "Sesame seeds", "Soya", "Sulphur dioxide", "Lactose"];
@@ -294,6 +309,7 @@ const EditDish = ({ route }) => {
       setProducts(route.params.dish.products);
       setSelectedProducts(route.params.dish.products);
       setSelectedAllergens(route.params.dish.allergens);
+      setSelectedRestoChainId(route.params.dish.restoChainID ?? -1);
       setSelectedRestaurants([restaurantName]);
       if (route.params.dish.name) {
         setCheckName(true);
@@ -301,11 +317,11 @@ const EditDish = ({ route }) => {
     } catch (error) {
       console.error('Error fetching dish data:', error);
     }
-  }, [restaurantName]);
+  }, []);
 
   const handleSave = async () => {
     // check if valid
-    if (!name || !price || !selectedProducts || !selectedCategories || !selectedRestaurants) {
+    if (!name || !price || selectedProducts.length === 0 || selectedCategories.length === 0 || selectedRestaurants.length === 0) {
       Alert.alert(String(t('common.error')),  String(t('common.some-fields-mandatory')));
       return;
     }
@@ -329,29 +345,67 @@ const EditDish = ({ route }) => {
           foodGroup: dishCategory.foodGroup,
           extraGroup: dishCategory.extraGroup,
         },
+        picturesId: pictureId,
         resto: selectedRestaurants[i],
         restoChainID: selectedRestoChainId,
         discount: -1,
         validTill: ''
       };
-      const dish = await changeDishByName(dishToSave, selectedRestaurants[i], userToken);
-      if (dish && dish.name) {
-        console.log('Dish saved');
-      }
-      if (dish == null) {
-        const userToken = await AsyncStorage.getItem('userToken');
-        const newAddDish = await addDish({
-          dish: dishToSave,
+
+      let dish = null;
+      if (originalRestaurants.includes(selectedRestaurants[i])) {
+        dish = await changeDishByName(dishToSave, selectedRestaurants[i], userToken);
+        if (dish && dish.name) {
+          console.log('Dish updated');
+        }
+      } else {
+        const data = {
           resto: selectedRestaurants[i],
+          dish: dishToSave,
           restoChainID: selectedRestoChainId
-        }, selectedRestaurants[i], userToken);
+        };
+        const newAddDish = await addDish(data, dishToSave.resto, userToken);
         if (newAddDish && newAddDish.name) {
           console.log('Dish saved');
+        }
+      }
+      if (i === 0) {
+        const deleteFromResto = originalRestaurants.filter((resto: any) => !selectedRestaurants.includes(resto));
+        for (const resto of deleteFromResto) {
+          await deleteDishByName(resto, dishToSave.name, userToken);
         }
       }
     }
     navigation.navigate('MyDishesScreen');
     return;
+  };
+
+  const changeSelectedRestoChain = (restoChainId: number) => {
+    const previousRestoChain = selectedRestoChainId;
+    let dishRestos = selectedRestaurants;
+
+    if (previousRestoChain !== -1) {
+      restoChains
+        .filter((chain) => chain.uid === previousRestoChain)
+        ?.forEach((chain) => chain.restos.forEach((resto) => {
+          dishRestos = dishRestos.filter((restoName) => restoName !== resto);
+        }));
+    }
+    if (restoChainId !== -1) {
+      restoChains
+        .filter((chain) => chain.uid === restoChainId)
+        .forEach((chain) => {
+          dishRestos.push(
+            ...chain.restos.filter((resto) => !dishRestos.includes(resto))
+          );
+        });
+    }
+    if (previousRestoChain !== restoChainId) {
+      setSelectedRestaurants(selectedRestaurants.filter((resto, index) => dishRestos.indexOf(resto) === index));
+    }
+
+    setSelectedRestoChainId(restoChainId);
+    setValueRestoChain(restoChainId);
   };
 
   return (
@@ -468,6 +522,30 @@ const EditDish = ({ route }) => {
         </TouchableOpacity>
       </View>
 
+      <View style={styles.contentProducsDishes}>
+        <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.AddEditRestaurantScreen.select-resto-chain')}</Text>
+        <DropDownPicker
+          open={restoChainOpen}
+          language={language.toUpperCase() as LanguageType}
+          items={restoChains.map((restoChain) => ({ label: restoChain.name, value: restoChain.uid }))}
+          value={valueRestoChain}
+          dropDownDirection={'TOP'}
+          setOpen={setRestoChainOpen}
+          onChangeValue={(item:any) => {
+            if (item === null || item === undefined || item === '' || typeof item === "undefined") {
+              return;
+            };
+            changeSelectedRestoChain(item);
+          }}
+          setValue={setValueRestoChain}
+          style={darkMode ? styles.darkDropdown : styles.lightDropdown} // Dropdown container style
+          dropDownContainerStyle={darkMode ? styles.darkDropDownContainer : styles.lightDropDownContainer} // Dropdown menu style
+          textStyle={darkMode ? styles.darkDropdownText : styles.lightDropdownText} // Text style in dropdown
+          placeholderStyle={darkMode ? styles.darkPlaceholder : styles.lightPlaceholder} // Placeholder style
+          labelStyle={darkMode ? styles.darkLabel : styles.lightLabel} // Label text style
+        />
+        <Text style={styles.info}>{t('pages.EditDishScreen.resto-chain-info')}</Text>
+      </View>
 
       <View style={styles.contentProducsDishes}>
         <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.food-category')}</Text>
@@ -488,31 +566,6 @@ const EditDish = ({ route }) => {
           onPress={() => onAddCategory()}>
           <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-category')}</Text>
         </TouchableOpacity>
-      </View>
-
-      <View style={styles.containerPicker}>
-        <Text style={{ marginBottom: 5, paddingTop: 5 }}>{t('pages.AddEditRestaurantScreen.select-resto-chain')}</Text>
-        <DropDownPicker
-          open={restoChainOpen}
-          language={language.toUpperCase() as LanguageType}
-          items={restoChains.map((restoChain) => ({ label: restoChain.name, value: restoChain.uid }))}
-          value={valueRestoChain}
-          dropDownDirection={'TOP'}
-          setOpen={setRestoChainOpen}
-          onChangeValue={(item:any) => {
-            if (item === null || item === undefined || item === '' || typeof item === "undefined") {
-              return;
-            };
-            setValueRestoChain(item);
-            setSelectedRestoChainId(item.uid);
-          }}
-          setValue={setValueRestoChain}
-          style={darkMode ? styles.darkDropdown : styles.lightDropdown} // Dropdown container style
-          dropDownContainerStyle={darkMode ? styles.darkDropDownContainer : styles.lightDropDownContainer} // Dropdown menu style
-          textStyle={darkMode ? styles.darkDropdownText : styles.lightDropdownText} // Text style in dropdown
-          placeholderStyle={darkMode ? styles.darkPlaceholder : styles.lightPlaceholder} // Placeholder style
-          labelStyle={darkMode ? styles.darkLabel : styles.lightLabel} // Label text style
-        />
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
