@@ -527,7 +527,7 @@ const EditDish = ({ route }) => {
         <DropDownPicker
           open={restoChainOpen}
           language={language.toUpperCase() as LanguageType}
-          items={restoChains.map((restoChain) => ({ label: restoChain.name, value: restoChain.uid }))}
+          items={[{label: "-", value: -1}, ...restoChains.map((restoChain) => ({ label: restoChain.name, value: restoChain.uid }))]}
           value={valueRestoChain}
           dropDownDirection={'TOP'}
           setOpen={setRestoChainOpen}
