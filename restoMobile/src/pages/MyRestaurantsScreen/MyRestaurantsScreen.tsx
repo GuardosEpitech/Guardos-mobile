@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput } from 'react-native';
+import {View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import AdCard from '../../components/AdCard/AdCard';
@@ -11,6 +11,7 @@ import {
 } from '../../services/restoCalls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IRestaurantFrontEnd } from 'src/models/restaurantsInterfaces';
+import { getRestoUserPermission } from '../../services/permissionsCalls';
 
 const MyRestaurantsScreen = () => {
   const navigation = useNavigation();
@@ -21,6 +22,7 @@ const MyRestaurantsScreen = () => {
   const [filter, setFilter] = useState('');
   const [adIndex, setAdIndex] = useState<number | null>(null);
   const { t } = useTranslation();
+  const [premium, setPremium] = useState<boolean>(false);
 
   const fetchDarkMode = async () => {
     try {
@@ -34,7 +36,24 @@ const MyRestaurantsScreen = () => {
     }
   };
 
+  const getPremium = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      const permissions = await getRestoUserPermission(userToken);
+      const isPremiumUser = permissions.includes('premiumUser');
+      const isBasicUser = permissions.includes('basicSubscription');
+      if (isBasicUser || isPremiumUser) {
+        setPremium(true);
+      } else {
+        setPremium(false);
+      }
+    } catch (error) {
+      console.error('Error getting permissions: ', error);
+    }
+  };
+
   useEffect(() => {
+    getPremium();
     updateRestoData(filter);
     fetchDarkMode();
   }, [filter]);
@@ -67,6 +86,7 @@ const MyRestaurantsScreen = () => {
   };
 
   const onRefresh = useCallback(() => {
+    getPremium();
     setRefreshing(true);
     updateRestoData(filter);
     fetchDarkMode();
@@ -84,7 +104,7 @@ const MyRestaurantsScreen = () => {
 
   const renderItem = ({ item, index }: { item: IRestaurantFrontEnd; index: number }) => (
     <View>
-      {index === adIndex && <AdCard />}
+      {index === adIndex && !premium && <AdCard />}
       <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
         <Card info={item} onDelete={onDelete} key={key} />
       </TouchableOpacity>
@@ -94,9 +114,13 @@ const MyRestaurantsScreen = () => {
   return (
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       {restoData.length === 0 ? (
-        <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>
-          {t('pages.MyRestoPage.noresto')}
-        </Text>
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+          <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>
+            {t('pages.MyRestoPage.noresto')}
+          </Text>
+        </ScrollView>
       ) : (
         <>
           <TextInput

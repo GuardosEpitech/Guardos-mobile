@@ -339,7 +339,7 @@ const EditDish = ({ route }) => {
         description: description,
         allergens: selectedAllergens,
         products: selectedProducts,
-        combo: [],
+        combo: route.params.dish.combo,
         category: {
           menuGroup: selectedCategories.toString(),
           foodGroup: dishCategory.foodGroup,

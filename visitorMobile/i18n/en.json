@@ -54,6 +54,18 @@
       }
     },
     "pages": {
+      "Review": {
+        "add-review": "Add a review",
+        "your-review": "Your review ",
+        "all-review": "All review",
+        "comment-review": "Comment :",
+        "no-review": "No review found",
+        "delete-review": "Delete",
+        "rating": "Rating",
+        "note": "Note",
+        "your-comment": "Your comment",
+        "invalid": "All fields are require"
+      },
       "AboutUs": {
         "member-description-german": "4th year Epitech student from Germany",
         "member-description-french": "4th year Epitech student from France",

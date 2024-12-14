@@ -1,5 +1,5 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {Alert, Button, View, Text, TextInput, Image, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {Alert, Button, View, Text, TextInput, Image, ScrollView, TouchableOpacity, RefreshControl} from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './Profile.styles';
@@ -87,6 +87,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [refresh, setRefresh] = useState(false);
   const isFocused = useIsFocused();
   const [ingredientFeedback, setIngredientFeedback] = useState('');
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
 
   useEffect(() => {
@@ -445,6 +446,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     navigation.navigate('Subscriptions', {});
   };
 
+  const handleRedirectUserReview = () => {
+    navigation.navigate('UserReview', {});
+  };
+
   const handleTerms = () => {
     navigation.navigate('Terms and Conditions', {});
   };
@@ -529,8 +534,50 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     setFavoriteRestaurants(newFavRestos);
   }
 
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+    loadDarkModeState();
+    setTimeout(() => {
+    const fetchUserData = async () => {
+      try {
+        const userToken = await AsyncStorage.getItem('userToken');
+        if (userToken === null) {
+          return;
+        }
+        const res = await getAllIngredients();
+        if (res) {
+          const tmp = Array.from(new Set(res.map((ingredient: any) => ingredient.name)));
+          setDBIngredients(tmp);
+        }
+        await getVisitorProfileDetails(userToken)
+            .then((res) => {
+              setEmail(res.email);
+              setName(res.username);
+              setCity(res.city);
+              setAllergens(res.allergens);
+              setSelectedDislikedIngredients(res.dislikedIngredients);
+              setImage(res.profilePicId);
+              setLanguage(res.preferredLanguage);
+              loadImages(res.profilePicId).then(r => console.log("Loaded user picture successfully"));
+            });
+        await fetchFavoriteRestaurants();
+        await fetchFavoriteDishes();
+
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData().then(r => console.log("Loaded user data successfully"));
+    setIsRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
-    <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}>
+    <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}
+      refreshControl={
+      <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+    }>
       <View style={[styles.profileSection, darkMode && styles.profileSectionDarkTheme]}>
         <Text style={[styles.heading, darkMode && styles.headingDarkTheme]}>{t('pages.Profile.profile-page')}</Text>
         {dataChangeStatus !== null && (
@@ -766,7 +813,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         </ScrollView>
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
-        <Button 
+        <Button
           title={t('pages.Profile.subscriptions') as string}
           onPress={handleRedirectSubscriptions}
           color={darkMode ? "#6d071a" :  "#6d071a"} />
@@ -776,6 +823,12 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           title={t('pages.Profile.payBtn') as string}
           onPress={handlePayment} 
           color={darkMode ? "#6d071a" :  "#6d071a"} />
+      </View>
+      <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
+        <Button
+            title={t('pages.Review.your-review') as string}
+            onPress={handleRedirectUserReview}
+            color={darkMode ? "#6d071a" :  "#6d071a"} />
       </View>
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
