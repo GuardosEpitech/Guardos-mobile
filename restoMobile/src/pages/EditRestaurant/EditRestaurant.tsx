@@ -30,6 +30,7 @@ DropDownPicker.addTranslation("FR", {
 const EditRestaurant = ({ route }) => {
   const { restaurantId } = route.params; 
   const [name, setName] = useState('');
+  const [originalRestoName, setOriginalRestoName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [website, setWebsite] = useState('');
   const [description, setDescription] = useState('');
@@ -60,6 +61,7 @@ const EditRestaurant = ({ route }) => {
       try {
         const data = await getRestoByName(restaurantId);
         setName(data.name);
+        setOriginalRestoName(data.name);
         setPhoneNumber(data.phoneNumber);
         setWebsite(data.website);
         setDescription(data.description);
@@ -237,7 +239,7 @@ const EditRestaurant = ({ route }) => {
         return;
       }
 
-      const response = await editResto(name, updatedData, userToken);
+      const response = await editResto(originalRestoName, updatedData, userToken);
 
       if (response) {
         Alert.alert(String(t('common.success')), String(t('pages.EditRestaurant.updated-resto-success')), [

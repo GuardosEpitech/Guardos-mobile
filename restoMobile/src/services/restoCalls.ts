@@ -161,13 +161,13 @@ export const getAllMenuDesigns = async (token: string) => {
   }
 };
 
-export const editResto = async (restoName: string, body: any, token: string) => {
+export const editResto = async (originalRestoName: string, body: any, token: string) => {
   try {
     if (baseURL === undefined) {
       throw new Error("baseUrl is not defined");
     }
     const response = await axios({
-      url: baseURL + 'restaurants/' + restoName,
+      url: baseURL + 'restaurants/' + originalRestoName,
       method: "PUT",
       params: {key: token},
       data: JSON.stringify(body),
