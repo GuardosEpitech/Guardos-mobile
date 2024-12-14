@@ -91,17 +91,17 @@
         "message-sent-success": "Message envoyé avec succès !"
       },
       "FeatureRequest": {
-        "name": "Nom",
-        "subject": "Sujet",
-        "request": "Demande",
+        "name": "Nom *",
+        "subject": "Sujet *",
+        "request": "Demande *",
         "thanks": "Demande envoyé ! Merci !",
         "require": "Tous les champs sont obligatoires"
       },
       "UserSupport": {
         "UserSupport": "Support utilisateur",
-        "name": "Nom",
-        "subject": "Sujet",
-        "issue": "Problème",
+        "name": "Nom *",
+        "subject": "Sujet *",
+        "issue": "Problème *",
         "emailSent": "E-mail envoyé avec succès !"
       },
       "MapPage": {

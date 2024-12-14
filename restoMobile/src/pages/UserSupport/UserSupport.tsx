@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
+import {View, TextInput, Button, Alert, Text} from 'react-native';
 import styles from './UserSupport.styles';
 import { IRequestUser } from '../../models/emailInterfaces';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
@@ -22,6 +22,7 @@ const initialRequestState: IRequestUser = {
 const UserSupport: React.FC<FeatureRequestScreenProps> = ({ navigation }) => {
   const [request, setRequest] = useState<IRequestUser>(initialRequestState);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [fieldRequire, setFieldRequire] = useState<boolean>(true);
   const { t } = useTranslation();
 
   const handleInputChange = (field: keyof IRequestUser, text: string) => {
@@ -61,17 +62,26 @@ const UserSupport: React.FC<FeatureRequestScreenProps> = ({ navigation }) => {
 
   const handleButtonPress = async () => {
     try {
-      await sendUserSupport(request);
-      Alert.alert(
-        t('common.success') as string,
-        t('pages.UserSupport.emailSent') as string,
-        [
-          {
-            text: t('common.confirm') as string,
-            onPress: () => navigation.goBack(),
-          },
-        ]
-      );
+      if (request.name.trim() === '' || request.request.trim() === "" || request.subject.trim() === '') {
+        setFieldRequire(false)
+      } else {
+        handleInputChange('name', '')
+        handleInputChange('subject', '')
+        handleInputChange('request', '')
+        setFieldRequire(true)
+        await sendUserSupport(request);
+
+        Alert.alert(
+          t('common.success') as string,
+          t('pages.UserSupport.emailSent') as string,
+          [
+            {
+              text: t('common.confirm') as string,
+              onPress: () => navigation.goBack(),
+            },
+          ]
+        );
+      }
     } catch (error) {
       console.error('Error sending support request:', error);
     }
@@ -100,6 +110,11 @@ const UserSupport: React.FC<FeatureRequestScreenProps> = ({ navigation }) => {
         onChangeText={(text) => handleInputChange('request', text)}
         value={request.request}
       />
+      { !fieldRequire ?
+        <Text style={{color: "red"}}>{t('pages.FeatureRequest.require')}</Text>
+        :
+        <Text />
+      }
       <Button
         title={t('common.submit') as string}
         onPress={handleButtonPress}
