@@ -130,7 +130,8 @@
         "add-category": "Neue Kategorie hinzufügen",
         "resto": "Restaurant *",
         "add-resto": "Neues Restaurant hinzufügen",
-        "categories": "Kategorien"
+        "categories": "Kategorien",
+        "resto-chain-info": "Diese Aktion wird das Gericht zu allen Restaurants in der Kette hinzufügen oder löschen."
       },
       "EditProductPage": {
         "edit-product": "Produkt bearbeiten"

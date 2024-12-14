@@ -221,6 +221,10 @@ const styles = StyleSheet.create({
   },
   modalViewDark: {
     backgroundColor: 'black'
+  },
+  info: {
+    color: 'grey',
+    fontSize: 12,
   }
 });
 
