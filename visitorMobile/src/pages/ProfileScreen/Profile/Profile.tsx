@@ -1,5 +1,16 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Alert, Button, View, Text, TextInput, Image, ScrollView, TouchableOpacity, RefreshControl} from 'react-native';
+import {
+  Alert,
+  Button,
+  View,
+  Text,
+  TextInput,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  RefreshControl,
+  Modal
+} from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './Profile.styles';
@@ -45,6 +56,8 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [allergens, setAllergens] = useState([]);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [allergensOpen, setAllergensOpen] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContentType, setModalContentType] = useState('');
   const [selectedDislikedIngredients, setSelectedDislikedIngredients] = useState([]);
   const [dbIngredients, setDBIngredients] = useState([]);
   const [openIngredientPopup, setOpenIngredientPopup] = useState(false);
@@ -573,6 +586,24 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     }, 2000);
   }, []);
 
+  const onAllergenPress = (item: string) => {
+    const updatedAllergens = allergens.filter(product => product !== item);
+    setAllergens(updatedAllergens);
+  };
+
+  const onAddAllergen = () => {
+    setModalContentType(t('pages.Profile.allergens') as string);
+    setModalVisible(true);
+  }
+
+  const toggleAllergensSelection = (item: string) => {
+    if (allergens.includes(item)) {
+      setAllergens(allergens.filter(selectedItem => selectedItem !== item));
+    } else {
+      setAllergens([...allergens, item]);
+    }
+  }
+
   return (
     <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}
       refreshControl={
@@ -651,27 +682,26 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           />
         </View>
         <View>
-        <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.allergens')}</Text>
-          <DropDownPicker
-              itemKey={"languagePicker"}
-              dropDownDirection={'TOP'}
-              language={language.toUpperCase()}
-              multiple
-              open={allergensOpen}
-              value={allergens}
-              textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
-              items={allergensOptions}
-              mode="SIMPLE"
-              listMode="SCROLLVIEW"
-              zIndex={1000}
-              zIndexInverse={3000}
-              setOpen={() => {
-                closeAllPopups();
-                return setAllergensOpen(!allergensOpen)
-              }}
-              setValue={setAllergens}
-              style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
-          />
+        <View style={styles.contentProducsDishes}>
+          <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.Profile.allergens')}</Text>
+          <View style={styles.popupAllergens}>
+            {allergens.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.allergenButton}
+                onPress={() => onAllergenPress(item)}
+              >
+                <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <TouchableOpacity
+            key={"ADDNEW"}
+            style={styles.allergenButton}
+            onPress={() => onAddAllergen()}>
+            <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.Profile.add-allergens')}</Text>
+          </TouchableOpacity>
+        </View>
         
           <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.disliked-ingredients-title')}</Text>
           <DropDownPicker
@@ -898,6 +928,40 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           </View>
         </Dialog.Actions>
       </Dialog>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={[styles.modalView, darkMode && styles.modalViewDark]}>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{modalContentType}</Text>
+            <View style={styles.flexContainer}>
+              {modalContentType === t('pages.Profile.allergens') &&
+                allergensOptions.map(({value, label}, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[styles.allergenButton, allergens.includes(value) ? styles.selectedButton : null]}
+                    onPress={() => toggleAllergensSelection(value)}
+                  >
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{label}</Text>
+                  </TouchableOpacity>
+                ))
+              }
+            </View>
+            <Button
+              title={t('common.close') as string}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
