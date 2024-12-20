@@ -527,11 +527,33 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const removeFavDish = (dishId: number, restoId: number) => {
     const newFavDishes = favoriteDishes.filter((dish) => !(dish.dish.uid === dishId && dish.restoID === restoId));
     setFavoriteDishes(newFavDishes);
+    if (favoriteDishes.length % pageSize === 1 && dishPage !== 1) {
+      setDishPage(prevPage => prevPage - 1);
+    }
   }
 
   const removeFavResto = (restoId: number) => {
     const newFavRestos = favoriteRestaurants.filter((resto) => resto.uid !== restoId);
     setFavoriteRestaurants(newFavRestos);
+    if (favoriteRestaurants.length % pageSize === 1 && restoPage !== 1) {
+      setRestoPage(prevPage => prevPage - 1);
+    }
+  }
+
+  const isNextPossible = () => {
+    if (activeTab === 'restaurants') {
+      return restoPage * pageSize < favoriteRestaurants.length;
+    } else {
+      return dishPage * pageSize < favoriteDishes.length;
+    }
+  }
+
+  const isPrevPossible = () => {
+    if (activeTab === 'restaurants') {
+      return restoPage > 1;
+    } else {
+      return dishPage > 1;
+    }
   }
 
   const onRefresh = useCallback(() => {
@@ -793,19 +815,16 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           {/* Pagination controls */}
           <View style={styles.paginationContainer}>
             <TouchableOpacity
-              style={[styles.paginationButton, { marginRight: 10 }]}
+              style={[isPrevPossible() ? styles.paginationButton : styles.paginationButtonDisabled, { marginRight: 10 }]}
               onPress={handlePrevPage}
-              disabled={activeTab === 'restaurants' ? restoPage === 1 : dishPage === 1}
+              disabled={!isPrevPossible()}
             >
               <Text style={styles.paginationButtonText}>{t('pages.Profile.previous')}</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.paginationButton}
+              style={isNextPossible() ? styles.paginationButton : styles.paginationButtonDisabled}
               onPress={handleNextPage}
-              disabled={activeTab === 'restaurants' ?
-                (restoPage * pageSize >= favoriteRestaurants.length) :
-                (dishPage * pageSize >= favoriteDishes.length)
-              }
+              disabled={!isNextPossible()}
             >
               <Text style={styles.paginationButtonText}>{t('pages.Profile.next')}</Text>
             </TouchableOpacity>
