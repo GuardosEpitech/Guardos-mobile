@@ -55,12 +55,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [city, setCity] = useState('');
   const [allergens, setAllergens] = useState([]);
   const [languageOpen, setLanguageOpen] = useState(false);
-  const [allergensOpen, setAllergensOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContentType, setModalContentType] = useState('');
   const [selectedDislikedIngredients, setSelectedDislikedIngredients] = useState([]);
   const [dbIngredients, setDBIngredients] = useState([]);
-  const [openIngredientPopup, setOpenIngredientPopup] = useState(false);
   const [openAddIngredientPopup, setOpenAddIngredientPopup] = useState(false);
   const [newIngredient, setNewIngredient] = useState('');
   const [language, setLanguage] = useState<string>('en');
@@ -480,9 +478,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   };
 
   const closeAllPopups = () => {
-    setOpenIngredientPopup(false);
     setOpenAddIngredientPopup(false);
-    setAllergensOpen(false);
     setLanguageOpen(false);
   }
 
@@ -604,6 +600,24 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     }
   }
 
+  const onDislikedIngredientPress = (item: string) => {
+    const updatedDislikedIngredients = selectedDislikedIngredients.filter(ingredient => ingredient !== item);
+    setSelectedDislikedIngredients(updatedDislikedIngredients);
+  };
+
+  const onAddDislikedIngredient = () => {
+    setModalContentType(t('pages.Profile.disliked-ingredients-title') as string);
+    setModalVisible(true);
+  }
+
+  const toggleDislikedIngredientsSelection = (item: string) => {
+    if (selectedDislikedIngredients.includes(item)) {
+      setSelectedDislikedIngredients(selectedDislikedIngredients.filter(selectedItem => selectedItem !== item));
+    } else {
+      setSelectedDislikedIngredients([...selectedDislikedIngredients, item]);
+    }
+  }
+
   return (
     <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}
       refreshControl={
@@ -696,36 +710,33 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
             ))}
           </View>
           <TouchableOpacity
-            key={"ADDNEW"}
+            key={"ADDALLERGEN"}
             style={styles.allergenButton}
             onPress={() => onAddAllergen()}>
             <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.Profile.add-allergens')}</Text>
           </TouchableOpacity>
         </View>
-        
-          <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.disliked-ingredients-title')}</Text>
-          <DropDownPicker
-            itemKey={"dislikedIngredientPicker"}
-            dropDownDirection={'TOP'}
-            language={language.toUpperCase()}
-            multiple
-            listMode="SCROLLVIEW"
-            mode="SIMPLE"
-            zIndex={1001}
-            zIndexInverse={3001}
-            open={openIngredientPopup}
-            value={selectedDislikedIngredients}
-            textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
-            items={dbIngredients.map((item) => {
-              return {label: item, value: item};
-            })}
-            setOpen={() => {
-              closeAllPopups();
-              return setOpenIngredientPopup(!openIngredientPopup)
-            }}
-            setValue={setSelectedDislikedIngredients}
-            style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
-          />
+
+        <View style={styles.contentProducsDishes}>
+          <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.Profile.disliked-ingredients-title')}</Text>
+          <View style={styles.popupAllergens}>
+            {selectedDislikedIngredients.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.allergenButton}
+                onPress={() => onDislikedIngredientPress(item)}
+              >
+                <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <TouchableOpacity
+            key={"ADDDISLIKEDINGREDIENT"}
+            style={styles.allergenButton}
+            onPress={() => onAddDislikedIngredient()}>
+            <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.Profile.add-disliked-ingredients')}</Text>
+          </TouchableOpacity>
+        </View>
         </View>
         <View style={styles.ingredientButton}>
           <Button title={t('pages.Profile.ingredient-not-found')} onPress={handleAddIngredientPopupOpen}/>
@@ -947,6 +958,19 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
                     key={index}
                     style={[styles.allergenButton, allergens.includes(value) ? styles.selectedButton : null]}
                     onPress={() => toggleAllergensSelection(value)}
+                  >
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{label}</Text>
+                  </TouchableOpacity>
+                ))
+              }
+              {modalContentType === t('pages.Profile.disliked-ingredients-title') &&
+                dbIngredients.map((item) => {
+                  return {label: item, value: item};
+                }).map(({value, label}, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[styles.allergenButton, selectedDislikedIngredients.includes(value) ? styles.selectedButton : null]}
+                    onPress={() => toggleDislikedIngredientsSelection(value)}
                   >
                     <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{label}</Text>
                   </TouchableOpacity>
