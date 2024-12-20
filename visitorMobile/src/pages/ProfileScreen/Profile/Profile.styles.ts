@@ -231,6 +231,88 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     width: '80%'
   },
+  popupAllergens: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  allergenButton: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+    justifyContent: 'center',
+  },
+  inputDishProduct: {
+    height: 20,
+  },
+  inputDishProductDarkTheme: {
+    height: 20,
+    color: "white"
+  },
+  contentProducsDishes: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    padding: 20,
+  },
+  labelCernterd: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    textAlign: 'center'
+  },
+  labelCernterdDarkTheme: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    textAlign: 'center',
+    color: "white"
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalViewDark: {
+    backgroundColor: 'black'
+  },
+  flexContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+  },
+  selectedButton: {
+    borderColor: 'green',
+  },
+  labelDarkTheme: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: "white"
+  },
+  label: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
 });
 
 export default styles;
