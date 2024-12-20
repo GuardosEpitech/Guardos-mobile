@@ -130,7 +130,8 @@
         "add-category": "Add new Category",
         "resto": "Restaurant *",
         "add-resto": "Add new Restaurant",
-        "categories": "Categories"
+        "categories": "Categories",
+        "resto-chain-info": "This action will add / delete the dish to all restaurants in the chain"
       },
       "EditProductPage": {
         "edit-product": "Edit Product"
