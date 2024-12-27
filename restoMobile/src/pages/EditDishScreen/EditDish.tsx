@@ -57,7 +57,6 @@ const EditDish = ({ route }) => {
   const [inputValueRestoChain, setInputValueRestoChain] = React.useState("");
   const [restoChainID, setRestoChainID] = React.useState(undefined);
   const [restoChainOpen, setRestoChainOpen] = useState(false);
-  const [checkName, setCheckName] = useState(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [language, setLanguage] = useState('');
   const {t, i18n} = useTranslation();
@@ -311,9 +310,6 @@ const EditDish = ({ route }) => {
       setSelectedAllergens(route.params.dish.allergens);
       setSelectedRestoChainId(route.params.dish.restoChainID ?? -1);
       setSelectedRestaurants([restaurantName]);
-      if (route.params.dish.name) {
-        setCheckName(true);
-      }
     } catch (error) {
       console.error('Error fetching dish data:', error);
     }
@@ -446,20 +442,12 @@ const EditDish = ({ route }) => {
           <View style={styles.inputPair}>
 
             <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.dish-name')}</Text>
-            {
-              checkName ? (
-              <Text style={[styles.input, darkMode && styles.inputDarkTheme]}>
-                {name}
-              </Text>
-              ) : (
-                <TextInput
-                  style={[styles.input, darkMode && styles.inputDarkTheme]}
-                  placeholder={t('pages.EditDishScreen.dish-name') as string}
-                  value={name}
-                  onChangeText={(text) => setName(text)}
-                />
-              )
-            }
+            <TextInput
+              style={[styles.input, darkMode && styles.inputDarkTheme]}
+              placeholder={t('pages.EditDishScreen.dish-name') as string}
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
             <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.price')}</Text>
             <TextInput
               style={[styles.input, darkMode && styles.inputDarkTheme]}
