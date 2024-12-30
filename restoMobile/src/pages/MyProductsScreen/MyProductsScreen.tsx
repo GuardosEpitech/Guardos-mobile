@@ -82,34 +82,43 @@ const MyProductsScreen = ({ navigation }: { navigation: any }) => {
     }, 2000);
   }, []);
 
-  return (
-    <ScrollView refreshControl={
-      <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
-    }>
-      <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
-        {productList.length === 0 ? (
-          <View style={styles.centered}>
-          <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyProductPage.noprod')}</Text>
-          </View>
-        ) : (
-          <FlatList
+return (
+  <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
+      }
+    >
+      {productList.length === 0 ? (
+        <View style={styles.centered}>
+          <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>
+            {t('pages.MyProductPage.noprod')}
+          </Text>
+        </View>
+      ) : (
+        <FlatList
           data={productList}
           renderItem={({ item }) => (
-            <ProductCard key={item._id} product={item} onDelete={updateProductList} key={key}/>
-            )}
-            keyExtractor={(item) => item._id}
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-            }
+            <ProductCard
+              key={item._id}
+              product={item}
+              onDelete={updateProductList}
+              key={key}
             />
           )}
-        <TouchableOpacity style={styles.addButton} onPress={navigateToAddProduct}>
-          <Text style={styles.addButtonText}>+</Text>
-        </TouchableOpacity>
-      </View>
+          keyExtractor={(item) => item._id}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }
+        />
+      )}
     </ScrollView>
-  );
+    <TouchableOpacity style={styles.addButton} onPress={navigateToAddProduct}>
+      <Text style={styles.addButtonText}>+</Text>
+    </TouchableOpacity>
+  </View>
+);
 };
 
 export default MyProductsScreen;
