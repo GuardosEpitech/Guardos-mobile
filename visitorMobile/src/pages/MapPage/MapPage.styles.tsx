@@ -111,6 +111,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  shareIconContainer: {
+    position: 'relative',
+    backgroundColor: 'grey',
+    borderRadius: 15,
+    marginBottom: 1,
+    marginRight: 330,
+    padding: 5,
+    elevation: 3,
+    shadowColor: '#000',
+  },  
 
   // Filter Popup Styles
   modalContentDarkTheme: {
