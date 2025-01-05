@@ -6,7 +6,7 @@ import styles from './Profile.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownPicker from 'react-native-dropdown-picker';
 import {editVisitorProfileDetails, getVisitorProfileDetails} from "../../../services/profileCalls";
-import {deleteAccount} from "../../../services/userCalls";
+import {deleteAccount, getPaymentMethods} from "../../../services/userCalls";
 import RestaurantCard from "../../../components/RestaurantCard/RestaurantCard";
 import DishCard from "../../../components/DishCard/DishCard";
 import {getDishFavourites, getRestoFavourites} from "../../../services/favourites";
@@ -82,6 +82,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [activeTab, setActiveTab] = useState("restaurants");
   const [restoPage, setRestoPage] = useState(1);
   const [dishPage, setDishPage] = useState(1);
+  const [paymentIsSet, setPaymentIsSet] = useState(false);
   const [profilePic, setProfilePic] = useState<IimageInterface[]>([]);
   const pageSize = 3; // Number of items per page
   const [refresh, setRefresh] = useState(false);
@@ -116,6 +117,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           });
         await fetchFavoriteRestaurants();
         await fetchFavoriteDishes();
+        let paymentMehtods = await getPaymentMethods(userToken);
+        if (paymentMehtods && paymentMehtods !== '' && paymentMehtods.length !== 0) {
+          setPaymentIsSet(true);
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -812,6 +817,18 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           </View>
         </ScrollView>
       </View>
+      {paymentIsSet ? (
+        <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
+          <Button
+            title={t('pages.Profile.subscriptions') as string}
+            onPress={handleRedirectSubscriptions}
+            color={darkMode ? "#6d071a" :  "#6d071a"} 
+          />
+        </View>
+      ) : (
+        <View>
+        </View>
+      )}
       <View style={[styles.logoutSection, darkMode && styles.logoutSectionDarkTheme]}>
         <Button
           title={t('pages.Profile.subscriptions') as string}
