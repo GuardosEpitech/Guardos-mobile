@@ -161,6 +161,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#0066FF',
     borderRadius: 5,
   },
+  paginationButtonDisabled: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#9e9e9e",
+    borderRadius: 5,
+  },
   paginationButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
