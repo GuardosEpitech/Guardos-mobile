@@ -141,9 +141,9 @@
         "updated-resto-failure": "Failed to update restaurant data"
       },
       "FeatureRequest": {
-        "name": "Name",
-        "subject": "Subject",
-        "request": "Request",
+        "name": "Name *",
+        "subject": "Subject *",
+        "request": "Request *",
         "thanks": "Request Send ! Thank you !",
         "require": "All fields are required"
       },
@@ -213,9 +213,9 @@
       },
       "UserSupport": {
         "UserSupport": "User Support",
-        "name": "Name",
-        "subject": "Subject",
-        "issue": "Issue",
+        "name": "Name *",
+        "subject": "Subject *",
+        "issue": "Issue *",
         "emailSent": "Email sent successfully!"
       },
       "QRCodeEngin": {
