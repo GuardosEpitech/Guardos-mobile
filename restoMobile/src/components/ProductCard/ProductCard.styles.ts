@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   detailsText: {
     fontSize: 14,
     marginBottom: 4,
+    maxWidth: '75%',
   },
   optionsButton: {
     justifyContent: 'center',
@@ -79,6 +80,23 @@ const styles = StyleSheet.create({
   detailsTextDarkTheme: {
     fontSize: 14,
     marginBottom: 4,
+    color: 'white',
+  },
+  pillContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4,
+    marginVertical: 5,
+  },
+  pill: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 20,
+    alignSelf: 'center',
+    backgroundColor: '#6d071a',
+  },
+  pillText: {
+    fontSize: 11,
     color: 'white',
   },
 });
