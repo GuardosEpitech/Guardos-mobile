@@ -184,7 +184,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
               <View style={darkMode ? styles.comboContainerDark : styles.comboContainer}>
                 {comboDishes.map((comboDish) => (
                   <DishCard
-                    key={comboDish.uid}
+                    key={comboDish.uid + "combo" + dish.uid}
                     dish={comboDish}
                     onDelete={onDelete}
                     isFirstLevel={false}
