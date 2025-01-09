@@ -38,7 +38,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
       fetchDishesByID();
     }
     dish.allergens = Array.from(new Set(dish.allergens.filter((allergen) => allergen !== 'Failed to detect allergens')));
-  }, []);
+  }, [dish]);
 
   const fetchDarkMode = async () => {
     try {
@@ -184,7 +184,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
               <View style={darkMode ? styles.comboContainerDark : styles.comboContainer}>
                 {comboDishes.map((comboDish) => (
                   <DishCard
-                    key={comboDish.uid}
+                    key={comboDish.uid + "combo" + dish.uid}
                     dish={comboDish}
                     onDelete={onDelete}
                     isFirstLevel={false}

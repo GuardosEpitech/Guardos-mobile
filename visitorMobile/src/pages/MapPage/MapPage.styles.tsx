@@ -72,6 +72,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 5,
   },
+  websiteContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  phoneContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
   buttonContainer: {
     flexDirection: 'column',
     alignItems: 'center',
@@ -111,6 +121,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  shareIconContainer: {
+    position: 'relative',
+    backgroundColor: 'grey',
+    borderRadius: 15,
+    marginBottom: 1,
+    marginRight: 330,
+    padding: 5,
+    elevation: 3,
+    shadowColor: '#000',
+  },  
 
   // Filter Popup Styles
   modalContentDarkTheme: {
@@ -134,6 +154,20 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   locationContainerDarkTheme: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+    backgroundColor: '#181A1B',
+    color: 'white',
+  },
+  websiteContainerDarkTheme: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+    backgroundColor: '#181A1B',
+    color: 'white',
+  },
+  phoneContainerDarkTheme: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 5,
@@ -326,7 +360,38 @@ const styles = StyleSheet.create({
   },
   darkModeTxt: {
     color: 'white'
-  }
+  },
+  listItemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: '#f2f2f2',
+    borderRadius: 10,
+  },
+  listItemImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 10,
+    marginRight: 10,
+  },
+  listItemTextContainer: {
+    flex: 1,
+  },
+  listItemHeading: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  listItemDescription: {
+    fontSize: 14,
+    marginTop: 5,
+    color: '#666',
+  },
+  listItemLocation: {
+    fontSize: 12,
+    marginTop: 5,
+    color: '#888',
+  },
 });
 
 export default styles;

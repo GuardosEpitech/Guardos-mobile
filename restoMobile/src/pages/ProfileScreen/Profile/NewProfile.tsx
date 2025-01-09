@@ -19,7 +19,7 @@ import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 // @ts-ignore
 import {API_URL} from '@env';
 import {changeTwoFactor, editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
-import {deleteRestoAccount} from "../../../services/userCalls";
+import {deleteRestoAccount, getPaymentMethods} from "../../../services/userCalls";
 import { CommonActions, useIsFocused } from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
 import {IimageInterface} from "../../../models/imageInterface";
@@ -52,13 +52,12 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [profilePic, setProfilePic] = useState<IimageInterface[]>([]);
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
-    const [menuDesign, setMenuDesign] = useState<string>('default');
     const [languageOpen, setLanguageOpen] = useState(false);
-    const [menuDesignOpen, setMenuDesignOpen] = useState(false);
     const [language, setLanguage] = useState<string>('en');
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [paymentIsSet, setPaymentIsSet] = useState(false);
     const [twoFactor, setTwoFactor] = useState<boolean>(false);
     const [dataChangeStatus, setDataChangeStatus] = useState(null);
     const [saveFailureType, setSaveFailureType] = useState(null);
@@ -111,11 +110,6 @@ const ProfilePage: React.FC<ProfileScreenProps &
       {label: t('common.german'), value: 'de'},
       {label: t('common.french'), value: 'fr'},
     ];
-    const menuDesignOptions = [
-      {label: t('pages.Profile.default'), value: 'default'},
-      {label: t('pages.Profile.fast-food'), value: 'fast-food'},
-      {label: t('pages.Profile.pizzeria'), value: 'pizzeria'},
-    ];
 
     useEffect(() => {
       loadDarkModeState();
@@ -133,11 +127,14 @@ const ProfilePage: React.FC<ProfileScreenProps &
             setEmail(res.email);
             setUsername(res.username);
             setImage(res.profilePicId[res.profilePicId.length - 1]);
-            setMenuDesign(res.defaultMenuDesign);
             setLanguage(res.preferredLanguage || i18n.language);
             setTwoFactor(res.twoFactor === "true");
             loadImages(res.profilePicId).then(r => console.log("Loaded user picture successfully"));
           });
+        let paymentMehtods = await getPaymentMethods(userToken);
+        if (paymentMehtods && paymentMehtods !== '' && paymentMehtods.length !== 0) {
+          setPaymentIsSet(true);
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -293,7 +290,6 @@ const ProfilePage: React.FC<ProfileScreenProps &
       const res = await editProfileDetails(userToken, {
         username: username,
         email: email,
-        defaultMenuDesign: menuDesign,
         preferredLanguage: language
       });
       i18n.changeLanguage(language);
@@ -496,18 +492,6 @@ const ProfilePage: React.FC<ProfileScreenProps &
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
             />
           </View>
-
-          <DropDownPicker
-            dropDownDirection={'TOP'}
-            language={language.toUpperCase() as LanguageType}
-            open={menuDesignOpen}
-            value={menuDesign}
-            items={menuDesignOptions}
-            setOpen={setMenuDesignOpen}
-            setValue={setMenuDesign}
-            dropDownContainerStyle={{backgroundColor: darkMode ? '#181A1B' : 'white'}}
-            textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
-            style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <DropDownPicker
             dropDownDirection={'TOP'}
             language={language.toUpperCase() as LanguageType}
@@ -525,12 +509,17 @@ const ProfilePage: React.FC<ProfileScreenProps &
               onPress={handleApplyChanges} color="green"
             />
           </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              title={t('pages.Profile.subscriptions') as string}
-              onPress={handleRedirectSubscriptions} color="grey"
-            />
-          </View>
+          {paymentIsSet ? (
+            <View style={styles.buttonContainer}>
+              <Button
+                title={t('pages.Profile.subscriptions') as string}
+                onPress={handleRedirectSubscriptions} color="grey"
+              />
+            </View>
+          ) : (
+            <View>
+            </View>
+          )}
           <View style={styles.buttonContainer}>
             <Button 
               title={t('pages.Profile.payBtn') as string}

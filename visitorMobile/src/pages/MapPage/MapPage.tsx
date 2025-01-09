@@ -10,7 +10,7 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
-  Alert, Button
+  Alert, Button, Share
 } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import MapView, { Marker, Circle } from 'react-native-maps';
@@ -297,6 +297,21 @@ const MapPage = () => {
     }
   };
 
+  const handleShare = async () => {
+    const uid = selectedMarker.uid;
+
+    try {
+      const result = await Share.share({
+        message: `https://guardos.eu/menu/${uid}`,
+      });
+      if (result.action === Share.sharedAction) {
+        console.log('Shared successfully');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
   const handleMenu = () => {  
     try {
       if (selectedMarker != null) {
@@ -307,6 +322,19 @@ const MapPage = () => {
       }
     } catch (error) {
       console.error('Error navigating to MenuPage:', error);
+    }
+  };
+
+  const handleReview = () => {  
+    try {
+      if (selectedMarker != null) {
+        const restaurantId = selectedMarker.uid;
+        const restaurantName = selectedMarker.name;
+        toggleModal();
+        navigation.navigate('RatingPage', { restaurantId, restaurantName });
+      }
+    } catch (error) {
+      console.error('Error navigating to ReviewPage:', error);
     }
   };
 
@@ -761,7 +789,7 @@ const MapPage = () => {
               {selectedMarker && selectedMarker.name}
             </Text>
           <View style={styles.starContainer}>
-            {Array.from({ length: 5 }).map((_, index) => {
+            {Array.from({ length: 5 }).map((_, index) => {              
               const rating = selectedMarker ? selectedMarker.rating || 0 : 0;
               const isFullStar = index < Math.floor(rating);
               const isHalfStar = index === Math.floor(rating) && 
@@ -779,7 +807,7 @@ const MapPage = () => {
                 );
               })}
             <Text style={{ marginLeft: 5 }}>
-              {selectedMarker && selectedMarker.rating}
+              {selectedMarker && selectedMarker.ratingCount}
             </Text>
           </View>
               </View>
@@ -798,12 +826,21 @@ const MapPage = () => {
           <Text style={{ marginTop: 10, color: darkMode ? 'white' : 'black' }}>
             {selectedMarker && selectedMarker.description}
           </Text>
-          <Text style={{ marginTop: 10, color: darkMode ? 'white' : 'black' }}>
-            {t('pages.MapPage.telephone', {phoneNumber: selectedMarker && selectedMarker.phoneNumber})}
-          </Text>
-          <Text style={{color: darkMode ? 'white' : 'black'}}>
-            {t('pages.MapPage.website', {website: selectedMarker && selectedMarker.website})}
-          </Text>
+
+          <View style={[styles.phoneContainer, darkMode && styles.phoneContainerDarkTheme]}>
+            <Ionicons name="call-outline" size={18} color={darkMode ? 'white' : 'black'} />
+            <Text style={{ marginTop: 10, marginLeft: 5, color: darkMode ? 'white' : 'black' }}>
+              {selectedMarker && selectedMarker.phoneNumber}
+            </Text>
+          </View>
+          
+          <View style={[styles.websiteContainer, darkMode && styles.websiteContainerDarkTheme]}>
+            <Ionicons name="globe-outline" size={18} color={darkMode ? 'white' : 'black'} />
+            <Text style={{marginLeft: 5, color: darkMode ? 'white' : 'black'}}>
+            {selectedMarker && decodeURIComponent(selectedMarker.website)}
+            </Text>
+          </View>
+
 
           <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
               <Icon name="close" size={30} color="black" />
@@ -818,11 +855,25 @@ const MapPage = () => {
               </TouchableOpacity>
 
               <TouchableOpacity 
+                onPress={handleReview} 
+                style={styles.menuButton}
+              >
+                <Text style={styles.buttonText}>{t('pages.Review.rating')}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
                 onPress={handleNavigate} 
                 style={styles.navigateButton}
               >
                 <Text style={styles.buttonText}>{t('pages.MapPage.navigate')}</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.navigateButton}
+                onPress={handleShare}
+              >
+              <Icon name="share" size={12} color={darkMode ? 'black' : 'white'}/>
+            </TouchableOpacity>
             </View>
         </View>
       </Modal>

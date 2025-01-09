@@ -101,10 +101,10 @@ const AddRestaurantScreen = () => {
       Alert.alert(String(t('common.error')), String(t('common.some-fields-mandatory')));
       return;
     }
-    const token = await AsyncStorage.getItem('userToken');
+
     const restaurantData = {
       name: restaurantName,
-      phonenumber: phoneNumber,
+      phoneNumber: phoneNumber,
       website: website,
       pictures: [imageURL],
       location: {
@@ -120,6 +120,9 @@ const AddRestaurantScreen = () => {
       menuDesignID: selectedMenuDesignID,
       ...((selectedRestoChainId != null) && { restoChainID: selectedRestoChainId }),
     };
+
+    const token = await AsyncStorage.getItem('userToken');
+
     const data  = {
       userToken: token,
       resto: restaurantData,
@@ -278,9 +281,9 @@ const AddRestaurantScreen = () => {
             onChangeValue={(item:any) => {
               if (item === null || item === undefined || item === '' || typeof item === "undefined") {
                 return;
-              };
+              }
               setValueRestoChain(item);
-              setSelectedRestoChainId(item.uid);
+              setSelectedRestoChainId(item);
             }}
             setValue={setValueRestoChain}
             style={darkMode ? styles.darkDropdown : styles.lightDropdown} // Dropdown container style
