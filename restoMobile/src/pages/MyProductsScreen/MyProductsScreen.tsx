@@ -83,7 +83,8 @@ const MyProductsScreen = ({ navigation }: { navigation: any }) => {
   }, []);
 
   return (
-    <ScrollView refreshControl={
+    <ScrollView style={[{ backgroundColor: darkMode ? '#181A1B' : 'white' }]} 
+    refreshControl={
       <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
     }>
       <View style={[styles.container, darkMode && styles.containerDarkTheme]}>

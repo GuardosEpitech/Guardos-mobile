@@ -249,7 +249,8 @@ const AddCategoryPage = () => {
     }, []);
 
     return (
-        <ScrollView refreshControl={
+        <ScrollView style={[{ backgroundColor: darkMode ? '#181A1B' : 'white' }]} 
+        refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
         }>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
