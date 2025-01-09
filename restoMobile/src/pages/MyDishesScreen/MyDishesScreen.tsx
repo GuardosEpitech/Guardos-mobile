@@ -89,33 +89,43 @@ const MyDishesScreen: React.FC = () => {
 
 
   return (
-    <ScrollView style={[{ backgroundColor: darkMode ? '#181A1B' : 'white' }]} 
-    refreshControl={
-      <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
-    }>
-      <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+    <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
+      <ScrollView style={[{ backgroundColor: darkMode ? '#181A1B' : 'white' }]} 
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh2} />
+        }
+      >
         {dishList.length === 0 ? (
-          <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>{t('pages.MyDishPage.nodish')}</Text>
+          <Text style={[styles.ErrorMsg, darkMode && styles.darkModeTxt]}>
+            {t('pages.MyDishPage.nodish')}
+          </Text>
         ) : (
-        <FlatList
-          data={dishList}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity onPress={() => navigateToChangeDish(item.resto, item)}>
-            <DishCard dish={item} onDelete={() => onDelete(item.name, item.resto)} key={item.uid} isFirstLevel={true} />
-            </TouchableOpacity>
-          )}
-          keyExtractor={(_, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
+          <FlatList
+            data={dishList}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity
+                onPress={() => navigateToChangeDish(item.resto, item)}
+              >
+                <DishCard
+                  dish={item}
+                  onDelete={() => onDelete(item.name, item.resto)}
+                  key={key}
+                  isFirstLevel={true}
+                />
+              </TouchableOpacity>
+            )}
+            keyExtractor={(_, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
         )}
-        <TouchableOpacity style={styles.roundButton} onPress={navigateToAddDish}>
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <TouchableOpacity style={styles.roundButton} onPress={navigateToAddDish}>
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
