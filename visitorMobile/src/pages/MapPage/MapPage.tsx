@@ -10,7 +10,7 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
-  Alert, Button
+  Alert, Button, Share
 } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import MapView, { Marker, Circle } from 'react-native-maps';
@@ -294,6 +294,21 @@ const MapPage = () => {
       });
     } else {
       console.error('Selected marker or location is missing.');
+    }
+  };
+
+  const handleShare = async () => {
+    const uid = selectedMarker.uid;
+
+    try {
+      const result = await Share.share({
+        message: `https://guardos.eu/menu/${uid}`,
+      });
+      if (result.action === Share.sharedAction) {
+        console.log('Shared successfully');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
     }
   };
 
@@ -823,6 +838,13 @@ const MapPage = () => {
               >
                 <Text style={styles.buttonText}>{t('pages.MapPage.navigate')}</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.navigateButton}
+                onPress={handleShare}
+              >
+              <Icon name="share" size={12} color={darkMode ? 'black' : 'white'}/>
+            </TouchableOpacity>
             </View>
         </View>
       </Modal>
