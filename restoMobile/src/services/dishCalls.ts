@@ -23,7 +23,7 @@ export const deleteDishByName = async (restaurant: string, name: string, token: 
     }
 }
 
-export const changeDishByName = async (dish: IDishFE, restaurant: string, token: string) => {
+export const changeDishByName = async (dish: IDishFE, restaurant: string, token: string, oldName: string) => {
     try {
         if (baseURL === undefined) {
             throw new Error("baseUrl is not defined");
@@ -32,7 +32,22 @@ export const changeDishByName = async (dish: IDishFE, restaurant: string, token:
             method: "PUT",
             params: {key: token},
             url: baseURL + restaurant,
-            data: dish,
+            data: JSON.stringify({
+              oldName: oldName,
+              name: dish.name,
+              uid: dish.uid,
+              description: dish.description,
+              price: dish.price,
+              allergens: dish.allergens,
+              picturesId: dish.picturesId,
+              category: dish.category,
+              resto: dish.category,
+              products: dish.products,
+              discount: dish.discount,
+              validTill: dish.validTill,
+              combo: dish.combo,
+              restoChainID: dish.restoChainID,
+            }),
         });
         return response.data;
     } catch (error) {

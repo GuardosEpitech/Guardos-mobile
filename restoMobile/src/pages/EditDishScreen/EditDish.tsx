@@ -37,6 +37,7 @@ const EditDish = ({ route }) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+  const [validTill, setValidTill] = useState('');
   const [pictures, setPictures] = useState([]);
   const [allergens, setAllergens] = useState([]);
   const [products, setProducts] = useState([]);
@@ -301,6 +302,8 @@ const EditDish = ({ route }) => {
       setName(route.params.dish.name);
       setPrice(route.params.dish.price.toString());
       setDescription(route.params.dish.description);
+      setCombo(route.params.dish.combo);
+      setValidTill(route.params.dish.validTill);
       setPictures(route.params.dish.pictures);
       setPictureId(route.params.dish.picturesId);
       setAllergens(allergens);
@@ -344,8 +347,8 @@ const EditDish = ({ route }) => {
         picturesId: pictureId,
         resto: selectedRestaurants[i],
         restoChainID: selectedRestoChainId,
-        discount: -1,
-        validTill: ''
+        validTill: validTill,
+        discount: route.params.dish ? route.params.dish.discount : null,
       };
 
       let dish = null;
