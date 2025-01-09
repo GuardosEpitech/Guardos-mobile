@@ -77,7 +77,11 @@
       },
       "ProductForm": {
         "product-name": "Product Name",
+        "filter-ingredients": "Filter Ingredients",
         "select-ingredients": "Select Ingredients",
+        "dont-see-ingredient": "Ingredient not in the list?",
+        "insert-eng-ingredient": "Enter the ingredient in English",
+        "add-ingredient": "Add ingredient",
         "restos": "Restaurants",
         "select-restos": "Select Restaurants",
         "edit-product": "Edit Product",

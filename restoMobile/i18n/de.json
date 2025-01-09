@@ -77,7 +77,11 @@
       },
       "ProductForm": {
         "product-name": "Produktname",
+        "filter-ingredients": "Zutaten filtern",
         "select-ingredients": "Zutaten auswählen",
+        "dont-see-ingredient": "Zutat nicht in der Liste?",
+        "insert-eng-ingredient": "Füge die Zutat in Englisch ein",
+        "add-ingredient": "Zutat hinzufügen",
         "restos": "Restaurants",
         "select-restos": "Restaurants auswählen",
         "edit-product": "Produkt bearbeiten",
