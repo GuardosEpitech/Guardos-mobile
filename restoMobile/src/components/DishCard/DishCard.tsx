@@ -38,7 +38,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
       fetchDishesByID();
     }
     dish.allergens = Array.from(new Set(dish.allergens.filter((allergen) => allergen !== 'Failed to detect allergens')));
-  }, []);
+  }, [dish]);
 
   const fetchDarkMode = async () => {
     try {
