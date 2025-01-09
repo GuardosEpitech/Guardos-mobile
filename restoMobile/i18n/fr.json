@@ -221,7 +221,7 @@
       "QRCodeEngin": {
         "unknown-product": "Produit inconnu",
         "get-product-info-failed": "Erreur lors de la récupération des informations sur le produit pour le code-barres {{ data }}",
-        "scan-ingredients": "Scanner les ingrédients",
+        "scan-ingredients": "Scanner les produits",
         "scan-prompt": "Veuillez scanner le code-barres du produit que vous souhaitez ajouter",
         "select-resto": "Sélectionner un restaurant",
         "search": "Recherche...",
