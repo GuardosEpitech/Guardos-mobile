@@ -19,7 +19,7 @@ import DropDownPicker, {LanguageType} from 'react-native-dropdown-picker';
 // @ts-ignore
 import {API_URL} from '@env';
 import {changeTwoFactor, editProfileDetails, getProfileDetails} from "../../../services/profileCalls";
-import {deleteRestoAccount} from "../../../services/userCalls";
+import {deleteRestoAccount, getPaymentMethods} from "../../../services/userCalls";
 import { CommonActions, useIsFocused } from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
 import {IimageInterface} from "../../../models/imageInterface";
@@ -57,6 +57,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [paymentIsSet, setPaymentIsSet] = useState(false);
     const [twoFactor, setTwoFactor] = useState<boolean>(false);
     const [dataChangeStatus, setDataChangeStatus] = useState(null);
     const [saveFailureType, setSaveFailureType] = useState(null);
@@ -130,6 +131,10 @@ const ProfilePage: React.FC<ProfileScreenProps &
             setTwoFactor(res.twoFactor === "true");
             loadImages(res.profilePicId).then(r => console.log("Loaded user picture successfully"));
           });
+        let paymentMehtods = await getPaymentMethods(userToken);
+        if (paymentMehtods && paymentMehtods !== '' && paymentMehtods.length !== 0) {
+          setPaymentIsSet(true);
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -504,12 +509,17 @@ const ProfilePage: React.FC<ProfileScreenProps &
               onPress={handleApplyChanges} color="green"
             />
           </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              title={t('pages.Profile.subscriptions') as string}
-              onPress={handleRedirectSubscriptions} color="grey"
-            />
-          </View>
+          {paymentIsSet ? (
+            <View style={styles.buttonContainer}>
+              <Button
+                title={t('pages.Profile.subscriptions') as string}
+                onPress={handleRedirectSubscriptions} color="grey"
+              />
+            </View>
+          ) : (
+            <View>
+            </View>
+          )}
           <View style={styles.buttonContainer}>
             <Button 
               title={t('pages.Profile.payBtn') as string}
