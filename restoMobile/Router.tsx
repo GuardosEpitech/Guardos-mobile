@@ -294,10 +294,10 @@ const AuthTabs = ({ setLoggedInStatus }) => {
                 icon = focused ? 'person-add' : 'person-add-outline';
               }
 
-              return <Ionicons name={icon} size={size} color={focused ? 'black' : color} />;
+              return <Ionicons name={icon} size={size} color={focused ? 'white' : color} />;
             },
-            tabBarActiveTintColor: 'black',
-            tabBarInactiveTintColor: 'black',
+            tabBarActiveTintColor: 'white',
+            tabBarInactiveTintColor: 'white',
             headerShown: false,
             tabBarStyle: {
               backgroundColor: '#6d071a',
