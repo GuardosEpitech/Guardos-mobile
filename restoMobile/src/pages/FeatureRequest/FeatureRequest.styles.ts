@@ -5,8 +5,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    },
+    padding: 20,
+  },
   smallInput: {
     borderWidth: 1,
     borderColor: 'gray',
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    padding: 20,
     backgroundColor: '#333',
     },
   smallInputDark: {

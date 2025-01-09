@@ -94,17 +94,17 @@
         "message-sent-success": "Message sent successfully!"
       },
       "FeatureRequest": {
-        "name": "Name",
-        "subject": "Subject",
-        "request": "Request",
+        "name": "Name *",
+        "subject": "Subject *",
+        "request": "Request *",
         "thanks": "Request Send ! Thank you !",
         "require": "All fields are required"
       },
       "UserSupport": {
         "UserSupport": "User Support",
-        "name": "Name",
-        "subject": "Subject",
-        "issue": "Issue",
+        "name": "Name *",
+        "subject": "Subject *",
+        "issue": "Issue *",
         "emailSent": "Email sent successfully!"
       },
       "MapPage": {
@@ -181,7 +181,9 @@
         "enter-email": "Enter your email",
         "city": "City",
         "allergens": "Allergens",
+        "add-allergens": "Add allergens",
         "disliked-ingredients-title": "Disliked Ingredients",
+        "add-disliked-ingredients": "Add ingredients",
         "language": "Language",
         "enter-city": "Enter your city",
         "apply-changes": "Apply Changes",

@@ -172,7 +172,24 @@ const styles = StyleSheet.create({
     zIndex: 1,
     paddingHorizontal: 5,
     marginBottom: 10
-  }
+  },
+  pillContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4,
+    marginVertical: 5,
+  },
+  pill: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 20,
+    alignSelf: 'center',
+    backgroundColor: '#6d071a',
+  },
+  pillText: {
+    fontSize: 11,
+    color: 'white',
+  },
 });
 
 export default styles;

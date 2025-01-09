@@ -44,6 +44,8 @@ const DishCard: React.FC<DishCardProps> = (props: DishCardProps) => {
       setComboDishes(dishes);
     }
 
+    dish.allergens = Array.from(new Set(dish.allergens.filter((allergen) => allergen !== 'Failed to detect allergens')));
+
     async function fetchImages() {
       if (picturesId.length > 0) {
         const fetchedImages = await getImages(picturesId);
@@ -145,6 +147,15 @@ const DishCard: React.FC<DishCardProps> = (props: DishCardProps) => {
               />
             </TouchableOpacity>
           </View>
+          {dish.allergens.length > 0 && (
+            <View style={styles.pillContainer}>
+              {dish.allergens.map((allergen, index) => (
+                <TouchableOpacity style={[styles.pill]}>
+                  <Text style={[styles.pillText]}>{t(`food-allergene.${allergen}`)}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
           <Text style= {[darkMode && styles.descriptionDarkTheme]} numberOfLines={2} ellipsizeMode="tail">{dish.description}</Text>
           {dislikedIngredients && dislikedIngredients.length !== 0 && (
             <View style={styles.row}>
@@ -163,9 +174,6 @@ const DishCard: React.FC<DishCardProps> = (props: DishCardProps) => {
           ) : (
             <Text style={[darkMode && styles.priceDarkTheme]} > {t('components.DishCard.price', {price: dish.price})}€</Text>
           )}
-          <Text style={[darkMode && styles.priceDarkTheme]}>
-            {t('components.DishCard.allergens')}: {dish.allergens.map((allergen) => t(`food-allergene.${allergen}`)).join(', ')}
-          </Text>
         </View>
 
         {dish.combo && dish.combo.length > 0 && isFirstLevel && !isLoading && (

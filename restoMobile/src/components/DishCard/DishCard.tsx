@@ -37,6 +37,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
     if (dish.combo && dish.combo.length > 0 && isFirstLevel) {
       fetchDishesByID();
     }
+    dish.allergens = Array.from(new Set(dish.allergens.filter((allergen) => allergen !== 'Failed to detect allergens')));
   }, []);
 
   const fetchDarkMode = async () => {
@@ -125,6 +126,15 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
           <Text style={[styles.titleStyle, darkMode && styles.titleStyleDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
             {dish.name}
           </Text>
+          {dish.allergens.length > 0 && (
+            <View style={styles.pillContainer}>
+              {dish.allergens.map((allergen, index) => (
+                <TouchableOpacity style={[styles.pill]}>
+                  <Text style={[styles.pillText]}>{allergen}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
           <Text style={[styles.categoryStyle, darkMode && styles.categoryStyleDarkTheme]} numberOfLines={2} ellipsizeMode="tail">
             {dish.description} 
           </Text>

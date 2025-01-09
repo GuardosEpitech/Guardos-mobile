@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {View, TextInput, Button, Text} from 'react-native';
+import {View, TextInput, Button, Text, Alert} from 'react-native';
 import styles from './FeatureRequest.styles'
 import {IRequestUser} from '../../models/emailInterfaces'
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
@@ -19,12 +19,11 @@ const initialRequestState = {
   isPremium: 'false',
 }
 
-const FeatureRequest: React.FC<FeatureRequestScreenProps> = () => {
+const FeatureRequest: React.FC<FeatureRequestScreenProps> = ({navigation}) => {
   const [request, setRequest] = useState<IRequestUser>(initialRequestState);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const {t} = useTranslation();
   const [fieldRequire, setFieldRequire] = useState<boolean>(true);
-  const [requestSend, setRequestSend] = useState<boolean>(false);
 
     const handleInputChange = (field: keyof IRequestUser, text: string) => {
       setRequest(prevState => ({
@@ -72,14 +71,23 @@ const FeatureRequest: React.FC<FeatureRequestScreenProps> = () => {
     const handleButtonPress = () => {
       if (request.name.trim() === '' || request.request.trim() === "" || request.subject.trim() === '') {
         setFieldRequire(false)
-        setRequestSend(false)
       } else {
         handleInputChange('name', '')
         handleInputChange('subject', '')
         handleInputChange('request', '')
-        setRequestSend(true)
         setFieldRequire(true)
         sendFeatureRequest(request)
+
+        Alert.alert(
+          t('common.success') as string,
+          t('pages.UserSupport.emailSent') as string,
+          [
+            {
+              text: t('common.confirm') as string,
+              onPress: () => navigation.goBack(),
+            },
+          ]
+        );
       }
     };
 
@@ -108,12 +116,6 @@ const FeatureRequest: React.FC<FeatureRequestScreenProps> = () => {
         />
         { !fieldRequire ?
           <Text style={{color: "red"}}>{t('pages.FeatureRequest.require')}</Text>
-            :
-            <Text />
-        }
-
-        { requestSend ?
-            <Text style={{color: "green"}}>{t('pages.FeatureRequest.thanks')}</Text>
             :
             <Text />
         }

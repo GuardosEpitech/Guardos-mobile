@@ -91,17 +91,17 @@
         "message-sent-success": "Message envoyé avec succès !"
       },
       "FeatureRequest": {
-        "name": "Nom",
-        "subject": "Sujet",
-        "request": "Demande",
+        "name": "Nom *",
+        "subject": "Sujet *",
+        "request": "Demande *",
         "thanks": "Demande envoyé ! Merci !",
         "require": "Tous les champs sont obligatoires"
       },
       "UserSupport": {
         "UserSupport": "Support utilisateur",
-        "name": "Nom",
-        "subject": "Sujet",
-        "issue": "Problème",
+        "name": "Nom *",
+        "subject": "Sujet *",
+        "issue": "Problème *",
         "emailSent": "E-mail envoyé avec succès !"
       },
       "MapPage": {
@@ -178,7 +178,9 @@
         "enter-email": "Entrez votre email",
         "city": "Ville",
         "allergens": "Allergènes",
+        "add-allergens": "Ajouter des allergènes",
         "disliked-ingredients-title": "les ingrédients suivants",
+        "add-disliked-ingredients": "Ajouter des ingrédients",
         "language": "Langue",
         "enter-city": "Entrez votre ville",
         "apply-changes": "Appliquer les modifications",

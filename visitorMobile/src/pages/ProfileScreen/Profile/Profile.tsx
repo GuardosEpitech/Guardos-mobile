@@ -1,5 +1,16 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Alert, Button, View, Text, TextInput, Image, ScrollView, TouchableOpacity, RefreshControl} from 'react-native';
+import {
+  Alert,
+  Button,
+  View,
+  Text,
+  TextInput,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  RefreshControl,
+  Modal
+} from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './Profile.styles';
@@ -44,10 +55,10 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const [city, setCity] = useState('');
   const [allergens, setAllergens] = useState([]);
   const [languageOpen, setLanguageOpen] = useState(false);
-  const [allergensOpen, setAllergensOpen] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContentType, setModalContentType] = useState('');
   const [selectedDislikedIngredients, setSelectedDislikedIngredients] = useState([]);
   const [dbIngredients, setDBIngredients] = useState([]);
-  const [openIngredientPopup, setOpenIngredientPopup] = useState(false);
   const [openAddIngredientPopup, setOpenAddIngredientPopup] = useState(false);
   const [newIngredient, setNewIngredient] = useState('');
   const [language, setLanguage] = useState<string>('en');
@@ -467,9 +478,7 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   };
 
   const closeAllPopups = () => {
-    setOpenIngredientPopup(false);
     setOpenAddIngredientPopup(false);
-    setAllergensOpen(false);
     setLanguageOpen(false);
   }
 
@@ -527,11 +536,33 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
   const removeFavDish = (dishId: number, restoId: number) => {
     const newFavDishes = favoriteDishes.filter((dish) => !(dish.dish.uid === dishId && dish.restoID === restoId));
     setFavoriteDishes(newFavDishes);
+    if (favoriteDishes.length % pageSize === 1 && dishPage !== 1) {
+      setDishPage(prevPage => prevPage - 1);
+    }
   }
 
   const removeFavResto = (restoId: number) => {
     const newFavRestos = favoriteRestaurants.filter((resto) => resto.uid !== restoId);
     setFavoriteRestaurants(newFavRestos);
+    if (favoriteRestaurants.length % pageSize === 1 && restoPage !== 1) {
+      setRestoPage(prevPage => prevPage - 1);
+    }
+  }
+
+  const isNextPossible = () => {
+    if (activeTab === 'restaurants') {
+      return restoPage * pageSize < favoriteRestaurants.length;
+    } else {
+      return dishPage * pageSize < favoriteDishes.length;
+    }
+  }
+
+  const isPrevPossible = () => {
+    if (activeTab === 'restaurants') {
+      return restoPage > 1;
+    } else {
+      return dishPage > 1;
+    }
   }
 
   const onRefresh = useCallback(() => {
@@ -572,6 +603,42 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
     setIsRefreshing(false);
     }, 2000);
   }, []);
+
+  const onAllergenPress = (item: string) => {
+    const updatedAllergens = allergens.filter(product => product !== item);
+    setAllergens(updatedAllergens);
+  };
+
+  const onAddAllergen = () => {
+    setModalContentType(t('pages.Profile.allergens') as string);
+    setModalVisible(true);
+  }
+
+  const toggleAllergensSelection = (item: string) => {
+    if (allergens.includes(item)) {
+      setAllergens(allergens.filter(selectedItem => selectedItem !== item));
+    } else {
+      setAllergens([...allergens, item]);
+    }
+  }
+
+  const onDislikedIngredientPress = (item: string) => {
+    const updatedDislikedIngredients = selectedDislikedIngredients.filter(ingredient => ingredient !== item);
+    setSelectedDislikedIngredients(updatedDislikedIngredients);
+  };
+
+  const onAddDislikedIngredient = () => {
+    setModalContentType(t('pages.Profile.disliked-ingredients-title') as string);
+    setModalVisible(true);
+  }
+
+  const toggleDislikedIngredientsSelection = (item: string) => {
+    if (selectedDislikedIngredients.includes(item)) {
+      setSelectedDislikedIngredients(selectedDislikedIngredients.filter(selectedItem => selectedItem !== item));
+    } else {
+      setSelectedDislikedIngredients([...selectedDislikedIngredients, item]);
+    }
+  }
 
   return (
     <ScrollView contentContainerStyle={[styles.container, darkMode && styles.containerDarkTheme]}
@@ -651,51 +718,47 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           />
         </View>
         <View>
-        <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.allergens')}</Text>
-          <DropDownPicker
-              itemKey={"languagePicker"}
-              dropDownDirection={'TOP'}
-              language={language.toUpperCase()}
-              multiple
-              open={allergensOpen}
-              value={allergens}
-              textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
-              items={allergensOptions}
-              mode="SIMPLE"
-              listMode="SCROLLVIEW"
-              zIndex={1000}
-              zIndexInverse={3000}
-              setOpen={() => {
-                closeAllPopups();
-                return setAllergensOpen(!allergensOpen)
-              }}
-              setValue={setAllergens}
-              style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
-          />
-        
-          <Text style={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]} > {t('pages.Profile.disliked-ingredients-title')}</Text>
-          <DropDownPicker
-            itemKey={"dislikedIngredientPicker"}
-            dropDownDirection={'TOP'}
-            language={language.toUpperCase()}
-            multiple
-            listMode="SCROLLVIEW"
-            mode="SIMPLE"
-            zIndex={1001}
-            zIndexInverse={3001}
-            open={openIngredientPopup}
-            value={selectedDislikedIngredients}
-            textStyle={[styles.profileHeader, darkMode && styles.profileHeaderDarkTheme]}
-            items={dbIngredients.map((item) => {
-              return {label: item, value: item};
-            })}
-            setOpen={() => {
-              closeAllPopups();
-              return setOpenIngredientPopup(!openIngredientPopup)
-            }}
-            setValue={setSelectedDislikedIngredients}
-            style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}
-          />
+        <View style={styles.contentProducsDishes}>
+          <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.Profile.allergens')}</Text>
+          <View style={styles.popupAllergens}>
+            {allergens.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.allergenButton}
+                onPress={() => onAllergenPress(item)}
+              >
+                <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <TouchableOpacity
+            key={"ADDALLERGEN"}
+            style={styles.allergenButton}
+            onPress={() => onAddAllergen()}>
+            <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.Profile.add-allergens')}</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.contentProducsDishes}>
+          <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.Profile.disliked-ingredients-title')}</Text>
+          <View style={styles.popupAllergens}>
+            {selectedDislikedIngredients.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.allergenButton}
+                onPress={() => onDislikedIngredientPress(item)}
+              >
+                <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <TouchableOpacity
+            key={"ADDDISLIKEDINGREDIENT"}
+            style={styles.allergenButton}
+            onPress={() => onAddDislikedIngredient()}>
+            <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.Profile.add-disliked-ingredients')}</Text>
+          </TouchableOpacity>
+        </View>
         </View>
         <View style={styles.ingredientButton}>
           <Button title={t('pages.Profile.ingredient-not-found')} onPress={handleAddIngredientPopupOpen}/>
@@ -793,19 +856,16 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           {/* Pagination controls */}
           <View style={styles.paginationContainer}>
             <TouchableOpacity
-              style={[styles.paginationButton, { marginRight: 10 }]}
+              style={[isPrevPossible() ? styles.paginationButton : styles.paginationButtonDisabled, { marginRight: 10 }]}
               onPress={handlePrevPage}
-              disabled={activeTab === 'restaurants' ? restoPage === 1 : dishPage === 1}
+              disabled={!isPrevPossible()}
             >
               <Text style={styles.paginationButtonText}>{t('pages.Profile.previous')}</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.paginationButton}
+              style={isNextPossible() ? styles.paginationButton : styles.paginationButtonDisabled}
               onPress={handleNextPage}
-              disabled={activeTab === 'restaurants' ?
-                (restoPage * pageSize >= favoriteRestaurants.length) :
-                (dishPage * pageSize >= favoriteDishes.length)
-              }
+              disabled={!isNextPossible()}
             >
               <Text style={styles.paginationButtonText}>{t('pages.Profile.next')}</Text>
             </TouchableOpacity>
@@ -898,6 +958,53 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
           </View>
         </Dialog.Actions>
       </Dialog>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={[styles.modalView, darkMode && styles.modalViewDark]}>
+            <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{modalContentType}</Text>
+            <View style={styles.flexContainer}>
+              {modalContentType === t('pages.Profile.allergens') &&
+                allergensOptions.map(({value, label}, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[styles.allergenButton, allergens.includes(value) ? styles.selectedButton : null]}
+                    onPress={() => toggleAllergensSelection(value)}
+                  >
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{label}</Text>
+                  </TouchableOpacity>
+                ))
+              }
+              {modalContentType === t('pages.Profile.disliked-ingredients-title') &&
+                dbIngredients.map((item) => {
+                  return {label: item, value: item};
+                }).map(({value, label}, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[styles.allergenButton, selectedDislikedIngredients.includes(value) ? styles.selectedButton : null]}
+                    onPress={() => toggleDislikedIngredientsSelection(value)}
+                  >
+                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{label}</Text>
+                  </TouchableOpacity>
+                ))
+              }
+            </View>
+            <Button
+              title={t('common.close') as string}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

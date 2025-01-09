@@ -85,6 +85,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
     <View style={[styles.productCard, darkMode && styles.productCardDarkTheme]}>
       <View style={styles.productDetails}>
       <Text style={[styles.productName, darkMode && styles.productNameDarkTheme]}>{product.name}</Text>
+        {product.allergens.length > 0 && (
+          <View style={styles.pillContainer}>
+            {product.allergens.map((allergen, index) => (
+              <TouchableOpacity style={[styles.pill]}>
+                <Text style={[styles.pillText]}>{allergen}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
         <Text style={[styles.detailsText, darkMode && styles.detailsTextDarkTheme]}>
           {t('components.ProductCard.ingredients', {ingredients: product.ingredients.join(', ')})}
         </Text>

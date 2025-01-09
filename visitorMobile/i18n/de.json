@@ -94,17 +94,17 @@
         "message-sent-success": "Nachricht erfolgreich gesendet!"
       },
       "FeatureRequest": {
-        "name": "Name",
-        "subject": "Betreff",
-        "request": "Anfrage",
+        "name": "Name *",
+        "subject": "Betreff *",
+        "request": "Anfrage *",
         "thanks": "Anfrage senden ! Dankeschön !",
         "require": "Alle Felder sind erforderlich"
       },
       "UserSupport": {
         "UserSupport": "Kundensupport",
-        "name": "Name",
-        "subject": "Betreff",
-        "issue": "Problem",
+        "name": "Name *",
+        "subject": "Betreff *",
+        "issue": "Problem *",
         "emailSent": "E-Mail erfolgreich gesendet!"
 
       },
@@ -182,7 +182,9 @@
         "enter-email": "Geben Sie Ihre E-Mail ein",
         "city": "Stadt",
         "allergens": "Allergene",
+        "add-allergens": "Allergene hinzufügen",
         "disliked-ingredients-title": "Vermeide Zutaten",
+        "add-disliked-ingredients": "Zutaten hinzufügen",
         "language": "Sprache",
         "enter-city": "Geben Sie Ihre Stadt ein",
         "apply-changes": "Änderungen übernehmen",
