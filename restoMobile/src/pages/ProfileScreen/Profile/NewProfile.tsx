@@ -52,9 +52,7 @@ const ProfilePage: React.FC<ProfileScreenProps &
     const [profilePic, setProfilePic] = useState<IimageInterface[]>([]);
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
-    const [menuDesign, setMenuDesign] = useState<string>('default');
     const [languageOpen, setLanguageOpen] = useState(false);
-    const [menuDesignOpen, setMenuDesignOpen] = useState(false);
     const [language, setLanguage] = useState<string>('en');
     const [showPasswordChangedMessage, setShowPasswordChangedMessage] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
@@ -111,11 +109,6 @@ const ProfilePage: React.FC<ProfileScreenProps &
       {label: t('common.german'), value: 'de'},
       {label: t('common.french'), value: 'fr'},
     ];
-    const menuDesignOptions = [
-      {label: t('pages.Profile.default'), value: 'default'},
-      {label: t('pages.Profile.fast-food'), value: 'fast-food'},
-      {label: t('pages.Profile.pizzeria'), value: 'pizzeria'},
-    ];
 
     useEffect(() => {
       loadDarkModeState();
@@ -133,7 +126,6 @@ const ProfilePage: React.FC<ProfileScreenProps &
             setEmail(res.email);
             setUsername(res.username);
             setImage(res.profilePicId[res.profilePicId.length - 1]);
-            setMenuDesign(res.defaultMenuDesign);
             setLanguage(res.preferredLanguage || i18n.language);
             setTwoFactor(res.twoFactor === "true");
             loadImages(res.profilePicId).then(r => console.log("Loaded user picture successfully"));
@@ -293,7 +285,6 @@ const ProfilePage: React.FC<ProfileScreenProps &
       const res = await editProfileDetails(userToken, {
         username: username,
         email: email,
-        defaultMenuDesign: menuDesign,
         preferredLanguage: language
       });
       i18n.changeLanguage(language);
@@ -496,18 +487,6 @@ const ProfilePage: React.FC<ProfileScreenProps &
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
             />
           </View>
-
-          <DropDownPicker
-            dropDownDirection={'TOP'}
-            language={language.toUpperCase() as LanguageType}
-            open={menuDesignOpen}
-            value={menuDesign}
-            items={menuDesignOptions}
-            setOpen={setMenuDesignOpen}
-            setValue={setMenuDesign}
-            dropDownContainerStyle={{backgroundColor: darkMode ? '#181A1B' : 'white'}}
-            textStyle={{ fontSize: 16, color: darkMode ? 'white' : 'black' }}
-            style={[styles.dropDown, darkMode && styles.dropDownDarkTheme]}/>
           <DropDownPicker
             dropDownDirection={'TOP'}
             language={language.toUpperCase() as LanguageType}
