@@ -4,7 +4,6 @@ const gap = Platform.OS === 'ios' ? 70 : 55;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
     height: 320,
     width: 290,
     justifyContent: "center",
@@ -93,7 +92,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: (gap / -2),
   },
   dropdown: {
-    margin: 16,
     height: 50,
     width: 300,
     borderBottomColor: 'gray',
