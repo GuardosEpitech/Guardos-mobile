@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 32,
     width: 150,
   },
   closeModalButtonText: {
@@ -80,10 +79,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  closeModalButtonSmall: {
+    backgroundColor: '#6d071a',
+    padding: 8,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+    width: 100,
+  },
+  closeModalButtonTextSmall: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
   closeModalButtonContainer: {
     alignItems: 'center',
     marginTop: 16,
     marginBottom: 32,
+  },
+  modalContainer: {
+    alignItems: 'center',
   },
   placeholderText: {
     color: 'gray',
@@ -140,6 +156,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 60, 
+  },
+  filterInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
 });
 
