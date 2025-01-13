@@ -8,7 +8,7 @@ import styles from './EditRestaurant.styles';
 import * as ImagePicker from "expo-image-picker";
 import { defaultRestoImage } from "../../assets/placeholderImagesBase64";
 import { addImageResto, deleteImageRestaurant, getImages } from "../../services/imagesCalls";
-import { editResto, getAllMenuDesigns, getRestoByName, getAllRestaurantChainsByUser } from '../../services/restoCalls';
+import {editResto, getAllMenuDesigns, getAllRestaurantChainsByUser, getRestoByID} from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -59,7 +59,7 @@ const EditRestaurant = ({ route }) => {
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
-        const data = await getRestoByName(restaurantId);
+        const data = await getRestoByID(restaurantId);
         setName(data.name);
         setOriginalRestoName(data.name);
         setPhoneNumber(data.phoneNumber);
@@ -239,7 +239,7 @@ const EditRestaurant = ({ route }) => {
         return;
       }
 
-      const response = await editResto(originalRestoName, updatedData, userToken);
+      const response = await editResto(restaurantId as string, updatedData, userToken);
 
       if (response) {
         Alert.alert(String(t('common.success')), String(t('pages.EditRestaurant.updated-resto-success')), [
