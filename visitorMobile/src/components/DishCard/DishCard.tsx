@@ -176,7 +176,7 @@ const DishCard: React.FC<DishCardProps> = (props: DishCardProps) => {
           )}
         </View>
 
-        {dish.combo && dish.combo.length > 0 && isFirstLevel && !isLoading && (
+        {comboDishes && comboDishes.length > 0 && isFirstLevel && !isLoading && (
           <View style={styles.accordionContainer}>
             <TouchableOpacity onPress={handleAccordionToggle} style={styles.accordionHeader}>
               <Text style={styles.accordionHeaderText}>

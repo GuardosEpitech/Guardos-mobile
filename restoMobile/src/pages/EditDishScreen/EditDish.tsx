@@ -302,7 +302,6 @@ const EditDish = ({ route }) => {
       setName(route.params.dish.name);
       setPrice(route.params.dish.price.toString());
       setDescription(route.params.dish.description);
-      setCombo(route.params.dish.combo);
       setValidTill(route.params.dish.validTill);
       setPictures(route.params.dish.pictures);
       setPictureId(route.params.dish.picturesId);
