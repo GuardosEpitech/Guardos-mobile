@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getProductsByUser } from "../../services/productCalls";
 import { getAllRestaurantsByUser, getRestaurantByName, getAllRestaurantChainsByUser } from "../../services/restoCalls";
 import * as ImagePicker from 'expo-image-picker';
-import {addDish, changeDishByName, deleteDishByName} from "../../services/dishCalls";
+import {addDish, changeDishByName, deleteDishByName, getDishesByUser} from "../../services/dishCalls";
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -58,6 +58,8 @@ const EditDish = ({ route }) => {
   const [inputValueRestoChain, setInputValueRestoChain] = React.useState("");
   const [restoChainID, setRestoChainID] = React.useState(undefined);
   const [restoChainOpen, setRestoChainOpen] = useState(false);
+  const [allUserDishes, setAllUserDishes] = useState<string[]>([]);
+  const [originalName, setOriginalName] = useState<string>('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [language, setLanguage] = useState('');
   const {t, i18n} = useTranslation();
@@ -66,6 +68,12 @@ const EditDish = ({ route }) => {
     setLanguage(i18n.language);
     fetchDarkMode();
     fetchRestoChains();
+
+    AsyncStorage.getItem('userToken').then((userToken) => {
+      getDishesByUser(userToken).then((res) => {
+        setAllUserDishes(res.map((dish: {name: string}) => dish.name));
+      })
+    });
   }, []);
 
 
@@ -299,6 +307,7 @@ const EditDish = ({ route }) => {
         "Nuts", "Peanuts", "Sesame seeds", "Soya", "Sulphur dioxide", "Lactose"];
 
       const category = [route.params.dish.category.menuGroup];
+      setOriginalName(route.params.dish.name);
       setName(route.params.dish.name);
       setPrice(route.params.dish.price.toString());
       setDescription(route.params.dish.description);
@@ -323,6 +332,12 @@ const EditDish = ({ route }) => {
       Alert.alert(String(t('common.error')),  String(t('common.some-fields-mandatory')));
       return;
     }
+
+    if (allUserDishes.includes(name) && name !== originalName) {
+      Alert.alert(String(t('common.error')), String(t('pages.EditDishScreen.dish-name-exists')));
+      return;
+    }
+
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;

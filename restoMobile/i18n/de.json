@@ -77,6 +77,7 @@
       },
       "ProductForm": {
         "product-name": "Produktname",
+        "product-name-taken": "Produktname wird bereits von einem deiner Produkt verwendet",
         "filter-ingredients": "Zutaten filtern",
         "select-ingredients": "Zutaten auswählen",
         "dont-see-ingredient": "Zutat nicht in der Liste?",
@@ -110,6 +111,7 @@
       "AddEditRestaurantScreen": {
         "add-resto-failed": "Restaurant konnte nicht hinzugefügt werden. Bitte versuchen Sie es erneut.",
         "resto-name-mandatory": "Restaurantname *",
+        "resto-name-taken": "Dieser Name wird bereits von einem Ihrer Restaurants verwendet",
         "phone-number": "Telefonnummer",
         "street-name-mandatory": "Straßenname *",
         "street-number-mandatory": "Hausnummer *",
@@ -124,6 +126,7 @@
       },
       "EditDishScreen": {
         "dish-name": "Gerichtsname *",
+        "dish-name-exists": "Dieser Name wird bereits von einem deiner Gerichte verwendet",
         "price": "Preis *",
         "description": "Beschreibung",
         "products": "Produkte *",

@@ -121,9 +121,16 @@ const AddCategoryPage = () => {
         }
 
         const existingCategory = newCategories.find(category => category.name.toLowerCase() === newCategoryName.toLowerCase());
-        if (existingCategory && !categoryToEdit) {
-            return;
-          }
+        if (existingCategory) {
+            if (!categoryToEdit) {
+                return;
+            }
+
+            const existingCatThatIsntOriginal = newCategories.find(category => category.name.toLowerCase() === newCategoryName.toLowerCase() && category.hitRate !== categoryToEdit?.hitRate);
+            if (existingCatThatIsntOriginal) {
+                return;
+            }
+        }
 
         let updatedCategories = [...newCategories];
         if (categoryToEdit) {

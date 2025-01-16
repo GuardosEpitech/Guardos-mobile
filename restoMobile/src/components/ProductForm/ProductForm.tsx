@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView,
 import { IIngredient, IRestaurantFrontEnd, IProduct } from '../../../../shared/models/restaurantInterfaces';
 import { IProductFE } from '../../../../shared/models/productInterfaces';
 import { getAllRestaurantsByUser } from "../../services/restoCalls";
-import { addNewProduct, editProduct } from '../../services/productCalls';
+import {addNewProduct, editProduct, getProductsByUser} from '../../services/productCalls';
 import styles from './ProductForm.styles';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,7 +38,10 @@ const ProductForm: React.FC<IDishFormProps> = ({
   const [filterText, setFilterText] = useState('');
   const [newIngredient, setNewIngredient] = useState('');
   const [ingredientFeedback, setIngredientFeedback] = useState('');
+  const [allUserProducts, setAllUserProducts] = useState<string[]>([]);
   const {t} = useTranslation();
+
+  const originalProductName = editable ? initialProductName : '';
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -60,6 +63,12 @@ const ProductForm: React.FC<IDishFormProps> = ({
       .catch((error) => {
         console.error("Error fetching ingredients:", error);
       });
+
+    AsyncStorage.getItem('userToken').then(async (userToken) => {
+      getProductsByUser(userToken).then((products) => {
+        setAllUserProducts(products.map((product: any) => product.name));
+      });
+    });
   }, []);
 
   const toggleRestaurantModal = () => {
@@ -85,6 +94,11 @@ const ProductForm: React.FC<IDishFormProps> = ({
       // check if valid
       if (!name || selectedRestaurants.length === 0 || selectedIngredients.length === 0) {
         Alert.alert(String(t('common.error')),  String(t('common.all-fields-mandatory')));
+        return;
+      }
+
+      if (allUserProducts.includes(name) && name !== originalProductName) {
+        Alert.alert(String(t('common.error')), String(t('components.ProductForm.product-name-taken')));
         return;
       }
 
