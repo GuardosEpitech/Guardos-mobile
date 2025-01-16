@@ -184,6 +184,7 @@ const AddRestoChain = () => {
                               <View style={styles.categoryItemContainer}>
                                   <TextInput
                                       placeholder={t('pages.RestoChain.name')}
+                                      placeholderTextColor={darkMode ? 'grey' : 'black'}
                                       value={newRestoChainName}
                                       onChangeText={(text) => {
                                           setNewRestoChainName(text);
