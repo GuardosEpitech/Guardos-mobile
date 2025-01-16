@@ -5,7 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './AddRestaurantScreen.styles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { addRestaurant, getAllMenuDesigns, restoByName, getAllRestaurantChainsByUser } from '../../services/restoCalls';
+import {
+  addRestaurant,
+  getAllMenuDesigns,
+  restoByName,
+  getAllRestaurantChainsByUser,
+  getAllRestaurantsByUser
+} from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface';
 import { CommonActions} from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
@@ -49,6 +55,7 @@ const AddRestaurantScreen = () => {
   const [inputValueRestoChain, setInputValueRestoChain] = React.useState("");
   const [restoChainID, setRestoChainID] = React.useState(0);
   const [restoChainOpen, setRestoChainOpen] = useState(false);
+  const [allUserRestos, setAllUserRestos] = useState<string[]>([]);
   const [refresh, setRefresh] = useState(false);
   const {t, i18n} = useTranslation();
 
@@ -57,6 +64,12 @@ const AddRestaurantScreen = () => {
     setLanguage(i18n.language);
     fetchDarkMode();
     fetchRestoChains();
+
+    AsyncStorage.getItem('userToken').then((userToken) => {
+      getAllRestaurantsByUser({key: userToken}).then((res) => {
+        setAllUserRestos(res.map((r: {name: string}) => r.name));
+      });
+    })
   }, []);
 
   const fetchDarkMode = async () => {
@@ -99,6 +112,11 @@ const AddRestaurantScreen = () => {
   const handleAddRestaurant = async () => {
     if (!restaurantName || !streetName || !streetNumber || !postalCode || !city || !country) {
       Alert.alert(String(t('common.error')), String(t('common.some-fields-mandatory')));
+      return;
+    }
+
+    if (allUserRestos.includes(restaurantName)) {
+      Alert.alert(String(t('common.error')), String(t('pages.AddEditRestaurantScreen.resto-name-taken')));
       return;
     }
 
