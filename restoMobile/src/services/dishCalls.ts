@@ -189,12 +189,12 @@ export const addDiscount = async (body: any, token: string) => {
     }
   }
   
-  export const getDishesByID = async(restoName: string, body: any) => {
+  export const getDishesByID = async(userToken: string, body: any) => {
     try {
       const response = await axios({
         url: baseURL + 'dishIDs',
         method: "POST",
-        params: {key: restoName},
+        params: {key: userToken},
         data: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",

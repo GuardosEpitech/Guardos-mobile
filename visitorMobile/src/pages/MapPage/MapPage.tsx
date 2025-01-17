@@ -328,10 +328,10 @@ const MapPage = () => {
   const handleReview = () => {  
     try {
       if (selectedMarker != null) {
-        const restaurantId = selectedMarker.uid;
-        const restaurantName = selectedMarker.name;
+        const restoID = selectedMarker.uid;
+        const restoName = selectedMarker.name;
         toggleModal();
-        navigation.navigate('RatingPage', { restaurantId, restaurantName });
+        navigation.navigate('RatingPage', { restoID, restoName });
       }
     } catch (error) {
       console.error('Error navigating to ReviewPage:', error);

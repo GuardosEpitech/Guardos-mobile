@@ -22,7 +22,7 @@ interface RestaurantCardProps {
 const RestaurantCard = (props: RestaurantCardProps) => {
   const navigation = useNavigation();
   const { info, isFavouriteResto, isSmallerCard, deleteFavResto } = props;
-  const { name, description, phoneNumber, website, openingHours } = info;
+  const { uid, name, description, phoneNumber, website, openingHours } = info;
   const { streetName, streetNumber, postalCode, city, country } = info.location;
   const address = `${streetName} ${streetNumber}, ${postalCode} ${city}, ${country}`;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
@@ -35,7 +35,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
 
   let picturesId = info.picturesId;
   useEffect(() => {
-    getRatingData(name)
+    getRatingData(uid)
         .then(res => setRatingData(res));
   },[]);
 
@@ -110,7 +110,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
   };
   const navigateToReview = () => {
     const restoName = info.name;
-    navigation.navigate('RatingPage', {ratingData, restoName});
+    navigation.navigate('RatingPage', {ratingData, restoName, restoID: info.uid});
   };
   const handleShare = async () => {
     const uid = info.uid;
