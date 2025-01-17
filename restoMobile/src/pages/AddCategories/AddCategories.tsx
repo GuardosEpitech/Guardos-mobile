@@ -162,8 +162,13 @@ const AddCategoryPage = () => {
           });
         }
 
-        const newCategory = { name: newCategoryName, hitRate: Number(newCategoryHitRate) };
-        updatedCategories.push(newCategory);
+        if (categoryToEdit) {
+            const newCategory = { name: newCategoryName, hitRate: Number(newCategoryHitRate), edited: true };
+            updatedCategories.push(newCategory);
+        } else {
+            const newCategory = { name: newCategoryName, hitRate: Number(newCategoryHitRate) };
+            updatedCategories.push(newCategory);
+        }
 
         updatedCategories.sort((a, b) => a.hitRate - b.hitRate);
         const updatedResto = await updateRestoCategories(userToken, activeRestaurant, updatedCategories);
