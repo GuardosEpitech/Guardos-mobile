@@ -21,6 +21,32 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       padding: 20,
     },
+    dayContainer: {
+      marginBottom: 16,
+      padding: 8,
+      borderColor: '#ddd',
+      borderWidth: 1,
+      borderRadius: 8,
+      margin: 20
+    },
+    dayText: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginBottom: 8,
+    },
+    timeText: {
+      marginBottom: 4,
+      backgroundColor: '#6d071a',
+      borderRadius: 10,
+      padding: 10,
+      width: '50%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    timeTextInside: {
+      color: 'white',
+      fontWeight: 'bold'
+    },
     contentContainerDark: {
       flexDirection: 'row',
       justifyContent: 'space-between',
