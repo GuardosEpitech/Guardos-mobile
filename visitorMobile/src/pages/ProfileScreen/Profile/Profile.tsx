@@ -987,32 +987,37 @@ const Profile: React.FC<ProfileScreenProps & { setLoggedInStatus: (status: boole
         <View style={styles.centeredView}>
           <View style={[styles.modalView, darkMode && styles.modalViewDark]}>
             <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{modalContentType}</Text>
-            <View style={styles.flexContainer}>
-              {modalContentType === t('pages.Profile.allergens') &&
-                allergensOptions.map(({value, label}, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[styles.allergenButton, allergens.includes(value) ? styles.selectedButton : null]}
-                    onPress={() => toggleAllergensSelection(value)}
-                  >
-                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{label}</Text>
-                  </TouchableOpacity>
-                ))
-              }
-              {modalContentType === t('pages.Profile.disliked-ingredients-title') &&
-                dbIngredients.map((item) => {
-                  return {label: item, value: item};
-                }).map(({value, label}, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[styles.allergenButton, selectedDislikedIngredients.includes(value) ? styles.selectedButton : null]}
-                    onPress={() => toggleDislikedIngredientsSelection(value)}
-                  >
-                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{label}</Text>
-                  </TouchableOpacity>
-                ))
-              }
-            </View>
+            <ScrollView 
+              contentContainerStyle={styles.modalScrollContent} 
+              nestedScrollEnabled
+            >
+              <View style={styles.flexContainer}>
+                {modalContentType === t('pages.Profile.allergens') &&
+                  allergensOptions.map(({value, label}, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={[styles.allergenButton, allergens.includes(value) ? styles.selectedButton : null]}
+                      onPress={() => toggleAllergensSelection(value)}
+                    >
+                      <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{label}</Text>
+                    </TouchableOpacity>
+                  ))
+                }
+                {modalContentType === t('pages.Profile.disliked-ingredients-title') &&
+                  dbIngredients.map((item) => {
+                    return {label: item, value: item};
+                  }).map(({value, label}, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={[styles.allergenButton, selectedDislikedIngredients.includes(value) ? styles.selectedButton : null]}
+                      onPress={() => toggleDislikedIngredientsSelection(value)}
+                    >
+                      <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{label}</Text>
+                    </TouchableOpacity>
+                  ))
+                }
+              </View>
+            </ScrollView>
             <Button
               title={t('common.close') as string}
               onPress={() => {
