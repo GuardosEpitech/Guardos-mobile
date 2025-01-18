@@ -122,7 +122,16 @@
         "website": "Website",
         "select-menu-design": "Select a menu design:",
         "select-resto-chain": "Select a resto chain:",
-        "add-resto": "Add Restaurant"
+        "add-resto": "Add Restaurant",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday",
+        "opening-time": "Select Opening Time",
+        "closing-time": "Select Closing Time"
       },
       "EditDishScreen": {
         "dish-name": "Dish name *",

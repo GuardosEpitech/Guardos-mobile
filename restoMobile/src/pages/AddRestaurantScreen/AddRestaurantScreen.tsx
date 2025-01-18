@@ -16,6 +16,7 @@ import { IMenuDesigns } from 'src/models/menuDesignsInterface';
 import { CommonActions} from '@react-navigation/native';
 import {useTranslation} from "react-i18next";
 import {addQRCode} from "../../services/qrcodeCall";
+import { TimePickerModal } from 'react-native-paper-dates';
 
 DropDownPicker.addTranslation("DE", {
   PLACEHOLDER: "Wählen Sie ein Element aus",
@@ -59,6 +60,60 @@ const AddRestaurantScreen = () => {
   const [refresh, setRefresh] = useState(false);
   const {t, i18n} = useTranslation();
 
+  const days = [
+    { id: 0, name: t('pages.AddEditRestaurantScreen.monday') },
+    { id: 1, name: t('pages.AddEditRestaurantScreen.tuesday') },
+    { id: 2, name: t('pages.AddEditRestaurantScreen.wednesday') },
+    { id: 3, name: t('pages.AddEditRestaurantScreen.thursday') },
+    { id: 4, name: t('pages.AddEditRestaurantScreen.friday') },
+    { id: 5, name: t('pages.AddEditRestaurantScreen.saturday') },
+    { id: 6, name: t('pages.AddEditRestaurantScreen.sunday') },
+  ];
+  const [openTimePicker, setOpenTimePicker] = React.useState({ open: false, day: null, type: null });
+  const [selectedOpeningHours, setSelectedOpeningHours] = React.useState([]);
+
+  const addTimeOpen = ({ open, day }) => {
+    setSelectedOpeningHours(prev => {
+      const existingDay = prev.find(item => item.day === day);
+      if (existingDay) {
+        return prev.map(item =>
+            item.day === day
+                ? { ...item, open }
+                : item
+        );
+      } else {
+        return [...prev, { day, open, close: '' }];
+      }
+    });
+  };
+
+  const addTimeClose = ({ close, day }) => {
+    setSelectedOpeningHours(prev => {
+      const existingDay = prev.find(item => item.day === day);
+      if (existingDay) {
+        return prev.map(item =>
+            item.day === day
+                ? { ...item, close }
+                : item
+        );
+      } else {
+        return [...prev, { day, open: '', close }];
+      }
+    });
+  };
+  const handleConfirm = (time, day, type) => {
+    if (time) {
+      const formattedTime = time.hours + ':' + time.minutes;
+      if (type === 'open') {
+        addTimeOpen({ open: formattedTime, day });
+      } else if (type === 'close') {
+        addTimeClose({ close: formattedTime, day });
+      }
+    } else {
+      console.log('Invalid time selected');
+    }
+    setOpenTimePicker({ open: false, day: null, type: null });
+  };
   useEffect(() => {
     catchAllMenuDesigns();
     setLanguage(i18n.language);
@@ -125,6 +180,7 @@ const AddRestaurantScreen = () => {
       phoneNumber: phoneNumber,
       website: website,
       pictures: [imageURL],
+      openingHours: selectedOpeningHours,
       location: {
         streetName: streetName,
         streetNumber: streetNumber,
@@ -163,7 +219,8 @@ const AddRestaurantScreen = () => {
       setSelectedMenuDesignID(0);
       setSelectedMenuDesign('');
       setSelectedRestoChainId(null);
-      refreshApp();;
+      setSelectedOpeningHours([]);
+      refreshApp();
     } catch (error) {
       console.error('Error adding restaurant:', error);
       Alert.alert(String(t('common.error')), String(t('pages.AddEditRestaurantScreen.add-resto-failed')));
@@ -261,6 +318,39 @@ const AddRestaurantScreen = () => {
             placeholderTextColor={darkMode ? '#888' : '#aaa'}
             value={website}
             onChangeText={setWebsite}
+          />
+        </View>
+        <View>
+          {days.map((index, key) => {
+            const dayOpeningHours = selectedOpeningHours.find(item => item.day === index.id) || {};
+            return (
+                <View key={key} style={styles.dayContainer}>
+                  <Text style={styles.dayText}>{index.name}</Text>
+                  <TouchableOpacity
+                      style={styles.timeText}
+                      onPress={() => setOpenTimePicker({ open: true, day: index.id, type: 'open' })}
+                  >
+                    <Text style={styles.timeTextInside}>
+                      {dayOpeningHours.open || t('pages.AddEditRestaurantScreen.opening-time')}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                      style={styles.timeText}
+                      onPress={() => setOpenTimePicker({ open: true, day: index.id, type: 'close' })}
+                  >
+                    <Text style={styles.timeTextInside}>
+                      {dayOpeningHours.close || t('pages.AddEditRestaurantScreen.closing-time')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+            );
+          })}
+          <TimePickerModal
+              visible={openTimePicker.open}
+              onDismiss={() => setOpenTimePicker({ open: false, day: null, type: null })}
+              onConfirm={(time) => handleConfirm(time, openTimePicker.day, openTimePicker.type)}
+              label={openTimePicker.type === 'open' ? t('pages.AddEditRestaurantScreen.opening-time') : t('pages.AddEditRestaurantScreen.closing-time')}
+              uppercase={false}
           />
         </View>
         <View style={styles.containerPicker}>

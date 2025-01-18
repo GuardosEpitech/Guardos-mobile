@@ -122,7 +122,16 @@
         "website": "Webseite",
         "select-menu-design": "Menüdesign auswählen:",
         "select-resto-chain": "Restaurantkette auswählen:",
-        "add-resto": "Restaurant hinzufügen"
+        "add-resto": "Restaurant hinzufügen",
+        "monday": "Montag",
+        "tuesday": "Dienstag",
+        "wednesday": "Mittwoch",
+        "thursday": "Donnerstag",
+        "friday": "Freitag",
+        "saturday": "Samstag",
+        "sunday": "Sonntag",
+        "opening-time": "Öffnungszeiten",
+        "closing-time": "Uhrzeit der Schließung"
       },
       "EditDishScreen": {
         "dish-name": "Gerichtsname *",

@@ -122,7 +122,16 @@
         "website": "Site web",
         "select-menu-design": "Sélectionner un design de menu:",
         "select-resto-chain": "Sélectionner une chaîne de restaurants:",
-        "add-resto": "Ajouter un restaurant"
+        "add-resto": "Ajouter un restaurant",
+        "monday": "Lundi",
+        "tuesday": "Mardi",
+        "wednesday": "Mercredi",
+        "thursday": "Jeudi",
+        "friday": "Vendredi",
+        "saturday": "Samedi",
+        "sunday": "Dimanche",
+        "opening-time": "Heure d'ouverture",
+        "closing-time": "Heure de fermeture"
       },
       "EditDishScreen": {
         "dish-name": "Nom du plat *",
