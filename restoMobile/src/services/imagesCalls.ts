@@ -45,14 +45,14 @@ export const deleteImageRestaurant =
     }
   };
 
-export const addImageResto = async (restaurantName: string,
+export const addImageResto = async (restaurantId: number,
                                     imageName: string, contentType: string, size: number, base64: string) => {
   try {
     if (baseUrl === undefined) {
       throw new Error("baseUrl is not defined");
     }
     const body = {
-      restaurant: restaurantName,
+      restaurantId: restaurantId,
       image: {
         filename: imageName,
         contentType: contentType,

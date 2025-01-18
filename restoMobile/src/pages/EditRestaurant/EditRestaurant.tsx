@@ -11,9 +11,9 @@ import { addImageResto, deleteImageRestaurant, getImages } from "../../services/
 import {
   editResto,
   getAllMenuDesigns,
-  getRestoByName,
   getAllRestaurantChainsByUser,
-  getAllRestaurantsByUser
+  getAllRestaurantsByUser,
+  getRestoByID
 } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
@@ -66,7 +66,7 @@ const EditRestaurant = ({ route }) => {
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
-        const data = await getRestoByName(restaurantId);
+        const data = await getRestoByID(restaurantId);
         setName(data.name);
         setOriginalRestoName(data.name);
         setPhoneNumber(data.phoneNumber);
@@ -82,7 +82,7 @@ const EditRestaurant = ({ route }) => {
         setSelectedMenuDesignID(data.menuDesignID);
         setSelectedMenuDesign(data.menuDesignID);
         setRestoChainID(data.restoChainID);
-        
+
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken === null) {
           return;
@@ -204,7 +204,8 @@ const EditRestaurant = ({ route }) => {
       if (result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
         const base64 = 'data:' + asset.mimeType + ';base64,' + asset.base64;
-        await addImageResto(name, asset.fileName, asset.mimeType, asset.fileSize, base64).then(
+        await addImageResto(restaurantId,
+            asset.fileName, asset.mimeType, asset.fileSize, base64).then(
           r => {
             setPictures([{ base64: base64, contentType: asset.mimeType,
               filename: asset.fileName, size: asset.fileSize, uploadDate: "0", id: r }]);
@@ -256,7 +257,7 @@ const EditRestaurant = ({ route }) => {
         return;
       }
 
-      const response = await editResto(originalRestoName, updatedData, userToken);
+      const response = await editResto(restaurantId, updatedData, userToken);
 
       if (response) {
         Alert.alert(String(t('common.success')), String(t('pages.EditRestaurant.updated-resto-success')), [
@@ -322,6 +323,7 @@ const EditRestaurant = ({ route }) => {
             <TextInput
               style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.phone-number') as string}
+              placeholderTextColor={darkMode ? 'white' : 'black'}
               value={phoneNumber}
               onChangeText={(text) => setPhoneNumber(text)}
             />
@@ -330,12 +332,14 @@ const EditRestaurant = ({ route }) => {
             <TextInput
               style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.website') as string}
+              placeholderTextColor={darkMode ? 'white' : 'black'}
               value={website}
               onChangeText={(text) => setWebsite(text)}
             />
             <TextInput
               style={[darkMode ? styles.inputDark : styles.input, styles.multilineInput]}
               placeholder={t('pages.AddEditRestaurantScreen.description') as string}
+              placeholderTextColor={darkMode ? 'white' : 'black'}
               value={description}
               onChangeText={(text) => setDescription(text)}
               multiline
@@ -399,6 +403,7 @@ const EditRestaurant = ({ route }) => {
           setValue={setSelectedMenuDesign}
           style={darkMode ? styles.pickerStylesDark : styles.pickerStyles}
           textStyle={darkMode ? styles.darkDropDownText : styles.dropDownText}
+          dropDownContainerStyle={darkMode ? styles.dropDownContainerDark : styles.dropDownContainer}
         />
       </View>
       <View style={darkMode ? styles.containerPickerDark : styles.containerPicker}>
@@ -419,6 +424,7 @@ const EditRestaurant = ({ route }) => {
           setValue={setValueRestoChain}
           style={darkMode ? styles.pickerStylesDark : styles.pickerStyles}
           textStyle={darkMode ? styles.darkDropDownText : styles.dropDownText}
+          dropDownContainerStyle={darkMode ? styles.dropDownContainerDark : styles.dropDownContainer}
         />
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>

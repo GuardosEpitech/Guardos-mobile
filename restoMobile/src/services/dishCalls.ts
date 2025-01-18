@@ -48,6 +48,9 @@ export const changeDishByName = async (dish: IDishFE, restaurant: string, token:
               combo: dish.combo,
               restoChainID: dish.restoChainID,
             }),
+            headers: {
+              "content-type": "application/json",
+            },
         });
         return response.data;
     } catch (error) {

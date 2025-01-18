@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       padding: 20,
     },
+    dropDownContainer:{
+
+    },
     contentContainerDark: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -135,6 +138,9 @@ const styles = StyleSheet.create({
   darkDropDownText:{
     color:'#fff'
   },
+  dropDownContainerDark:{
+    backgroundColor: 'grey'
+  }
   });
   
 export default styles;

@@ -44,7 +44,7 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     ];
 
     const addReview = async () => {
-         if (newComment === undefined || value === null) {
+         if (value === null) {
              setInvalidInput(true)
              return
          }
