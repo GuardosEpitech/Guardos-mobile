@@ -8,6 +8,12 @@ import styles from './EditRestaurant.styles';
 import * as ImagePicker from "expo-image-picker";
 import { defaultRestoImage } from "../../assets/placeholderImagesBase64";
 import { addImageResto, deleteImageRestaurant, getImages } from "../../services/imagesCalls";
+import {
+  editResto,
+  getAllMenuDesigns,
+  getAllRestaurantChainsByUser,
+  getAllRestaurantsByUser
+} from '../../services/restoCalls';
 import {editResto, getAllMenuDesigns, getAllRestaurantChainsByUser, getRestoByID} from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
@@ -51,6 +57,7 @@ const EditRestaurant = ({ route }) => {
   const [restoChainID, setRestoChainID] = React.useState(undefined);
   const [menuDesignOpen, setMenuDesignOpen] = useState(false);
   const [restoChainOpen, setRestoChainOpen] = useState(false);
+  const [allUserRestos, setAllUserRestos] = useState<string[]>([]);
   const [language, setLanguage] = useState('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const navigation = useNavigation();
@@ -76,11 +83,15 @@ const EditRestaurant = ({ route }) => {
         setSelectedMenuDesign(data.menuDesignID);
         setRestoChainID(data.restoChainID);
 
-        
+
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken === null) {
           return;
         }
+
+        getAllRestaurantsByUser({ key: userToken }).then((res) => {
+          setAllUserRestos(res.map((resto: {name: string}) => resto.name));
+        })
         const res = await getAllRestaurantChainsByUser(userToken);
         setRestoChains(res);
         if (data.restoChainID !== undefined) {
@@ -215,6 +226,12 @@ const EditRestaurant = ({ route }) => {
       Alert.alert(String(t('common.error')), String(t('common.some-fields-mandatory')));
       return;
     }
+
+    if (allUserRestos.includes(name) && name !== originalRestoName) {
+      Alert.alert(String(t('common.error')), String(t('pages.AddEditRestaurantScreen.resto-name-taken')));
+      return;
+    }
+
     try {
       const updatedData = {
         name: name,

@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getProductsByUser } from "../../services/productCalls";
 import { getAllRestaurantsByUser, getRestaurantByName, getAllRestaurantChainsByUser } from "../../services/restoCalls";
 import * as ImagePicker from 'expo-image-picker';
-import {addDish, changeDishByName, deleteDishByName} from "../../services/dishCalls";
+import {addDish, changeDishByName, deleteDishByName, getDishesByUser} from "../../services/dishCalls";
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -49,7 +49,7 @@ const EditDish = ({ route }) => {
   const [modalContentType, setModalContentType] = useState('');
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedAllergens, setSelectedAllergens] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState();
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [originalRestaurants, setOriginalRestaurants] = useState([]);
   const [restoChains, setRestoChains] = useState<{uid: number, name: string, restos: string[]}[]>([]);
@@ -58,6 +58,9 @@ const EditDish = ({ route }) => {
   const [inputValueRestoChain, setInputValueRestoChain] = React.useState("");
   const [restoChainID, setRestoChainID] = React.useState(undefined);
   const [restoChainOpen, setRestoChainOpen] = useState(false);
+  const [categoryOpen, setCategoryOpen] = useState(false);
+  const [allUserDishes, setAllUserDishes] = useState<string[]>([]);
+  const [originalName, setOriginalName] = useState<string>('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [language, setLanguage] = useState('');
   const {t, i18n} = useTranslation();
@@ -66,6 +69,12 @@ const EditDish = ({ route }) => {
     setLanguage(i18n.language);
     fetchDarkMode();
     fetchRestoChains();
+
+    AsyncStorage.getItem('userToken').then((userToken) => {
+      getDishesByUser(userToken).then((res) => {
+        setAllUserDishes(res.map((dish: {name: string}) => dish.name));
+      })
+    });
   }, []);
 
 
@@ -87,9 +96,9 @@ const EditDish = ({ route }) => {
       return;
     }
     getAllRestaurantsByUser({key: userToken})
-      .then((res) => {
+      .then(async (res) => {
         getAllRestaurantChainsByUser(userToken)
-          .then((restoChainsRes) => {
+          .then(async (restoChainsRes) => {
             const chains = restoChainsRes.map((chain: {uid: number, name: string}) => ({
               uid: chain.uid,
               name: chain.name,
@@ -107,6 +116,7 @@ const EditDish = ({ route }) => {
             .some((dish: any) => dish.name === route.params.dish.name))
           .map((item: any) => item.name);
         setSelectedRestaurants(allDishRestos);
+        await updateCategories(allDishRestos);
         setOriginalRestaurants(allDishRestos.map((resto: string) => resto));
       })
   };
@@ -116,14 +126,10 @@ const EditDish = ({ route }) => {
     setSelectedProducts(updatedProducts);
   };
 
-  const onCategoryPress = (item: string) => {
-    const updatedCategories = selectedCategories.filter(category => category !== item);
-    setSelectedCategories(updatedCategories);
-  }
-
-  const onRestaurantPress = (item: string) => {
+  const onRestaurantPress = async (item: string) => {
     const updatedRestaurants = selectedRestaurants.filter(restaurant => restaurant !== item);
     setSelectedRestaurants(updatedRestaurants);
+    await updateCategories(updatedRestaurants);
   }
 
   const onAddProduct = async () => {
@@ -137,27 +143,19 @@ const EditDish = ({ route }) => {
     setModalVisible(true);
   };
 
-  const onAddCategory = async () => {
+  const updateCategories = async (selectedRestos?: string []) => {
     let categories: string[] = [];
-    if (restaurantName.length === 0) {
-      for (const restaurantName of selectedRestaurants) {
-        const restaurant = await getRestaurantByName(restaurantName);
-        if (restaurant && restaurant.categories) {
-          categories = [...categories, ...restaurant.categories];
-        }
-      }
-    } else {
+    for (const restaurantName of (selectedRestos ?? selectedRestaurants)) {
       const restaurant = await getRestaurantByName(restaurantName);
-      categories = restaurant.categories;
+      if (restaurant && restaurant.categories) {
+        categories = [...categories, ...restaurant.categories];
+      }
     }
-    
+
     //@ts-ignore
     const newCategories = categories.filter(cat => !categories.includes(cat.name)).map(cat => cat.name);
     const uniqueCategories = Array.from(new Set(newCategories));
     setCategory(uniqueCategories);
-
-    setModalContentType(t('pages.EditDishScreen.categories') as string);
-    setModalVisible(true);
   };
 
   const onAddRestaurant = async () => {
@@ -188,20 +186,15 @@ const EditDish = ({ route }) => {
     }
   }
 
-  const toggleCategoriesSelection = (item: string) => {
-    if (selectedCategories.includes(item)) {
-      setSelectedCategories(selectedCategories.filter(selectedItem => selectedItem !== item));
-    } else {
-      setSelectedCategories([...selectedCategories, item]);
-    }
-  }
-
-  const toggleRestaurantsSelection = (item: string) => {
+  const toggleRestaurantsSelection = async (item: string) => {
+    let updatedSelectedRestaurants = [];
     if (selectedRestaurants.includes(item)) {
-      setSelectedRestaurants(selectedRestaurants.filter(selectedItem => selectedItem !== item));
+      updatedSelectedRestaurants = selectedRestaurants.filter(selectedItem => selectedItem !== item);
     } else {
-      setSelectedRestaurants([...selectedRestaurants, item]);
+      updatedSelectedRestaurants = [...selectedRestaurants, item];
     }
+    setSelectedRestaurants(updatedSelectedRestaurants);
+    await updateCategories(updatedSelectedRestaurants);
   }
 
   useEffect(() => {
@@ -298,16 +291,16 @@ const EditDish = ({ route }) => {
         "Crustaceans", "Eggs", "Fish", "Lupin", "Milk", "Molluscs", "Mustard",
         "Nuts", "Peanuts", "Sesame seeds", "Soya", "Sulphur dioxide", "Lactose"];
 
-      const category = [route.params.dish.category.menuGroup];
+      const category = route.params.dish.category.menuGroup;
+      setOriginalName(route.params.dish.name);
       setName(route.params.dish.name);
       setPrice(route.params.dish.price.toString());
       setDescription(route.params.dish.description);
-      setCombo(route.params.dish.combo);
       setValidTill(route.params.dish.validTill);
       setPictures(route.params.dish.pictures);
       setPictureId(route.params.dish.picturesId);
       setAllergens(allergens);
-      setSelectedCategories(category);
+      setSelectedCategory(category);
       setProducts(route.params.dish.products);
       setSelectedProducts(route.params.dish.products);
       setSelectedAllergens(route.params.dish.allergens);
@@ -320,10 +313,16 @@ const EditDish = ({ route }) => {
 
   const handleSave = async () => {
     // check if valid
-    if (!name || !price || selectedProducts.length === 0 || selectedCategories.length === 0 || selectedRestaurants.length === 0) {
+    if (!name || !price || selectedProducts.length === 0 || !selectedCategory || selectedRestaurants.length === 0) {
       Alert.alert(String(t('common.error')),  String(t('common.some-fields-mandatory')));
       return;
     }
+
+    if (allUserDishes.includes(name) && name !== originalName) {
+      Alert.alert(String(t('common.error')), String(t('pages.EditDishScreen.dish-name-exists')));
+      return;
+    }
+
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === null) {
       return;
@@ -338,9 +337,9 @@ const EditDish = ({ route }) => {
         description: description,
         allergens: selectedAllergens,
         products: selectedProducts,
-        combo: route.params.dish.combo,
+        combo: route.params.dish ? route.params.dish.combo : [],
         category: {
-          menuGroup: selectedCategories.toString(),
+          menuGroup: selectedCategory,
           foodGroup: dishCategory.foodGroup,
           extraGroup: dishCategory.extraGroup,
         },
@@ -353,7 +352,7 @@ const EditDish = ({ route }) => {
 
       let dish = null;
       if (originalRestaurants.includes(selectedRestaurants[i])) {
-        dish = await changeDishByName(dishToSave, selectedRestaurants[i], userToken);
+        dish = await changeDishByName(dishToSave, selectedRestaurants[i], userToken, originalName);
         if (dish && dish.name) {
           console.log('Dish updated');
         }
@@ -371,7 +370,7 @@ const EditDish = ({ route }) => {
       if (i === 0) {
         const deleteFromResto = originalRestaurants.filter((resto: any) => !selectedRestaurants.includes(resto));
         for (const resto of deleteFromResto) {
-          await deleteDishByName(resto, dishToSave.name, userToken);
+          await deleteDishByName(resto, originalName, userToken);
         }
       }
     }
@@ -517,6 +516,7 @@ const EditDish = ({ route }) => {
         <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.AddEditRestaurantScreen.select-resto-chain')}</Text>
         <DropDownPicker
           open={restoChainOpen}
+          itemKey={valueRestoChain}
           language={language.toUpperCase() as LanguageType}
           items={[{label: "-", value: -1}, ...restoChains.map((restoChain) => ({ label: restoChain.name, value: restoChain.uid }))]}
           value={valueRestoChain}
@@ -538,25 +538,24 @@ const EditDish = ({ route }) => {
         <Text style={styles.info}>{t('pages.EditDishScreen.resto-chain-info')}</Text>
       </View>
 
-      <View style={styles.contentProducsDishes}>
+      <View key={"category-picker"} style={styles.contentProducsDishes}>
         <Text style={[styles.label, darkMode && styles.labelDarkTheme]}>{t('pages.EditDishScreen.food-category')}</Text>
-        <View style={styles.containerAllergens}>
-          {selectedCategories.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.button}
-              onPress={() => onCategoryPress(item)}
-            >
-              <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <TouchableOpacity
-          key={"ADDNEWCATEGORY"}
-          style={styles.button}
-          onPress={() => onAddCategory()}>
-          <Text style={[styles.labelCernterd, darkMode && styles.labelCernterdDarkTheme]}>{t('pages.EditDishScreen.add-category')}</Text>
-        </TouchableOpacity>
+        <DropDownPicker
+          key={"category-picker2"}
+          open={categoryOpen}
+          itemKey={selectedCategory ?? 'category-placeholder'}
+          language={language.toUpperCase() as LanguageType}
+          items={category.map((cat) => ({label: cat, value: cat}))}
+          value={selectedCategory}
+          dropDownDirection={'TOP'}
+          setOpen={setCategoryOpen}
+          setValue={setSelectedCategory}
+          style={darkMode ? styles.darkDropdown : styles.lightDropdown} // Dropdown container style
+          dropDownContainerStyle={darkMode ? styles.darkDropDownContainer : styles.lightDropDownContainer} // Dropdown menu style
+          textStyle={darkMode ? styles.darkDropdown : styles.lightDropdown} // Text style in dropdown
+          placeholderStyle={darkMode ? styles.darkPlaceholder : styles.lightPlaceholder} // Placeholder style
+          labelStyle={darkMode ? styles.darkLabel : styles.lightLabel} // Label text style
+        />
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
@@ -592,18 +591,6 @@ const EditDish = ({ route }) => {
                     key={index}
                     style={[styles.button, selectedAllergens.includes(item) ? styles.selectedButton : null]}
                     onPress={() => toggleAllergensSelection(item)}
-                  >
-                    <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
-                  </TouchableOpacity>
-                ))
-              }
-
-              {modalContentType === t('pages.EditDishScreen.categories') &&
-                category.map((item, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[styles.button, selectedCategories.includes(item) ? styles.selectedButton : null]}
-                    onPress={() => toggleCategoriesSelection(item)}
                   >
                     <Text style={[styles.inputDishProduct, darkMode && styles.inputDishProductDarkTheme]}>{item}</Text>
                   </TouchableOpacity>

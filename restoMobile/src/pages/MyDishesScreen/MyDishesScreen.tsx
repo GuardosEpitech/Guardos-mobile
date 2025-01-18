@@ -55,7 +55,7 @@ const MyDishesScreen: React.FC = () => {
       }
 
       await deleteDishByName(restaurant, dishName, userToken);
-      fetchDishes();
+      await fetchDishes();
     } catch (error) {
       console.error('Error deleting dish:', error);
     }
@@ -78,6 +78,7 @@ const MyDishesScreen: React.FC = () => {
 
   const onRefresh2 = useCallback(() => {
     setIsRefreshing(true);
+    fetchDishes().then(() => setRefreshing(false));
     fetchDarkMode();
     setTimeout(() => {
       if (isFocused) {
@@ -109,7 +110,7 @@ const MyDishesScreen: React.FC = () => {
                 <DishCard
                   dish={item}
                   onDelete={() => onDelete(item.name, item.resto)}
-                  key={key}
+                  key={`${item.uid}-${key}`}
                   isFirstLevel={true}
                 />
               </TouchableOpacity>

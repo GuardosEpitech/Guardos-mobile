@@ -9,7 +9,7 @@ import {
   View
 } from "react-native";
 import { useTranslation } from "react-i18next";
-import { getDishesByResto2, addCombo, removeCombo } from "../../services/dishCalls";
+import {getDishesByResto2, addCombo, removeCombo, getDishesByUser} from "../../services/dishCalls";
 import { IDishFE } from "../../../../shared/models/dishInterfaces";
 import styles from "./DishComboPage.style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -30,8 +30,14 @@ const DishComboPage: React.FC = () => {
 
   useEffect(() => {
     const fetchDishes = async () => {
-      const allDishes = await getDishesByResto2(dish.resto);
-      const cleanedDishes = allDishes[0].dishes.filter(
+      const userToken = await AsyncStorage.getItem('userToken');
+
+      if (!userToken) {
+        return;
+      }
+
+      const allUserDishes = await getDishesByUser(userToken);
+      const cleanedDishes = allUserDishes.filter(
         (d: IDishFE) => d.name !== dish.name
       );
 
