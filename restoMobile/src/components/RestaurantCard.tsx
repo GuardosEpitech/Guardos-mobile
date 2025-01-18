@@ -50,7 +50,7 @@ const RestaurantCard = ({ info, onDelete }) => {
   };
 
   const handleEdit = () => {
-    navigation.navigate('EditRestaurant', { restaurantId: info.name });
+    navigation.navigate('EditRestaurant', { restaurantId: info.uid });
   };
 
   let picturesId = info.picturesId;

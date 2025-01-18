@@ -6,7 +6,7 @@ import AdCard from '../../components/AdCard/AdCard';
 import styles from './MyRestaurantsScreen.styles';
 import { useTranslation } from 'react-i18next';
 import {
-  deleteRestaurantByName,
+  deleteRestaurantById,
   getAllRestaurantsByUserAndFilter,
 } from '../../services/restoCalls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -58,14 +58,14 @@ const MyRestaurantsScreen = () => {
     fetchDarkMode();
   }, [filter]);
 
-  const onDelete = async (restaurantName: string) => {
+  const onDelete = async (restaurantId: number) => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
       if (userToken === null) {
         return;
       }
 
-      await deleteRestaurantByName(restaurantName, userToken);
+      await deleteRestaurantById(restaurantId as unknown as string, userToken);
       updateRestoData(filter);
     } catch (error) {
       console.error('Error deleting restaurant:', error);
@@ -106,7 +106,7 @@ const MyRestaurantsScreen = () => {
     <View>
       {index === adIndex && !premium && <AdCard />}
       <TouchableOpacity onPress={() => navigateToMenu(item.uid, item.name)}>
-        <Card info={item} onDelete={onDelete} key={key} />
+        <Card info={item} onDelete={() => onDelete(item.uid)} key={key} />
       </TouchableOpacity>
     </View>
   );
