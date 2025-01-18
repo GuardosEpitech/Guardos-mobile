@@ -12,9 +12,9 @@ import {
   editResto,
   getAllMenuDesigns,
   getAllRestaurantChainsByUser,
-  getAllRestaurantsByUser
+  getAllRestaurantsByUser,
+  getRestoByID
 } from '../../services/restoCalls';
-import {editResto, getAllMenuDesigns, getAllRestaurantChainsByUser, getRestoByID} from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -82,7 +82,6 @@ const EditRestaurant = ({ route }) => {
         setSelectedMenuDesignID(data.menuDesignID);
         setSelectedMenuDesign(data.menuDesignID);
         setRestoChainID(data.restoChainID);
-
 
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken === null) {
@@ -205,7 +204,8 @@ const EditRestaurant = ({ route }) => {
       if (result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
         const base64 = 'data:' + asset.mimeType + ';base64,' + asset.base64;
-        await addImageResto(restaurantId, asset.fileName, asset.mimeType, asset.fileSize, base64).then(
+        await addImageResto(restaurantId,
+            asset.fileName, asset.mimeType, asset.fileSize, base64).then(
           r => {
             setPictures([{ base64: base64, contentType: asset.mimeType,
               filename: asset.fileName, size: asset.fileSize, uploadDate: "0", id: r }]);
@@ -257,7 +257,7 @@ const EditRestaurant = ({ route }) => {
         return;
       }
 
-      const response = await editResto(restaurantId as string, updatedData, userToken);
+      const response = await editResto(restaurantId, updatedData, userToken);
 
       if (response) {
         Alert.alert(String(t('common.success')), String(t('pages.EditRestaurant.updated-resto-success')), [
