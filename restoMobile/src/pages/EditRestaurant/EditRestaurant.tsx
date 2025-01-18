@@ -381,6 +381,7 @@ const EditRestaurant = ({ route }) => {
             <TextInput
               style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.phone-number') as string}
+              placeholderTextColor={darkMode ? 'white' : 'black'}
               value={phoneNumber}
               onChangeText={(text) => setPhoneNumber(text)}
             />
@@ -389,12 +390,14 @@ const EditRestaurant = ({ route }) => {
             <TextInput
               style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.website') as string}
+              placeholderTextColor={darkMode ? 'white' : 'black'}
               value={website}
               onChangeText={(text) => setWebsite(text)}
             />
             <TextInput
               style={[darkMode ? styles.inputDark : styles.input, styles.multilineInput]}
               placeholder={t('pages.AddEditRestaurantScreen.description') as string}
+              placeholderTextColor={darkMode ? 'white' : 'black'}
               value={description}
               onChangeText={(text) => setDescription(text)}
               multiline
@@ -491,6 +494,7 @@ const EditRestaurant = ({ route }) => {
           setValue={setSelectedMenuDesign}
           style={darkMode ? styles.pickerStylesDark : styles.pickerStyles}
           textStyle={darkMode ? styles.darkDropDownText : styles.dropDownText}
+          dropDownContainerStyle={darkMode ? styles.dropDownContainerDark : styles.dropDownContainer}
         />
       </View>
       <View style={darkMode ? styles.containerPickerDark : styles.containerPicker}>
@@ -511,6 +515,7 @@ const EditRestaurant = ({ route }) => {
           setValue={setValueRestoChain}
           style={darkMode ? styles.pickerStylesDark : styles.pickerStyles}
           textStyle={darkMode ? styles.darkDropDownText : styles.dropDownText}
+          dropDownContainerStyle={darkMode ? styles.dropDownContainerDark : styles.dropDownContainer}
         />
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>

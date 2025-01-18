@@ -109,7 +109,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
     }
   };
   const navigateToReview = () => {
-    const restoName = info.name;
+    const restoName = info.name;    
     navigation.navigate('RatingPage', {ratingData, restoName});
   };
   const handleShare = async () => {
