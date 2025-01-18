@@ -75,6 +75,7 @@ const EditRestaurant = ({ route }) => {
         setSelectedMenuDesignID(data.menuDesignID);
         setSelectedMenuDesign(data.menuDesignID);
         setRestoChainID(data.restoChainID);
+
         
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken === null) {
@@ -193,7 +194,7 @@ const EditRestaurant = ({ route }) => {
       if (result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
         const base64 = 'data:' + asset.mimeType + ';base64,' + asset.base64;
-        await addImageResto(name, asset.fileName, asset.mimeType, asset.fileSize, base64).then(
+        await addImageResto(restaurantId, asset.fileName, asset.mimeType, asset.fileSize, base64).then(
           r => {
             setPictures([{ base64: base64, contentType: asset.mimeType,
               filename: asset.fileName, size: asset.fileSize, uploadDate: "0", id: r }]);
