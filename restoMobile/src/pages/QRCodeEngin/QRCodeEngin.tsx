@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback} from "react";
 import {Text, View, StyleSheet, Button, Pressable, ScrollView, Alert} from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { useFocusEffect } from "@react-navigation/native";
 import styles from "./QRCodeEngin.styles";
 import axios from "axios";
 import { Dropdown } from 'react-native-element-dropdown';
@@ -24,14 +25,27 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
   const [filter, setFilter] = useState('');
   const [restoData, setRestoData] = useState<IRestaurantFrontEnd[]>([]);
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
-    fetchDarkMode();
-    getRestoData(filter);
-  }, []);
+  useFocusEffect(
+      useCallback(() => {
+        const fetchPageData = async () => {
+          const { status } = await BarCodeScanner.requestPermissionsAsync();
+          setHasPermission(status === "granted");
+
+          await fetchDarkMode();
+
+          await getRestoData(filter);
+        };
+
+        fetchPageData();
+
+        return () => {
+          setScanned(false);
+          setValue(null);
+          setFieldRequire(undefined);
+        };
+      }, [filter]) // Only re-run when `filter` changes
+  );
+
 
   const getRestoData = async (filter: string) => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -136,20 +150,21 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
           <View style={styles.DivTitleIngr}>
             <Text style={styles.TitleIngr}>{value}</Text>
           </View>
-        <View style={styles.container}>
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={StyleSheet.absoluteFillObject}
-          />
-        </View>
+        {!scanned && (
+            <View style={styles.container}>
+              <BarCodeScanner
+                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                style={StyleSheet.absoluteFillObject}
+              />
+            </View>
+        )}
         { !fieldRequire && scanned && !value ?
           <Text style={{color: "red", marginTop: 10}}>{t('pages.QRCodeEngin.required-field')}</Text>
             :
-            <Text></Text>
+          <Text></Text>
         }
         {scanned && (
           <View>
-            <Button title={t('pages.QRCodeEngin.scan-again')} onPress={() => setScanned(false)} />
             <View style={styles.DivButton}>
             <Text style={styles.TitleScan}>
               {t('pages.QRCodeEngin.scan-result-ask-if-want-to-add', {data: data, productName: productName})}
@@ -173,6 +188,7 @@ const QRCodeEngin = ({ navigation }: { navigation: any }) => {
                 </Pressable>
               </View>
             </View>
+            <Button title={t('pages.QRCodeEngin.scan-again')} onPress={() => setScanned(false)} />
           </View>
         )}
       </View>
