@@ -309,6 +309,7 @@ const AddCategoryPage = () => {
                                 <View style={styles.categoryItemContainer}>
                                     <TextInput
                                         placeholder={t('pages.AddCategory.name')}
+                                        placeholderTextColor={darkMode ? 'grey' : 'black'}
                                         value={newCategoryName}
                                         onChangeText={(text) => {
                                             setNewCategoryName(text);
@@ -318,6 +319,7 @@ const AddCategoryPage = () => {
                                     />
                                     <TextInput
                                         placeholder={t('pages.AddCategory.id')}
+                                        placeholderTextColor={darkMode ? 'grey' : 'black'}
                                         value={newCategoryHitRate.toString()}
                                         onChangeText={(text) => {
                                             if (text === '') {
