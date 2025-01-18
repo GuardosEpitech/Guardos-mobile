@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    TouchableOpacity, RefreshControl,
 } from "react-native";
 import { Card, Chip, Title, Paragraph } from 'react-native-paper';
 import { useTranslation } from "react-i18next";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import  {styles, pickerSelectStyles, pickerSelectStylesDark} from "./UserInsinghts.styles";
-import { getAllRestaurantsByUser, getRestoStatistics } from "../../services/restoCalls";
+import {getAllRestaurantsByUser, getRestoStatistics, restoByName} from "../../services/restoCalls";
 import RNPickerSelect from "react-native-picker-select";
 
 const UserInsights = () => {
@@ -18,6 +18,7 @@ const UserInsights = () => {
   const [userStatistics, setUserStatistics] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState("");
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const getStatistics = async () => {
     try {
@@ -39,6 +40,15 @@ const UserInsights = () => {
   useEffect(() => {
     getStatistics();
     fetchDarkMode();
+  }, []);
+
+  const onRefresh = useCallback(() => {
+      setIsRefreshing(true);
+      getStatistics();
+      fetchDarkMode();
+      setTimeout(() => {
+          setIsRefreshing(false);
+      }, 2000);
   }, []);
 
   const fetchDarkMode = async () => {
@@ -155,7 +165,9 @@ const UserInsights = () => {
   };
 
   return (
-      <ScrollView contentContainerStyle={darkMode ? styles.darkContainer : styles.container}>
+      <ScrollView refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+      } contentContainerStyle={darkMode ? styles.darkContainer : styles.container}>
         <Card style={darkMode ? styles.darkCard : styles.card}>
           <Card.Content>
             <RNPickerSelect
@@ -175,7 +187,7 @@ const UserInsights = () => {
         </Card>
         {renderStatistics()}
       </ScrollView>
-  );
+);
 };
 
 
