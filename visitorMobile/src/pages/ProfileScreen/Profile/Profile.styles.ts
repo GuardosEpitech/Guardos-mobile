@@ -172,6 +172,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  modalScrollContent: {
+    paddingBottom: 20,
+  },
   containerDarkTheme: {
     flexGrow: 1,
     backgroundColor: '#1B1D1E',
