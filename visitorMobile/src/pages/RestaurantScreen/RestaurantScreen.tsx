@@ -397,41 +397,46 @@ const MyRestaurantsScreen = () => {
   };
 
   const setFilteredRestos = async (filter: ISearchCommunication) => {
-    const restos: IRestaurantFrontEnd[] = await getFilteredRestosNew(filter);
-    const updatedRestoData = restos.map(resto => ({
-      ...resto,
-      isFavouriteResto: isFavouriteRestos.includes(resto.uid)
-    }));
-    setSelectedRestoData(updatedRestoData);
-  }
-
-  const handleFilter = async () => {
-
-    setNameFilter(nameFilter ?? '');
-    setLocationFilter(locationFilter ?? '');
-
-    let selectedRating = [];
-    if (rating < 5 && rating !== 0) {
-      selectedRating = [rating, rating + 1]
-    } else if (rating === 0) {
-      selectedRating = [];
-    } else if (rating === 5) {
-      selectedRating = [rating, rating];
+    try {
+      const restos: IRestaurantFrontEnd[] = await getFilteredRestosNew(filter);
+      if (restos.length === 0) {
+        console.warn('No restaurants match the filter.');
+      }
+      const updatedRestoData = restos.map(resto => ({
+        ...resto,
+        isFavouriteResto: isFavouriteRestos.includes(resto.uid),
+      }));
+      setSelectedRestoData(updatedRestoData);
+    } catch (error) {
+      console.error('Error fetching filtered restaurants:', error);
+      setSelectedRestoData([]);
     }
-    const inter: ISearchCommunication = {
-      range: distance,
-      rating: selectedRating,
-      name: nameFilter,
-      location: locationFilter,
-      categories: selectedCategories,
-      allergenList: selectedAllergens,
-      userLoc: userPosition
-    }
-    await setFilteredRestos(inter);
-    setFilter(inter);
-    setIsTabVisible(false);
   };
 
+  const handleFilter = async () => {
+    setNameFilter(nameFilter ?? '');
+    setLocationFilter(locationFilter ?? '');
+    const selectedRating = rating > 0 ? [rating, 5] : undefined;
+  
+    let filter: ISearchCommunication = {
+      range: distance > 0 ? distance : undefined,
+      rating: selectedRating,
+      name: nameFilter?.trim() || undefined,
+      location: locationFilter?.trim() || undefined,
+      categories: selectedCategories.length > 0 ? selectedCategories : undefined,
+      allergenList: selectedAllergens.length > 0 ? selectedAllergens : undefined,
+      userLoc: userPosition || undefined,
+    };
+    filter = Object.fromEntries(Object.entries(filter).filter(([_, v]) => v !== undefined));  
+    try {
+      await setFilteredRestos(filter);
+      setFilter(filter);
+    } catch (error) {
+      console.error('Error applying filter:', error);
+    }
+    setIsTabVisible(false);
+  };
+  
   const handleRatingChange = (index: number) => {
     setRating(index);
   };
