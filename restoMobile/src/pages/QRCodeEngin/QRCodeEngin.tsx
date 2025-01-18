@@ -59,10 +59,15 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
 
   // we could use this function to get the allergens from the product but this requires backend logic chanhges !!!
   function getAllergenInfoFromProduct(response: any) {
-    const product = response.data.product;
+    const product = response?.data?.product;
 
-    const allergensList = product.allergens_tags;
-    const allergensRaw = product.allergens_from_ingredients;
+    if (!product) {
+      console.warn("No product data found in the response");
+      return [];
+    }
+
+    const allergensList = product.allergens_tags || [];
+    const allergensRaw = product.allergens_from_ingredients || "";
 
     console.log("Allergens (Array):", allergensList);
     console.log("Allergens (Raw):", allergensRaw);
@@ -70,17 +75,18 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
   }
 
   function getIngredientsFromProduct(response: any) {
-    const product = response.data.product;
+    const product = response?.data?.product;
 
-    if (!product.ingredients || !Array.isArray(product.ingredients)) {
+    if (!product?.ingredients || !Array.isArray(product.ingredients)) {
+      console.warn("No ingredients found or invalid format in product data");
       return [];
     }
 
     const ingredientsIds = product.ingredients.map((ing: any) => ing.id);
     for (let i = 0; i < ingredientsIds.length; i++) {
-      console.log("Ingredient ID:", ingredientsIds[i]);
-      if (ingredientsIds[i].includes("en:"))
+      if (ingredientsIds[i].includes("en:")) {
         ingredientsIds[i] = ingredientsIds[i].replace("en:", "");
+      }
 
       if (ingredientsIds[i].includes(":")) {
         ingredientsIds.splice(i, 1);
@@ -90,6 +96,33 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
     return ingredientsIds;
   }
 
+  const handleBarCodeScanned = async ({ type, data: scannedData }: { type: string; data: string }) => {
+    setIsScanned(true);
+    setScannedData(scannedData);
+
+    try {
+      const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${scannedData}.json`);
+      const productData = response?.data?.product;
+
+      if (!productData) {
+        alert(String(t("pages.QRCodeEngin.get-product-info-failed")));
+        setIsScanned(false);
+        return;
+      }
+
+      const ingredients = getIngredientsFromProduct(response);
+      const allergens = getAllergenInfoFromProduct(response);
+      const name = productData.product_name ?? t("pages.QRCodeEngin.unknown-product");
+
+      setProductName(name);
+      setProductIngredients(ingredients);
+      setProductAllergens(allergens);
+    } catch (error) {
+      console.error("Error fetching product information:", error);
+      alert(String(t("pages.QRCodeEngin.get-product-info-failed")));
+    }
+  };
+
   const fetchDarkModeSetting = async () => {
     try {
       const darkModeValue = await AsyncStorage.getItem("DarkMode");
@@ -98,25 +131,6 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
       }
     } catch (error) {
       console.error("Error fetching dark mode value:", error);
-    }
-  };
-
-  const handleBarCodeScanned = async ({ type, data: scannedData }: { type: string; data: string }) => {
-    setIsScanned(true);
-    setScannedData(scannedData);
-
-    try {
-      const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${scannedData}.json`);
-      const productData = response.data.product;
-      const ingredients = getIngredientsFromProduct(response);
-      const allergens = getAllergenInfoFromProduct(response);
-      const name = productData?.product_name ?? t("pages.QRCodeEngin.unknown-product");
-      setProductName(name);
-      setProductIngredients(ingredients);
-      setProductAllergens(allergens);
-    } catch (error) {
-      console.error("Error fetching product information:", error);
-      alert(String(t("pages.QRCodeEngin.get-product-info-failed")));
     }
   };
 
@@ -137,7 +151,6 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
 
       const userToken = await AsyncStorage.getItem("userToken");
       if (!userToken) return;
-      console.log("Adding product:", newProduct);
       await addNewProduct(newProduct, selectedRestaurant, userToken);
       setSelectedRestaurant(null);
       setIsScanned(false);
