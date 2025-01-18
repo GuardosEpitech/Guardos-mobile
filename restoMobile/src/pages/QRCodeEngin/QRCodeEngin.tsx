@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, Pressable, ScrollView } from "react-native";
+import { Text, View, StyleSheet, Button, Pressable, ScrollView, ActivityIndicator } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import axios from "axios";
 import { Dropdown } from 'react-native-element-dropdown';
@@ -27,6 +27,7 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
   const [fieldRequired, setFieldRequired] = useState<boolean | null>(null);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("");
+  const [isAdding, setIsAdding] = useState<boolean>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -68,7 +69,6 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
     return allergensList;
   }
 
-
   function getIngredientsFromProduct(response: any) {
     const product = response.data.product;
 
@@ -89,7 +89,6 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
     }
     return ingredientsIds;
   }
-
 
   const fetchDarkModeSetting = async () => {
     try {
@@ -121,12 +120,13 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
     }
   };
 
-
   const handleAddProduct = async () => {
     if (!selectedRestaurant) {
       setFieldRequired(false);
       return;
     }
+
+    setIsAdding(true);
 
     try {
       const newProduct: IProduct = {
@@ -145,6 +145,8 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
       navigation.navigate("MyProductsScreen");
     } catch (error) {
       console.error("Error adding product:", error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -179,6 +181,7 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
                   onChange={(item) => {
                     setSelectedRestaurant(item.label);
                   }}
+                  disable={isAdding}
               />
 
               {/* Display of selected restaurant */}
@@ -190,7 +193,7 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
               <View style={styles.container}>
                 {!isScanned && (
                     <BarCodeScanner
-                        onBarCodeScanned={isScanned ? undefined : handleBarCodeScanned}
+                        onBarCodeScanned={isScanned || isAdding ? undefined : handleBarCodeScanned}
                         style={StyleSheet.absoluteFillObject}
                     />
                 )}
@@ -209,6 +212,7 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
                     <Button
                         title={t("pages.QRCodeEngin.scan-again")}
                         onPress={() => setIsScanned(false)}
+                        disabled={isAdding}
                     />
                     <View style={styles.DivButton}>
                       <Text style={styles.TitleScan}>
@@ -223,14 +227,22 @@ const QRCodeEngin: React.FC<QRCodeEnginProps> = ({ navigation }) => {
                             onPress={() => {
                               setIsScanned(false);
                             }}
+                            disabled={isAdding}
                         >
                           <Text>{t("common.no")}</Text>
                         </Pressable>
                         <Pressable
                             style={styles.ButtonYes}
                             onPress={handleAddProduct}
+                            disabled={isAdding || !selectedRestaurant}
                         >
-                          <Text style={{ color: "white" }}>{t("common.yes")}</Text>
+                          <Text style={{ color: "white" }}>
+                            {isAdding ? (
+                                <ActivityIndicator color="#fff" />
+                            ) : (
+                                t("common.yes")
+                            )}
+                          </Text>
                         </Pressable>
                       </View>
                     </View>
