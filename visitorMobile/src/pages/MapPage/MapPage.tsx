@@ -333,7 +333,7 @@ const MapPage = () => {
       if (selectedMarker != null) {
         const restoID = selectedMarker.uid;
         const restoName = selectedMarker.name;
-        const res = await getRatingData(restoName);
+        const res = await getRatingData(restoID);
         if (res) {
           setRatingData(res);
           console.log('Fetched rating data:', res);
