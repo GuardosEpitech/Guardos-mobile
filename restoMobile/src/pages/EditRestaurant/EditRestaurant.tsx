@@ -11,9 +11,9 @@ import { addImageResto, deleteImageRestaurant, getImages } from "../../services/
 import {
   editResto,
   getAllMenuDesigns,
-  getRestoByName,
   getAllRestaurantChainsByUser,
-  getAllRestaurantsByUser
+  getAllRestaurantsByUser,
+  getRestoByID
 } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
@@ -123,7 +123,7 @@ const EditRestaurant = ({ route }) => {
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
-        const data = await getRestoByName(restaurantId);
+        const data = await getRestoByID(restaurantId);
         setName(data.name);
         setOriginalRestoName(data.name);
         setPhoneNumber(data.phoneNumber);
@@ -262,7 +262,8 @@ const EditRestaurant = ({ route }) => {
       if (result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
         const base64 = 'data:' + asset.mimeType + ';base64,' + asset.base64;
-        await addImageResto(name, asset.fileName, asset.mimeType, asset.fileSize, base64).then(
+        await addImageResto(restaurantId,
+            asset.fileName, asset.mimeType, asset.fileSize, base64).then(
           r => {
             setPictures([{ base64: base64, contentType: asset.mimeType,
               filename: asset.fileName, size: asset.fileSize, uploadDate: "0", id: r }]);
@@ -314,7 +315,7 @@ const EditRestaurant = ({ route }) => {
         return;
       }
 
-      const response = await editResto(originalRestoName, updatedData, userToken);
+      const response = await editResto(restaurantId, updatedData, userToken);
 
       if (response) {
         Alert.alert(String(t('common.success')), String(t('pages.EditRestaurant.updated-resto-success')), [
