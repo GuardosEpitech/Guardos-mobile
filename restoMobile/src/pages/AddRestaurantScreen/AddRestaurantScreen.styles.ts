@@ -19,6 +19,32 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
   },
+  dayContainer: {
+    marginBottom: 16,
+    padding: 8,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 8,
+  },
+  dayText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  timeText: {
+    marginBottom: 4,
+    backgroundColor: '#6d071a',
+    borderRadius: 10,
+    padding: 10,
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  timeTextInside: {
+    color: 'white',
+    fontWeight: 'bold'
+  },
+
   input: {
     flex: 1,
     height: 40,
