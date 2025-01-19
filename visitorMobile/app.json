@@ -31,7 +31,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.marcpister.visitorMobile"
-      },
+    },
     "web": {
       "favicon": "./assets/logo.png"
     },
@@ -43,13 +43,15 @@
     "plugins": [
       "expo-font",
       "@react-native-google-signin/google-signin",
-      ["react-native-fbsdk-next",
-      {
-        "appID": "3681976368725984",
-        "clientToken": "1ac8bb95cd980c400b270dbb93dfa275",
-        "displayName": "Guardos"
-      }
-      ]
+      [
+        "react-native-fbsdk-next",
+        {
+          "appID": "3681976368725984",
+          "clientToken": "1ac8bb95cd980c400b270dbb93dfa275",
+          "displayName": "Guardos"
+        }
+      ],
+      "expo-router"
     ]
   }
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
+import { View, TextInput, Button, Alert, Text } from 'react-native';
 import styles from './UserSupport.styles';
 import { IRequestUser } from '../../models/emailInterfaces';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
