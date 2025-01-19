@@ -69,7 +69,12 @@ const AddRestaurantScreen = () => {
     { id: 5, name: t('pages.AddEditRestaurantScreen.saturday') },
     { id: 6, name: t('pages.AddEditRestaurantScreen.sunday') },
   ];
-  const [openTimePicker, setOpenTimePicker] = React.useState({ open: false, day: null, type: null });
+  const [openTimePicker, setOpenTimePicker] = React.useState({
+    open: false,
+    day: null,
+    type: null,
+    defaultTime: { hours: 12, minutes: 0 } // Default to 12:00
+  });
   const [selectedOpeningHours, setSelectedOpeningHours] = React.useState([]);
 
   const addTimeOpen = ({ open, day }) => {
@@ -103,7 +108,7 @@ const AddRestaurantScreen = () => {
   };
   const handleConfirm = (time, day, type) => {
     if (time) {
-      const formattedTime = time.hours + ':' + time.minutes;
+      const formattedTime = time.minutes < 10 ? time.hours + ':0' + time.minutes : time.hours + ':' + time.minutes;
       if (type === 'open') {
         addTimeOpen({ open: formattedTime, day });
       } else if (type === 'close') {
@@ -328,7 +333,19 @@ const AddRestaurantScreen = () => {
                   <Text style={styles.dayText}>{index.name}</Text>
                   <TouchableOpacity
                       style={styles.timeText}
-                      onPress={() => setOpenTimePicker({ open: true, day: index.id, type: 'open' })}
+                      onPress={() =>
+                          setOpenTimePicker({
+                            open: true,
+                            day: index.id,
+                            type: 'open',
+                            defaultTime: dayOpeningHours.open
+                                ? {
+                                  hours: parseInt(dayOpeningHours.open.split(':')[0]),
+                                  minutes: parseInt(dayOpeningHours.open.split(':')[1]),
+                                }
+                                : { hours: 9, minutes: 0 },
+                          })
+                      }
                   >
                     <Text style={styles.timeTextInside}>
                       {dayOpeningHours.open || t('pages.AddEditRestaurantScreen.opening-time')}
@@ -336,7 +353,19 @@ const AddRestaurantScreen = () => {
                   </TouchableOpacity>
                   <TouchableOpacity
                       style={styles.timeText}
-                      onPress={() => setOpenTimePicker({ open: true, day: index.id, type: 'close' })}
+                      onPress={() =>
+                          setOpenTimePicker({
+                            open: true,
+                            day: index.id,
+                            type: 'close',
+                            defaultTime: dayOpeningHours.close
+                                ? {
+                                  hours: parseInt(dayOpeningHours.close.split(':')[0]),
+                                  minutes: parseInt(dayOpeningHours.close.split(':')[1]),
+                                }
+                                : { hours: 23, minutes: 0 },
+                          })
+                      }
                   >
                     <Text style={styles.timeTextInside}>
                       {dayOpeningHours.close || t('pages.AddEditRestaurantScreen.closing-time')}
@@ -349,8 +378,14 @@ const AddRestaurantScreen = () => {
               visible={openTimePicker.open}
               onDismiss={() => setOpenTimePicker({ open: false, day: null, type: null })}
               onConfirm={(time) => handleConfirm(time, openTimePicker.day, openTimePicker.type)}
-              label={openTimePicker.type === 'open' ? t('pages.AddEditRestaurantScreen.opening-time') : t('pages.AddEditRestaurantScreen.closing-time')}
+              label={
+                openTimePicker.type === 'open'
+                    ? t('pages.AddEditRestaurantScreen.opening-time')
+                    : t('pages.AddEditRestaurantScreen.closing-time')
+              }
               uppercase={false}
+              hours={openTimePicker.defaultTime?.hours}
+              minutes={openTimePicker.defaultTime?.minutes}
           />
         </View>
         <View style={styles.containerPicker}>
