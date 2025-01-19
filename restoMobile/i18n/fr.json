@@ -122,7 +122,16 @@
         "website": "Site web",
         "select-menu-design": "Sélectionner un design de menu:",
         "select-resto-chain": "Sélectionner une chaîne de restaurants:",
-        "add-resto": "Ajouter un restaurant"
+        "add-resto": "Ajouter un restaurant",
+        "monday": "Lundi",
+        "tuesday": "Mardi",
+        "wednesday": "Mercredi",
+        "thursday": "Jeudi",
+        "friday": "Vendredi",
+        "saturday": "Samedi",
+        "sunday": "Dimanche",
+        "opening-time": "Heure d'ouverture",
+        "closing-time": "Heure de fermeture"
       },
       "EditDishScreen": {
         "dish-name": "Nom du plat *",
@@ -227,7 +236,7 @@
       },
       "QRCodeEngin": {
         "unknown-product": "Produit inconnu",
-        "get-product-info-failed": "Erreur lors de la récupération des informations sur le produit pour le code-barres {{ data }}",
+        "get-product-info-failed": "Échec de la récupération des informations sur le produit pour ce code-barres",
         "scan-ingredients": "Scanner les produits",
         "scan-prompt": "Veuillez scanner le code-barres du produit que vous souhaitez ajouter",
         "select-resto": "Sélectionner un restaurant",

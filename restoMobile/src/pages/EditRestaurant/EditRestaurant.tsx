@@ -11,13 +11,14 @@ import { addImageResto, deleteImageRestaurant, getImages } from "../../services/
 import {
   editResto,
   getAllMenuDesigns,
-  getRestoByName,
   getAllRestaurantChainsByUser,
-  getAllRestaurantsByUser
+  getAllRestaurantsByUser,
+  getRestoByID
 } from '../../services/restoCalls';
 import { IMenuDesigns } from 'src/models/menuDesignsInterface'
 import {useTranslation} from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {TimePickerModal} from "react-native-paper-dates";
 
 DropDownPicker.addTranslation("DE", {
   PLACEHOLDER: "Wählen Sie ein Element aus",
@@ -63,10 +64,71 @@ const EditRestaurant = ({ route }) => {
   const navigation = useNavigation();
   const {t, i18n} = useTranslation();
 
+
+  const days = [
+    { id: 0, name: t('pages.AddEditRestaurantScreen.monday') },
+    { id: 1, name: t('pages.AddEditRestaurantScreen.tuesday') },
+    { id: 2, name: t('pages.AddEditRestaurantScreen.wednesday') },
+    { id: 3, name: t('pages.AddEditRestaurantScreen.thursday') },
+    { id: 4, name: t('pages.AddEditRestaurantScreen.friday') },
+    { id: 5, name: t('pages.AddEditRestaurantScreen.saturday') },
+    { id: 6, name: t('pages.AddEditRestaurantScreen.sunday') },
+  ];
+  const [openTimePicker, setOpenTimePicker] = React.useState({
+    open: false,
+    day: null,
+    type: null,
+    defaultTime: { hours: 12, minutes: 0 }
+  });
+  const [selectedOpeningHours, setSelectedOpeningHours] = React.useState([]);
+
+  const addTimeOpen = ({ open, day }) => {
+    setSelectedOpeningHours(prev => {
+      const existingDay = prev.find(item => item.day === day);
+      if (existingDay) {
+        return prev.map(item =>
+            item.day === day
+                ? { ...item, open }
+                : item
+        );
+      } else {
+        return [...prev, { day, open, close: '' }];
+      }
+    });
+  };
+
+  const addTimeClose = ({ close, day }) => {
+    setSelectedOpeningHours(prev => {
+      const existingDay = prev.find(item => item.day === day);
+      if (existingDay) {
+        return prev.map(item =>
+            item.day === day
+                ? { ...item, close }
+                : item
+        );
+      } else {
+        return [...prev, { day, open: '', close }];
+      }
+    });
+  };
+  const handleConfirm = (time, day, type) => {
+    if (time) {
+      const formattedTime = time.minutes < 10 ? time.hours + ':0' + time.minutes : time.hours + ':' + time.minutes;
+      if (type === 'open') {
+        addTimeOpen({ open: formattedTime, day });
+      } else if (type === 'close') {
+        addTimeClose({ close: formattedTime, day });
+      }
+    } else {
+      console.log('Invalid time selected');
+    }
+    setOpenTimePicker({ open: false, day: null, type: null });
+  };
+
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
-        const data = await getRestoByName(restaurantId);
+        const data = await getRestoByID(restaurantId);
         setName(data.name);
         setOriginalRestoName(data.name);
         setPhoneNumber(data.phoneNumber);
@@ -82,6 +144,7 @@ const EditRestaurant = ({ route }) => {
         setSelectedMenuDesignID(data.menuDesignID);
         setSelectedMenuDesign(data.menuDesignID);
         setRestoChainID(data.restoChainID);
+        setSelectedOpeningHours(data.openingHours);
         
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken === null) {
@@ -204,7 +267,8 @@ const EditRestaurant = ({ route }) => {
       if (result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
         const base64 = 'data:' + asset.mimeType + ';base64,' + asset.base64;
-        await addImageResto(name, asset.fileName, asset.mimeType, asset.fileSize, base64).then(
+        await addImageResto(restaurantId,
+            asset.fileName, asset.mimeType, asset.fileSize, base64).then(
           r => {
             setPictures([{ base64: base64, contentType: asset.mimeType,
               filename: asset.fileName, size: asset.fileSize, uploadDate: "0", id: r }]);
@@ -237,7 +301,7 @@ const EditRestaurant = ({ route }) => {
         phoneNumber: phoneNumber,
         description: description,
         website: website,
-        openingHours: [],
+        openingHours: selectedOpeningHours,
         location: {
           streetName: streetName,
           streetNumber: streetNumber,
@@ -249,6 +313,7 @@ const EditRestaurant = ({ route }) => {
         },
         menuDesignID: selectedMenuDesignID,
         ...((selectedRestoChainId != null) && { restoChainID: selectedRestoChainId }),
+        picturesId: picturesId,
       };
 
       const userToken = await AsyncStorage.getItem('userToken');
@@ -256,7 +321,7 @@ const EditRestaurant = ({ route }) => {
         return;
       }
 
-      const response = await editResto(originalRestoName, updatedData, userToken);
+      const response = await editResto(restaurantId, updatedData, userToken);
 
       if (response) {
         Alert.alert(String(t('common.success')), String(t('pages.EditRestaurant.updated-resto-success')), [
@@ -322,6 +387,7 @@ const EditRestaurant = ({ route }) => {
             <TextInput
               style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.phone-number') as string}
+              placeholderTextColor={darkMode ? 'white' : 'black'}
               value={phoneNumber}
               onChangeText={(text) => setPhoneNumber(text)}
             />
@@ -330,12 +396,14 @@ const EditRestaurant = ({ route }) => {
             <TextInput
               style={darkMode ? styles.inputDark : styles.input}
               placeholder={t('pages.AddEditRestaurantScreen.website') as string}
+              placeholderTextColor={darkMode ? 'white' : 'black'}
               value={website}
               onChangeText={(text) => setWebsite(text)}
             />
             <TextInput
               style={[darkMode ? styles.inputDark : styles.input, styles.multilineInput]}
               placeholder={t('pages.AddEditRestaurantScreen.description') as string}
+              placeholderTextColor={darkMode ? 'white' : 'black'}
               value={description}
               onChangeText={(text) => setDescription(text)}
               multiline
@@ -381,6 +449,68 @@ const EditRestaurant = ({ route }) => {
           </View>
         </View>
       </View>
+      <View>
+        {days.map((index, key) => {
+          const dayOpeningHours = selectedOpeningHours.find(item => item.day === index.id) || {};
+          return (
+              <View key={key} style={styles.dayContainer}>
+                <Text style={styles.dayText}>{index.name}</Text>
+                <TouchableOpacity
+                    style={styles.timeText}
+                    onPress={() =>
+                        setOpenTimePicker({
+                          open: true,
+                          day: index.id,
+                          type: 'open',
+                          defaultTime: dayOpeningHours.open
+                              ? {
+                                hours: parseInt(dayOpeningHours.open.split(':')[0]),
+                                minutes: parseInt(dayOpeningHours.open.split(':')[1]),
+                              }
+                              : { hours: 9, minutes: 0 },
+                        })
+                    }
+                >
+                  <Text style={styles.timeTextInside}>
+                    {dayOpeningHours.open || t('pages.AddEditRestaurantScreen.opening-time')}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.timeText}
+                    onPress={() =>
+                        setOpenTimePicker({
+                          open: true,
+                          day: index.id,
+                          type: 'close',
+                          defaultTime: dayOpeningHours.close
+                              ? {
+                                hours: parseInt(dayOpeningHours.close.split(':')[0]),
+                                minutes: parseInt(dayOpeningHours.close.split(':')[1]),
+                              }
+                              : { hours: 23, minutes: 0 },
+                        })
+                    }                >
+                  <Text style={styles.timeTextInside}>
+                    {dayOpeningHours.close || t('pages.AddEditRestaurantScreen.closing-time')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+          );
+        })}
+        <TimePickerModal
+            visible={openTimePicker.open}
+            onDismiss={() => setOpenTimePicker({ open: false, day: null, type: null })}
+            onConfirm={(time) => handleConfirm(time, openTimePicker.day, openTimePicker.type)}
+            label={
+              openTimePicker.type === 'open'
+                  ? t('pages.AddEditRestaurantScreen.opening-time')
+                  : t('pages.AddEditRestaurantScreen.closing-time')
+            }
+            uppercase={false}
+            hours={openTimePicker.defaultTime?.hours}
+            minutes={openTimePicker.defaultTime?.minutes}
+        />
+      </View>
       <View style={darkMode ? styles.containerPickerDark : styles.containerPicker}>
         <DropDownPicker
           open={menuDesignOpen}
@@ -399,6 +529,7 @@ const EditRestaurant = ({ route }) => {
           setValue={setSelectedMenuDesign}
           style={darkMode ? styles.pickerStylesDark : styles.pickerStyles}
           textStyle={darkMode ? styles.darkDropDownText : styles.dropDownText}
+          dropDownContainerStyle={darkMode ? styles.dropDownContainerDark : styles.dropDownContainer}
         />
       </View>
       <View style={darkMode ? styles.containerPickerDark : styles.containerPicker}>
@@ -419,6 +550,7 @@ const EditRestaurant = ({ route }) => {
           setValue={setValueRestoChain}
           style={darkMode ? styles.pickerStylesDark : styles.pickerStyles}
           textStyle={darkMode ? styles.darkDropDownText : styles.dropDownText}
+          dropDownContainerStyle={darkMode ? styles.dropDownContainerDark : styles.dropDownContainer}
         />
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>

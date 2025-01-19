@@ -7,6 +7,7 @@ import { IimageInterface } from "../../models/imageInterface";
 import { getImages } from "../../services/imageCalls";
 import { defaultRestoImage } from "../../../assets/placeholderImagesBase64";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addRestoAsFavourite, deleteRestoFromFavourites } from "../../services/favourites";
 import { useTranslation } from "react-i18next";
@@ -22,20 +23,21 @@ interface RestaurantCardProps {
 const RestaurantCard = (props: RestaurantCardProps) => {
   const navigation = useNavigation();
   const { info, isFavouriteResto, isSmallerCard, deleteFavResto } = props;
-  const { name, description, phoneNumber, website, openingHours } = info;
+  const { uid, name, description, phoneNumber, website, openingHours } = info;
   const { streetName, streetNumber, postalCode, city, country } = info.location;
   const address = `${streetName} ${streetNumber}, ${postalCode} ${city}, ${country}`;
   const [pictures, setPictures] = useState<IimageInterface[]>([]);
   const [isFavorite, setIsFavorite] = useState(isFavouriteResto);
   const [darkMode, setDarkMode] = useState<boolean>(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const [ratingData, setRatingData] = useState([]);
 
   const { t } = useTranslation();
 
   let picturesId = info.picturesId;
   useEffect(() => {
-    getRatingData(name)
+    getRatingData(uid)
         .then(res => setRatingData(res));
   },[]);
 
@@ -85,14 +87,11 @@ const RestaurantCard = (props: RestaurantCardProps) => {
     }
   };
 
-  const handleOpenDetails = () => {
-    setIsModalVisible(true);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
   };
 
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
-
+  
   const averageRating = () => {
     let sum = 0;
     if (Array.isArray(ratingData)) {
@@ -110,7 +109,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
   };
   const navigateToReview = () => {
     const restoName = info.name;
-    navigation.navigate('RatingPage', {ratingData, restoName});
+    navigation.navigate('RatingPage', {ratingData, restoName, restoID: info.uid});
   };
   const handleShare = async () => {
     const uid = info.uid;
@@ -157,7 +156,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
           </Text>
           <Text style={[darkMode && styles.ratingDarkTheme]} numberOfLines={1} ellipsizeMode="tail">
             {t('components.RestaurantCard.rating', { rating: ratingData.length === 0 ? "0" : averageRating(), ratingCount: ratingData.length})}
-            <TouchableOpacity onPress={handleOpenDetails}>
+            <TouchableOpacity onPress={toggleModal}>
               <Icon
                 name={'info'}
                 size={24}
@@ -177,37 +176,79 @@ const RestaurantCard = (props: RestaurantCardProps) => {
         </View>
       </View>
       <Modal
-        transparent={true}
         visible={isModalVisible}
-        animationType="slide"
-        onRequestClose={handleCloseModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={toggleModal}
       >
-        <View style={[styles.modalBackground, darkMode && styles.modalBackgroundDark]}>
+        <View style={styles.modalBackground}>
           <View style={[styles.modalContainer, darkMode && styles.modalContaineDark]}>
-            <Text style={[styles.modalTitle, darkMode && styles.modalTitleDark]} >
-              {name}
+            <Image
+              source={
+                pictures.length > 0 && pictures[0].base64
+                  ? { uri: pictures[0].base64 }
+                  : { uri: defaultRestoImage }
+              }
+              style={styles.modalImage}
+              onError={() => {
+                setImageError(true);
+                console.warn('Image loading error');
+                return null;
+              }}
+            />
+            <View style={[styles.headingContainer, darkMode && styles.headingContainerDarkTheme]}>
+              <Text style={[styles.headingText, darkMode && styles.headingTextDarkTheme]}>
+                {info && info.name}
+              </Text>
+              <View style={styles.starContainer}>
+                {Array.from({ length: 5 }).map((_, index) => {
+                  const rating = info ? info.rating || 0 : 0;
+                  const isFullStar = index < Math.floor(rating);
+                  const isHalfStar = index === Math.floor(rating) && rating % 1 !== 0;
+
+                  return (
+                    <Ionicons
+                      key={index}
+                      name={isFullStar ? 'star' : isHalfStar ? 'star-half' : 'star-outline'}
+                      size={20}
+                      color={isFullStar || isHalfStar ? 'gold' : 'black'}
+                      style={[styles.starIcon, darkMode && styles.starIconDarkTheme]}
+                    />
+                  );
+                })}
+                <Text style={{ marginLeft: 5 }}>
+                  {info && info.ratingCount}
+                </Text>
+              </View>
+            </View>
+
+            <View style={[styles.locationContainer, darkMode && styles.locationContainerDarkTheme]}>
+              <Ionicons name="location-sharp" size={18} color={darkMode ? 'white' : 'black'} />
+              <Text style={{ marginLeft: 5, color: darkMode ? 'white' : 'black' }}>
+                {`${info?.location?.streetName} ${info?.location?.streetNumber}, ${info?.location?.postalCode} ${info?.location?.city}, ${info?.location?.country}`}
+              </Text>
+            </View>
+
+            <Text style={{ marginTop: 10, color: darkMode ? 'white' : 'black' }}>
+              {info && info.description}
             </Text>
-            <Icon name="star" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
-            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>
-              {t('components.RestaurantCard.rating', { rating: info.rating, ratingCount: info.ratingCount })}
-            </Text>
-            <Icon name="location-on" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
-            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>
-                {address}
-            </Text>
-            <Icon name="phone" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
-            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>{
-              phoneNumber}
-            </Text>
-            <Icon name="web" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
-            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>
-              {website}
-            </Text>
-            <Icon name="info" size={20} color={darkMode ? "grey" : "#000"} style={styles.Icon}/>
-            <Text style={[styles.modalText, darkMode && styles.modalTextDark]}>
-              {description}
-            </Text>
-            <Button title={t('common.close')} onPress={handleCloseModal} />
+
+            <View style={[styles.phoneContainer, darkMode && styles.phoneContainerDarkTheme]}>
+              <Ionicons name="call-outline" size={18} color={darkMode ? 'white' : 'black'} />
+              <Text style={{ marginTop: 10, marginLeft: 5, color: darkMode ? 'white' : 'black' }}>
+                {info?.phoneNumber}
+              </Text>
+            </View>
+
+            <View style={[styles.websiteContainer, darkMode && styles.websiteContainerDarkTheme]}>
+              <Ionicons name="globe-outline" size={18} color={darkMode ? 'white' : 'black'} />
+              <Text style={{ marginLeft: 5, color: darkMode ? 'white' : 'black' }}>
+                {info && decodeURIComponent(info.website)}
+              </Text>
+            </View>
+            <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
+              <Icon name="close" size={30} color="black" />
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>

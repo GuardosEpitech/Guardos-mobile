@@ -44,6 +44,7 @@ import {useTranslation} from "react-i18next";
 import * as Location from 'expo-location';
 import {getUserAllergens} from "../../services/userCalls";
 import {getCategories} from "../../services/categorieCalls";
+import {getRatingData} from "../../services/ratingCalls";
 
 const Epitech = [13.328820, 52.508540];// long,lat
 
@@ -100,6 +101,8 @@ const MapPage = () => {
   const [selectedProfileIndex, setSelectedProfileIndex] = useState(0);
   const [openProfileDialog, setOpenProfileDialog] = useState(false);
   const [newProfileName, setNewProfileName] = useState('');
+  const [ratingData, setRatingData] = useState([]);
+
 
   useEffect(() => {
     if (isFocused) {
@@ -325,16 +328,25 @@ const MapPage = () => {
     }
   };
 
-  const handleReview = () => {  
+  const handleReview = async () => {
     try {
       if (selectedMarker != null) {
-        const restaurantId = selectedMarker.uid;
-        const restaurantName = selectedMarker.name;
+        const restoID = selectedMarker.uid;
+        const restoName = selectedMarker.name;
+        const res = await getRatingData(restoID);
+        if (res) {
+          setRatingData(res);
+          console.log('Fetched rating data:', res);
+          navigation.navigate('RatingPage', { ratingData: res, restoID, restoName });
+        } else {
+          console.error('No rating data available for the restaurant.');
+        }
         toggleModal();
-        navigation.navigate('RatingPage', { restaurantId, restaurantName });
+      } else {
+        console.warn('No marker selected.');
       }
     } catch (error) {
-      console.error('Error navigating to ReviewPage:', error);
+      console.error('Error navigating to RatingPage:', error);
     }
   };
 

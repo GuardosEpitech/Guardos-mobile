@@ -162,8 +162,13 @@ const AddCategoryPage = () => {
           });
         }
 
-        const newCategory = { name: newCategoryName, hitRate: Number(newCategoryHitRate) };
-        updatedCategories.push(newCategory);
+        if (categoryToEdit) {
+            const newCategory = { name: newCategoryName, hitRate: Number(newCategoryHitRate), edited: true };
+            updatedCategories.push(newCategory);
+        } else {
+            const newCategory = { name: newCategoryName, hitRate: Number(newCategoryHitRate) };
+            updatedCategories.push(newCategory);
+        }
 
         updatedCategories.sort((a, b) => a.hitRate - b.hitRate);
         const updatedResto = await updateRestoCategories(userToken, activeRestaurant, updatedCategories);
@@ -309,6 +314,7 @@ const AddCategoryPage = () => {
                                 <View style={styles.categoryItemContainer}>
                                     <TextInput
                                         placeholder={t('pages.AddCategory.name')}
+                                        placeholderTextColor={darkMode ? 'grey' : 'black'}
                                         value={newCategoryName}
                                         onChangeText={(text) => {
                                             setNewCategoryName(text);
@@ -318,6 +324,7 @@ const AddCategoryPage = () => {
                                     />
                                     <TextInput
                                         placeholder={t('pages.AddCategory.id')}
+                                        placeholderTextColor={darkMode ? 'grey' : 'black'}
                                         value={newCategoryHitRate.toString()}
                                         onChangeText={(text) => {
                                             if (text === '') {

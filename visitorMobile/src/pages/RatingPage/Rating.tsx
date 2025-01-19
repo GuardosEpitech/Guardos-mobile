@@ -25,7 +25,7 @@ const initialRequestState = {
 
 const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     const [review, setReview]= useState(route.params.ratingData)
-    const restoName = route.params.restoName
+    const {restoName, restoID} = route.params;
     const [request, setRequest] = useState<IRequestUser>(initialRequestState);
     const {t} = useTranslation();
     const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -44,18 +44,18 @@ const RatingPage: React.FC<ReviewPageProps> = ({route}) => {
     ];
 
     const addReview = async () => {
-         if (newComment === undefined || value === null) {
+         if (value === null) {
              setInvalidInput(true)
              return
          }
          try {
-             await postRatingData(restoName, newComment, value, name);
+             await postRatingData(restoID, newComment, value, name);
              setValue(2);
              setNewComment('');
          } catch (err) {
              console.error(err);
          }
-         getRatingData(restoName)
+         getRatingData(restoID)
              .then(res => setReview(res));
     };
     const handleCommentChange = (text) => {

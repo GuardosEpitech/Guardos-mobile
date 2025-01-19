@@ -128,7 +128,7 @@ export const addRestaurant = async(restaurantData: any) => {
   }
 }
 
-export const deleteRestaurantByName = async (restaurantName: string, token: string) => {
+export const deleteRestaurantById = async (restaurantId: string, token: string) => {
   try {
     if (baseURL === undefined) {
       throw new Error("baseUrl is not defined");
@@ -136,7 +136,7 @@ export const deleteRestaurantByName = async (restaurantName: string, token: stri
     await axios({
       method: 'DELETE',
       params: {key: token},
-      url: baseURL +'restaurants/' + restaurantName,
+      url: baseURL +'restaurants/' + restaurantId,
     });
   } catch (error) {
     console.error('Error deleting restaurant:', error);
@@ -161,13 +161,13 @@ export const getAllMenuDesigns = async (token: string) => {
   }
 };
 
-export const editResto = async (originalRestoName: string, body: any, token: string) => {
+export const editResto = async (restoID: string, body: any, token: string) => {
   try {
     if (baseURL === undefined) {
       throw new Error("baseUrl is not defined");
     }
     const response = await axios({
-      url: baseURL + 'restaurants/' + originalRestoName,
+      url: baseURL + 'restaurants/' + restoID,
       method: "PUT",
       params: {key: token},
       data: JSON.stringify(body),
@@ -187,13 +187,13 @@ export const editResto = async (originalRestoName: string, body: any, token: str
   }
 };
 
-export const getRestoByName = async (restoName: string) => {
+export const getRestoByID = async (restoID: string) => {
   try {
     if (baseURL === undefined) {
       throw new Error("baseUrl is not defined");
     }
     const response = await axios({
-      url: baseURL + 'restaurants/' + restoName,
+      url: baseURL + 'restaurants/id/' + restoID,
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -201,10 +201,10 @@ export const getRestoByName = async (restoName: string) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error editing restaurant:", error);
-    throw new Error("Failed to edit restaurant");
+    console.error("Error getting restaurant:", error);
+    throw new Error("Failed to get restaurant");
   }
-};
+}
 
 export const updateRestoCategories = async (userToken: string, uid: number, newCategories: any) => {
   try {
