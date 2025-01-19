@@ -313,6 +313,7 @@ const EditRestaurant = ({ route }) => {
         },
         menuDesignID: selectedMenuDesignID,
         ...((selectedRestoChainId != null) && { restoChainID: selectedRestoChainId }),
+        picturesId: picturesId,
       };
 
       const userToken = await AsyncStorage.getItem('userToken');

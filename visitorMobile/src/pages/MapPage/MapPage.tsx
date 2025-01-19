@@ -102,7 +102,7 @@ const MapPage = () => {
   const [openProfileDialog, setOpenProfileDialog] = useState(false);
   const [newProfileName, setNewProfileName] = useState('');
   const [ratingData, setRatingData] = useState([]);
-  
+
 
   useEffect(() => {
     if (isFocused) {
@@ -331,12 +331,13 @@ const MapPage = () => {
   const handleReview = async () => {
     try {
       if (selectedMarker != null) {
-        const restaurantName = selectedMarker.name;
-        const res = await getRatingData(restaurantName);
+        const restoID = selectedMarker.uid;
+        const restoName = selectedMarker.name;
+        const res = await getRatingData(restoID);
         if (res) {
           setRatingData(res);
           console.log('Fetched rating data:', res);
-          navigation.navigate('RatingPage', { ratingData: res, restaurantName });
+          navigation.navigate('RatingPage', { ratingData: res, restoID, restoName });
         } else {
           console.error('No rating data available for the restaurant.');
         }
@@ -348,7 +349,7 @@ const MapPage = () => {
       console.error('Error navigating to RatingPage:', error);
     }
   };
-  
+
   const handleSearch = async () => {
     if (nameFilter || locationFilter) {
       let selectedRating = [];
