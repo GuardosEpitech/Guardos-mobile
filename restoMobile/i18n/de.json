@@ -235,7 +235,7 @@
       },
       "QRCodeEngin": {
         "unknown-product": "Unbekanntes Produkt",
-        "get-product-info-failed": "Fehler beim Abrufen von Produktinformationen für Barcode {{ data }}",
+        "get-product-info-failed": "Fehler beim Abrufen von Produktinformationen für diesen Barcode",
         "scan-ingredients": "Zutaten scannen",
         "scan-prompt": "Bitte scannen Sie den Barcode des Produkts, das Sie hinzufügen möchten",
         "select-resto": "Wählen Sie ein Restaurant aus",

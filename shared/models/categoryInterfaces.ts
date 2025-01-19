@@ -21,4 +21,5 @@ export interface ICategoryBE {
 export interface ICategory {
   name: string;
   hitRate: number;
+  edited?: boolean;
 }

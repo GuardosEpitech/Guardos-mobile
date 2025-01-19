@@ -236,7 +236,7 @@
       },
       "QRCodeEngin": {
         "unknown-product": "Unknown Product",
-        "get-product-info-failed": "Error fetching product information for barcode {{ data }}",
+        "get-product-info-failed": "Error fetching product information for this barcode",
         "scan-ingredients": "Scan Products",
         "scan-prompt": "Please scan the barcode of the product you wan’t to add",
         "select-resto": "Select a restaurant",
