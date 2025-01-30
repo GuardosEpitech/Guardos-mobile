@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import {View, FlatList, TouchableOpacity, Text, RefreshControl, TextInput, ScrollView} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Card from '../../components/RestaurantCard';
 import AdCard from '../../components/AdCard/AdCard';
 import styles from './MyRestaurantsScreen.styles';
@@ -23,7 +23,11 @@ const MyRestaurantsScreen = () => {
   const [adIndex, setAdIndex] = useState<number | null>(null);
   const { t } = useTranslation();
   const [premium, setPremium] = useState<boolean>(false);
-
+  useFocusEffect(
+      useCallback(() => {
+        updateRestoData(filter);
+      }, [])
+  );
   const fetchDarkMode = async () => {
     try {
       const darkModeValue = await AsyncStorage.getItem('DarkMode');

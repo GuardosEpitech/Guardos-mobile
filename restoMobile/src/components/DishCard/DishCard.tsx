@@ -110,7 +110,6 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
   const handleAccordionToggle = () => {
     setAccordionOpen(!isAccordionOpen);
   };
-
   return (
     <View style={isFirstLevel ? styles.container : styles.comboContainer}>
       <View style={isFirstLevel ? (darkMode ? styles.cardContainerDarkTheme : styles.cardContainer) : (darkMode ? styles.comboCardContainerDarkTheme : styles.comboCardContainer)}>
@@ -173,7 +172,7 @@ const DishCard: React.FC<DishCardProps> = ({ dish, onDelete, isFirstLevel }) => 
         </View>
         )}
 
-        {comboDishes && comboDishes.length > 0 && isFirstLevel && (
+        {comboDishes && dish.combo.length > 0 && isFirstLevel && (
           <View style={darkMode ? styles.accordionContainerDark : styles.accordionContainer}>
             <TouchableOpacity onPress={handleAccordionToggle} 
               style={darkMode ? styles.accordionHeaderDark : styles.accordionHeader}>
