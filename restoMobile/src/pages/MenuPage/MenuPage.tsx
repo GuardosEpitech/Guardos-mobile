@@ -128,9 +128,7 @@ const MenuPage: React.FC = ({ route }) => {
   }, []);
 
   return (
-    <ScrollView refreshControl={
-      <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-    }>
+    < >
     <View style={[styles.container, darkMode && styles.containerDarkTheme]}>
       <Header label={restaurantName}
               leftIcon={<Ionicons name="arrow-back" size={24} color="black" onPress={() => navigation.goBack()} />} />
@@ -138,7 +136,9 @@ const MenuPage: React.FC = ({ route }) => {
         <Text>{t('common.loading')}</Text>
       ) : (
         <>
-          <ScrollView contentContainerStyle={styles.scrollView}>
+          <ScrollView contentContainerStyle={styles.scrollView} refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }>
             {sortedDishes.length === 0 ? (
               <Text style={[styles.noMenuText, darkMode && styles.noMenuTextDarkTheme]}>{t('pages.MenuPage.no-menu')}</Text>
             ) : sortedDishes.map((dish, index) => (
@@ -160,7 +160,7 @@ const MenuPage: React.FC = ({ route }) => {
         </>
       )}
     </View>
-    </ScrollView>
+    </>
   );
 };
 
