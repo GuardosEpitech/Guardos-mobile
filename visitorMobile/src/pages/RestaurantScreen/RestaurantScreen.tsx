@@ -123,29 +123,28 @@ const MyRestaurantsScreen = () => {
   useEffect(() => {
     const loadAllergensAndFavourites = async () => {
       const userToken = await AsyncStorage.getItem('userToken');
-      if (userToken === null) {
-        return;
-      }
+      if (!userToken) return;
       setLoadingAllergens(true);
       const userAllergens = await getUserAllergens(userToken);
 
       const updatedAllergens = allergens.map((allergen) => ({
         ...allergen,
-        selected: userAllergens.includes(allergen.name) ? true : allergen.selected,
+        selected: userAllergens.includes(allergen.name),
       }));
-      
+
       setAllergens(updatedAllergens);
+      setSelectedAllergens(updatedAllergens.filter(a => a.selected).map(a => a.name));
+
       const newFilter = {
         range: distance,
         rating: [rating, 5],
         name: nameFilter,
         location: locationFilter,
-        categories: categories.filter(category => 
-          category.value).map(category => category.name),
-        allergenList: updatedAllergens.filter(allergen => 
-          allergen.selected).map(allergen => allergen.name),
+        categories: categories.filter(c => c.selected).map(c => c.name),
+        allergenList: updatedAllergens.filter(a => a.selected).map(a => a.name),
         userLoc: userPosition
       };
+
       setFilter(newFilter);
       await fetchFavourites();
       setLoadingAllergens(false);
@@ -387,6 +386,10 @@ const MyRestaurantsScreen = () => {
   }, []);
 
   useEffect(() => {
+    setSelectedAllergens(allergens.filter(a => a.selected).map(a => a.name));
+  }, [allergens]);
+
+  useEffect(() => {
     if (categories.length > 0 && !hasLoadedFilter.current) {
       hasLoadedFilter.current = true;
     }
@@ -473,53 +476,60 @@ const MyRestaurantsScreen = () => {
     setSelectedAllergens(allergenListSelected);
   };
 
-  const getUserAllergensFunc = async () => {
+  const getUserAllergensFunc = async (): Promise<Allergen[]> => {
     const userToken = await AsyncStorage.getItem('userToken');
-      if (userToken === null) {
-        return;
-      }
-      const userAllergens = await getUserAllergens(userToken);
+    if (!userToken) return [];
 
-      const updatedAllergens = allergens.map((allergen) => ({
-        ...allergen,
-        selected: userAllergens.includes(allergen.name) ? true : allergen.selected,
-      }));
-      return updatedAllergens;
-  }
+    const userAllergens = await getUserAllergens(userToken);
+    return allergens.map((allergen) => ({
+      ...allergen,
+      selected: userAllergens.includes(allergen.name),
+    }));
+  };
+
 
   const resetFilters = async () => {
     setNameFilter('');
     setLocationFilter('');
     setRating(0);
     setDistance(0);
-    setSelectedAllergens([]);
     setSelectedCategories([]);
+
     setCategories(prevCategories =>
-        prevCategories.map(category => ({ ...category, value: false })));
-    const foundUserAllergens = await getUserAllergensFunc();
-    setAllergens(foundUserAllergens);
+        prevCategories.map(category => ({ ...category, selected: false }))
+    );
+
+    const userDefaultAllergens = await getUserAllergensFunc();
+    console.log("Reset Filters -> Loaded default allergens:", userDefaultAllergens);
+
+    setAllergens(userDefaultAllergens);
+    setSelectedAllergens(userDefaultAllergens.filter(a => a.selected).map(a => a.name));
+
     setGroupProfiles([{
       name: userProfileName,
-      allergens: defaultAllergens,
+      allergens: userDefaultAllergens,
     }]);
+
     AsyncStorage.setItem('groupProfiles', JSON.stringify([{
       name: userProfileName,
-      allergens: defaultAllergens,
+      allergens: userDefaultAllergens,
     }]));
+
     const newFilter: ISearchCommunication = {
       rating: [0, 5],
       range: 0,
       name: '',
       location: '',
       categories: [],
-      allergenList: foundUserAllergens.filter(allergen => 
-        allergen.selected).map(allergen => allergen.name),
+      allergenList: userDefaultAllergens.filter(a => a.selected).map(a => a.name),
       userLoc: userPosition
     };
+
     setFilter(newFilter);
     setSelectedProfileIndex(0);
-    return newFilter;
   };
+
+
 
   const handleSaveFilter = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
