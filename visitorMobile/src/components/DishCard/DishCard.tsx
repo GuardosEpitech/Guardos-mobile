@@ -41,7 +41,7 @@ const DishCard: React.FC<DishCardProps> = (props: DishCardProps) => {
   useEffect(() => {
     const fetchDishesByID = async () => {
       const userToken = await AsyncStorage.getItem('userToken');
-      const dishes = await getDishesByID(userToken, { ids: dish.combo, key: dish.resto });
+      const dishes = await getDishesByID(userToken, { ids: dish.combo, key: restoID });
       setComboDishes(dishes);
     }
 
