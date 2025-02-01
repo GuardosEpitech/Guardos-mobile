@@ -31,6 +31,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 8,
   },
+  darkModeDayText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: 'white'
+  },
   timeText: {
     marginBottom: 4,
     backgroundColor: '#6d071a',
