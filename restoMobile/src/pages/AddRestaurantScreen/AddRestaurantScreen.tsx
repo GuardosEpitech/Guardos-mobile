@@ -330,7 +330,7 @@ const AddRestaurantScreen = () => {
             const dayOpeningHours = selectedOpeningHours.find(item => item.day === index.id) || {};
             return (
                 <View key={key} style={styles.dayContainer}>
-                  <Text style={styles.dayText}>{index.name}</Text>
+                  <Text style={darkMode ? styles.darkModeDayText : styles.dayText}>{index.name}</Text>
                   <TouchableOpacity
                       style={styles.timeText}
                       onPress={() =>

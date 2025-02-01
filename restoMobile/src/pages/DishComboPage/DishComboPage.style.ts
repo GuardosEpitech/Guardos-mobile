@@ -7,20 +7,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   containerDark: {
-    backgroundColor: '#333',
+    backgroundColor: '#1B1D1E',
   },
   scrollViewContentContainer: {
-    alignItems: 'center', // Center children horizontally
-    justifyContent: 'flex-start', // Align children to the top
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    textAlign: 'center', // Center title text
+    textAlign: 'center',
   },
   titleDark: {
-    color: '#fff', // White text in dark mode
+    color: '#fff',
   },
   label: {
     fontSize: 18,

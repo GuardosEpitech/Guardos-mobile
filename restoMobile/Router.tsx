@@ -401,7 +401,10 @@ const MyDishStack = () => {
         <Stack.Screen 
           name="MyDishCombination" 
           component={DishComboPage} 
-          options={{ title: 'Dish Combination' }} 
+          options={{ 
+            title: 'Dish Combination',
+            headerStyle: { backgroundColor: '#6d071a' },
+ }} 
       />
         <Stack.Screen
             name="Manage Discount"
